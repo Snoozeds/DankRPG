@@ -15,7 +15,7 @@ module.exports = {
         const ms = require('ms');
         const dailyCommandCooldown = new CommandCooldown('daily', ms('24h'));
         const userCooldowned = await dailyCommandCooldown.getUser(interaction.user.id);
-        if(!userCooldowned){
+        if(userCooldowned){
             const timeLeft = msToMinutes(userCooldowned.msLeft, false);
             await interaction.reply({ content: `You need to wait **${timeLeft.hours}h ${timeLeft.minutes}m ${timeLeft.seconds}s** before running daily again!`, ephmeral: true });
             }

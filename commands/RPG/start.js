@@ -9,7 +9,7 @@ module.exports = {
     .setName('start')
     .setDescription('Start your DankRPG journey.'),
     async execute(interaction) {
-        if (await get(`${interaction.user.id}_hasStarted`) === '0') {
+        if (await get(`${interaction.user.id}_hasStarted`) === '1') {
             await interaction.reply({ content: 'You have already started!', ephemeral: true });
         } else {
             await set(`${interaction.user.id}_coins`, '0');
