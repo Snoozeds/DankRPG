@@ -15,6 +15,7 @@
 (userid)_commandsUsed: How many commands the player has used : 1
 
 # NOT included in /start (will return null if blank):
+(userid)_votes : How many votes the player has : null
 (userid)_lifesaver: If the player has a lifesaver/amount : null
 (userid)_diamond: If the player has a diamond/amount : null
 (userid)_wood: If the player has wood/amount : null
