@@ -1,5 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { get, incr, diamondEmoji } = require('../../globals.js');
+const { CommandCooldown, msToMinutes } = require('discord-command-cooldown');
+const ms = require('ms');
 const chance = require('chance').Chance();
 
 module.exports = {
@@ -14,23 +16,17 @@ module.exports = {
                 ephemeral: true
             });
         }
-        const {CommandCooldown, msToMinutes} = require('discord-command-cooldown');
-        const ms = require('ms');
-        const dailyCommandCooldown = new CommandCooldown('daily', ms('10s'));
-        const userCooldowned = await dailyCommandCooldown.getUser(interaction.user.id);
-
-        if(userCooldowned) {
+        const forageCommandCooldown = new CommandCooldown('forage', ms('30s')); 
+        const userCooldowned = await forageCommandCooldown.getUser(interaction.user.id);
+        if(userCooldowned){
             const timeLeft = msToMinutes(userCooldowned.msLeft, false);
-            await interaction.reply({
-                content: `You need to wait ${timeLeft.seconds}s before using this command again!`,
-                ephemeral: true
-            });
+            await interaction.reply({ content: `You need to wait ${timeLeft.seconds}s before using this command again!`, ephemeral: true });
         } else {
             const rare = chance.bool({ likelihood: 15 }); // 15% chance of being true
             const user = interaction.user
             const embed = new EmbedBuilder()
             .setTitle('Foraging...')
-            .setDescription(`<@${user.id}> goes foraging in the wilderness. They find...`)
+            .setDescription(`<@${user.id}> goes foraging in the wilderness.`)
             .setColor(await get(`${user.id}_color`))
             .setThumbnail('https://assets.dankrpg.xyz/Images/forage.png')
             if (rare) {

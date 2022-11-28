@@ -38,7 +38,7 @@ ap.on('posted', () => {console.log('Posted stats to Top.gg!')})
 // top.gg voting webhook.
 const Topgg = require("@top-gg/sdk");
 const app = express();
-const webhook = new Topgg.Webhook(topgg);
+const webhook = new Topgg.Webhook("");
 app.post("/vote", webhook.listener(voted => {
 redis.incrby(`${vote.user}_votes`, 1);
 redis.incrby(`${vote.user}_coins`, 250);
