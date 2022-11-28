@@ -27,7 +27,7 @@ for your own bot. It uses the [Apache 2.0 License](hhttps://choosealicense.com/l
 - [chance.js](https://npmjs.com/package/chance)
 - [discord-command-cooldown](https://npmjs.com/package/discord-command-cooldown)
 - [undici](https://npmjs.com/package/undici)
-- [@napi-rs/canvas**@0.1.25**](https://npmjs.com/package/@napi-rs/canvas)
+- [@napi-rs/canvas](https://npmjs.com/package/@napi-rs/canvas) **(0.1.25)**
 - optional, but recommended: [pm2](https://npmjs.com/package/pm2)
 
 ## Setup:
