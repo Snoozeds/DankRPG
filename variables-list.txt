@@ -1,0 +1,23 @@
+# List of variables, their usages, and defaults (once started).
+# userid = Discord ID.
+(userid)_coins : Coins : 0
+(userid)_hp : Health of the player : 100
+(userid)_max_hp : Maximum health of the player : 100
+(userid)_armor: Armor of the player : 0
+(userid)_damage: Damage of the player : 5
+(userid)_xp: Experience of the player : 0
+(userid)_xp_needed: Experience to next level : 100
+(userid)_level_xp: Experience for the current level : 100
+(userid)_level: Level of the player : 1
+(userid)_hasStarted: If the player has started the game : 1
+(userid)_color: Color of the player : #FFE302
+(userid)_xp_alerts: If the player wants to be alerted when they gain xp : 1
+(userid)_commandsUsed: How many commands the player has used : 1
+
+# NOT included in /start (will return null if blank):
+(userid)_lifesaver: If the player has a lifesaver/amount : null
+(userid)_diamond: If the player has a diamond/amount : null
+(userid)_wood: If the player has wood/amount : null
+(userid)_stone: If the player has stone/amount : null
+(userid)_axe: If the player has an axe : null
+(userid)_pickaxe: If the player has a pickaxe : null
