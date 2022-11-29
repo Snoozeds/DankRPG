@@ -22,7 +22,7 @@ module.exports = {
         const axe = await get(`${user.id}_axe`);
         if(axe == 1) {
             const wood = chance.integer({min: 5, max: 10});
-            const xp = 5;
+            const xp = 10;
             const embed = new EmbedBuilder()
             .setTitle('Wood chopped!')
             .setDescription(`<@${user.id}> chopped down a tree and got **${wood} wood!**${await get(`${interaction.user.id}_xp_alerts`) == '1' ? `\n+${xp}XP` : ''} ${await checkXP(interaction.user.id, xp) == true ? ` :up: **Level up!** Check /levels.` : ''}`)
