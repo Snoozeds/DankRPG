@@ -5,7 +5,7 @@ const chance = require('chance').Chance();
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('mine')
-        .setDescription('Mine for resources. Requires a pickaxe.'),
+        .setDescription('Mine for stone. Requires a pickaxe.'),
     async execute(interaction) {
         const mineCooldown = new CommandCooldown('mine', ms('15s'));
         const userCooldowned = await mineCooldown.getUser(interaction.user.id);
@@ -18,7 +18,7 @@ module.exports = {
         }
         const user = interaction.user
         const pickaxe = await get(`${user.id}_pickaxe`);
-        const xp = 5;
+        const xp = 10;
         const embed = new EmbedBuilder()
         if(pickaxe === 1) {
             const stone = chance.integer({min: 5, max: 10});
