@@ -16,7 +16,7 @@ module.exports = {
         const coins = await get(`${user.id}_coins`);
 
         if (item == 'lifesaver') {
-            if (coins < 500) {
+            if (coins < 500 || coins === undefined) {
                 return interaction.reply({ content: 'You don\'t have enough coins for this item!', ephemeral: true });
             }
             if (await get(`${user.id}_lifesaver`) == 1) {

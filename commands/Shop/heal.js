@@ -22,7 +22,7 @@ module.exports = {
             const coins = await get(`${id}_coins`);
             const cost = amount * 1;
 
-            if (coins < cost) {
+            if (coins < cost || coins === undefined) {
                 return interaction.reply({ content: `You don't have enough coins to heal yourself for ${amount}HP! (${coinEmoji}${amount * 1})`, ephemeral: true });
             } else {
             if (Number(hp) + Number(amount) > Number(max_hp)) {
