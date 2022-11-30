@@ -15,10 +15,10 @@ module.exports = {
         await interaction.deferReply(); // Alerts Discord that we have received the command and are processing it.
         const text = interaction.options.getString('text');
         if (text.match(/^[A-Za-z0-9 ,./?!@#$%^&*()-+=[]{}~`'"<>]+$/)) {
-            return interaction.reply({ content: 'Only English characters are allowed (A-Z 0-9 ,./?!@#$%^&*()-+=[]{}~\`\'"<>)', ephemeral: true });
+            return interaction.editReply({ content: 'Only English characters are allowed (A-Z 0-9 ,./?!@#$%^&*()-+=[]{}~\`\'"<>)', ephemeral: true });
         }
         if(text.length >= 30) {
-            return interaction.reply({ content: 'Text must be at least under 30 characters long.', ephemeral: true });
+            return interaction.editReply({ content: 'Text must be at least under 30 characters long.', ephemeral: true });
         }
         const { createCanvas, loadImage } = require('@napi-rs/canvas');
         const canvas = createCanvas(1000, 1000);
