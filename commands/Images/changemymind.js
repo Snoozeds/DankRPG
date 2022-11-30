@@ -1,6 +1,8 @@
 const { SlashCommandBuilder, AttachmentBuilder } = require('discord.js');
 const { incr } = require('../../globals.js');
 
+// If this doesn't work, you may need to install the font.
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('changemymind')
@@ -23,7 +25,7 @@ module.exports = {
 		const context = canvas.getContext('2d');
         const background = await loadImage('./changemymind.png', { type: 'png' });
         context.drawImage(background, 0, 0, canvas.width, canvas.height);
-        context.font = 'bold 35px Bebas Neue';
+        context.font = 'bold 40px Arial';
         context.fillStyle = '#000000';
         context.fillText(text, 300, 650, canvas.width, canvas.height);
         const attachment = new AttachmentBuilder(await canvas.encode('png'), { name: 'changemymind.png' });
