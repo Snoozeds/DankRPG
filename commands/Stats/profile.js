@@ -1,5 +1,5 @@
 const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
-const { get, coinEmoji, hpEmoji, armorEmoji, attackEmoji, incr } = require('../../globals.js');
+const { get, coinEmoji, hpEmoji, armorEmoji, attackEmoji, incr, set } = require('../../globals.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,8 +12,8 @@ module.exports = {
 				.setRequired(false)),
     async execute(interaction) {
         const target = interaction.options.getUser('user') ?? interaction.user;
-        if (await get(`${target.id}_hasStarted`) === undefined) {
-            await interaction.reply({ content: 'That user has not started yet!', ephemeral: true });
+        if (await get(`${target.id}_hasStarted`) === null ) {
+            await interaction.reply({content: 'This user hasn\'t ran /start yet!', ephemeral: true});
         } else {
         const profile = new EmbedBuilder()
             .setTitle(`${target.username}'s Profile`)
