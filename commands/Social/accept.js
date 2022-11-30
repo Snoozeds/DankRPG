@@ -14,6 +14,7 @@ module.exports = {
         else {
         if(await get(`${user.id}_marriageStatus`) === 'married') {return interaction.reply({ content: 'You are already married!', ephemeral: true});}
         if(await get(`${marriageRequest}_marriageStatus`) === 'married') {return interaction.reply({ content: 'This user has married to another user since their request.', ephemeral: true});}
+        if(await get(`${marriageRequest}_marriageRequest`) != user.id) {return interaction.reply({ content: 'This user has cancelled their request, or married another user.', ephemeral: true});}
         if(await get(`${user.id}_sender`) === 'true') {return interaction.reply({ content: 'You can\'t accept your own request!', ephemeral: true});} else{
         await set(`${user.id}_marriageStatus`, 'married');
         await set(`${marriageRequest}_marriedTo`, user.id);
