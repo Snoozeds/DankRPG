@@ -13,8 +13,6 @@ module.exports = {
         } 
         else {
         if(await get(`${user.id}_marriageStatus`) === 'married') {return interaction.reply({ content: 'You are already married!', ephemeral: true});}
-        // If the user has sent another request, 'delete' the old one. Fixes hijacking old requests.
-        if(`${marriageRequest} != ${await get (`${marriageRequest}_marriageRequest`)}`) {return interaction.reply({ content: 'This request is no longer valid!', ephemeral: true});}
         if(await get(`${marriageRequest}_marriageStatus`) === 'married') {return interaction.reply({ content: 'This user has married to another user since their request.', ephemeral: true});}
         if(await get(`${user.id}_sender`) === 'true') {return interaction.reply({ content: 'You can\'t accept your own request!', ephemeral: true});} else{
         await set(`${user.id}_marriageStatus`, 'married');

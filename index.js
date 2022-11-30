@@ -18,14 +18,7 @@ redis.on('connect', () => {
 });
 
 redis.on('error', (err) => {
-	if(err == "Error: connect ECONNREFUSED 127.0.0.1:6379") { // Change this to your Redis IP and port if needed.
-	console.log("\u001b[1;31mERR: Database connection failed! Is the database running?" + "\u001b[0m" );
-	process.exit();
-	}
-
-	else {
 	console.log(`Database error! ${err}`);
-	}
 });
 
 // This section is kept here for transparency purposes. 
@@ -38,12 +31,12 @@ ap.on('posted', () => {console.log('Posted stats to Top.gg!')})
 // top.gg voting webhook.
 const Topgg = require("@top-gg/sdk");
 const app = express();
-const webhook = new Topgg.Webhook("");
+const webhook = new Topgg.Webhook(topgg);
 app.post("/vote", webhook.listener(voted => {
 redis.incrby(`${vote.user}_votes`, 1);
 redis.incrby(`${vote.user}_coins`, 250);
 }));
-app.listen(80);
+app.listen(6969);
 
 // Command handler
 // Structure: ./commands/Category/command.js
