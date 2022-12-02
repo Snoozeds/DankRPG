@@ -30,7 +30,7 @@ module.exports = {
                 )
                 .setColor(await get(`${user.id}_color`))
                 .setTimestamp()
-                .setThumbnail(interaction.user.displayAvatarURL(
+                .setThumbnail(user.displayAvatarURL(
                     { format: 'jpg', size: 4096 }
                 ))
                 return interaction.reply({ embeds: [embed] });
