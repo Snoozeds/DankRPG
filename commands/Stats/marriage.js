@@ -28,7 +28,7 @@ module.exports = {
                 { name: 'Married to:', value: `<@${marriageRequest}>`, inline: true },
                 { name: 'Married since:', value: `<t:${marriageTime}:R>`, inline: true },
                 )
-                .setColor(await get(`${user.id}_color`))
+                .setColor(await get(`${interaction.user.id}_color`))
                 .setTimestamp()
                 .setThumbnail(user.displayAvatarURL(
                     { format: 'jpg', size: 4096 }
