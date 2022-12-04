@@ -6,6 +6,7 @@ module.exports = {
         .setName('skills')
         .setDescription('Explains your skills.'),
     async execute(interaction) {
+        const started = await get(`${interaction.user.id}_hasStarted`);
         if (started === undefined) {
             await interaction.reply({ content: 'You need to start!\nRun </start:1034285921115324517>', ephemeral: true });
         } else {
