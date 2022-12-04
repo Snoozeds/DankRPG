@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { get, incr } = require('../../globals.js');
 const chance = require('chance').Chance();
+const { CommandCooldown , msToMinutes } = require('discord-command-cooldown');
 
 module.exports = {
     data: new SlashCommandBuilder()

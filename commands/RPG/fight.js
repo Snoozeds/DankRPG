@@ -69,7 +69,7 @@ module.exports = {
                 } else {
                     await fightCommandCooldown.addUser(interaction.user.id);
                     if (chance.bool({
-                            likelihood: 100 - successrate
+                            likelihood: 0 + successrate
                         }) === true) { // Chance of winning increases with damage (damage * 4)
                         if (newHP < hpLossT) {
                             const embed = new EmbedBuilder()
