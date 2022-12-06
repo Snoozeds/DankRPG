@@ -56,4 +56,5 @@ This is most likely because you haven't started a Redis server, or you have the 
 Make sure you have followed Redis's installation guide [here](https://redis.io/topics/quickstart) to setup the database.
 
 ## Support DankRPG:
-**top.gg:** If you want to support DankRPG, you can do so by [voting](https://top.gg/bot/791190766000578580/vote) for it on top.gg
+**top.gg:** If you want to support DankRPG, you can do so by [voting](https://top.gg/bot/791190766000578580/vote) for it on top.gg \
+**Linode:** Get $100 of free server credit for 60 days using my referral link. [link](https://www.linode.com/lp/refer/?r=2f0b0fc7f85a9c71619bd2f30b9e970e60b2c168)
