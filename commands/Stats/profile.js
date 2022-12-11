@@ -24,7 +24,7 @@ module.exports = {
                 { name: 'Damage', value: `**${attackEmoji} ${await get(`${target.id}_damage`)}**`, inline: true },
                 { name: 'Level', value: `**${await get(`${target.id}_level`)}** **(${await get(`${target.id}_xp`)}XP)**`, inline: true },
                 { name: 'Commands Used', value: `**${await get(`${target.id}_commandsUsed`)}**`, inline: true }])
-                .setThumbnail(interaction.user.displayAvatarURL(
+                .setThumbnail(target.displayAvatarURL(
                     { format: 'jpg', size: 4096 }
                 ))
             .setColor(await get(`${target.id}_color`))
