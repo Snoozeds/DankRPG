@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, TextChannel } = require('discord.js');
 const { request } = require('undici');
 const { get, incr } = require('../../globals');
 
@@ -18,6 +18,10 @@ module.exports = {
 		const { list } = await dictResult.body.json();
         const [answer] = list;
         const user = interaction.user;
+
+        if(interaction.channel.nsfw === false) {
+            return interaction.reply({content: `This command can only be used in NSFW channels!`, ephemeral: true});
+        }
 
         if (!list.length) {
             return interaction.reply(`No results found for **${term}**.`);
