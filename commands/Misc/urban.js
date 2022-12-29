@@ -5,7 +5,7 @@ const { get, incr } = require('../../globals');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('urban')
-        .setDescription('Define a term from Urban Dictionary')
+        .setDescription('Define a term from Urban Dictionary. Must be an NSFW channel.')
         .addStringOption(option =>
             option.setName('term')
                 .setDescription('The term to define')
