@@ -22,3 +22,7 @@
 (userid)_stone: If the player has stone/amount : null
 (userid)_axe: If the player has an axe : null
 (userid)_pickaxe: If the player has a pickaxe : null
+
+# Achievements
+# will return null. However, should be whatever the denyEmoji is (globals.js) when checking /achievements.
+(userid)_daily_achievement: If the player has completed the daily achievement

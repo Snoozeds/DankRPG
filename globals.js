@@ -7,6 +7,8 @@ let hpEmoji = '<:RPGHeart:855755205102534686>';
 let armorEmoji = '<:RPGArmor:857442815524077599>';
 let attackEmoji = '<:ATK:915550276633628692>';
 let diamondEmoji = '<:diamond:1045191828800016444>';
+let falseEmoji = '<:Locked:899050875916541963>';
+let trueEmoji = '<:Unlocked:899050875719393281>';
 
 // Get a value from the database.
 // await get(`${id}_key`);
@@ -74,4 +76,4 @@ await decr(id, 'xp_needed', xp);
 }
 }
 
-module.exports = {coinEmoji, hpEmoji, armorEmoji, attackEmoji, diamondEmoji, get, set, incr, decr, calculateXP, checkXP};
+module.exports = {coinEmoji, hpEmoji, armorEmoji, attackEmoji, diamondEmoji, get, set, incr, decr, calculateXP, checkXP, falseEmoji, trueEmoji};
