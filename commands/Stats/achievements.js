@@ -18,7 +18,7 @@ module.exports = {
       set(`${user.id}_daily_achievement`, `${falseEmoji}`);
     }
 
-    if (user.id.bot) {
+    if (user.bot) {
       return interaction.reply({
         content: "Bots don't have achievements.",
         ephemeral: true,
