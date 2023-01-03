@@ -18,8 +18,11 @@ module.exports = {
       set(`${user.id}_daily_achievement`, `${falseEmoji}`);
     }
 
-    if(user.id.bot) {
-        return interaction.reply({ content: "Bots don't have achievements.", ephemeral: true });
+    if (user.id.bot) {
+      return interaction.reply({
+        content: "Bots don't have achievements.",
+        ephemeral: true,
+      });
     }
 
     const embed = new EmbedBuilder()
@@ -30,7 +33,7 @@ module.exports = {
         Reward: ${coinEmoji}250`
       )
       .setThumbnail(user.displayAvatarURL({ format: "jpg", size: 4096 }))
-      .setColor(await get(`${user.id}_color`))
+      .setColor(await get(`${user.id}_color`));
 
     await interaction.reply({ embeds: [embed] });
     await incr(`${interaction.user.id}`, "commandsUsed", 1);
