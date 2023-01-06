@@ -28,9 +28,9 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle(`${user.username}\'s Achievements`)
       .setDescription(
-        ` **__It Begins...__** ${await get(`${user.id}_daily_achievement`)}
-        Get your first daily reward.
-        Reward: ${coinEmoji}250`
+        `**__It Begins...__** ${await get(
+          `${user.id}_daily_achievement`
+        )}\nGet your first daily reward.\nReward: ${coinEmoji}250`
       )
       .setThumbnail(user.displayAvatarURL({ format: "jpg", size: 4096 }))
       .setColor(await get(`${user.id}_color`));

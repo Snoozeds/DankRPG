@@ -26,10 +26,11 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle(`${interaction.user.username}'s Inventory`)
       .setDescription(
-        `Lifesavers: ${await get(`${user.id}_lifesaver`)}
-        Diamonds: ${await get(`${user.id}_diamond`)}
-        Stone: ${await get(`${user.id}_stone`)}
-        Wood: ${await get(`${user.id}_wood`)}`
+        `Lifesavers: ${await get(
+          `${user.id}_lifesaver`
+        )}\nDiamonds: ${await get(`${user.id}_diamond`)}\nStone: ${await get(
+          `${user.id}_stone`
+        )}\nWood: ${await get(`${user.id}_wood`)}`
       )
       .setThumbnail(
         interaction.user.displayAvatarURL({ format: "jpg", size: 4096 })
