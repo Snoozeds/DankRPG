@@ -14,8 +14,12 @@ module.exports = {
 
   async execute(interaction) {
     const user = interaction.options.getUser("user") || interaction.user;
+    
     if ((await get(`${user.id}_daily_achievement`)) === null) {
       set(`${user.id}_daily_achievement`, `${falseEmoji}`);
+    }
+    if ((await get(`${user.id}_learner_achievement`)) === null) {
+      set(`${user.id}_learner_achievement`, `${falseEmoji}`);
     }
 
     if (user.bot) {
@@ -30,7 +34,11 @@ module.exports = {
       .setDescription(
         `**__It Begins...__** ${await get(
           `${user.id}_daily_achievement`
-        )}\nGet your first daily reward.\nReward: ${coinEmoji}250`
+        )}\nGet your first daily reward.\nReward: ${coinEmoji}250
+        
+        **__Learner__** ${await get(
+          `${user.id}_learner_achievement`
+        )}\nView \`/commands\` for the first time.\nReward: ${coinEmoji}100`
       )
       .setThumbnail(user.displayAvatarURL({ format: "jpg", size: 4096 }))
       .setColor(await get(`${user.id}_color`));
