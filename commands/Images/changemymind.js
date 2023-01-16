@@ -25,35 +25,34 @@ module.exports = {
         ephemeral: true,
       });
     }
-    
+
     // Wrapping text:
     function wrapText(context, text, x, y, maxWidth, lineHeight) {
-      var words = text.split(' ');
-      var line = '';
-      var lastWord = '';
-      for(var n = 0; n < words.length; n++) {
-          lastWord = words[n];
-          var testLine = line + lastWord + ' ';
-          var metrics = context.measureText(testLine);
-          var testWidth = metrics.width;
-          if (testWidth > maxWidth) {
-              if (context.measureText(lastWord).width > maxWidth) {
-                  lastWord = lastWord.slice(0, -1);
-                  while (context.measureText(lastWord + '-').width > maxWidth) {
-                      lastWord = lastWord.slice(0, -1);
-                  }
-                  lastWord += '-';
-              }
-              context.fillText(line, x, y);
-              line = lastWord + ' ';
-              y += lineHeight;
+      var words = text.split(" ");
+      var line = "";
+      var lastWord = "";
+      for (var n = 0; n < words.length; n++) {
+        lastWord = words[n];
+        var testLine = line + lastWord + " ";
+        var metrics = context.measureText(testLine);
+        var testWidth = metrics.width;
+        if (testWidth > maxWidth) {
+          if (context.measureText(lastWord).width > maxWidth) {
+            lastWord = lastWord.slice(0, -1);
+            while (context.measureText(lastWord + "-").width > maxWidth) {
+              lastWord = lastWord.slice(0, -1);
+            }
+            lastWord += "-";
           }
-          else {
-              line = testLine;
-          }
+          context.fillText(line, x, y);
+          line = lastWord + " ";
+          y += lineHeight;
+        } else {
+          line = testLine;
+        }
       }
       context.fillText(line, x, y);
-  }  
+    }
     const { createCanvas, loadImage } = require("@napi-rs/canvas");
     const canvas = createCanvas(1000, 1000);
     const context = canvas.getContext("2d");
