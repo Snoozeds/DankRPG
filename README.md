@@ -45,7 +45,9 @@ Then, create a file named `config.json` in the root directory, and paste the fol
 ```json
 {
   "token": "Your bot's token from https://discord.com/developers/applications",
-  "clientID": "This is the same as the bot's userID. If you don't know how to get it, just use the link above as well."
+  "clientID": "This is the same as the bot's userID. If you don't know how to get it, just use the link above as well.",
+  "usr": "User + password combo for the redis database.",
+  "pwd": "--"
 }
 ```
 
