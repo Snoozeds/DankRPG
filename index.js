@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require("discord.js");
-const { token, topgg } = require("./config.json");
+const { token, topgg, usr, pwd } = require("./config.json");
 const Redis = require("ioredis");
 const express = require("express");
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -8,10 +8,10 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 global.redis = new Redis({
   port: 6379,
   host: "127.0.0.1",
-  username: "",
-  password: "",
+  username: usr,
+  password: pwd,
   db: 0,
-}); // change this accordingly.
+}); // See config.json to change the username and password accordingly.
 
 redis.on("connect", () => {
   console.log(`Database initialized.`);
