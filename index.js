@@ -1,5 +1,5 @@
 const fs = require("node:fs");
-const { Client, Collection, Events, GatewayIntentBits } = require("discord.js");
+const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require("discord.js");
 const { token, topgg } = require("./config.json");
 const Redis = require("ioredis");
 const express = require("express");
@@ -91,10 +91,14 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 });
 
+client.login(token);
+
 client.once(Events.ClientReady, async () => {
   console.log(`Logged in as ${client.user.tag}.`);
+  client.user.setPresence({
+    activities: [{ name: `/commands`, type: ActivityType.Watching }],
+    status: 'online',
+  });
 });
-
-client.login(token);
 
 module.exports = client;
