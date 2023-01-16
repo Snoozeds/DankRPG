@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, AttachmentBuilder } = require("discord.js");
 const { incr } = require("../../globals.js");
 
-// If this doesn't work, you may need to install the font.
+// If characters do not render properly, you may need to install the "Arial" font.
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -15,6 +15,8 @@ module.exports = {
     ),
   async execute(interaction) {
     await interaction.deferReply(); // Alerts Discord that we have received the command and are processing it.
+
+    // Check if text is valid:
     const text = interaction.options.getString("text");
     if (text.match(/^[A-Za-z0-9 ,./?!@#$%^&*()-+=[]{}~`'"<>]+$/)) {
       return interaction.editReply({
@@ -23,19 +25,43 @@ module.exports = {
         ephemeral: true,
       });
     }
-    if (text.length >= 30) {
-      return interaction.editReply({
-        content: "Text must be under 30 characters long.",
-      });
-    }
+    
+    // Wrapping text:
+    function wrapText(context, text, x, y, maxWidth, lineHeight) {
+      var words = text.split(' ');
+      var line = '';
+      var lastWord = '';
+      for(var n = 0; n < words.length; n++) {
+          lastWord = words[n];
+          var testLine = line + lastWord + ' ';
+          var metrics = context.measureText(testLine);
+          var testWidth = metrics.width;
+          if (testWidth > maxWidth) {
+              if (context.measureText(lastWord).width > maxWidth) {
+                  lastWord = lastWord.slice(0, -1);
+                  while (context.measureText(lastWord + '-').width > maxWidth) {
+                      lastWord = lastWord.slice(0, -1);
+                  }
+                  lastWord += '-';
+              }
+              context.fillText(line, x, y);
+              line = lastWord + ' ';
+              y += lineHeight;
+          }
+          else {
+              line = testLine;
+          }
+      }
+      context.fillText(line, x, y);
+  }  
     const { createCanvas, loadImage } = require("@napi-rs/canvas");
     const canvas = createCanvas(1000, 1000);
     const context = canvas.getContext("2d");
     const background = await loadImage("./changemymind.png", { type: "png" });
     context.drawImage(background, 0, 0, canvas.width, canvas.height);
-    context.font = "bold 40px Arial";
+    context.font = "bold 25px Arial";
     context.fillStyle = "#000000";
-    context.fillText(text, 300, 650, canvas.width, canvas.height);
+    wrapText(context, text, 300, 650, 575, 35);
     const attachment = new AttachmentBuilder(await canvas.encode("png"), {
       name: "changemymind.png",
     });
