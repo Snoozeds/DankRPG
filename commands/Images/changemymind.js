@@ -28,43 +28,64 @@ module.exports = {
 
     // Wrapping text:
     function wrapText(context, text, x, y, maxWidth, lineHeight) {
-      var words = text.split(" ");
-      var line = "";
-      var lastWord = "";
-      for (var n = 0; n < words.length; n++) {
-        lastWord = words[n];
-        var testLine = line + lastWord + " ";
-        var metrics = context.measureText(testLine);
-        var testWidth = metrics.width;
-        if (testWidth > maxWidth) {
-          if (context.measureText(lastWord).width > maxWidth) {
-            lastWord = lastWord.slice(0, -1);
-            while (context.measureText(lastWord + "-").width > maxWidth) {
-              lastWord = lastWord.slice(0, -1);
-            }
-            lastWord += "-";
+      var metrics = context.measureText(text);
+      var textWidth = metrics.width;
+
+      if (textWidth > maxWidth) {
+        var characters = text.split("");
+        var lastWord = "";
+        for (var i = 0; i < characters.length; i++) {
+          lastWord += characters[i];
+          var testLine = lastWord + "-";
+          var metrics = context.measureText(testLine);
+          var testWidth = metrics.width;
+          if (testWidth > maxWidth) {
+            context.fillText(lastWord.slice(0, -1), x, y);
+            lastWord = characters[i] + "";
+            y += lineHeight;
           }
-          context.fillText(line, x, y);
-          line = lastWord + " ";
-          y += lineHeight;
-        } else {
-          line = testLine;
         }
+        context.fillText(lastWord, x, y);
+      } else {
+        var words = text.split(" ");
+        var line = "";
+        var lastWord = "";
+        for (var n = 0; n < words.length; n++) {
+          lastWord = words[n];
+          var testLine = line + lastWord + " ";
+          var metrics = context.measureText(testLine);
+          var testWidth = metrics.width;
+          if (testWidth > maxWidth) {
+            if (context.measureText(lastWord).width > maxWidth) {
+              lastWord = lastWord.slice(0, -1);
+              while (context.measureText(lastWord + "-").width > maxWidth) {
+                lastWord = lastWord.slice(0, -1);
+              }
+              lastWord += "";
+            }
+            context.fillText(line, x, y);
+            line = lastWord + "";
+            y += lineHeight;
+          } else {
+            line = testLine;
+          }
+        }
+        context.fillText(line, x, y);
       }
-      context.fillText(line, x, y);
     }
+
     const { createCanvas, loadImage } = require("@napi-rs/canvas");
     const canvas = createCanvas(1000, 1000);
     const context = canvas.getContext("2d");
     const background = await loadImage("./changemymind.png", { type: "png" });
     context.drawImage(background, 0, 0, canvas.width, canvas.height);
-    context.font = "bold 25px Arial";
+    context.font = "25px Arial";
     context.fillStyle = "#000000";
     wrapText(context, text, 300, 650, 575, 35);
     const attachment = new AttachmentBuilder(await canvas.encode("png"), {
       name: "changemymind.png",
     });
     await incr(`${interaction.user.id}`, "commandsUsed", 1);
-    interaction.editReply({ files: [attachment] }); // We must EDIT the reply, as the deferred reply already exists.
+    await interaction.editReply({ files: [attachment] }); // We must EDIT the reply, as the deferred reply already exists.
   },
 };
