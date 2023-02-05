@@ -77,7 +77,7 @@ await decr(id, 'xp_needed', xp);
 }
 
 // Calculating a percentage.
-// await percentage(100, 50);
+// percentage(100, 50);
 function perc(part, total) {
 if(total == 0) return 0;
 return (100 * part) / total;
