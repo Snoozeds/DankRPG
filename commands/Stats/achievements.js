@@ -1,5 +1,13 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, set, incr, falseEmoji, coinEmoji } = require("../../globals.js");
+const {
+  get,
+  set,
+  incr,
+  perc,
+  falseEmoji,
+  trueEmoji,
+  coinEmoji,
+} = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -14,7 +22,16 @@ module.exports = {
 
   async execute(interaction) {
     const user = interaction.options.getUser("user") || interaction.user;
-    
+    const totalAchievements = 2;
+    let userAchievements = 0;
+
+    const dailyAchievement = await get(`${user.id}_daily_achievement`);
+    const learnerAchievement = await get(`${user.id}_learner_achievement`);
+
+    userAchievements = [dailyAchievement, learnerAchievement].filter(
+      (achievement) => achievement === `${trueEmoji}`
+    ).length;
+
     if ((await get(`${user.id}_daily_achievement`)) === null) {
       set(`${user.id}_daily_achievement`, `${falseEmoji}`);
     }
@@ -38,9 +55,15 @@ module.exports = {
         
         **__Learner__** ${await get(
           `${user.id}_learner_achievement`
-        )}\nView \`/commands\` for the first time.\nReward: ${coinEmoji}100`
+        )}\nView \`/commands\` for the first time.\nReward: ${coinEmoji}100\n`
       )
       .setThumbnail(user.displayAvatarURL({ format: "jpg", size: 4096 }))
+      .setFooter({
+        text: `${userAchievements}/${totalAchievements} (${perc(
+          userAchievements,
+          totalAchievements
+        )}%)`,
+      })
       .setColor(await get(`${user.id}_color`));
 
     await interaction.reply({ embeds: [embed] });

@@ -76,4 +76,11 @@ await decr(id, 'xp_needed', xp);
 }
 }
 
-module.exports = {coinEmoji, hpEmoji, armorEmoji, attackEmoji, diamondEmoji, get, set, incr, decr, calculateXP, checkXP, falseEmoji, trueEmoji};
+// Calculating a percentage.
+// await percentage(100, 50);
+function perc(part, total) {
+if(total == 0) return 0;
+return (100 * part) / total;
+}
+
+module.exports = {coinEmoji, hpEmoji, armorEmoji, attackEmoji, diamondEmoji, get, set, incr, decr, calculateXP, checkXP, perc, falseEmoji, trueEmoji};
