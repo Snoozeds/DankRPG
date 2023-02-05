@@ -16,7 +16,7 @@ module.exports = {
     .addUserOption((option) =>
       option
         .setName("user")
-        .setDescription("The member who's profile you want to view")
+        .setDescription("The member whose profile you want to view")
         .setRequired(false)
     ),
   async execute(interaction) {

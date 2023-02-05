@@ -8,7 +8,7 @@ module.exports = {
     .addUserOption((option) =>
       option
         .setName("user")
-        .setDescription("The member who's level you want to view")
+        .setDescription("The member whose level you want to view")
         .setRequired(false)
     ),
   async execute(interaction) {

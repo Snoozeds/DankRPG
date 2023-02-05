@@ -8,7 +8,7 @@ module.exports = {
     .addUserOption((option) =>
       option
         .setName("user")
-        .setDescription("The member who's inventory you want to view")
+        .setDescription("The member whose inventory you want to view")
         .setRequired(false)
     ),
   async execute(interaction) {
