@@ -6,7 +6,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("urban")
     .setDescription(
-      "Define a term from Urban Dictionary. Must be an NSFW channel."
+      "[NSFW] Define a term from Urban Dictionary."
     )
     .addStringOption((option) =>
       option
