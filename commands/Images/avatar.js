@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder, AttachmentBuilder } = require("discord.js");
 const { incr } = require("../../globals.js");
 
 module.exports = {
@@ -13,7 +13,12 @@ module.exports = {
     ),
   async execute(interaction) {
     const user = interaction.options.getUser("user") ?? interaction.user;
-    await interaction.reply(user.displayAvatarURL({ dynamic: true, size: 4096 }));
+    const attachment = new AttachmentBuilder(
+      user.displayAvatarURL({ dynamic: true, size: 4096 })
+    ).setName("avatar.png");
+    await interaction.reply({
+      files: [attachment],
+    });
     await incr(`${interaction.user.id}`, "commandsUsed", 1);
   },
 };
