@@ -13,7 +13,7 @@ module.exports = {
     ),
   async execute(interaction) {
     const user = interaction.options.getUser("user") ?? interaction.user;
-    await interaction.reply(user.avatarURL({ dynamic: true, size: 4096 }));
+    await interaction.reply(user.displayAvatarURL({ dynamic: true, size: 4096 }));
     await incr(`${interaction.user.id}`, "commandsUsed", 1);
   },
 };
