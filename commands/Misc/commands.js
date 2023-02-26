@@ -52,6 +52,7 @@ module.exports = {
                 \`/ping\` - Shows the bot's ping.
                 \`/settings embedcolor\` - Change the embed color.
                 \`/settings xpalerts\` - Toggle XP alerts.
+                \`/time\` - Get the current time for a timezone.
                 \`/uptime\` - Shows the bot's uptime.
                 \`/urban\` - Search the urban dictionary.`
       )
