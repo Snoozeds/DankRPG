@@ -12,7 +12,8 @@ module.exports = {
     ),
   async execute(interaction) {
     try {
-      const timezone = interaction.options.getString("timezone");
+      // toUpperCase() isn't necessary, but it does make the reply look nicer ;)
+      const timezone = interaction.options.getString("timezone").toUpperCase();
       const options = {
         timeZone: timezone,
         weekday: "long",
@@ -25,9 +26,7 @@ module.exports = {
         hour12: true,
       };
       const time = new Date().toLocaleString("en-US", options);
-      await interaction.reply(
-        `**${timezone}**: ${time}`
-      );
+      await interaction.reply(`**${timezone}**: ${time}`);
     } catch {
       await interaction.reply({
         content:
