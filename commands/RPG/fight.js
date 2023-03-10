@@ -20,7 +20,7 @@ module.exports = {
     const user = interaction.user;
     const hp = await get(`${user.id}_max_hp`);
     const hpLoss = Math.floor(chance.integer({ min: hp / 7, max: hp / 6 }));
-    const hpLossT = hpLoss - (await get(`${user.id}_armor`)) * 1;
+    const hpLossT = hpLoss - (await get(`${user.id}_armor`));
     const coins = Math.floor(chance.integer({ min: hp / 5, max: hp / 4 }));
     const xp = Math.floor(chance.integer({ min: hp / 10, max: hp / 6 }));
     const newHP = (await get(`${user.id}_hp`)) - hpLossT;
@@ -56,7 +56,7 @@ module.exports = {
         // Die condition
         if ((await get(`${user.id}_hp`)) <= hpLossT) {
           if ((await get(`${user.id}_lifesaver`)) >= 1) {
-            await decr(`${user.id}_lifesaver,`, 1);
+            await decr(`${user.id}_lifesaver`, 1);
             await interaction.reply({
               content: `You died, but you used a lifesaver! Your stats stay the same.\n**You should heal.**`,
               ephemeral: true,
