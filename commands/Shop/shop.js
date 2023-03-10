@@ -17,7 +17,12 @@ module.exports = {
         {
           name: `Lifesaver (Owned: ${await get(`${user.id}_lifesaver`)})`,
           value: `Cost: ${coinEmoji}**500**\nSaves you from death. Used automatically.`,
-          inline: true,
+          inline: false,
+        },
+        {
+          name: `Stone Ring`,
+          value: `Cost: ${coinEmoji}**1500**\nIncreases your Armor stat by 1.`,
+          inline: false,
         },
       ])
       .setFooter({ text: "Use /buy <item> to buy an item." });
