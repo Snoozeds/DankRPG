@@ -66,19 +66,19 @@ module.exports = {
               content: `You died! You lose everything.`,
               ephemeral: true,
             });
-            await set(`${user.id}_coins`, "0");
-            await set(`${user.id}_hp`, "100");
-            await set(`${user.id}_max_hp`, "100");
-            await set(`${user.id}_armor`, "0");
-            await set(`${user.id}_damage`, "5");
-            await set(`${user.id}_xp`, "0");
-            await set(`${user.id}_xp_needed`, "100");
-            await set(`${user.id}_level_xp`, "100");
-            await set(`${user.id}_next_level`, "2");
-            await set(`${user.id}_level`, "1");
-            await set(`${user.id}_hasStarted`, "1");
-            await set(`${user.id}_color`, "#FFE302");
-            await set(`${user.id}_lifesaver`, "0");
+            await set(`${interaction.user.id}_coins`, "0");
+            await set(`${interaction.user.id}_hp`, "100");
+            await set(`${interaction.user.id}_max_hp`, "100");
+            await set(`${interaction.user.id}_armor`, "0");
+            await set(`${interaction.user.id}_damage`, "5");
+            await set(`${interaction.user.id}_xp`, "0");
+            await set(`${interaction.user.id}_xp_needed`, "100");
+            await set(`${interaction.user.id}_level_xp`, "100");
+            await set(`${interaction.user.id}_next_level`, 2);
+            await set(`${interaction.user.id}_level`, "1");
+            await set(`${interaction.user.id}_hasStarted`, "1");
+            await set(`${interaction.user.id}_xp_alerts`, "1");
+            await set(`${interaction.user.id}_commandsUsed`, "1");
           }
         } else {
           await fightCommandCooldown.addUser(interaction.user.id);
