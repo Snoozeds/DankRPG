@@ -33,7 +33,7 @@ module.exports = {
   async execute(interaction) {
     const response = interaction.options.getString("color");
     if (interaction.options.getSubcommand() === "embedcolor") {
-      var reg = /^#([0-9a-f]{3}){1,2}$/i;
+      var reg = /^#([0-9a-f]{3}([0-9a-f]{3})?)$/i;
       const started = await get(interaction.user.id_hasStarted);
       if (started === undefined) {
         await interaction.reply({
@@ -42,7 +42,10 @@ module.exports = {
         });
       } else if (reg.test(response) === false) {
         await interaction.reply({
-          content: "That is not a valid HEX color code.",
+          content: `
+            That is not a valid HEX color code.
+            A valid HEX color code must be a 3 or 6 digit hexadecimal number with a '#' symbol at the beginning.
+          `,
           ephemeral: true,
         });
       } else {
