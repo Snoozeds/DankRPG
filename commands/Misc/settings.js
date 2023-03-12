@@ -42,10 +42,7 @@ module.exports = {
         });
       } else if (reg.test(response) === false) {
         await interaction.reply({
-          content: `
-            That is not a valid HEX color code.
-            A valid HEX color code must be a 3 or 6 digit hexadecimal number with a '#' symbol at the beginning.
-          `,
+          content: "That is not a valid HEX color code.\nA valid HEX color code must be a 3 or 6 digit hexadecimal number with a '#' symbol at the beginning.",
           ephemeral: true,
         });
       } else {
