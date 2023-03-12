@@ -23,7 +23,7 @@ module.exports = {
     await chopCooldown.addUser(interaction.user.id);
     const user = interaction.user;
     const axe = await get(`${user.id}_axe`);
-    if (axe == 1) {
+    if (axe >= 1) {
       const wood = chance.integer({ min: 5, max: 10 });
       const xp = 10;
       const embed = new EmbedBuilder()

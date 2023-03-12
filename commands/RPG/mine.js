@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, incr } = require("../../globals.js");
+const { get, incr, checkXP } = require("../../globals.js");
 const chance = require("chance").Chance();
 const { CommandCooldown, msToMinutes } = require("discord-command-cooldown");
 const ms = require("ms");
@@ -22,11 +22,11 @@ module.exports = {
     const pickaxe = await get(`${user.id}_pickaxe`);
     const xp = 10;
     const embed = new EmbedBuilder();
-    if (pickaxe === 1) {
+    if (pickaxe >= 1) {
       const stone = chance.integer({ min: 5, max: 10 });
       embed.setTitle("Stone mined!");
       embed.setDescription(
-        `<@${user.id}> mined some stone and got ${stone} stone!${
+        `<@${user.id}> mined some rocks and got **${stone} stone!**${
           (await get(`${interaction.user.id}_xp_alerts`)) == "1"
             ? `\n+${xp}XP`
             : ""
