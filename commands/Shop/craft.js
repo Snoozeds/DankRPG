@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { incr, get } = require("../../globals");
+const { incr, decr, get } = require("../../globals");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -32,8 +32,8 @@ module.exports = {
         embed.setTitle("Axe crafted!");
         embed.setDescription(`<@${user.id}> crafted an axe!`);
         embed.setColor(await get(`${user.id}_color`));
-        await incr(`${user.id}`, "wood", -5);
-        await incr(`${user.id}`, "stone", -10);
+        await decr(`${user.id}`, "wood", 5);
+        await decr(`${user.id}`, "stone", 10)
         await incr(`${user.id}`, "axe", 1);
         await interaction.reply({ embeds: [embed] });
       }
@@ -50,8 +50,8 @@ module.exports = {
         embed.setTitle("Pickaxe crafted!");
         embed.setDescription(`<@${user.id}> crafted a pickaxe!`);
         embed.setColor(await get(`${user.id}_color`));
-        await incr(`${user.id}`, "wood", -25);
-        await incr(`${user.id}`, "stone", -50);
+        await decr(`${user.id}`, "wood", 25);
+        await decr(`${user.id}`, "stone", 50);
         await incr(`${user.id}`, "pickaxe", 1);
         await interaction.reply({ embeds: [embed] });
       }
