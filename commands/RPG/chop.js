@@ -4,12 +4,13 @@ const chance = require("chance").Chance();
 const { CommandCooldown, msToMinutes } = require("discord-command-cooldown");
 const ms = require("ms");
 
+const chopCooldown = new CommandCooldown("chop", ms("10s"));
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("chop")
     .setDescription("Chop down a tree to get wood. Requires an axe."),
   async execute(interaction) {
-    const chopCooldown = new CommandCooldown("chop", ms("10s"));
     const userCooldowned = await chopCooldown.getUser(interaction.user.id);
     if (userCooldowned) {
       const timeLeft = msToMinutes(userCooldowned.msLeft, false);
@@ -17,7 +18,9 @@ module.exports = {
         content: `You need to wait ${timeLeft.seconds}s before using this command again!`,
         ephemeral: true,
       });
+      return;
     }
+    await chopCooldown.addUser(interaction.user.id);
     const user = interaction.user;
     const axe = await get(`${user.id}_axe`);
     if (axe == 1) {
@@ -47,7 +50,6 @@ module.exports = {
           "You don't have an axe to chop down a tree!\nYou can /craft one with 5 wood and 10 stone.",
         ephemeral: true,
       });
-      console.log(axe);
     }
   },
 };
