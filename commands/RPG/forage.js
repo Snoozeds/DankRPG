@@ -27,7 +27,7 @@ module.exports = {
         ephemeral: true,
       });
     } else {
-      const rare = chance.bool({ likelihood: 15 }); // 15% chance of being true
+      const rare = chance.weighted([true, false], [10, 90]); // 10% chance of getting a rare item
       const user = interaction.user;
       const embed = new EmbedBuilder()
         .setTitle("Foraging...")
@@ -42,7 +42,7 @@ module.exports = {
         await incr(user.id, "diamond", 1);
       } else {
         const amount = chance.integer({ min: 3, max: 5 });
-        const set = chance.pickset(["wood", "stone"]);
+        const set = chance.weighted(["wood", "stone"], [40, 60])
         embed.setFields({
           name: `${set}`,
           value: `You found ${amount} **${set}**!`,
