@@ -19,7 +19,7 @@ module.exports = {
       });
     }
 
-    const userCooldowned = await forageCommandCooldown.getUser(interaction.user.id); // use CommandCooldown instance here
+    const userCooldowned = await forageCommandCooldown.getUser(interaction.user.id);
     if (userCooldowned) {
       const timeLeft = msToMinutes(userCooldowned.msLeft, false);
       await interaction.reply({

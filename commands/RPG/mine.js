@@ -4,12 +4,13 @@ const chance = require("chance").Chance();
 const { CommandCooldown, msToMinutes } = require("discord-command-cooldown");
 const ms = require("ms");
 
+const mineCooldown = new CommandCooldown("mine", ms("15s"));
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("mine")
     .setDescription("Mine for stone. Requires a pickaxe."),
   async execute(interaction) {
-    const mineCooldown = new CommandCooldown("mine", ms("15s"));
     const userCooldowned = await mineCooldown.getUser(interaction.user.id);
     if (userCooldowned) {
       const timeLeft = msToMinutes(userCooldowned.msLeft, false);
@@ -18,6 +19,8 @@ module.exports = {
         ephemeral: true,
       });
     }
+
+    else {
     const user = interaction.user;
     const pickaxe = await get(`${user.id}_pickaxe`);
     const xp = 10;
@@ -40,6 +43,7 @@ module.exports = {
       await incr(`${user.id}`, "stone", stone);
       await incr(`${user.id}`, "xp", xp);
       await incr(`${user.id}`, "commandsUsed", 1);
+      await mineCooldown.addUser(interaction.user.id);
       await interaction.reply({ embeds: [embed] });
     } else if (pickaxe === null) {
       await interaction.reply({
@@ -48,5 +52,6 @@ module.exports = {
         ephemeral: true,
       });
     }
-  },
+  }
+},
 };
