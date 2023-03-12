@@ -28,12 +28,17 @@ module.exports = {
             "You don't have enough materials to craft this item!\nYou need: 5 wood and 10 stone.",
           ephemeral: true,
         });
+      } else if ((await get(`${user.id}_axe`)) >= 1) {
+        await interaction.reply({
+          content: "You already have an axe!",
+          ephemeral: true,
+        });
       } else {
         embed.setTitle("Axe crafted!");
         embed.setDescription(`<@${user.id}> crafted an axe!`);
         embed.setColor(await get(`${user.id}_color`));
         await decr(`${user.id}`, "wood", 5);
-        await decr(`${user.id}`, "stone", 10)
+        await decr(`${user.id}`, "stone", 10);
         await incr(`${user.id}`, "axe", 1);
         await interaction.reply({ embeds: [embed] });
       }
@@ -44,6 +49,11 @@ module.exports = {
         await interaction.reply({
           content:
             "You don't have enough materials to craft this item!\nYou need: 25 wood and 50 stone.",
+          ephemeral: true,
+        });
+      } else if ((await get(`${user.id}_pickaxe`)) >= 1) {
+        await interaction.reply({
+          content: "You already have a pickaxe!",
           ephemeral: true,
         });
       } else {
