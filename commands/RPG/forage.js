@@ -4,6 +4,8 @@ const { CommandCooldown, msToMinutes } = require("discord-command-cooldown");
 const ms = require("ms");
 const chance = require("chance").Chance();
 
+const forageCommandCooldown = new CommandCooldown("forage", ms("30s")); // create CommandCooldown instance here
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("forage")
@@ -16,10 +18,8 @@ module.exports = {
         ephemeral: true,
       });
     }
-    const forageCommandCooldown = new CommandCooldown("forage", ms("30s"));
-    const userCooldowned = await forageCommandCooldown.getUser(
-      interaction.user.id
-    );
+
+    const userCooldowned = await forageCommandCooldown.getUser(interaction.user.id); // use CommandCooldown instance here
     if (userCooldowned) {
       const timeLeft = msToMinutes(userCooldowned.msLeft, false);
       await interaction.reply({
@@ -51,6 +51,7 @@ module.exports = {
       }
       await interaction.reply({ embeds: [embed] });
       await incr(user.id, "commandsUsed", 1);
+      await forageCommandCooldown.addUser(interaction.user.id);
     }
   },
 };
