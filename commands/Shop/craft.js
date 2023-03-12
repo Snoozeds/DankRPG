@@ -22,7 +22,7 @@ module.exports = {
     if (item === "axe") {
       const wood = await get(`${user.id}_wood`);
       const stone = await get(`${user.id}_stone`);
-      if ((wood < 5 && stone < 10) || (wood === null && stone === null)) {
+      if ((wood < 5 || stone < 10) || (wood === null && stone === null)) {
         await interaction.reply({
           content:
             "You don't have enough materials to craft this item!\nYou need: 5 wood and 10 stone.",
@@ -45,7 +45,7 @@ module.exports = {
     } else if (item === "pickaxe") {
       const wood = await get(`${user.id}_wood`);
       const stone = await get(`${user.id}_stone`);
-      if ((wood < 25 && stone < 50) || (wood === null && stone === null)) {
+      if ((wood < 25 || stone < 50) || (wood === null && stone === null)) {
         await interaction.reply({
           content:
             "You don't have enough materials to craft this item!\nYou need: 25 wood and 50 stone.",
