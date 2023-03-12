@@ -1,5 +1,13 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, set, incr } = require("../../globals.js");
+const { get, set, coinEmoji } = require("../../globals.js");
+
+// Define the prices of each item in the inventory.
+const inventoryPrices = {
+  _lifesaver: 0,
+  _diamond: 250,
+  _wood: 1,
+  _stone: 5,
+};
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -30,10 +38,26 @@ module.exports = {
 
     // An array for the inventory items.
     const inventoryItems = [
-      { name: "Lifesavers", key: `${user.id}_lifesaver` },
-      { name: "Diamonds", key: `${user.id}_diamond` },
-      { name: "Stone", key: `${user.id}_stone` },
-      { name: "Wood", key: `${user.id}_wood` },
+      {
+        name: "Lifesavers",
+        key: `${user.id}_lifesaver`,
+        price: inventoryPrices._lifesaver,
+      },
+      {
+        name: "Diamonds",
+        key: `${user.id}_diamond`,
+        price: inventoryPrices._diamond,
+      },
+      {
+        name: "Stone",
+        key: `${user.id}_stone`,
+        price: inventoryPrices._stone,
+      },
+      {
+        name: "Wood",
+        key: `${user.id}_wood`,
+        price: inventoryPrices._wood,
+      },
     ];
 
     // Sort the inventoryItems array alphabetically by name.
@@ -41,10 +65,13 @@ module.exports = {
 
     // Loop through the inventory items and add them to the description.
     let inventoryDescription = "";
+    let totalInventoryValue = 0;
     for (const item of inventoryItems) {
       const value = await get(item.key);
       if (value != 0 && value != null) {
-        inventoryDescription += `${item.name}: ${value}\n`;
+        const itemValue = value * item.price;
+        inventoryDescription += `${item.name}: ${value} (${coinEmoji}${itemValue})\n`;
+        totalInventoryValue += itemValue;
       }
     }
 
@@ -55,6 +82,18 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setTitle(`${user.username}'s Inventory`)
+      .setFields(
+        {
+          name: "Your Balance",
+          value: `${coinEmoji}**${await get(`${user.id}_coins`)}**`,
+          inline: true,
+        },
+        {
+          name: "Total Inventory Value",
+          value: `${coinEmoji}**${totalInventoryValue}**`,
+          inline: true,
+        }
+      )
       .setDescription(inventoryDescription)
       .setColor(await get(`${user.id}_color`))
       .setThumbnail(
@@ -68,6 +107,5 @@ module.exports = {
     }
 
     await interaction.reply({ embeds: [embed] });
-    await incr(`${user.id}`, "commandsUsed", 1);
   },
 };
