@@ -43,7 +43,6 @@ module.exports = {
             "<:Unlocked:899050875719393281>"
           );
         }
-        await incr(`${interaction.user.id}`, "xp", xp);
         const Embed = new EmbedBuilder()
           .setTitle("Daily Reward")
           .setDescription(
