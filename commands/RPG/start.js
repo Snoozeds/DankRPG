@@ -1,7 +1,7 @@
 // This command basically exists just to ensure that the user has the default variables.
 // Read variables-list.txt for defaults.
 
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { SlashCommandBuilder } = require('discord.js');
 const { get, set } = require("../../globals.js");
 
 module.exports = {

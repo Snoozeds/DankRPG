@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { SlashCommandBuilder } = require('discord.js');
 const { set, get, incr } = require("../../globals.js");
 require("../../globals.js");
 
