@@ -10,18 +10,6 @@
 // node deploy-command.js GUILDID "./commands/category/mycommand.js"
 // node deploy-command.js GUILDID "./commands/category/mycommand1.js,./commands/category/mycommand2.js"
 
-// This file is for registering commands to a specific guild.
-// You can run this file with `node deploy-command.js` plus a couple options in your terminal. (see below)
-// To deploy all commands to all guilds, use the 'deploy-commands.js' file.
-
-// Options:
-// 1. Guild ID (required)
-// 2. Command files path (required)
-
-// Examples (replace the guild ID and file path with your own.):
-// node deploy-command.js GUILDID "./commands/category/mycommand.js"
-// node deploy-command.js GUILDID "./commands/category/mycommand1.js,./commands/category/mycommand2.js"
-
 const { REST } = require("discord.js");
 const { clientId, token } = require("./config.json");
 const fs = require("fs");
