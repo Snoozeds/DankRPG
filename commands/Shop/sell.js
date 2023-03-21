@@ -28,6 +28,13 @@ module.exports = {
     const amount = interaction.options.getInteger("amount") ?? 1;
     const user = interaction.user;
 
+    if (!Number.isInteger(amount) || amount <= 0) {
+      return interaction.reply({
+        content: "The amount must be a positive integer.",
+        ephemeral: true,
+      });
+    }
+
     // An array of items that can be sold
     const items = [
       {
