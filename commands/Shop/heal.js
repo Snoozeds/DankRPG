@@ -4,12 +4,18 @@ const { get, incr, decr, coinEmoji, hpEmoji } = require("../../globals.js");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("heal")
-    .setDescription("Heal yourself for 1Coins/1HP.")
+    .setDescription("Heal yourself for 1Coin/1HP.")
     .addIntegerOption((option) =>
       option
         .setName("amount")
         .setDescription("Amount of HP to heal.")
-        .setRequired(true)
+        .setRequired(false)
+    )
+    .addBooleanOption((option) =>
+      option
+        .setName("max")
+        .setDescription("Heal to maximum HP.")
+        .setRequired(false)
     ),
   async execute(interaction) {
     const id = interaction.user.id;
@@ -23,15 +29,36 @@ module.exports = {
         ephemeral: true,
       });
     } else {
-      const amount = interaction.options.getInteger("amount");
+      let amount = interaction.options.getInteger("amount");
+      const max = interaction.options.getBoolean("max");
       const coins = await get(`${id}_coins`);
-      const cost = amount * 1;
+      let cost = 0;
+
+      if (amount !== null && max) {
+        return interaction.reply({
+          content: `Please select either an amount of HP to heal or the "max" option, not both.`,
+          ephemeral: true,
+        });
+      } else if (amount !== null && amount < 0) {
+        return interaction.reply({
+          content: "The amount must be a positive integer.",
+          ephemeral: true,
+        });
+      } else if (max) {
+        amount = max_hp - hp;
+        cost = amount;
+      } else if (amount === null) {
+        return interaction.reply({
+          content: `Please specify an amount of HP to heal or choose the "max" option.`,
+          ephemeral: true,
+        });
+      } else {
+        cost = amount;
+      }
 
       if (coins < cost || coins === undefined) {
         return interaction.reply({
-          content: `You don't have enough coins to heal yourself for ${amount}HP! (${coinEmoji}${
-            amount * 1
-          })`,
+          content: `You don't have enough coins to heal yourself for ${amount}HP! (${coinEmoji}${cost})`,
           ephemeral: true,
         });
       } else {
