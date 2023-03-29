@@ -22,13 +22,14 @@ module.exports = {
 
   async execute(interaction) {
     const user = interaction.options.getUser("user") || interaction.user;
-    const totalAchievements = 2;
+    const totalAchievements = 3;
     let userAchievements = 0;
 
     const dailyAchievement = await get(`${user.id}_daily_achievement`);
     const learnerAchievement = await get(`${user.id}_learner_achievement`);
+    const aprilAchievement = await get(`${user.id}_april_achievement`);
 
-    userAchievements = [dailyAchievement, learnerAchievement].filter(
+    userAchievements = [dailyAchievement, learnerAchievement, aprilAchievement].filter(
       (achievement) => achievement === `${trueEmoji}`
     ).length;
 
@@ -37,6 +38,9 @@ module.exports = {
     }
     if ((await get(`${user.id}_learner_achievement`)) === null) {
       set(`${user.id}_learner_achievement`, `${falseEmoji}`);
+    }
+    if ((await get(`${user.id}_april_achievement`)) === null) {
+      set(`${user.id}_april_achievement`, `${falseEmoji}`);
     }
 
     if (user.bot) {
@@ -55,7 +59,11 @@ module.exports = {
         
         **__Learner__** ${await get(
           `${user.id}_learner_achievement`
-        )}\nView \`/commands\` for the first time.\nReward: ${coinEmoji}100\n`
+        )}\nView \`/commands\` for the first time.\nReward: ${coinEmoji}100
+        
+        **__April Fools!__** ${await get(
+          `${user.id}_april_achievement`
+        )}\nUse any command between 1st-3rd April.\nReward: ${coinEmoji}500`
       )
       .setThumbnail(user.displayAvatarURL({ format: "jpg", size: 4096 }))
       .setFooter({

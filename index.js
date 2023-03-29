@@ -1,6 +1,13 @@
 const fs = require("node:fs");
-const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require("discord.js");
+const {
+  Client,
+  Collection,
+  Events,
+  GatewayIntentBits,
+  ActivityType,
+} = require("discord.js");
 const { token, topgg, usr, pwd } = require("./config.json");
+const { trueEmoji } = require("./globals.js");
 const Redis = require("ioredis");
 const express = require("express");
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -79,6 +86,19 @@ client.on(Events.InteractionCreate, async (interaction) => {
     return;
   }
 
+  // Achievement for April Fools. (1st-3rd April)
+  // REMEMBER. JAVASCRIPT COUNTS MONTHS FROM 0. HOW FUN.
+  if (await redis.get(`${interaction.user.id}_april_achievement`) !== null && await redis.get(`${interaction.user.id}_april_achievement`) !== `${trueEmoji}`) {
+    const today = new Date();
+    const start = new Date(Date.UTC(today.getUTCFullYear(), 3, 1)); // April 1st, UTC
+    const end = new Date(Date.UTC(today.getUTCFullYear(), 3, 3)); // April 3rd, UTC
+    if (today >= start && today <= end) {
+      redis.set(`${interaction.user.id}_april_achievement`, `${trueEmoji}`);
+      redis.incrby(`${interaction.user.id}_coins`, 500);
+    }
+  }
+  // End of April Fools achievement.
+
   try {
     await command.execute(interaction);
   } catch (error) {
@@ -97,7 +117,7 @@ client.once(Events.ClientReady, async () => {
   console.log(`Logged in as ${client.user.tag}.`);
   client.user.setPresence({
     activities: [{ name: `/commands`, type: ActivityType.Watching }],
-    status: 'online',
+    status: "online",
   });
 });
 

@@ -76,7 +76,7 @@ module.exports = {
     // If the user has the item, sell it
     if ((await get(`${user.id}_${selectedItem.name}`)) >= amount) {
       await decr(user.id, `${selectedItem.name}`, amount);
-      await incr(user.id, "coins", selectedItem.value * amount)
+      await incr(user.id, "coins", selectedItem.value * amount);
       return interaction.reply({
         content: `You sold \`${amount}\` \`${
           selectedItem.name

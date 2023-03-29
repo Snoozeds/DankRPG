@@ -26,5 +26,6 @@
 
 # Achievements
 # will return null. However, should be whatever the denyEmoji is (globals.js) when checking /achievements.
-(userid)_daily_achievement: If the player has completed the daily achievement
-(userid)_learner_achievement: If the player has completed the learner achievement
+(userid)_daily_achievement: If the player has completed the daily achievement.
+(userid)_learner_achievement: If the player has completed the learner achievement.
+(userid)_april_achievement: If the player has completed the april fools achievement.
