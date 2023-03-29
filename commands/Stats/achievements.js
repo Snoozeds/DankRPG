@@ -29,9 +29,11 @@ module.exports = {
     const learnerAchievement = await get(`${user.id}_learner_achievement`);
     const aprilAchievement = await get(`${user.id}_april_achievement`);
 
-    userAchievements = [dailyAchievement, learnerAchievement, aprilAchievement].filter(
-      (achievement) => achievement === `${trueEmoji}`
-    ).length;
+    userAchievements = [
+      dailyAchievement,
+      learnerAchievement,
+      aprilAchievement,
+    ].filter((achievement) => achievement === `${trueEmoji}`).length;
 
     if ((await get(`${user.id}_daily_achievement`)) === null) {
       set(`${user.id}_daily_achievement`, `${falseEmoji}`);
@@ -70,7 +72,7 @@ module.exports = {
         text: `${userAchievements}/${totalAchievements} (${perc(
           userAchievements,
           totalAchievements
-        )}%)`,
+        ).toFixed(2)}%)`,
       })
       .setColor(await get(`${user.id}_color`));
 
