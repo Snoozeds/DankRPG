@@ -17,14 +17,30 @@ module.exports = {
       "Start a fight. Rewards and damage increase per level. Higher chance of winning per damage."
     ),
   async execute(interaction) {
+
+    // User who ran the command.
     const user = interaction.user;
-    const hp = await get(`${user.id}_max_hp`);
+
+    // User's HP.
+    const hp = await get(`${user.id}_hp`);
+
+    // User's Lost HP BEFORE armor is calculated.
     const hpLoss = Math.floor(chance.integer({ min: hp / 7, max: hp / 6 }));
+    
+    // User's Lost HP AFTER armor is calculated.
     const hpLossT = hpLoss - (await get(`${user.id}_armor`));
+
+    // User's coins reward.
     const coins = Math.floor(chance.integer({ min: hp / 5, max: hp / 4 }));
+
+    // User's XP reward.
     const xp = Math.floor(chance.integer({ min: hp / 10, max: hp / 6 }));
+
+    // User's new HP and Coins amount after the fight. Used for the embed.
     const newHP = (await get(`${user.id}_hp`)) - hpLossT;
     const newCoins = Number(await get(`${user.id}_coins`)) + coins;
+
+    // User's success rate for the fight.
     const successrate = (await get(`${user.id}_damage`)) * 4;
 
     const started = await get(`${interaction.user.id}_hasStarted`);
