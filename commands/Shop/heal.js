@@ -4,7 +4,7 @@ const { get, incr, decr, coinEmoji, hpEmoji } = require("../../globals.js");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("heal")
-    .setDescription("Heal yourself for 1Coin/1HP.")
+    .setDescription("Heal yourself for 1 Coin per 1HP.")
     .addIntegerOption((option) =>
       option
         .setName("amount")

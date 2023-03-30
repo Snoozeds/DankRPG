@@ -78,7 +78,7 @@ const Shop = new EmbedBuilder()
 `**Shop:**
 \`/buy\` - Buy an item from the shop.
 \`/craft\` - Craft an item with the materials you have.
-\`/heal\` - Heal yourself for 1Coins/1HP.
+\`/heal\` - Heal yourself for 1 Coin per 1HP.
 \`/hp\` - Checks how much it costs to heal to MaxHP.
 \`/shop\` - Shows the shop.`
 )
