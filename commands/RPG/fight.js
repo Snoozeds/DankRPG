@@ -9,6 +9,8 @@ const {
   checkXP,
 } = require("../../globals.js");
 const chance = require("chance").Chance();
+const enemyTypes = require("./enemies.json").enemyTypes;
+const enemy = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -17,7 +19,6 @@ module.exports = {
       "Start a fight. Rewards and damage increase per level. Higher chance of winning per damage."
     ),
   async execute(interaction) {
-
     // User who ran the command.
     const user = interaction.user;
 
@@ -26,7 +27,7 @@ module.exports = {
 
     // User's Lost HP BEFORE armor is calculated.
     const hpLoss = Math.floor(chance.integer({ min: hp / 7, max: hp / 6 }));
-    
+
     // User's Lost HP AFTER armor is calculated.
     const hpLossT = hpLoss - (await get(`${user.id}_armor`));
 
@@ -106,7 +107,7 @@ module.exports = {
             // Chance of winning increases with damage (damage * 4)
             if (newHP < hpLossT) {
               const embed = new EmbedBuilder()
-                .setTitle("Fight")
+                .setTitle(`Fight against ${enemy}!`)
                 .setDescription(
                   `You start a fight.\n**- ${hpLossT} ${hpEmoji} (${newHP}) :warning:**\n**+ ${coins} ${coinEmoji} (${newCoins})**${
                     (await get(`${interaction.user.id}_xp_alerts`)) == "1"
@@ -127,7 +128,7 @@ module.exports = {
               });
             } else {
               const embed = new EmbedBuilder()
-                .setTitle("Fight")
+                .setTitle(`Fight against ${enemy}!`)
                 .setDescription(
                   `You start a fight.\n**- ${hpLossT} ${hpEmoji} (${newHP})**\n**+ ${coins} ${coinEmoji} (${newCoins})**${
                     (await get(`${interaction.user.id}_xp_alerts`)) == "1"
@@ -150,8 +151,7 @@ module.exports = {
           } else {
             if (newHP < hpLossT) {
               const embed = new EmbedBuilder()
-                .setTitle("Fight")
-                .setTitle("Fight")
+                .setTitle(`Fight against ${enemy}!`)
                 .setDescription(
                   `You start a fight.\n**You lose your fight!**\n**- ${hpLossT} ${hpEmoji}(${newHP}) :warning:**`
                 )
@@ -163,7 +163,7 @@ module.exports = {
               });
             } else {
               const embed = new EmbedBuilder()
-                .setTitle("Fight")
+                .setTitle(`Fight against ${enemy}!`)
                 .setDescription(
                   `You start a fight.\n**You lose your fight!**\n**- ${hpLossT} ${hpEmoji}(${newHP})**`
                 )
