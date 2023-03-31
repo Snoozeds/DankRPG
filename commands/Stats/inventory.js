@@ -68,10 +68,12 @@ module.exports = {
     let totalInventoryValue = 0;
     for (const item of inventoryItems) {
       const value = await get(item.key);
-      if (value != 0 && value != null) {
+      if (value && item.price && item.price > 0 && value > 0) {
         const itemValue = value * item.price;
         inventoryDescription += `${item.name}: ${value} (${coinEmoji}${itemValue})\n`;
         totalInventoryValue += itemValue;
+      } else if (value && value > 0) {
+        inventoryDescription += `${item.name}: ${value}\n`;
       }
     }
 
@@ -95,10 +97,8 @@ module.exports = {
         }
       )
       .setDescription(inventoryDescription)
-      .setColor(await get(`${user.id}_color`))
-      .setThumbnail(
-        user.displayAvatarURL({ format: "jpg", size: 4096 })
-      );
+      .setColor(await get(`${interaction.user.id}_color`))
+      .setThumbnail(user.displayAvatarURL({ format: "jpg", size: 4096 }));
 
     async function setDefaultInventoryValues(id, key, value) {
       if ((await get(`${id}${key}`)) === null) {
