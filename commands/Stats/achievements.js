@@ -53,19 +53,19 @@ module.exports = {
     }
 
     const embed = new EmbedBuilder()
-      .setTitle(`${user.username}\'s Achievements`)
+      .setTitle(`${user.username}'s Achievements`)
       .setDescription(
-        `**__It Begins...__** ${await get(
-          `${user.id}_daily_achievement`
-        )}\nGet your first daily reward.\nReward: ${coinEmoji}250
-        
-        **__Learner__** ${await get(
-          `${user.id}_learner_achievement`
-        )}\nView \`/commands\` for the first time.\nReward: ${coinEmoji}100
-        
-        **__April Fools!__** ${await get(
-          `${user.id}_april_achievement`
-        )}\nUse any command between 1st-3rd April.\nReward: ${coinEmoji}500`
+        `**__It Begins...__** ${await get(`${user.id}_daily_achievement`)}
+Get your first daily reward.
+Reward: ${coinEmoji}250
+
+**__Learner__** ${await get(`${user.id}_learner_achievement`)}
+View \`/commands\` for the first time.
+Reward: ${coinEmoji}100
+
+**__April Fools!__** ${await get(`${user.id}_april_achievement`)}
+Use any command between 1st-3rd April.
+Reward: ${coinEmoji}500`
       )
       .setThumbnail(user.displayAvatarURL({ format: "jpg", size: 4096 }))
       .setFooter({
@@ -77,6 +77,7 @@ module.exports = {
       .setColor(await get(`${user.id}_color`));
 
     await interaction.reply({ embeds: [embed] });
+
     await incr(`${interaction.user.id}`, "commandsUsed", 1);
   },
 };
