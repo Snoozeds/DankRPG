@@ -29,7 +29,11 @@ module.exports = {
           ephemeral: true,
         });
       }
-      await incr(`${user.id}`, "lifesavers", 1);
+      if ((await get(`${user.id}_lifesaver`)) === null) {
+        await set(`${user.id}_lifesaver`, 1);
+      } else {
+        await incr(`${user.id}`, "lifesavers", 1);
+      }
       await decr(`${user.id}`, "coins", 500);
       return interaction.reply({
         content: `You bought a lifesaver for ${coinEmoji}500.`,
