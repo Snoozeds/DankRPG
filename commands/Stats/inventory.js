@@ -84,7 +84,7 @@ module.exports = {
       .setTitle(`${user.username}'s Inventory`)
       .setFields(
         {
-          name: "Your Balance",
+          name: "Balance",
           value: `${coinEmoji}**${await get(`${user.id}_coins`)}**`,
           inline: true,
         },
@@ -97,7 +97,7 @@ module.exports = {
       .setDescription(inventoryDescription)
       .setColor(await get(`${user.id}_color`))
       .setThumbnail(
-        interaction.user.displayAvatarURL({ format: "jpg", size: 4096 })
+        user.displayAvatarURL({ format: "jpg", size: 4096 })
       );
 
     async function setDefaultInventoryValues(id, key, value) {
