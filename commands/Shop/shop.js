@@ -15,7 +15,9 @@ module.exports = {
       .setColor(await get(`${user.id}_color`))
       .setFields([
         {
-          name: `Lifesaver (Owned: ${await get(`${user.id}_lifesaver`)})`,
+          name: `Lifesaver (Owned: ${
+            (await get(`${user.id}_lifesaver`)) || 0
+          })`,
           value: `Cost: ${coinEmoji}**500**\nSaves you from death. Used automatically.`,
           inline: false,
         },
