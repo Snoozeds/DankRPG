@@ -80,8 +80,7 @@ module.exports = {
       return interaction.reply({
         content: `You sold \`${amount}\` \`${
           selectedItem.name
-        }\` for ${coinEmoji}${selectedItem.value * amount}.`,
-        ephemeral: true,
+        }\` for ${coinEmoji}${selectedItem.value * amount}.`
       });
     }
   },
