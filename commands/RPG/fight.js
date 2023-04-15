@@ -7,6 +7,7 @@ const {
   hpEmoji,
   coinEmoji,
   checkXP,
+  resetStats
 } = require("../../globals.js");
 const chance = require("chance").Chance();
 const enemyTypes = require("./enemies.json").enemyTypes;
@@ -22,8 +23,8 @@ module.exports = {
     // User who ran the command.
     const user = interaction.user;
 
-    // User's HP.
-    const hp = await get(`${user.id}_hp`);
+    // User's MaxHP.
+    const hp = await get(`${user.id}_max_hp`);
 
     // User's Lost HP BEFORE armor is calculated.
     const hpLoss = Math.floor(chance.integer({ min: hp / 7, max: hp / 6 }));
@@ -83,19 +84,7 @@ module.exports = {
               content: `You died! You lose everything.`,
               ephemeral: true,
             });
-            await set(`${interaction.user.id}_coins`, "0");
-            await set(`${interaction.user.id}_hp`, "100");
-            await set(`${interaction.user.id}_max_hp`, "100");
-            await set(`${interaction.user.id}_armor`, "0");
-            await set(`${interaction.user.id}_damage`, "5");
-            await set(`${interaction.user.id}_xp`, "0");
-            await set(`${interaction.user.id}_xp_needed`, "100");
-            await set(`${interaction.user.id}_level_xp`, "100");
-            await set(`${interaction.user.id}_next_level`, 2);
-            await set(`${interaction.user.id}_level`, "1");
-            await set(`${interaction.user.id}_hasStarted`, "1");
-            await set(`${interaction.user.id}_xp_alerts`, "1");
-            await set(`${interaction.user.id}_commandsUsed`, "1");
+            resetStats(user.id);
           }
         } else {
           await fightCommandCooldown.addUser(interaction.user.id);
