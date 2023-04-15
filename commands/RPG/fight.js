@@ -81,8 +81,7 @@ module.exports = {
             });
           } else {
             await interaction.reply({
-              content: `You died! You lose everything.`,
-              ephemeral: true,
+              content: `You died! You lose everything.`
             });
             resetStats(user.id);
           }
