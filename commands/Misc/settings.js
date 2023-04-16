@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder } = require("discord.js");
 const { set, get, incr } = require("../../globals.js");
 require("../../globals.js");
 
@@ -42,7 +42,8 @@ module.exports = {
         });
       } else if (reg.test(response) === false) {
         await interaction.reply({
-          content: "That is not a valid HEX color code.\nA valid HEX color code must be a 3 or 6 digit hexadecimal number with a '#' symbol at the beginning.",
+          content:
+            "That is not a valid HEX color code.\nA valid HEX color code must be a 3 or 6 digit hexadecimal number with a '#' symbol at the beginning.",
           ephemeral: true,
         });
       } else {
@@ -51,7 +52,6 @@ module.exports = {
           content: "Your embed color has been set to " + response + ".",
           ephemeral: true,
         });
-        await incr(`${interaction.user.id}`, "commandsUsed", 1);
       }
     } else if (interaction.options.getSubcommand() === "xpalerts") {
       const started = await get(interaction.user.id_hasStarted);

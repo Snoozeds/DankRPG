@@ -69,10 +69,10 @@ Reward: ${coinEmoji}500`
       )
       .setThumbnail(user.displayAvatarURL({ format: "jpg", size: 4096 }))
       .setFooter({
-        text: `${userAchievements}/${totalAchievements} (${perc(
+        text: `${userAchievements}/${totalAchievements} (${Math.trunc(perc(
           userAchievements,
           totalAchievements
-        ).toFixed(2)}%)`,
+        ))}%)`,
       })
       .setColor(await get(`${user.id}_color`));
 
