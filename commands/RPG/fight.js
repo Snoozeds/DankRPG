@@ -10,8 +10,6 @@ const {
   resetStats
 } = require("../../globals.js");
 const chance = require("chance").Chance();
-const enemyTypes = require("./enemies.json").enemyTypes;
-const enemy = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -20,6 +18,11 @@ module.exports = {
       "Start a fight. Rewards and damage increase per level. Higher chance of winning per damage."
     ),
   async execute(interaction) {
+    
+    // Define enemy type here so it can be random.
+    const enemyTypes = require("./enemies.json").enemyTypes;
+    const enemy = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
+
     // User who ran the command.
     const user = interaction.user;
 
