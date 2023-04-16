@@ -18,7 +18,8 @@ global.redis = new Redis({
   username: usr,
   password: pwd,
   db: 0,
-}); // See config.json to change the username and password accordingly.
+  enableReadyCheck: false
+}); // Change the username and password in config.json, if you need to. | https://redis.io/docs/management/security/acl/
 
 redis.on("connect", () => {
   console.log(`Database initialized.`);
