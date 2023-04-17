@@ -4,7 +4,13 @@ const { incr } = require("../../globals.js");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("banner")
-    .setDescription("Gets your/another user's banner"),
+    .setDescription("Gets your/another user's banner")
+    .addUserOption((option) =>
+      option
+        .setName("user")
+        .setDescription("The user to get the banner of")
+        .setRequired(false)
+    ),
   async execute(interaction) {
     let user = interaction.user || interaction.options.getUser("user");
     let fuser = await user.fetch({ force: true });
