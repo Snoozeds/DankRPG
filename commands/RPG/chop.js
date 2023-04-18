@@ -46,7 +46,6 @@ module.exports = {
         )
         .setColor(await get(`${user.id}_color`));
       await incr(`${user.id}`, "wood", wood);
-      await incr(`${user.id}`, "xp", xp);
       await incr(`${user.id}`, "commandsUsed", 1);
       await interaction.reply({ embeds: [embed] });
     }

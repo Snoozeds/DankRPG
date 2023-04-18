@@ -41,7 +41,6 @@ module.exports = {
       );
       embed.setColor(await get(`${user.id}_color`));
       await incr(`${user.id}`, "stone", stone);
-      await incr(`${user.id}`, "xp", xp);
       await incr(`${user.id}`, "commandsUsed", 1);
       await mineCooldown.addUser(user.id);
       await interaction.reply({ embeds: [embed] });
