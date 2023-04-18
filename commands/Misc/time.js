@@ -7,24 +7,35 @@ module.exports = {
     .addStringOption((option) =>
       option
         .setName("timezone")
-        .setDescription("The timezone to get the time for. (e.g, 'Europe/London')")
+        .setDescription(
+          "The timezone to get the time for. (e.g, 'Europe/London')"
+        )
         .setRequired(true)
     )
     .addStringOption((option) =>
       option
         .setName("format")
-        .setDescription("The format string for the time. (e.g, 'DD/MM/YYYY HH:mm:ss')")
+        .setDescription(
+          "The format string for the time. (e.g, 'DD/MM/YYYY HH:mm:ss')"
+        )
         .setRequired(false)
     ),
   async execute(interaction) {
     try {
-
       // Get the timezone.
       const timezone = interaction.options.getString("timezone").toUpperCase();
-      
+
       // Get the format string. Default to "MM/DD/YYYY HH:mm:ss".
       const format =
         interaction.options.getString("format") ?? "MM/DD/YYYY HH:mm:ss";
+
+      const validRegex = /^((YYYY|MM|DD|HH|mm|ss|[/:.\-\s])+)$/u;
+      if (!validRegex.test(format)) {
+        await interaction.reply({
+          content: `Invalid format string. Please only use the following characters: \`YYYY\`, \`MM\`, \`DD\`, \`HH\`, \`mm\`, \`ss\`, and any punctuation.`,
+          ephemeral: true,
+        });
+      }
 
       // Create the options for the formatter.
       const options = {
