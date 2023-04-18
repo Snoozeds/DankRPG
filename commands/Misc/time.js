@@ -7,30 +7,56 @@ module.exports = {
     .addStringOption((option) =>
       option
         .setName("timezone")
-        .setDescription("The timezone to get the time for.")
+        .setDescription("The timezone to get the time for. (e.g, 'Europe/London')")
         .setRequired(true)
+    )
+    .addStringOption((option) =>
+      option
+        .setName("format")
+        .setDescription("The format string for the time. (e.g, 'DD/MM/YYYY hh:mm:ss')")
+        .setRequired(false)
     ),
   async execute(interaction) {
     try {
-      // toUpperCase() isn't necessary, but it does make the reply look nicer ;)
+
+      // Get the timezone.
       const timezone = interaction.options.getString("timezone").toUpperCase();
+      
+      // Get the format string. Default to "MM/DD/YYYY hh:mm:ss".
+      const format =
+        interaction.options.getString("format") ?? "MM/DD/YYYY hh:mm:ss";
+
+      // Create the options for the formatter.
       const options = {
         timeZone: timezone,
-        weekday: "long",
-        month: "long",
-        day: "numeric",
+        day: "2-digit",
+        month: "2-digit",
         year: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-        hour12: true,
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
       };
-      const time = new Date().toLocaleString("en-US", options);
-      await interaction.reply(`**${timezone}**: ${time}`);
+
+      // Format the time.
+      const formatter = new Intl.DateTimeFormat("en-US", options);
+      const time = formatter.format(new Date());
+
+      // Split the time string into parts.
+      const timeParts = time.split(/(?:[^\d])+/);
+      const formattedTime = format
+        .replace(/DD/g, timeParts[1])
+        .replace(/MM/g, timeParts[0])
+        .replace(/YYYY/g, timeParts[2])
+        .replace(/HH/g, timeParts[3])
+        .replace(/mm/g, timeParts[4])
+        .replace(/ss/g, timeParts[5]);
+
+      await interaction.reply(`**${timezone}**: ${formattedTime}`);
     } catch {
       await interaction.reply({
         content:
-          "Invalid timezone.\nSee: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List.",
+          "Invalid timezone.\nSee: https://wikipedia.org/wiki/List_of_tz_database_time_zones#List.",
         ephemeral: true,
       });
     }
