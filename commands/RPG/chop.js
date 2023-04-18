@@ -4,28 +4,33 @@ const chance = require("chance").Chance();
 const { CommandCooldown, msToMinutes } = require("discord-command-cooldown");
 const ms = require("ms");
 
-const chopCooldown = new CommandCooldown("chop", ms("10s"));
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("chop")
-    .setDescription("Chop down a tree to get wood. Requires an axe."),
+    .setDescription(
+      "Chop down a tree to get wood. Craft an axe for more resources."
+    ),
   async execute(interaction) {
-    const userCooldowned = await chopCooldown.getUser(interaction.user.id);
+    const user = interaction.user;
+    const axe = await get(`${user.id}_axe`);
+
+    // If the user has an axe, they chop faster, get more wood, and get more XP.
+    const [chopCooldownTime, minWood, maxWood, xpAmount] =
+      axe >= 1 ? [ms("15s"), 10, 20, 20] : [ms("30s"), 5, 10, 10];
+
+    const chopCooldown = new CommandCooldown("chop", chopCooldownTime);
+    const wood = chance.integer({ min: minWood, max: maxWood });
+    const xp = xpAmount;
+    const userCooldowned = await chopCooldown.getUser(user.id);
+
     if (userCooldowned) {
       const timeLeft = msToMinutes(userCooldowned.msLeft, false);
       await interaction.reply({
         content: `You need to wait ${timeLeft.seconds}s before using this command again!`,
         ephemeral: true,
       });
-      return;
-    }
-    await chopCooldown.addUser(interaction.user.id);
-    const user = interaction.user;
-    const axe = await get(`${user.id}_axe`);
-    if (axe >= 1) {
-      const wood = chance.integer({ min: 5, max: 10 });
-      const xp = 10;
+    } else {
+      await chopCooldown.addUser(interaction.user.id);
       const embed = new EmbedBuilder()
         .setTitle("Wood chopped!")
         .setDescription(
@@ -44,12 +49,6 @@ module.exports = {
       await incr(`${user.id}`, "xp", xp);
       await incr(`${user.id}`, "commandsUsed", 1);
       await interaction.reply({ embeds: [embed] });
-    } else {
-      await interaction.reply({
-        content:
-          "You don't have an axe to chop down a tree!\nYou can /craft one with 5 wood and 10 stone.",
-        ephemeral: true,
-      });
     }
   },
 };

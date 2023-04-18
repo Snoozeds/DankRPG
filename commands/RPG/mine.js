@@ -4,37 +4,37 @@ const chance = require("chance").Chance();
 const { CommandCooldown, msToMinutes } = require("discord-command-cooldown");
 const ms = require("ms");
 
-const mineCooldown = new CommandCooldown("mine", ms("15s"));
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("mine")
-    .setDescription("Mine for stone. Requires a pickaxe."),
+    .setDescription("Mine for stone. Craft a pickaxe for more resources."),
   async execute(interaction) {
-    const userCooldowned = await mineCooldown.getUser(interaction.user.id);
+    const user = interaction.user;
+    const pickaxe = await get(`${user.id}_pickaxe`);
+    const embed = new EmbedBuilder();
+
+    // If the user has a pickaxe, they mine faster, get more stone, and get more XP.
+    const [mineCooldownTime, minStone, maxStone, xpAmount] =
+      pickaxe >= 1 ? [ms("15s"), 10, 20, 20] : [ms("30s"), 5, 10, 10];
+
+    const mineCooldown = new CommandCooldown("mine", mineCooldownTime);
+    const stone = chance.integer({ min: minStone, max: maxStone });
+    const xp = xpAmount;
+
+    const userCooldowned = await mineCooldown.getUser(user.id);
     if (userCooldowned) {
       const timeLeft = msToMinutes(userCooldowned.msLeft, false);
       await interaction.reply({
         content: `You need to wait ${timeLeft.seconds}s before using this command again!`,
         ephemeral: true,
       });
-    }
-
-    else {
-    const user = interaction.user;
-    const pickaxe = await get(`${user.id}_pickaxe`);
-    const xp = 10;
-    const embed = new EmbedBuilder();
-    if (pickaxe >= 1) {
-      const stone = chance.integer({ min: 5, max: 10 });
+    } else {
       embed.setTitle("Stone mined!");
       embed.setDescription(
         `<@${user.id}> mined some rocks and got **${stone} stone!**${
-          (await get(`${interaction.user.id}_xp_alerts`)) == "1"
-            ? `\n+${xp}XP`
-            : ""
+          (await get(`${user.id}_xp_alerts`)) == "1" ? `\n+${xp}XP` : ""
         } ${
-          (await checkXP(interaction.user.id, xp)) == true
+          (await checkXP(user.id, xp)) == true
             ? ` :up: **Level up!** Check /levels.`
             : ""
         }`
@@ -43,15 +43,8 @@ module.exports = {
       await incr(`${user.id}`, "stone", stone);
       await incr(`${user.id}`, "xp", xp);
       await incr(`${user.id}`, "commandsUsed", 1);
-      await mineCooldown.addUser(interaction.user.id);
+      await mineCooldown.addUser(user.id);
       await interaction.reply({ embeds: [embed] });
-    } else if (pickaxe === null) {
-      await interaction.reply({
-        content:
-          "You don't have a pickaxe to mine!\nYou can /craft one with 25 wood and 50 stone.",
-        ephemeral: true,
-      });
     }
-  }
-},
+  },
 };
