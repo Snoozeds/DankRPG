@@ -13,7 +13,7 @@ module.exports = {
     .addStringOption((option) =>
       option
         .setName("format")
-        .setDescription("The format string for the time. (e.g, 'DD/MM/YYYY hh:mm:ss')")
+        .setDescription("The format string for the time. (e.g, 'DD/MM/YYYY HH:mm:ss')")
         .setRequired(false)
     ),
   async execute(interaction) {
@@ -22,9 +22,9 @@ module.exports = {
       // Get the timezone.
       const timezone = interaction.options.getString("timezone").toUpperCase();
       
-      // Get the format string. Default to "MM/DD/YYYY hh:mm:ss".
+      // Get the format string. Default to "MM/DD/YYYY HH:mm:ss".
       const format =
-        interaction.options.getString("format") ?? "MM/DD/YYYY hh:mm:ss";
+        interaction.options.getString("format") ?? "MM/DD/YYYY HH:mm:ss";
 
       // Create the options for the formatter.
       const options = {
