@@ -66,25 +66,38 @@ async function resetStats(userId) {
 // Each level: +5 damage (max 25), +100hp, +100max_hp, +1 armor
 // await calculateXP(id, nextlvl);
 async function calculateXP(id, nextlvl) {
-  if ((await get(`${id}_damage`)) == 25) {
+  // If the user is above level 10, they get less health increase.
+  if ((await get(`${id}_next_level`)) > 10) {
     await incr(id, "level", 1);
-    await incr(id, "hp", 100);
-    await incr(id, "max_hp", 100);
+    await incr(id, "hp", 50);
+    await incr(id, "max_hp", 50);
     await incr(id, "armor", 1);
     await set(id, "level_xp", 100 * nextlvl);
     await incr(id, "next_level", 1);
     await set(`${id}_xp`, 0);
     await set(`${id}_xp_needed`, 100 * nextlvl);
   } else {
-    await incr(id, "level", 1);
-    await incr(id, "damage", 5);
-    await incr(id, "hp", 100);
-    await incr(id, "max_hp", 100);
-    await incr(id, "armor", 1);
-    await incr(id, "level_xp", 100 * nextlvl);
-    await incr(id, "next_level", 1);
-    await set(`${id}_xp`, 0);
-    await set(`${id}_xp_needed`, 100 * nextlvl);
+    // At level 5, damage stops increasing.
+    if ((await get(`${id}_damage`)) == 25) {
+      await incr(id, "level", 1);
+      await incr(id, "hp", 100);
+      await incr(id, "max_hp", 100);
+      await incr(id, "armor", 1);
+      await set(id, "level_xp", 100 * nextlvl);
+      await incr(id, "next_level", 1);
+      await set(`${id}_xp`, 0);
+      await set(`${id}_xp_needed`, 100 * nextlvl);
+    } else {
+      await incr(id, "level", 1);
+      await incr(id, "damage", 5);
+      await incr(id, "hp", 100);
+      await incr(id, "max_hp", 100);
+      await incr(id, "armor", 1);
+      await incr(id, "level_xp", 100 * nextlvl);
+      await incr(id, "next_level", 1);
+      await set(`${id}_xp`, 0);
+      await set(`${id}_xp_needed`, 100 * nextlvl);
+    }
   }
 }
 
@@ -104,7 +117,7 @@ async function checkXP(id, xp) {
 }
 
 // Calculating a percentage.
-// percentage(100, 50);
+// perc(100, 50);
 function perc(part, total) {
   if (total == 0) return 0;
   return (100 * part) / total;
@@ -125,5 +138,5 @@ module.exports = {
   perc,
   falseEmoji,
   trueEmoji,
-  resetStats
+  resetStats,
 };
