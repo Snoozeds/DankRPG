@@ -20,56 +20,56 @@ module.exports = {
         .setRequired(false)
     ),
   async execute(interaction) {
-    const target = interaction.options.getUser("user") ?? interaction.user;
-    if (await get(`${target.bot}`))
+    const user = interaction.options.getUser("user") ?? interaction.user;
+    if (await get(`${user.bot}`))
       return interaction.reply({
         content: "Bots don't have RPG profiles.\nIf you are looking for information about a bot user, use `/userinfo`.",
         ephemeral: true,
       });
-    if ((await get(`${target.id}_hasStarted`)) === null) {
+    if ((await get(`${user.id}_hasStarted`)) === null) {
       await interaction.reply({
         content: "This user hasn't ran /start yet!",
         ephemeral: true,
       });
     } else {
       const profile = new EmbedBuilder()
-        .setTitle(`${target.username}'s Profile`)
+        .setTitle(`${user.username}'s Profile`)
         .setFields([
           {
             name: "Coins",
-            value: `**${coinEmoji} ${await get(`${target.id}_coins`)}**`,
+            value: `**${coinEmoji} ${await get(`${user.id}_coins`)}**`,
             inline: true,
           },
           {
             name: "HP",
-            value: `**${hpEmoji} ${await get(`${target.id}_hp`)}**`,
+            value: `**${hpEmoji} ${await get(`${user.id}_hp`)}**`,
             inline: true,
           },
           {
             name: "Armor",
-            value: `**${armorEmoji} ${await get(`${target.id}_armor`)}**`,
+            value: `**${armorEmoji} ${await get(`${user.id}_armor`)}**`,
             inline: true,
           },
           {
             name: "Damage",
-            value: `**${attackEmoji} ${await get(`${target.id}_damage`)}**`,
+            value: `**${attackEmoji} ${await get(`${user.id}_damage`)}**`,
             inline: true,
           },
           {
             name: "Level",
-            value: `**${await get(`${target.id}_level`)}** **(${await get(
-              `${target.id}_xp`
+            value: `**${await get(`${user.id}_level`)}** **(${await get(
+              `${user.id}_xp`
             )}XP)**`,
             inline: true,
           },
           {
             name: "Commands Used",
-            value: `**${await get(`${target.id}_commandsUsed`)}**`,
+            value: `**${await get(`${user.id}_commandsUsed`)}**`,
             inline: true,
           },
         ])
-        .setThumbnail(target.displayAvatarURL({ format: "jpg", size: 4096 }))
-        .setColor(await get(`${target.id}_color`))
+        .setThumbnail(user.displayAvatarURL({ format: "jpg", size: 4096 }))
+        .setColor(await get(`${user.id}_color`))
         .setFooter({ text: "Requested by " + interaction.user.username })
         .setTimestamp();
       await interaction.reply({ embeds: [profile] });
