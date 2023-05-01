@@ -28,7 +28,6 @@ module.exports = {
         content: `You are already at full health!`,
         ephemeral: true,
       });
-
     } else {
       let amount = interaction.options.getInteger("amount");
       const max = interaction.options.getBoolean("max");
@@ -56,10 +55,9 @@ module.exports = {
       } else {
         cost = amount;
       }
-
       if (coins < cost || coins === undefined) {
         return interaction.reply({
-          content: `You don't have enough coins to heal yourself for ${amount}HP! (${coinEmoji}${cost})`,
+          content: `You don't have enough coins to heal yourself for ${amount}HP!\n**You have ${coinEmoji}${coins}**, but **you need ${coinEmoji}${cost}**.`,
           ephemeral: true,
         });
       } else {
@@ -83,9 +81,11 @@ module.exports = {
                 value: `**${coinEmoji} ${new_coins}**`,
                 inline: true,
               },
-              { name: "HP", 
-              value: `**${hpEmoji} ${new_hp}** (+${amount})`, 
-              inline: true },
+              {
+                name: "HP",
+                value: `**${hpEmoji} ${new_hp}** (+${amount})`,
+                inline: true,
+              },
             ])
             .setColor(await get(`${user.id}_color`))
             .setTimestamp();
