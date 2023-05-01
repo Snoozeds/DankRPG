@@ -35,13 +35,13 @@ module.exports = {
       aprilAchievement,
     ].filter((achievement) => achievement === `${trueEmoji}`).length;
 
-    if ((await get(`${user.id}_daily_achievement`)) === null) {
+    if (!await get(`${user.id}_daily_achievement`)) {
       await set(`${user.id}_daily_achievement`, `${falseEmoji}`);
     }
-    if ((await get(`${user.id}_learner_achievement`)) === null) {
+    if (!await get(`${user.id}_learner_achievement`)) {
       await set(`${user.id}_learner_achievement`, `${falseEmoji}`);
     }
-    if ((await get(`${user.id}_april_achievement`)) === null) {
+    if (!await get(`${user.id}_april_achievement`)) {
       await set(`${user.id}_april_achievement`, `${falseEmoji}`);
     }
 
@@ -77,7 +77,6 @@ Reward: ${coinEmoji}500`
       .setColor(await get(`${user.id}_color`));
 
     await interaction.reply({ embeds: [embed] });
-
     await incr(`${interaction.user.id}`, "commandsUsed", 1);
   },
 };
