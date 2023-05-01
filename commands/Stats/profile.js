@@ -21,6 +21,11 @@ module.exports = {
     ),
   async execute(interaction) {
     const target = interaction.options.getUser("user") ?? interaction.user;
+    if (await get(`${target.bot}`))
+      return interaction.reply({
+        content: "Bots don't have RPG profiles.\nIf you are looking for information about a bot user, use `/userinfo`.",
+        ephemeral: true,
+      });
     if ((await get(`${target.id}_hasStarted`)) === null) {
       await interaction.reply({
         content: "This user hasn't ran /start yet!",
