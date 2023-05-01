@@ -36,13 +36,13 @@ module.exports = {
     ].filter((achievement) => achievement === `${trueEmoji}`).length;
 
     if ((await get(`${user.id}_daily_achievement`)) === null) {
-      set(`${user.id}_daily_achievement`, `${falseEmoji}`);
+      await set(`${user.id}_daily_achievement`, `${falseEmoji}`);
     }
     if ((await get(`${user.id}_learner_achievement`)) === null) {
-      set(`${user.id}_learner_achievement`, `${falseEmoji}`);
+      await set(`${user.id}_learner_achievement`, `${falseEmoji}`);
     }
     if ((await get(`${user.id}_april_achievement`)) === null) {
-      set(`${user.id}_april_achievement`, `${falseEmoji}`);
+      await set(`${user.id}_april_achievement`, `${falseEmoji}`);
     }
 
     if (user.bot) {
