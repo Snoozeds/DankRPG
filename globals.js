@@ -66,12 +66,12 @@ async function resetStats(userId) {
 // Each level: +5 damage (max 25), +100hp, +100max_hp, +1 armor
 // await calculateXP(id, nextlvl);
 async function calculateXP(id, nextlvl) {
-  // If the user is above level 10, they get less health increase.
+  // If the user is above level 10, they get less health increase, but more armor.
   if ((await get(`${id}_next_level`)) > 10) {
     await incr(id, "level", 1);
     await incr(id, "hp", 50);
     await incr(id, "max_hp", 50);
-    await incr(id, "armor", 1);
+    await incr(id, "armor", 2);
     await set(id, "level_xp", 100 * nextlvl);
     await incr(id, "next_level", 1);
     await set(`${id}_xp`, 0);
