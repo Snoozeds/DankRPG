@@ -28,6 +28,7 @@ module.exports = {
         content: `You are already at full health!`,
         ephemeral: true,
       });
+
     } else {
       let amount = interaction.options.getInteger("amount");
       const max = interaction.options.getBoolean("max");
@@ -82,7 +83,9 @@ module.exports = {
                 value: `**${coinEmoji} ${new_coins}**`,
                 inline: true,
               },
-              { name: "HP", value: `**${hpEmoji} ${new_hp}**`, inline: true },
+              { name: "HP", 
+              value: `**${hpEmoji} ${new_hp}** (+${amount})`, 
+              inline: true },
             ])
             .setColor(await get(`${user.id}_color`))
             .setTimestamp();
