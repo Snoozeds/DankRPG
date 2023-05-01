@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const { set, get, coinEmoji, incr, checkXP } = require("../../globals.js");
 
 module.exports = {
@@ -31,6 +31,7 @@ module.exports = {
       } else {
         await dailyCommandCooldown.addUser(interaction.user.id);
         const xp = 100;
+        let achievementUnlocked = false;
         await incr(`${interaction.user.id}`, `coins`, 250);
         if (
           (await get(`${interaction.user.id}_daily_achievement`)) === null ||
@@ -41,8 +42,10 @@ module.exports = {
             `${interaction.user.id}_daily_achievement`,
             "<:Unlocked:899050875719393281>"
           );
+          achievementUnlocked = true;
         }
-        const Embed = new EmbedBuilder()
+
+        const embed = new EmbedBuilder()
           .setTitle("Daily Reward")
           .setDescription(
             `:white_check_mark: You collected your daily reward of ${coinEmoji}**250**. You now have ${coinEmoji}**${await get(
@@ -58,7 +61,17 @@ module.exports = {
             }`
           )
           .setColor(await get(`${interaction.user.id}_color`));
-        await interaction.reply({ embeds: [Embed] });
+
+        const achievementEmbed = new EmbedBuilder()
+          .setTitle("Achievement Unlocked!")
+          .setDescription(
+            `:white_check_mark: You unlocked the **It Begins** achievement! (+${coinEmoji}**250**.)`
+          )
+          .setColor(await get(`${interaction.user.id}_color`));
+
+        achievementUnlocked == true
+          ? interaction.reply({ embeds: [achievementEmbed, embed] })
+          : interaction.reply({ embeds: [embed] });
         await incr(`${interaction.user.id}`, "commandsUsed", 1);
       }
     }
