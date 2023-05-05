@@ -18,7 +18,7 @@ global.redis = new Redis({
   username: usr,
   password: pwd,
   db: 0,
-  enableReadyCheck: false
+  enableReadyCheck: false,
 }); // Change the username and password in config.json, if you need to. | https://redis.io/docs/management/security/acl/
 
 redis.on("connect", () => {
@@ -80,6 +80,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
   const command = interaction.client.commands.get(interaction.commandName);
 
+  // If the command doesn't exist, log it and return.
   if (!command) {
     console.error(
       `No command matching ${interaction.commandName} was found. Make sure the file exists.`
@@ -87,9 +88,25 @@ client.on(Events.InteractionCreate, async (interaction) => {
     return;
   }
 
+  // If the user has not run start, tell them to do so and return.
+  if (
+    await redis.get(`${interaction.user.id}_hasStarted`) !== "1" &&
+    interaction.commandName != "start"
+  ) {
+    await interaction.reply({
+      content: "You need to start!\nRun </start:1047501428014456834>",
+      ephemeral: true,
+    });
+    return;
+  }
+
   // Achievement for April Fools. (1st-3rd April)
   // REMEMBER. JAVASCRIPT COUNTS MONTHS FROM 0. HOW FUN.
-  if (await redis.get(`${interaction.user.id}_april_achievement`) !== null && await redis.get(`${interaction.user.id}_april_achievement`) !== `${trueEmoji}`) {
+  if (
+    (await redis.get(`${interaction.user.id}_april_achievement`)) !== null &&
+    (await redis.get(`${interaction.user.id}_april_achievement`)) !==
+      `${trueEmoji}`
+  ) {
     const today = new Date();
     const start = new Date(Date.UTC(today.getUTCFullYear(), 3, 1)); // April 1st, UTC
     const end = new Date(Date.UTC(today.getUTCFullYear(), 3, 3)); // April 3rd, UTC
