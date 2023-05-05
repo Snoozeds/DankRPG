@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, set, incr, falseEmoji, coinEmoji } = require("../../globals.js");
+const { get, set, incr, trueEmoji } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -21,36 +21,31 @@ module.exports = {
     ),
 
   async execute(interaction) {
-    let achievementUnlocked = false;
-    let embed = null;
     if (
-      (await get(`${interaction.user.id}_learner_achievement`)) === null ||
-      `${falseEmoji}`
+      (await get(`${interaction.user.id}_learner_achievement`)) !== `${trueEmoji}`
     ) {
       await incr(`${interaction.user.id}`, `coins`, 100);
       await set(
         `${interaction.user.id}_learner_achievement`,
         "<:Unlocked:899050875719393281>"
       );
-      achievementUnlocked = true;
     }
-
-    const cat = interaction.options.getString("category");
-    const Images = new EmbedBuilder()
-      .setTitle(`Commands`)
-      .setDescription(
-        `**Images:**
+const cat = interaction.options.getString("category");
+const Images = new EmbedBuilder()
+.setTitle(`Commands`)
+.setDescription(
+`**Images:**
 \`/avatar\` - Shows your/another user's avatar.
 \`/banner\` - Shows your/another user's banner.
 \`/changemymind\` - Change my mind.
 \`/neko\` - Shows a random neko image.`
-      )
-      .setColor(await get(`${interaction.user.id}_color`));
+)
+.setColor(await get(`${interaction.user.id}_color`));
 
-    const Misc = new EmbedBuilder()
-      .setTitle(`Commands`)
-      .setDescription(
-        `**Misc:**
+const Misc = new EmbedBuilder()
+.setTitle(`Commands`)
+.setDescription(
+`**Misc:**
 \`/8ball\` - Ask the magic 8ball a question.
 \`/commands\` - Shows all available commands.
 \`/ping\` - Shows the bot's ping.
@@ -59,13 +54,13 @@ module.exports = {
 \`/time\` - Get the current time for a timezone.
 \`/uptime\` - Shows the bot's uptime.
 \`/urban\` - Search the urban dictionary.`
-      )
-      .setColor(await get(`${interaction.user.id}_color`));
+)
+.setColor(await get(`${interaction.user.id}_color`));
 
-    const Rpg = new EmbedBuilder()
-      .setTitle(`Commands`)
-      .setDescription(
-        `**RPG:**
+const Rpg = new EmbedBuilder()
+.setTitle(`Commands`)
+.setDescription(
+`**RPG:**
 \`/adventure\` - Starts an RPG adventure. Random chance of getting coins, doesn't scale.
 \`/chop\` - Chop down a tree to get wood. Requires an axe.
 \`/daily\` - Claim your daily reward.
@@ -73,35 +68,35 @@ module.exports = {
 \`/forage\` - Forages for items in the wilderness.
 \`/mine\` - Mines for stone. Requires a pickaxe.
 \`/start\` - Starts your DankRPG journey.`
-      )
-      .setColor(await get(`${interaction.user.id}_color`));
+)
+.setColor(await get(`${interaction.user.id}_color`));
 
-    const Shop = new EmbedBuilder()
-      .setTitle(`Commands`)
-      .setDescription(
-        `**Shop:**
+const Shop = new EmbedBuilder()
+.setTitle(`Commands`)
+.setDescription(
+`**Shop:**
 \`/buy\` - Buy an item from the shop.
 \`/craft\` - Craft an item with the materials you have.
 \`/heal\` - Heal yourself for 1 Coin per 1HP.
 \`/hp\` - Checks how much it costs to heal to MaxHP.
 \`/shop\` - Shows the shop.`
-      )
-      .setColor(await get(`${interaction.user.id}_color`));
+)
+.setColor(await get(`${interaction.user.id}_color`));
 
-    const Social = new EmbedBuilder()
-      .setTitle(`Commands`)
-      .setDescription(
-        `**Social:**
+const Social = new EmbedBuilder()
+.setTitle(`Commands`)
+.setDescription(
+`**Social:**
 \`/accept\` - Accept a marriage request.
 \`/divorce\` - Divorce your spouse.
 \`/marry\` - Marry another user.`
-      )
-      .setColor(await get(`${interaction.user.id}_color`));
+)
+.setColor(await get(`${interaction.user.id}_color`));
 
-    const Stats = new EmbedBuilder()
-      .setTitle(`Commands`)
-      .setDescription(
-        `**Stats:**
+const Stats = new EmbedBuilder()
+.setTitle(`Commands`)
+.setDescription(
+`**Stats:**
 \`/achievements\` - Shows your/another user's achievements.
 \`/cooldowns\` - Shows your cooldowns.
 \`/info\` - View info about DankRPG.
@@ -112,30 +107,22 @@ module.exports = {
 \`/serverinfo\` - Shows info about the current server.
 \`/skills\` - Explains your skills.
 \`/userinfo\` - Shows info about you or another user.`
-      )
-      .setColor(await get(`${interaction.user.id}_color`));
+)
+.setColor(await get(`${interaction.user.id}_color`));
 
     if (cat === "Images") {
-      embed = Images;
+      await interaction.reply({ embeds: [Images] });
     } else if (cat === "Misc") {
-      embed = Misc;
+      await interaction.reply({ embeds: [Misc] });
     } else if (cat === "Rpg") {
-      embed = Rpg;
+      await interaction.reply({ embeds: [Rpg] });
     } else if (cat === "Shop") {
-      embed = Shop;
+      await interaction.reply({ embeds: [Shop] });
     } else if (cat === "Social") {
-      embed = Social;
+      await interaction.reply({ embeds: [Social] });
     } else if (cat === "Stats") {
-      embed = Stats;
+      await interaction.reply({ embeds: [Stats] });
     }
-    const achievementEmbed = new EmbedBuilder()
-      .setTitle("Achievement Unlocked!")
-      .setDescription(
-        `:white_check_mark: You unlocked the **Learner** achievement! (+${coinEmoji}**100**.)`
-      )
-      .setColor(await get(`${interaction.user.id}_color`));
-
-      (achievementUnlocked = true) ? interaction.reply({ embeds: [achievementEmbed, embed] }) : interaction.reply({ embeds: [embed] });
     await incr(`${interaction.user.id}`, "commandsUsed", 1);
   },
 };
