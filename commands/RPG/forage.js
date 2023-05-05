@@ -12,13 +12,6 @@ module.exports = {
     .setDescription("Forages for items in the wilderness."),
   async execute(interaction) {
     const user = interaction.user;
-    const started = await get(`${interaction.user.id}_hasStarted`);
-    if (started === undefined) {
-      await interaction.reply({
-        content: "You need to start!\nRun </start:1034285921115324517>",
-        ephemeral: true,
-      });
-    }
 
     // The command errors if the user's items are not defined (null.)
     const items = ["stone", "wood", "diamond"];

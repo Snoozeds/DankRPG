@@ -7,7 +7,7 @@ const {
   hpEmoji,
   coinEmoji,
   checkXP,
-  resetStats
+  resetStats,
 } = require("../../globals.js");
 const chance = require("chance").Chance();
 
@@ -18,7 +18,6 @@ module.exports = {
       "Start a fight. Rewards and damage increase per level. Higher chance of winning per damage."
     ),
   async execute(interaction) {
-    
     // Define enemy type here so it can be random.
     const enemyTypes = require("./enemies.json").enemyTypes;
     const enemy = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
@@ -48,123 +47,115 @@ module.exports = {
     // User's success rate for the fight.
     const successrate = (await get(`${user.id}_damage`)) * 4;
 
-    const started = await get(`${interaction.user.id}_hasStarted`);
-    if (started === undefined) {
+    const {
+      CommandCooldown,
+      msToMinutes,
+    } = require("discord-command-cooldown");
+    const ms = require("ms");
+    const fightCommandCooldown = new CommandCooldown(
+      "fight",
+      ms(`${chance.integer({ min: 10, max: 20 })}s`)
+    );
+    const userCooldowned = await fightCommandCooldown.getUser(
+      interaction.user.id
+    );
+    if (userCooldowned) {
+      const timeLeft = msToMinutes(userCooldowned.msLeft, false);
       await interaction.reply({
-        content: "You need to start!\nRun </start:1034285921115324517>",
+        content: `You need to wait ${timeLeft.seconds}s before using this command again!`,
         ephemeral: true,
       });
     } else {
-      const {
-        CommandCooldown,
-        msToMinutes,
-      } = require("discord-command-cooldown");
-      const ms = require("ms");
-      const fightCommandCooldown = new CommandCooldown(
-        "fight",
-        ms(`${chance.integer({ min: 10, max: 20 })}s`)
-      );
-      const userCooldowned = await fightCommandCooldown.getUser(
-        interaction.user.id
-      );
-      if (userCooldowned) {
-        const timeLeft = msToMinutes(userCooldowned.msLeft, false);
-        await interaction.reply({
-          content: `You need to wait ${timeLeft.seconds}s before using this command again!`,
-          ephemeral: true,
-        });
+      // Die condition
+      if ((await get(`${user.id}_hp`)) <= hpLossT) {
+        if ((await get(`${user.id}_lifesaver`)) >= 1) {
+          await decr(`${user.id}_lifesaver`, 1);
+          await interaction.reply({
+            content: `You died, but you used a lifesaver! Your stats stay the same.\n**You should heal.**`,
+            ephemeral: true,
+          });
+        } else {
+          await interaction.reply({
+            content: `You died! You lose everything.`,
+          });
+          resetStats(user.id);
+        }
       } else {
-        // Die condition
-        if ((await get(`${user.id}_hp`)) <= hpLossT) {
-          if ((await get(`${user.id}_lifesaver`)) >= 1) {
-            await decr(`${user.id}_lifesaver`, 1);
+        await fightCommandCooldown.addUser(interaction.user.id);
+        if (
+          chance.bool({
+            likelihood: 0 + successrate,
+          }) === true
+        ) {
+          // Chance of winning increases with damage (damage * 4)
+          if (newHP < hpLossT) {
+            const embed = new EmbedBuilder()
+              .setTitle(`Fight against ${enemy}!`)
+              .setDescription(
+                `You start a fight.\n**- ${hpLossT} ${hpEmoji} (${newHP}) :warning:**\n**+ ${coins} ${coinEmoji} (${newCoins})**${
+                  (await get(`${interaction.user.id}_xp_alerts`)) == "1"
+                    ? `\n**+ ${xp}XP**`
+                    : ""
+                } ${
+                  (await checkXP(interaction.user.id, xp)) == true
+                    ? ` :up: **Level up!** Check /levels.`
+                    : ""
+                }`
+              )
+              .setColor(await get(`${user.id}_color`));
+            await decr(user.id, "hp", hpLossT);
+            await incr(user.id, "coins", coins);
+            await incr(user.id, "commandsUsed", 1);
             await interaction.reply({
-              content: `You died, but you used a lifesaver! Your stats stay the same.\n**You should heal.**`,
-              ephemeral: true,
+              embeds: [embed],
             });
           } else {
+            const embed = new EmbedBuilder()
+              .setTitle(`Fight against ${enemy}!`)
+              .setDescription(
+                `You start a fight.\n**- ${hpLossT} ${hpEmoji} (${newHP})**\n**+ ${coins} ${coinEmoji} (${newCoins})**${
+                  (await get(`${interaction.user.id}_xp_alerts`)) == "1"
+                    ? `\n**+ ${xp}XP**`
+                    : ""
+                } ${
+                  (await checkXP(interaction.user.id, xp)) == true
+                    ? ` :up: **Level up!** Check /levels.`
+                    : ""
+                }`
+              )
+              .setColor(await get(`${user.id}_color`));
+            await decr(user.id, "hp", hpLossT);
+            await incr(user.id, "coins", coins);
+            await incr(user.id, "commandsUsed", 1);
             await interaction.reply({
-              content: `You died! You lose everything.`
+              embeds: [embed],
             });
-            resetStats(user.id);
           }
         } else {
-          await fightCommandCooldown.addUser(interaction.user.id);
-          if (
-            chance.bool({
-              likelihood: 0 + successrate,
-            }) === true
-          ) {
-            // Chance of winning increases with damage (damage * 4)
-            if (newHP < hpLossT) {
-              const embed = new EmbedBuilder()
-                .setTitle(`Fight against ${enemy}!`)
-                .setDescription(
-                  `You start a fight.\n**- ${hpLossT} ${hpEmoji} (${newHP}) :warning:**\n**+ ${coins} ${coinEmoji} (${newCoins})**${
-                    (await get(`${interaction.user.id}_xp_alerts`)) == "1"
-                      ? `\n**+ ${xp}XP**`
-                      : ""
-                  } ${
-                    (await checkXP(interaction.user.id, xp)) == true
-                      ? ` :up: **Level up!** Check /levels.`
-                      : ""
-                  }`
-                )
-                .setColor(await get(`${user.id}_color`));
-              await decr(user.id, "hp", hpLossT);
-              await incr(user.id, "coins", coins);
-              await incr(user.id, "commandsUsed", 1);
-              await interaction.reply({
-                embeds: [embed],
-              });
-            } else {
-              const embed = new EmbedBuilder()
-                .setTitle(`Fight against ${enemy}!`)
-                .setDescription(
-                  `You start a fight.\n**- ${hpLossT} ${hpEmoji} (${newHP})**\n**+ ${coins} ${coinEmoji} (${newCoins})**${
-                    (await get(`${interaction.user.id}_xp_alerts`)) == "1"
-                      ? `\n**+ ${xp}XP**`
-                      : ""
-                  } ${
-                    (await checkXP(interaction.user.id, xp)) == true
-                      ? ` :up: **Level up!** Check /levels.`
-                      : ""
-                  }`
-                )
-                .setColor(await get(`${user.id}_color`));
-              await decr(user.id, "hp", hpLossT);
-              await incr(user.id, "coins", coins);
-              await incr(user.id, "commandsUsed", 1);
-              await interaction.reply({
-                embeds: [embed],
-              });
-            }
+          if (newHP < hpLossT) {
+            const embed = new EmbedBuilder()
+              .setTitle(`Fight against ${enemy}!`)
+              .setDescription(
+                `You start a fight.\n**You lose your fight!**\n**- ${hpLossT} ${hpEmoji}(${newHP}) :warning:**`
+              )
+              .setColor(await get(`${user.id}_color`));
+            await decr(user.id, "hp", hpLossT);
+            await incr(user.id, "commandsUsed", 1);
+            await interaction.reply({
+              embeds: [embed],
+            });
           } else {
-            if (newHP < hpLossT) {
-              const embed = new EmbedBuilder()
-                .setTitle(`Fight against ${enemy}!`)
-                .setDescription(
-                  `You start a fight.\n**You lose your fight!**\n**- ${hpLossT} ${hpEmoji}(${newHP}) :warning:**`
-                )
-                .setColor(await get(`${user.id}_color`));
-              await decr(user.id, "hp", hpLossT);
-              await incr(user.id, "commandsUsed", 1);
-              await interaction.reply({
-                embeds: [embed],
-              });
-            } else {
-              const embed = new EmbedBuilder()
-                .setTitle(`Fight against ${enemy}!`)
-                .setDescription(
-                  `You start a fight.\n**You lose your fight!**\n**- ${hpLossT} ${hpEmoji}(${newHP})**`
-                )
-                .setColor(await get(`${user.id}_color`));
-              await decr(user.id, "hp", hpLossT);
-              await incr(user.id, "commandsUsed", 1);
-              await interaction.reply({
-                embeds: [embed],
-              });
-            }
+            const embed = new EmbedBuilder()
+              .setTitle(`Fight against ${enemy}!`)
+              .setDescription(
+                `You start a fight.\n**You lose your fight!**\n**- ${hpLossT} ${hpEmoji}(${newHP})**`
+              )
+              .setColor(await get(`${user.id}_color`));
+            await decr(user.id, "hp", hpLossT);
+            await incr(user.id, "commandsUsed", 1);
+            await interaction.reply({
+              embeds: [embed],
+            });
           }
         }
       }

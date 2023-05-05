@@ -34,13 +34,7 @@ module.exports = {
     const response = interaction.options.getString("color");
     if (interaction.options.getSubcommand() === "embedcolor") {
       var reg = /^#([0-9a-f]{3}([0-9a-f]{3})?)$/i;
-      const started = await get(interaction.user.id_hasStarted);
-      if (started === undefined) {
-        await interaction.reply({
-          content: "You need to start!\nRun </start:1034285921115324517>",
-          ephemeral: true,
-        });
-      } else if (reg.test(response) === false) {
+      if (reg.test(response) === false) {
         await interaction.reply({
           content:
             "That is not a valid HEX color code.\nA valid HEX color code must be a 3 or 6 digit hexadecimal number with a '#' symbol at the beginning.",
@@ -54,29 +48,21 @@ module.exports = {
         });
       }
     } else if (interaction.options.getSubcommand() === "xpalerts") {
-      const started = await get(interaction.user.id_hasStarted);
-      if (started === undefined) {
+      let response = interaction.options.getBoolean("xpalerts");
+      if (response === true) {
+        await set(`${interaction.user.id}_xp_alerts`, "1");
         await interaction.reply({
-          content: "You need to start!\nRun </start:1034285921115324517>",
+          content: "You will now get xp alerts.",
           ephemeral: true,
         });
-      } else {
-        let response = interaction.options.getBoolean("xpalerts");
-        if (response === true) {
-          await set(`${interaction.user.id}_xp_alerts`, "1");
-          await interaction.reply({
-            content: "You will now get xp alerts.",
-            ephemeral: true,
-          });
-        }
-        if (response === false) {
-          await set(`${interaction.user.id}_xp_alerts`, "0");
-          await interaction.reply({
-            content:
-              "You will no longer get xp alerts. However, you'll still be told *when* you level up.",
-            ephemeral: true,
-          });
-        }
+      }
+      if (response === false) {
+        await set(`${interaction.user.id}_xp_alerts`, "0");
+        await interaction.reply({
+          content:
+            "You will no longer get xp alerts. However, you'll still be told *when* you level up.",
+          ephemeral: true,
+        });
       }
     }
   },
