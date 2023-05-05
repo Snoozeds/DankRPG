@@ -43,7 +43,7 @@ module.exports = {
         },
         {
           name: `:up: Level (${await get(`${interaction.user.id}_level`)})`,
-          value: `You gain more rewards per level. You gain XP by using commands.\nEach level, you get +5 damage (max 25), +100hp, +100maxHP, +1 armor.`,
+          value: `You gain more rewards per level. You gain XP by using commands.`,
           inline: false,
         }
       )
