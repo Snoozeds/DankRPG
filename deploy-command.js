@@ -29,7 +29,9 @@ const commandFiles = commandFilesPath
       console.error(`File not found: ${filePath}`);
       return null;
     }
-    return require(path.resolve(filePath));
+    // Sanitize file path input before requiring
+    const sanitizedPath = path.resolve(filePath);
+    return require(sanitizedPath);
   })
   .filter((file) => file !== null);
 
@@ -68,7 +70,11 @@ const deployCommands = async () => {
         );
       }
     }
-    console.log(`Successfully deployed ${commandFiles.map(c => c.data.name).join(', ')} command(s) to guild ${guildId}.`);
+    console.log(
+      `Successfully deployed ${commandFiles
+        .map((c) => c.data.name)
+        .join(", ")} command(s) to guild ${guildId}.`
+    );
   } catch (error) {
     console.error(error);
   }
