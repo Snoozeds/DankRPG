@@ -15,6 +15,8 @@
 (userid)_commandsUsed: How many commands the player has used : 1
 
 # NOT included in /start (will return null if blank):
+# When these are used in a command, they are typically changed from null to their default values of 0. 
+# In some cases, they may instead be increased by 1. Please note that Redis will INCR a null value to 1. However, other databases may not behave the same.
 (userid)_votes : How many votes the player has : null
 (userid)_lifesaver: If the player has a lifesaver/amount : null
 (userid)_diamond: If the player has a diamond/amount : null
@@ -23,6 +25,7 @@
 (userid)_axe: If the player has an axe : null
 (userid)_pickaxe: If the player has a pickaxe : null
 (userid)_stoneRing: If the player has a stone ring : null
+(userid)_interactions: If the player wants interactions : null
 
 # Achievements
 # will return null. However, should be whatever the denyEmoji is (globals.js) when checking /achievements.

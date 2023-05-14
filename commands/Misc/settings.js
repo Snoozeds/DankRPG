@@ -29,6 +29,21 @@ module.exports = {
             .setDescription("Whether or not you want xp alerts.")
             .setRequired(true)
         )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("interactions")
+        .setDescription(
+          "Changes whether or not other users can use certain commands on you."
+        )
+        .addBooleanOption((option) =>
+          option
+            .setName("interactions")
+            .setDescription(
+              "Whether or not you want other users to be able to use certain commands on you."
+            )
+            .setRequired(true)
+        )
     ),
   async execute(interaction) {
     const response = interaction.options.getString("color");
@@ -61,6 +76,23 @@ module.exports = {
         await interaction.reply({
           content:
             "You will no longer get xp alerts. However, you'll still be told *when* you level up.",
+          ephemeral: true,
+        });
+      }
+    } else if (interaction.options.getSubcommand() === "interactions") {
+      let response = interaction.options.getBoolean("interactions");
+      if (response === true) {
+        await set(`${interaction.user.id}_interactions`, "1");
+        await interaction.reply({
+          content:
+            "Other users can now use certain commands on you.\nThese are as follows: `marry`, `banner`.",
+          ephemeral: true,
+        });
+      }
+      if (response === false) {
+        await set(`${interaction.user.id}_interactions`, "0");
+        await interaction.reply({
+          content: "Other users can now no longer use certain commands on you.\nThese are as follows: `marry`, `banner`.",
           ephemeral: true,
         });
       }

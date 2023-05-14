@@ -26,6 +26,19 @@ module.exports = {
           ephemeral: true,
         });
       }
+      const authorInteractions = await get(`${author.id}_interactions`);
+      if (authorInteractions === null) {
+        await set(`${author.id}_interactions`, "1");
+      }
+      const userInteractions = await get(`${user.id}_interactions`);
+      if (userInteractions === null) {
+        await set(`${user.id}_interactions`, "1");
+      } else if (userInteractions === "0") {
+        return interaction.reply({
+          content: "This user has interactions disabled!",
+          ephemeral: true,
+        });
+      }
       if ((await get(`${user.id}_marriageStatus`)) === "married") {
         return interaction.reply({
           content: "This user is already married!",
