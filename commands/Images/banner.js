@@ -15,8 +15,12 @@ module.exports = {
     const user = interaction.options.getUser("user") ?? interaction.user;
     const fuser = await user.fetch({ force: true });
     if (fuser.banner === null) {
+      const message =
+        user.id === interaction.user.id
+          ? "You have no banner"
+          : "This user has no banner";
       await interaction.reply({
-        content: `This user has no banner. Their accent color is ${fuser.hexAccentColor}`,
+        content: `${message}. The accent color is ${fuser.hexAccentColor}`,
         ephemeral: false,
       });
     } else {
