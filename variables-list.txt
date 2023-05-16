@@ -27,6 +27,13 @@
 (userid)_stoneRing: If the player has a stone ring : null
 (userid)_interactions: If the player wants interactions : null
 
+# Marriages
+(userid)_marriageRequest: The id of the player who sent the request : null
+(userid)_sender: Whether the player is the sender of the request : null
+(userid)_marriageStatus: The current marriage status of the player : null
+(userid)_marriedTo: Who the player is married to : null
+(userid)_marriageTime: The unix seconds of the time /accept was run : null
+
 # Achievements
 # will return null. However, should be whatever the denyEmoji is (globals.js) when checking /achievements.
 (userid)_daily_achievement: If the player has completed the daily achievement.
