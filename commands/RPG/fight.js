@@ -78,7 +78,7 @@ module.exports = {
           await interaction.reply({
             content: `You died! You lose everything.`,
           });
-          resetStats(user.id);
+          await resetStats(user.id);
         }
       } else {
         await fightCommandCooldown.addUser(interaction.user.id);
