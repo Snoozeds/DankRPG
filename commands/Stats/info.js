@@ -18,7 +18,8 @@ module.exports = {
           c.guilds.cache.size
         }\n\n**__Package Info__**\nNode: ${
           process.version
-        }\ndiscord.js: ${DJS}\n\nLinks: [Invite](https://discord.com/api/oauth2/authorize?client_id=855479925863481345&permissions=2147601408&scope=bot%20applications.commands) | [Support Server](https://discord.gg/Cc3xBSpWeB) | [Docs](https://docs.dankrpg.xyz)`
+        }\ndiscord.js: ${DJS}\n\n**__Credits:__**\nSome emoji used by DankRPG is from [Pixeltier](https://pixeltier.itch.io/pixeltiers-16x16-rpg-icon-pack).
+        \nLinks: [Invite](https://discord.com/api/oauth2/authorize?client_id=855479925863481345&permissions=2147601408&scope=bot%20applications.commands) | [Support Server](https://discord.gg/Cc3xBSpWeB) | [Docs](https://docs.dankrpg.xyz)`
       )
       .setColor(await get(`${interaction.user.id}_color`))
       .setFooter({ text: `Made by Snoozeds#0802 <3` });

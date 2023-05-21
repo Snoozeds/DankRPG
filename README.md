@@ -1,15 +1,15 @@
 # DankRPG
 
 Welcome to DankRPG's Github repository. This mainly exists to keep transparency,
-and also allow others to learn from it. If you want to create something new out of
-DankRPG, you are welcome to do so, as long as you follow the [license](https://choosealicense.com/licenses/apache-2.0/).
+and also allow others to learn from [the DankRPG bot](https://dankrpg.xyz).
 
 ## What is DankRPG?
 
 DankRPG is a Discord Economy and RPG bot that was originally written in [BDFD](https://botdesignerdiscord.com/),
 then [aoi.js](https://aoi.js.org) and now finally [discord.js](https://discord.js.org). It offers a lot of rpg/economy features,
-and is constantly being updated. It is also fully open source, so you can learn from it, or even use it as a base
-for your own bot. It uses the [Apache 2.0 License](hhttps://choosealicense.com/licenses/apache-2.0/).
+and is constantly being updated. It is also open source, so you can learn from this repository, or even use it as a base
+for your own bot. Code in this Github repository falls under the [Apache 2.0 License](https://choosealicense.com/licenses/apache-2.0/). 
+Some emotes used by DankRPG are not within this repository, and are instead from [Pixeltier](https://pixeltier.itch.io/pixeltiers-16x16-rpg-icon-pack).
 
 ## New features of the rewrite:
 
@@ -27,7 +27,7 @@ for your own bot. It uses the [Apache 2.0 License](hhttps://choosealicense.com/l
 
 ## Pre-requesites (NPM):
 
-- [Discord.js](https://discord.js.org) **(v14.6.0)**
+- [Discord.js](https://discord.js.org) **(v14+)**
 - [ioRedis](https://npmjs.com/package/ioredis)
 - [chance.js](https://npmjs.com/package/chance)
 - [discord-command-cooldown](https://npmjs.com/package/discord-command-cooldown)
