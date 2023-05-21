@@ -2,13 +2,16 @@ const chance = require("chance").Chance();
 
 // Emoji variables. Change these out with your own.
 // Discord bots have "Nitro", so this is fine. To grab the id, escape the emoji with a backslash (e.g \:emoji:)
-let coinEmoji = "<:RPGCoin:855767372534906920>";
-let hpEmoji = "<:RPGHeart:855755205102534686>";
-let armorEmoji = "<:RPGArmor:857442815524077599>";
-let attackEmoji = "<:ATK:915550276633628692>";
-let diamondEmoji = "<:diamond:1045191828800016444>";
-let falseEmoji = "<:Locked:899050875916541963>";
-let trueEmoji = "<:Unlocked:899050875719393281>";
+const coinEmoji = "<:Coins:1109913124171153438>";
+const hpEmoji = "<:RPGHeart:855755205102534686>";
+const armorEmoji = "<:GrayShield:1109923974831415316>";
+const attackEmoji = "<:GraySword:1109925659171623052>";
+const diamondEmoji = "<:Diamond:1109925710799319181>";
+const woodEmoji = "<:WoodLogs:1109931701469192294>";
+const stoneEmoji = "<:StoneDust:1109931144838922320>";
+const stoneRingEmoji = "<:StoneRing:1109928129763483688>"
+const falseEmoji = "<:Locked:899050875916541963>";
+const trueEmoji = "<:Unlocked:899050875719393281>";
 
 // Get a value from the database.
 // await get(`${id}_key`);
@@ -129,6 +132,9 @@ module.exports = {
   armorEmoji,
   attackEmoji,
   diamondEmoji,
+  woodEmoji,
+  stoneEmoji,
+  stoneRingEmoji,
   get,
   set,
   incr,

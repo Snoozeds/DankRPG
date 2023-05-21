@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, incr, coinEmoji } = require("../../globals.js");
+const { get, incr, coinEmoji, stoneRingEmoji } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -22,7 +22,7 @@ module.exports = {
           inline: false,
         },
         {
-          name: `Stone Ring`,
+          name: `${stoneRingEmoji} Stone Ring`,
           value: `Cost: ${coinEmoji}**1500**\nIncreases your Armor stat by 1.`,
           inline: false,
         },

@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, set, coinEmoji } = require("../../globals.js");
+const { get, set, coinEmoji, diamondEmoji, stoneEmoji, woodEmoji } = require("../../globals.js");
 
 // Define the prices of each item in the inventory.
 const inventoryPrices = {
@@ -47,16 +47,19 @@ module.exports = {
         name: "Diamonds",
         key: `${user.id}_diamond`,
         price: inventoryPrices._diamond,
+        emoji: diamondEmoji,
       },
       {
         name: "Stone",
         key: `${user.id}_stone`,
         price: inventoryPrices._stone,
+        emoji: stoneEmoji,
       },
       {
         name: "Wood",
         key: `${user.id}_wood`,
         price: inventoryPrices._wood,
+        emoji: woodEmoji,
       },
     ];
 
@@ -70,7 +73,7 @@ module.exports = {
       const value = await get(item.key);
       if (value && item.price && item.price > 0 && value > 0) {
         const itemValue = value * item.price;
-        inventoryDescription += `${item.name}: ${value} (${coinEmoji}${itemValue})\n`;
+        inventoryDescription += `${item.emoji} ${item.name}: ${value} (${coinEmoji}${itemValue})\n`;
         totalInventoryValue += itemValue;
       } else if (value && value > 0) {
         inventoryDescription += `${item.name}: ${value}\n`;
