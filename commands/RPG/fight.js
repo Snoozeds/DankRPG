@@ -92,7 +92,7 @@ module.exports = {
             const embed = new EmbedBuilder()
               .setTitle(`Fight against ${enemy}!`)
               .setDescription(
-                `You start a fight.\n**- ${hpLossT} ${hpEmoji} (${newHP}) :warning:**\n**+ ${coins} ${coinEmoji} (${newCoins})**${
+                `You start a fight.\n**\\- ${hpLossT} ${hpEmoji} (${newHP}) :warning:**\n**+ ${coins} ${coinEmoji} (${newCoins})**${
                   (await get(`${interaction.user.id}_xp_alerts`)) == "1"
                     ? `\n**+ ${xp}XP**`
                     : ""
@@ -113,7 +113,7 @@ module.exports = {
             const embed = new EmbedBuilder()
               .setTitle(`Fight against ${enemy}!`)
               .setDescription(
-                `You start a fight.\n**- ${hpLossT} ${hpEmoji} (${newHP})**\n**+ ${coins} ${coinEmoji} (${newCoins})**${
+                `You start a fight.\n**\\- ${hpLossT} ${hpEmoji} (${newHP})**\n**+ ${coins} ${coinEmoji} (${newCoins})**${
                   (await get(`${interaction.user.id}_xp_alerts`)) == "1"
                     ? `\n**+ ${xp}XP**`
                     : ""
@@ -136,7 +136,7 @@ module.exports = {
             const embed = new EmbedBuilder()
               .setTitle(`Fight against ${enemy}!`)
               .setDescription(
-                `You start a fight.\n**You lose your fight!**\n**- ${hpLossT} ${hpEmoji}(${newHP}) :warning:**`
+                `You start a fight.\n**You lose your fight!**\n**\\- ${hpLossT} ${hpEmoji}(${newHP}) :warning:**`
               )
               .setColor(await get(`${user.id}_color`));
             await decr(user.id, "hp", hpLossT);
@@ -148,7 +148,7 @@ module.exports = {
             const embed = new EmbedBuilder()
               .setTitle(`Fight against ${enemy}!`)
               .setDescription(
-                `You start a fight.\n**You lose your fight!**\n**- ${hpLossT} ${hpEmoji}(${newHP})**`
+                `You start a fight.\n**You lose your fight!**\n**\\- ${hpLossT} ${hpEmoji}(${newHP})**`
               )
               .setColor(await get(`${user.id}_color`));
             await decr(user.id, "hp", hpLossT);
