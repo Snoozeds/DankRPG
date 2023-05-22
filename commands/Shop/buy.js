@@ -32,7 +32,7 @@ module.exports = {
       if ((await get(`${user.id}_lifesaver`)) === null) {
         await set(`${user.id}_lifesaver`, 1);
       } else {
-        await incr(`${user.id}`, "lifesavers", 1);
+        await incr(`${user.id}`, "lifesaver", 1);
       }
       await decr(`${user.id}`, "coins", 500);
       return interaction.reply({
