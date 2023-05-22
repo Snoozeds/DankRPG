@@ -89,11 +89,6 @@ module.exports = {
       .setTitle(`${user.username}'s Inventory`)
       .setFields(
         {
-          name: "Balance",
-          value: `${coinEmoji}**${await get(`${user.id}_coins`)}**`,
-          inline: true,
-        },
-        {
           name: "Total Inventory Value",
           value: `${coinEmoji}**${totalInventoryValue}**`,
           inline: true,
