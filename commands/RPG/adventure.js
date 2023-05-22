@@ -36,7 +36,7 @@ module.exports = {
           .setDescription(
             `<@${
               interaction.user.id
-            }> starts an adventure.\nThey find **${coinEmoji}${outcome}**, for a total of **${coinEmoji}${await get(
+            }> starts an adventure.\nThey find **${coinEmoji}${outcome}**. They now have a balance of **${coinEmoji}${await get(
               `${interaction.user.id}_coins`
             )}**.${
               (await get(`${interaction.user.id}_xp_alerts`)) == "1"
