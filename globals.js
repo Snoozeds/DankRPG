@@ -6,6 +6,7 @@ const coinEmoji = "<:Coins:1109913124171153438>";
 const hpEmoji = "<:RPGHeart:855755205102534686>";
 const armorEmoji = "<:GrayShield:1109923974831415316>";
 const attackEmoji = "<:GraySword:1109925659171623052>";
+const lifesaverEmoji = "<:Lifesaver:1110240460347293828>";
 const diamondEmoji = "<:Diamond:1109925710799319181>";
 const woodEmoji = "<:WoodLogs:1109931701469192294>";
 const stoneEmoji = "<:StoneDust:1109931144838922320>";
@@ -131,6 +132,7 @@ module.exports = {
   hpEmoji,
   armorEmoji,
   attackEmoji,
+  lifesaverEmoji,
   diamondEmoji,
   woodEmoji,
   stoneEmoji,

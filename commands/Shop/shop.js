@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, incr, coinEmoji, stoneRingEmoji } = require("../../globals.js");
+const { get, incr, coinEmoji, stoneRingEmoji, lifesaverEmoji } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -15,7 +15,7 @@ module.exports = {
       .setColor(await get(`${user.id}_color`))
       .setFields([
         {
-          name: `Lifesaver (Owned: ${
+          name: `${lifesaverEmoji} Lifesaver (Owned: ${
             (await get(`${user.id}_lifesaver`)) || 0
           })`,
           value: `Cost: ${coinEmoji}**500**\nSaves you from death. Used automatically.`,
