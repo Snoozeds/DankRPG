@@ -43,5 +43,3 @@ module.exports = {
     }
   },
 };
-
-// discord.js :)
