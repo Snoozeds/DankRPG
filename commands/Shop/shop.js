@@ -27,7 +27,7 @@ module.exports = {
 
     const select = new StringSelectMenuBuilder()
       .setCustomId("shop")
-      .setPlaceholder("Select an item to buy")
+      .setPlaceholder("Select an item category.")
       .addOptions(
         new StringSelectMenuOptionBuilder()
           .setLabel("Health items")
