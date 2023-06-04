@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, incr, checkXP } = require("../../globals.js");
+const { set, get, incr, checkXP } = require("../../globals.js");
 const chance = require("chance").Chance();
 const { CommandCooldown, msToMinutes } = require("discord-command-cooldown");
 const ms = require("ms");
@@ -12,6 +12,10 @@ module.exports = {
     const user = interaction.user;
     const pickaxe = await get(`${user.id}_pickaxe`);
     const embed = new EmbedBuilder();
+
+    if(await get(`${user.id}_stone`) == null || await get(`${user.id}_stone`) == "0" || await get(`${user.id}_stone`) == "") {
+      await set(`${user.id}_stone`, 0)
+    }
 
     // If the user has a pickaxe, they mine faster, get more stone, and get more XP.
     const [mineCooldownTime, minStone, maxStone, xpAmount] =
