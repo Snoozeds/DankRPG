@@ -36,7 +36,6 @@ module.exports = {
       const spouseUser = await interaction.client.users.fetch(spouse);
 
       // Send message
-      // Discriminators will be removed in the future. https://discord.com/blog/usernames
       const message = await interaction.reply({
         content: `Are you sure you want to divorce **${spouseUser.username}**?`,
         components: [row],
