@@ -63,14 +63,14 @@ module.exports = {
       if (response === true) {
         await set(`${interaction.user.id}_interactions`, "1");
         await interaction.reply({
-          content: "Other users can now use certain commands on you.\nThese are as follows: `marry`.",
+          content: "Other users can now use certain commands on you.\nThese are as follows: `marry`, `duel`.",
           ephemeral: true,
         });
       }
       if (response === false) {
         await set(`${interaction.user.id}_interactions`, "0");
         await interaction.reply({
-          content: "Other users can now no longer use certain commands on you.\nThese are as follows: `marry`.",
+          content: "Other users can now no longer use certain commands on you.\nThese are as follows: `marry`. `duel`.",
           ephemeral: true,
         });
       }
