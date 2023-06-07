@@ -22,7 +22,7 @@ module.exports = {
     if (userCooldowned) {
       const timeLeft = msToMinutes(userCooldowned.msLeft, false);
       return interaction.reply({
-        content: `You need to wait ${timeLeft.seconds}s before using this command again!`,
+        content: `You need to wait ${timeLeft.minutes}m ${timeLeft.seconds}s before using this command again!`,
         ephemeral: true,
       });
     }
