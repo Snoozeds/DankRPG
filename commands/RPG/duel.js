@@ -17,6 +17,7 @@ module.exports = {
     const duelCommandCooldown = new CommandCooldown("duel", ms(`1h`));
     const duelCancelCooldown = new CommandCooldown("duelCancel", ms(`5m`));
     const userCooldowned = await duelCommandCooldown.getUser(user.id);
+    const targetCooldowned = await duelCommandCooldown.getUser(interaction.options.getUser("user").id);
     const userCancelled = await duelCancelCooldown.getUser(user.id);
 
     if (userCooldowned) {
@@ -24,6 +25,14 @@ module.exports = {
       return interaction.reply({
         content: `You need to wait ${timeLeft.minutes}m ${timeLeft.seconds}s before using this command again!`,
         ephemeral: true,
+      });
+    }
+
+    if(targetCooldowned) {
+      const timeLeft = msToMinutes(targetCooldowned.msLeft, false);
+      return interaction.reply({
+        content: `That user needs to wait ${timeLeft.minutes}m ${timeLeft.seconds}s before you can duel them.`,
+        ephemeral: false,
       });
     }
 
