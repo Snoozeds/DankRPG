@@ -19,6 +19,16 @@ module.exports = {
         ephemeral: true,
       });
     } else {
+      if ((await get(`${user.id}_duel`)) === "true") {
+        if (Date.now() - (await get(`${user.id}_duelTimestamp`)) < 900000) {
+          return interaction.reply({
+            content: `You are in a duel currently and cannot heal.\n> :information_source: If you are stuck in a duel, it will automatically end after 15 minutes.`,
+            ephemeral: true,
+          });
+        } else {
+          await set(`${user.id}_duel`, false);
+        }
+      }
       let amount = interaction.options.getInteger("amount");
       const max = interaction.options.getBoolean("max");
       const coins = await get(`${id}_coins`);
