@@ -4,30 +4,15 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("time")
     .setDescription("Get the current time for a timezone.")
-    .addStringOption((option) =>
-      option
-        .setName("timezone")
-        .setDescription(
-          "The timezone to get the time for. (e.g, 'Europe/London')"
-        )
-        .setRequired(true)
-    )
-    .addStringOption((option) =>
-      option
-        .setName("format")
-        .setDescription(
-          "The format string for the time. (e.g, 'DD/MM/YYYY HH:mm:ss')"
-        )
-        .setRequired(false)
-    ),
+    .addStringOption((option) => option.setName("timezone").setDescription("The timezone to get the time for. (e.g, 'Europe/London')").setRequired(true))
+    .addStringOption((option) => option.setName("format").setDescription("The format string for the time. (e.g, 'DD/MM/YYYY HH:mm:ss')").setRequired(false)),
   async execute(interaction) {
     try {
       // Get the timezone.
       const timezone = interaction.options.getString("timezone").toUpperCase();
 
       // Get the format string. Default to "MM/DD/YYYY HH:mm:ss".
-      const format =
-        interaction.options.getString("format") ?? "MM/DD/YYYY HH:mm:ss";
+      const format = interaction.options.getString("format") ?? "MM/DD/YYYY HH:mm:ss";
 
       const validRegex = /^((YYYY|MM|DD|HH|mm|ss|[/:.\-\s])+)$/u;
       if (!validRegex.test(format)) {
@@ -66,8 +51,7 @@ module.exports = {
       await interaction.reply(`**${timezone}**: ${formattedTime}`);
     } catch {
       await interaction.reply({
-        content:
-          "Invalid timezone.\nSee: https://wikipedia.org/wiki/List_of_tz_database_time_zones#List.",
+        content: "Invalid timezone.\nSee: https://wikipedia.org/wiki/List_of_tz_database_time_zones#List.",
         ephemeral: true,
       });
     }

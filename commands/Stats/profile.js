@@ -1,30 +1,16 @@
 const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
-const {
-  get,
-  coinEmoji,
-  hpEmoji,
-  armorEmoji,
-  attackEmoji,
-  incr,
-  set,
-} = require("../../globals.js");
+const { get, coinEmoji, hpEmoji, armorEmoji, attackEmoji, incr, set } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("profile")
     .setDescription("View your or another user's rpg profile.")
-    .addUserOption((option) =>
-      option
-        .setName("user")
-        .setDescription("The member whose profile you want to view")
-        .setRequired(false)
-    ),
+    .addUserOption((option) => option.setName("user").setDescription("The member whose profile you want to view").setRequired(false)),
   async execute(interaction) {
     const user = interaction.options.getUser("user") ?? interaction.user;
     if (await get(`${user.bot}`))
       return interaction.reply({
-        content:
-          "Bots don't have RPG profiles.\nIf you are looking for information about a bot user, use `/userinfo`.",
+        content: "Bots don't have RPG profiles.\nIf you are looking for information about a bot user, use `/userinfo`.",
         ephemeral: true,
       });
     const profile = new EmbedBuilder()
@@ -52,9 +38,7 @@ module.exports = {
         },
         {
           name: "Level",
-          value: `**${await get(`${user.id}_level`)}** **(${await get(
-            `${user.id}_xp`
-          )}XP)**`,
+          value: `**${await get(`${user.id}_level`)}** **(${await get(`${user.id}_xp`)}XP)**`,
           inline: true,
         },
         {

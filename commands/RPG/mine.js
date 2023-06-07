@@ -5,21 +5,18 @@ const { CommandCooldown, msToMinutes } = require("discord-command-cooldown");
 const ms = require("ms");
 
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("mine")
-    .setDescription("Mine for stone. Craft a pickaxe for more resources."),
+  data: new SlashCommandBuilder().setName("mine").setDescription("Mine for stone. Craft a pickaxe for more resources."),
   async execute(interaction) {
     const user = interaction.user;
     const pickaxe = await get(`${user.id}_pickaxe`);
     const embed = new EmbedBuilder();
 
-    if(await get(`${user.id}_stone`) == null || await get(`${user.id}_stone`) == "0" || await get(`${user.id}_stone`) == "") {
-      await set(`${user.id}_stone`, 0)
+    if ((await get(`${user.id}_stone`)) == null || (await get(`${user.id}_stone`)) == "0" || (await get(`${user.id}_stone`)) == "") {
+      await set(`${user.id}_stone`, 0);
     }
 
     // If the user has a pickaxe, they mine faster, get more stone, and get more XP.
-    const [mineCooldownTime, minStone, maxStone, xpAmount] =
-      pickaxe >= 1 ? [ms("15s"), 10, 20, 20] : [ms("30s"), 5, 10, 10];
+    const [mineCooldownTime, minStone, maxStone, xpAmount] = pickaxe >= 1 ? [ms("15s"), 10, 20, 20] : [ms("30s"), 5, 10, 10];
 
     const mineCooldown = new CommandCooldown("mine", mineCooldownTime);
     const stone = chance.integer({ min: minStone, max: maxStone });
@@ -35,12 +32,8 @@ module.exports = {
     } else {
       embed.setTitle("Stone mined!");
       embed.setDescription(
-        `<@${user.id}> mined some rocks and got **${stone} stone!**${
-          (await get(`${user.id}_xp_alerts`)) == "1" ? `\n+${xp}XP` : ""
-        } ${
-          (await checkXP(user.id, xp)) == true
-            ? ` :up: **Level up!** Check /levels.`
-            : ""
+        `<@${user.id}> mined some rocks and got **${stone} stone!**${(await get(`${user.id}_xp_alerts`)) == "1" ? `\n+${xp}XP` : ""} ${
+          (await checkXP(user.id, xp)) == true ? ` :up: **Level up!** Check /levels.` : ""
         }`
       );
       embed.setColor(await get(`${user.id}_color`));

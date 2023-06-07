@@ -5,12 +5,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("marriage")
     .setDescription("Shows your/another user's marriage status.")
-    .addUserOption((option) =>
-      option
-        .setName("user")
-        .setDescription("The user you want to check the marriage status of.")
-        .setRequired(false)
-    ),
+    .addUserOption((option) => option.setName("user").setDescription("The user you want to check the marriage status of.").setRequired(false)),
   async execute(interaction) {
     const user = interaction.options.getUser("user") || interaction.user;
     const marriageStatus = await get(`${user.id}_marriageStatus`);

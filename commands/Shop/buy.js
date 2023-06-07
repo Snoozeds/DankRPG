@@ -5,12 +5,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("buy")
     .setDescription("Buy an item from the shop.")
-    .addStringOption((option) =>
-      option
-        .setName("item")
-        .setDescription("The item you want to buy.")
-        .setRequired(true)
-    ),
+    .addStringOption((option) => option.setName("item").setDescription("The item you want to buy.").setRequired(true)),
   async execute(interaction) {
     const item = interaction.options.getString("item").toLowerCase();
     const user = interaction.user;

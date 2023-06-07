@@ -13,12 +13,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("inventory")
     .setDescription("Shows your/another user's inventory.")
-    .addUserOption((option) =>
-      option
-        .setName("user")
-        .setDescription("The member whose inventory you want to view")
-        .setRequired(false)
-    ),
+    .addUserOption((option) => option.setName("user").setDescription("The member whose inventory you want to view").setRequired(false)),
   async execute(interaction) {
     const user = interaction.options.getUser("user") || interaction.user;
 
@@ -87,13 +82,11 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setTitle(`${user.username}'s Inventory`)
-      .setFields(
-        {
-          name: "Total Inventory Value",
-          value: `${coinEmoji}**${totalInventoryValue}**`,
-          inline: true,
-        }
-      )
+      .setFields({
+        name: "Total Inventory Value",
+        value: `${coinEmoji}**${totalInventoryValue}**`,
+        inline: true,
+      })
       .setDescription(inventoryDescription)
       .setColor(await get(`${interaction.user.id}_color`))
       .setThumbnail(user.displayAvatarURL({ format: "jpg", size: 4096 }));

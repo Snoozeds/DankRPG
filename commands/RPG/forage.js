@@ -7,9 +7,7 @@ const chance = require("chance").Chance();
 const forageCommandCooldown = new CommandCooldown("forage", ms("30s")); // create CommandCooldown instance here
 
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("forage")
-    .setDescription("Forages for items in the wilderness."),
+  data: new SlashCommandBuilder().setName("forage").setDescription("Forages for items in the wilderness."),
   async execute(interaction) {
     const user = interaction.user;
 
@@ -22,9 +20,7 @@ module.exports = {
       }
     }
 
-    const userCooldowned = await forageCommandCooldown.getUser(
-      interaction.user.id
-    );
+    const userCooldowned = await forageCommandCooldown.getUser(interaction.user.id);
     if (userCooldowned) {
       const timeLeft = msToMinutes(userCooldowned.msLeft, false);
       await interaction.reply({

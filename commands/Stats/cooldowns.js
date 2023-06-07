@@ -15,17 +15,13 @@ function formatCooldown(cooldown) {
 }
 
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("cooldowns")
-    .setDescription("Shows all cooldowns"),
+  data: new SlashCommandBuilder().setName("cooldowns").setDescription("Shows all cooldowns"),
 
   async execute(interaction) {
     const { user } = interaction;
 
     try {
-      const data = await readFile(
-        "./node_modules/discord-command-cooldown/activeTimeouts.json"
-      );
+      const data = await readFile("./node_modules/discord-command-cooldown/activeTimeouts.json");
       const cd = JSON.parse(data);
 
       // Check if there are any cooldowns set
@@ -67,7 +63,7 @@ module.exports = {
       console.error(error);
       await interaction.reply({
         content: "An error occurred while fetching cooldowns.",
-        ephemeral: true
+        ephemeral: true,
       });
     }
   },

@@ -5,20 +5,11 @@ const ms = require("ms");
 const chance = require("chance").Chance();
 
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("adventure")
-    .setDescription(
-      "Starts an RPG adventure. Random chance of getting coins, doesn't scale."
-    ),
+  data: new SlashCommandBuilder().setName("adventure").setDescription("Starts an RPG adventure. Random chance of getting coins, doesn't scale."),
   async execute(interaction) {
     const xp = chance.integer({ min: 10, max: 25 });
-    const adventureCommandCooldown = new CommandCooldown(
-      "adventure",
-      ms(`${chance.integer({ min: 20, max: 30 })}s`)
-    ); // random cooldown between 20 and 30 seconds.
-    const userCooldowned = await adventureCommandCooldown.getUser(
-      interaction.user.id
-    );
+    const adventureCommandCooldown = new CommandCooldown("adventure", ms(`${chance.integer({ min: 20, max: 30 })}s`)); // random cooldown between 20 and 30 seconds.
+    const userCooldowned = await adventureCommandCooldown.getUser(interaction.user.id);
     if (userCooldowned) {
       const timeLeft = msToMinutes(userCooldowned.msLeft, false);
       await interaction.reply({
@@ -34,18 +25,10 @@ module.exports = {
         const trueEmbed = new EmbedBuilder()
           .setTitle(`${interaction.user.username}'s adventure`)
           .setDescription(
-            `<@${
-              interaction.user.id
-            }> starts an adventure.\nThey find **${coinEmoji}${outcome}**. They now have a balance of **${coinEmoji}${await get(
+            `<@${interaction.user.id}> starts an adventure.\nThey find **${coinEmoji}${outcome}**. They now have a balance of **${coinEmoji}${await get(
               `${interaction.user.id}_coins`
-            )}**.${
-              (await get(`${interaction.user.id}_xp_alerts`)) == "1"
-                ? `\n+${xp}XP`
-                : ""
-            } ${
-              (await checkXP(interaction.user.id, xp)) == true
-                ? ` :up: **Level up!** Check /levels.`
-                : ""
+            )}**.${(await get(`${interaction.user.id}_xp_alerts`)) == "1" ? `\n+${xp}XP` : ""} ${
+              (await checkXP(interaction.user.id, xp)) == true ? ` :up: **Level up!** Check /levels.` : ""
             }`
           )
           .setColor(await get(`${interaction.user.id}_color`))
@@ -55,9 +38,7 @@ module.exports = {
       } else {
         const falseEmbed = new EmbedBuilder()
           .setTitle(`${interaction.user.username}'s adventure`)
-          .setDescription(
-            `<@${interaction.user.id}> starts an adventure.\nThey find **Nothing**.`
-          )
+          .setDescription(`<@${interaction.user.id}> starts an adventure.\nThey find **Nothing**.`)
           .setColor(await get(`${interaction.user.id}_color`))
           .setTimestamp();
         await interaction.reply({ embeds: [falseEmbed] });

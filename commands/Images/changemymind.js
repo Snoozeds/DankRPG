@@ -7,12 +7,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("changemymind")
     .setDescription("Change my mind")
-    .addStringOption((option) =>
-      option
-        .setName("text")
-        .setDescription("Text to put on the image")
-        .setRequired(true)
-    ),
+    .addStringOption((option) => option.setName("text").setDescription("Text to put on the image").setRequired(true)),
   async execute(interaction) {
     await interaction.deferReply(); // Alerts Discord that we have received the command and are processing it.
 
@@ -20,8 +15,7 @@ module.exports = {
     const text = interaction.options.getString("text");
     if (text.match(/^[A-Za-z0-9 ,./?!@#$%^&*()-+=[]{}~`'"<>]+$/)) {
       return interaction.editReply({
-        content:
-          "Only English characters are allowed (A-Z 0-9 ,./?!@#$%^&*()-+=[]{}~`'\"<>)",
+        content: "Only English characters are allowed (A-Z 0-9 ,./?!@#$%^&*()-+=[]{}~`'\"<>)",
         ephemeral: true,
       });
     }

@@ -1,24 +1,14 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const {
-  get,
-  incr,
-  hpEmoji,
-  armorEmoji,
-  attackEmoji,
-} = require("../../globals.js");
+const { get, incr, hpEmoji, armorEmoji, attackEmoji } = require("../../globals.js");
 
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("skills")
-    .setDescription("Explains your skills."),
+  data: new SlashCommandBuilder().setName("skills").setDescription("Explains your skills."),
   async execute(interaction) {
     const embed = new EmbedBuilder()
       .setTitle("Skills")
       .addFields(
         {
-          name: `${hpEmoji} MaxHP (${await get(
-            `${interaction.user.id}_max_hp`
-          )})`,
+          name: `${hpEmoji} MaxHP (${await get(`${interaction.user.id}_max_hp`)})`,
           value: `The maximum amount of HP you can have.`,
           inline: false,
         },
@@ -28,16 +18,12 @@ module.exports = {
           inline: false,
         },
         {
-          name: `${armorEmoji} Armor (${await get(
-            `${interaction.user.id}_armor`
-          )})`,
+          name: `${armorEmoji} Armor (${await get(`${interaction.user.id}_armor`)})`,
           value: `Reduces your damage taken **(armor \* 100%)**.`,
           inline: false,
         },
         {
-          name: `${attackEmoji} Damage (${await get(
-            `${interaction.user.id}_damage`
-          )})`,
+          name: `${attackEmoji} Damage (${await get(`${interaction.user.id}_damage`)})`,
           value: `Increases your chance of winning fights.`,
           inline: false,
         },

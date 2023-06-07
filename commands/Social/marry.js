@@ -5,12 +5,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("marry")
     .setDescription("Starts a marriage request with another user.")
-    .addUserOption((option) =>
-      option
-        .setName("user")
-        .setDescription("The user you want to marry.")
-        .setRequired(true)
-    ),
+    .addUserOption((option) => option.setName("user").setDescription("The user you want to marry.").setRequired(true)),
   async execute(interaction) {
     const user = interaction.options.getUser("user");
     const author = interaction.user;
@@ -63,12 +58,7 @@ module.exports = {
       await set(`${user.id}_sender`, "false");
       await incr(author.id, "commandsUsed", 1);
       return interaction.reply({
-        content:
-          "<@" +
-          user.id +
-          ">, " +
-          author.username +
-          " has requested to marry you!\nUse /accept to accept.",
+        content: "<@" + user.id + ">, " + author.username + " has requested to marry you!\nUse /accept to accept.",
       });
     }
   },

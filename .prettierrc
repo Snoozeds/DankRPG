@@ -1,0 +1,16 @@
+{
+    "overrides": [
+      {
+        "files": "*.js",
+        "options": {
+          "printWidth": 175,
+          "doubleQuotes": true,
+          "trailingComma": "es5",
+          "jsxBracketSameLine": false,
+          "proseWrap": "always",
+          "embeddedLanguageFormatting": "auto"
+        }
+      }
+    ]
+  }
+  

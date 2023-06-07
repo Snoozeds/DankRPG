@@ -1,13 +1,11 @@
 // This command basically exists just to ensure that the user has the default variables.
 // Read variables-list.txt for defaults.
 
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder } = require("discord.js");
 const { get, set } = require("../../globals.js");
 
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("start")
-    .setDescription("Start your DankRPG journey."),
+  data: new SlashCommandBuilder().setName("start").setDescription("Start your DankRPG journey."),
   async execute(interaction) {
     if ((await get(`${interaction.user.id}_hasStarted`)) === "1") {
       await interaction.reply({

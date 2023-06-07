@@ -10,7 +10,7 @@ const lifesaverEmoji = "<:Lifesaver:1110248791304581280>";
 const diamondEmoji = "<:Diamond:1109925710799319181>";
 const woodEmoji = "<:WoodLogs:1109931701469192294>";
 const stoneEmoji = "<:StoneDust:1109931144838922320>";
-const stoneRingEmoji = "<:StoneRing:1109928129763483688>"
+const stoneRingEmoji = "<:StoneRing:1109928129763483688>";
 const falseEmoji = "<:Locked:899050875916541963>";
 const trueEmoji = "<:Unlocked:899050875719393281>";
 

@@ -5,18 +5,8 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("heal")
     .setDescription("Heal yourself for 1 Coin per 1HP.")
-    .addIntegerOption((option) =>
-      option
-        .setName("amount")
-        .setDescription("Amount of HP to heal.")
-        .setRequired(false)
-    )
-    .addBooleanOption((option) =>
-      option
-        .setName("max")
-        .setDescription("Heal to maximum HP.")
-        .setRequired(false)
-    ),
+    .addIntegerOption((option) => option.setName("amount").setDescription("Amount of HP to heal.").setRequired(false))
+    .addBooleanOption((option) => option.setName("max").setDescription("Heal to maximum HP.").setRequired(false)),
   async execute(interaction) {
     const id = interaction.user.id;
     const hp = await get(`${id}_hp`);

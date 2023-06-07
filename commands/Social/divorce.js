@@ -1,15 +1,8 @@
-const {
-  ButtonBuilder,
-  ButtonStyle,
-  SlashCommandBuilder,
-  ActionRowBuilder,
-} = require("discord.js");
+const { ButtonBuilder, ButtonStyle, SlashCommandBuilder, ActionRowBuilder } = require("discord.js");
 const { set, get, incr } = require("../../globals.js");
 
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("divorce")
-    .setDescription("Divorce your spouse"),
+  data: new SlashCommandBuilder().setName("divorce").setDescription("Divorce your spouse"),
   async execute(interaction) {
     const user = interaction.user;
     const spouse = await get(`${user.id}_marriedTo`);
@@ -20,15 +13,9 @@ module.exports = {
       });
     } else {
       // Buttons
-      const yes = new ButtonBuilder()
-        .setCustomId("yes")
-        .setLabel("Yes")
-        .setStyle(ButtonStyle.Success);
+      const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
 
-      const no = new ButtonBuilder()
-        .setCustomId("no")
-        .setLabel("No")
-        .setStyle(ButtonStyle.Danger);
+      const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
 
       const row = new ActionRowBuilder().addComponents(yes, no);
 
@@ -76,8 +63,7 @@ module.exports = {
         }
       } catch (e) {
         await interaction.editReply({
-          content:
-            "No buttons have been pressed within 1 minute, cancelling divorce.",
+          content: "No buttons have been pressed within 1 minute, cancelling divorce.",
           components: [],
         });
       }

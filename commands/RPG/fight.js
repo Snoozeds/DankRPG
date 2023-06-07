@@ -1,22 +1,9 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const {
-  get,
-  set,
-  incr,
-  decr,
-  hpEmoji,
-  coinEmoji,
-  checkXP,
-  resetStats,
-} = require("../../globals.js");
+const { get, set, incr, decr, hpEmoji, coinEmoji, checkXP, resetStats } = require("../../globals.js");
 const chance = require("chance").Chance();
 
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("fight")
-    .setDescription(
-      "Start a fight. Rewards and damage increase per level. Higher chance of winning per damage."
-    ),
+  data: new SlashCommandBuilder().setName("fight").setDescription("Start a fight. Rewards and damage increase per level. Higher chance of winning per damage."),
   async execute(interaction) {
     // Define enemy type here so it can be random.
     const enemyTypes = require("./enemies.json").enemyTypes;
@@ -47,18 +34,10 @@ module.exports = {
     // User's success rate for the fight.
     const successrate = (await get(`${user.id}_damage`)) * 4;
 
-    const {
-      CommandCooldown,
-      msToMinutes,
-    } = require("discord-command-cooldown");
+    const { CommandCooldown, msToMinutes } = require("discord-command-cooldown");
     const ms = require("ms");
-    const fightCommandCooldown = new CommandCooldown(
-      "fight",
-      ms(`${chance.integer({ min: 10, max: 20 })}s`)
-    );
-    const userCooldowned = await fightCommandCooldown.getUser(
-      interaction.user.id
-    );
+    const fightCommandCooldown = new CommandCooldown("fight", ms(`${chance.integer({ min: 10, max: 20 })}s`));
+    const userCooldowned = await fightCommandCooldown.getUser(interaction.user.id);
     if (userCooldowned) {
       const timeLeft = msToMinutes(userCooldowned.msLeft, false);
       await interaction.reply({
@@ -93,14 +72,8 @@ module.exports = {
               .setTitle(`Fight against ${enemy}!`)
               .setDescription(
                 `You start a fight.\n**\\- ${hpLossT} ${hpEmoji} (${newHP}) :warning:**\n**+ ${coins} ${coinEmoji} (${newCoins})**${
-                  (await get(`${interaction.user.id}_xp_alerts`)) == "1"
-                    ? `\n**+ ${xp}XP**`
-                    : ""
-                } ${
-                  (await checkXP(interaction.user.id, xp)) == true
-                    ? ` :up: **Level up!** Check /levels.`
-                    : ""
-                }`
+                  (await get(`${interaction.user.id}_xp_alerts`)) == "1" ? `\n**+ ${xp}XP**` : ""
+                } ${(await checkXP(interaction.user.id, xp)) == true ? ` :up: **Level up!** Check /levels.` : ""}`
               )
               .setColor(await get(`${user.id}_color`));
             await decr(user.id, "hp", hpLossT);
@@ -114,14 +87,8 @@ module.exports = {
               .setTitle(`Fight against ${enemy}!`)
               .setDescription(
                 `You start a fight.\n**\\- ${hpLossT} ${hpEmoji} (${newHP})**\n**+ ${coins} ${coinEmoji} (${newCoins})**${
-                  (await get(`${interaction.user.id}_xp_alerts`)) == "1"
-                    ? `\n**+ ${xp}XP**`
-                    : ""
-                } ${
-                  (await checkXP(interaction.user.id, xp)) == true
-                    ? ` :up: **Level up!** Check /levels.`
-                    : ""
-                }`
+                  (await get(`${interaction.user.id}_xp_alerts`)) == "1" ? `\n**+ ${xp}XP**` : ""
+                } ${(await checkXP(interaction.user.id, xp)) == true ? ` :up: **Level up!** Check /levels.` : ""}`
               )
               .setColor(await get(`${user.id}_color`));
             await decr(user.id, "hp", hpLossT);
@@ -135,9 +102,7 @@ module.exports = {
           if (newHP < hpLossT) {
             const embed = new EmbedBuilder()
               .setTitle(`Fight against ${enemy}!`)
-              .setDescription(
-                `You start a fight.\n**You lose your fight!**\n**\\- ${hpLossT} ${hpEmoji}(${newHP}) :warning:**`
-              )
+              .setDescription(`You start a fight.\n**You lose your fight!**\n**\\- ${hpLossT} ${hpEmoji}(${newHP}) :warning:**`)
               .setColor(await get(`${user.id}_color`));
             await decr(user.id, "hp", hpLossT);
             await incr(user.id, "commandsUsed", 1);
@@ -147,9 +112,7 @@ module.exports = {
           } else {
             const embed = new EmbedBuilder()
               .setTitle(`Fight against ${enemy}!`)
-              .setDescription(
-                `You start a fight.\n**You lose your fight!**\n**\\- ${hpLossT} ${hpEmoji}(${newHP})**`
-              )
+              .setDescription(`You start a fight.\n**You lose your fight!**\n**\\- ${hpLossT} ${hpEmoji}(${newHP})**`)
               .setColor(await get(`${user.id}_color`));
             await decr(user.id, "hp", hpLossT);
             await incr(user.id, "commandsUsed", 1);

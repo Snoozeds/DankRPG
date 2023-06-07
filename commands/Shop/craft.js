@@ -6,14 +6,7 @@ module.exports = {
     .setName("craft")
     .setDescription("Craft an item with the materials you have.")
     .addStringOption((option) =>
-      option
-        .setName("item")
-        .setDescription("The item you want to craft.")
-        .setRequired(true)
-        .addChoices(
-          { name: "Axe", value: "axe" },
-          { name: "Pickaxe", value: "pickaxe" }
-        )
+      option.setName("item").setDescription("The item you want to craft.").setRequired(true).addChoices({ name: "Axe", value: "axe" }, { name: "Pickaxe", value: "pickaxe" })
     ),
   async execute(interaction) {
     const item = interaction.options.getString("item");
@@ -22,10 +15,9 @@ module.exports = {
     if (item === "axe") {
       const wood = await get(`${user.id}_wood`);
       const stone = await get(`${user.id}_stone`);
-      if ((wood < 5 || stone < 10) || (wood === null && stone === null)) {
+      if (wood < 5 || stone < 10 || (wood === null && stone === null)) {
         await interaction.reply({
-          content:
-            "You don't have enough materials to craft this item!\nYou need: 5 wood and 10 stone.",
+          content: "You don't have enough materials to craft this item!\nYou need: 5 wood and 10 stone.",
           ephemeral: true,
         });
       } else if ((await get(`${user.id}_axe`)) >= 1) {
@@ -45,10 +37,9 @@ module.exports = {
     } else if (item === "pickaxe") {
       const wood = await get(`${user.id}_wood`);
       const stone = await get(`${user.id}_stone`);
-      if ((wood < 25 || stone < 50) || (wood === null && stone === null)) {
+      if (wood < 25 || stone < 50 || (wood === null && stone === null)) {
         await interaction.reply({
-          content:
-            "You don't have enough materials to craft this item!\nYou need: 25 wood and 50 stone.",
+          content: "You don't have enough materials to craft this item!\nYou need: 25 wood and 50 stone.",
           ephemeral: true,
         });
       } else if ((await get(`${user.id}_pickaxe`)) >= 1) {

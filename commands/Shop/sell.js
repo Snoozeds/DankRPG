@@ -1,28 +1,13 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-  Events,
-} = require("discord.js");
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle, Events } = require("discord.js");
 const { get, incr, decr, coinEmoji } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("sell")
     .setDescription("Sell an item from your inventory.")
-    .addStringOption((option) =>
-      option
-        .setName("item")
-        .setDescription("The item you want to sell.")
-        .setRequired(true)
-    )
-    .addIntegerOption((option) =>
-      option
-        .setName("amount")
-        .setDescription("The amount of items you want to sell.")
-        .setRequired(false)
-    ),
+    .addStringOption((option) => option.setName("item").setDescription("The item you want to sell.").setRequired(true))
+    .addIntegerOption((option) => option.setName("amount").setDescription("The amount of items you want to sell.").setRequired(false)),
   async execute(interaction) {
     const item = interaction.options.getString("item");
     const amount = interaction.options.getInteger("amount") ?? 1;
@@ -78,9 +63,7 @@ module.exports = {
       await decr(user.id, `${selectedItem.name}`, amount);
       await incr(user.id, "coins", selectedItem.value * amount);
       return interaction.reply({
-        content: `You sold \`${amount}\` \`${
-          selectedItem.name
-        }\` for ${coinEmoji}${selectedItem.value * amount}.`
+        content: `You sold \`${amount}\` \`${selectedItem.name}\` for ${coinEmoji}${selectedItem.value * amount}.`,
       });
     }
   },

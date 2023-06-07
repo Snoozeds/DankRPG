@@ -19,7 +19,7 @@ module.exports = {
     const userCooldowned = await duelCommandCooldown.getUser(user.id);
     const userCancelled = await duelCancelCooldown.getUser(user.id);
 
-     if (userCooldowned) {
+    if (userCooldowned) {
       const timeLeft = msToMinutes(userCooldowned.msLeft, false);
       return interaction.reply({
         content: `You need to wait ${timeLeft.seconds}s before using this command again!`,
@@ -225,7 +225,7 @@ module.exports = {
               await set(`${user.id}_duel`, false);
               await set(`${target.id}_duel`, false);
               await set(`${user.id}_hp`, 1);
-              await decr(`${user.id}`, `lifesaver`, 1)
+              await decr(`${user.id}`, `lifesaver`, 1);
               await incr(`${target.id}`, `coins`, 250);
               return true; // Indicate that the duel has ended
             } else {
@@ -253,7 +253,7 @@ module.exports = {
               await set(`${user.id}_duel`, false);
               await set(`${target.id}_duel`, false);
               await set(`${target.id}_hp`, 1);
-              await decr(`${target.id}`, `lifesaver`, 1)
+              await decr(`${target.id}`, `lifesaver`, 1);
               await incr(`${user.id}`, `coins`, 250);
               return true; // Indicate that the duel has ended
             } else {
