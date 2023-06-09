@@ -364,12 +364,12 @@ module.exports = {
             }
           } else if (action === "escape") {
             if (currentUser === user) {
-              // User tries to escape (not successful)
-              lastAction = `${user.username} tried to escape, but failed.`;
-              return false; // Indicate that the duel is ongoing
-            } else {
               // Target tries to escape (not successful)
               lastAction = `${target.username} tried to escape, but failed.`;
+              return false; // Indicate that the duel is ongoing
+            } else {
+              // User tries to escape (not successful)
+              lastAction = `${user.username} tried to escape, but failed.`;
               return false; // Indicate that the duel is ongoing
             }
           }
