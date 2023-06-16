@@ -22,7 +22,7 @@ module.exports = {
     }
     const Embed = new EmbedBuilder()
       .setDescription(
-        `\`${user.username}#${user.discriminator}(${user.id})\`\n${
+        `\`${user.username} (${user.id})\`\n${
           user.bot ? "" : `**Commands used:** \`${await get(`${user.id}_commandsUsed`)}\`\n`
         }**Joined Discord:** <t:${createdAt}>\n**Joined server:** <t:${joinedAt}>\n\n**Roles (${numRoles}):** ${roles}\n\n**Links:**${
           user.avatarURL() ? `\n[Avatar](${user.avatarURL()})` : ""
