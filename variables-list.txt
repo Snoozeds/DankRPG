@@ -27,6 +27,11 @@
 (userid)_stoneRing: If the player has a stone ring : null
 (userid)_interactions: If the player wants interactions : null
 
+# Local Variables
+# These are variables that are only used in the command they are created in.
+(userid)_duel: If the player is in a duel : null
+(userid)_duelTimestamp: The unix milliseconds of when the duel started : null
+
 # Marriages
 (userid)_marriageRequest: The id of the player who sent the request : null
 (userid)_sender: Whether the player is the sender of the request : null
