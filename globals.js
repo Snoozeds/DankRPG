@@ -3,7 +3,7 @@ const chance = require("chance").Chance();
 // Emoji variables. Change these out with your own.
 // Discord bots have "Nitro", so this is fine. To grab the id, escape the emoji with a backslash (e.g \:emoji:)
 const coinEmoji = "<:Coins:1109913124171153438>";
-const hpEmoji = "<:rpgHearts:1119594240675155989>";
+const hpEmoji = "<:RpgHeart:1119594242994618459>";
 const armorEmoji = "<:GrayShield:1109923974831415316>";
 const attackEmoji = "<:GraySword:1110247003851608074>";
 const lifesaverEmoji = "<:Lifesaver:1110248791304581280>";
