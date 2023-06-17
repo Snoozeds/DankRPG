@@ -16,7 +16,7 @@ module.exports = {
     const learnerAchievement = await get(`${user.id}_learner_achievement`);
     const aprilAchievement = await get(`${user.id}_april_achievement`);
 
-    userAchievements = [dailyAchievement, learnerAchievement, aprilAchievement].filter((achievement) => achievement === `${trueEmoji}`).length;
+    userAchievements = [dailyAchievement, learnerAchievement, aprilAchievement].filter((achievement) => achievement == "true").length;
 
     if (!(await get(`${user.id}_daily_achievement`))) {
       await set(`${user.id}_daily_achievement`, `${falseEmoji}`);
@@ -26,6 +26,28 @@ module.exports = {
     }
     if (!(await get(`${user.id}_april_achievement`))) {
       await set(`${user.id}_april_achievement`, `${falseEmoji}`);
+    }
+
+    // In the past, I used to use the emoji themselves as the value, but now I use "true" and "false" instead.
+    // This has changed due to not being able to update the emoji shown in the embed.
+    if ((await get(`${user.id}_daily_achievement`)) === "<:Locked:899050875916541963>") {
+      await set(`${user.id}_daily_achievement`, false);
+    }
+    if ((await get(`${user.id}_learner_achievement`)) === "<:Locked:899050875916541963>") {
+      await set(`${user.id}_learner_achievement`, false);
+    }
+    if ((await get(`${user.id}_april_achievement`)) === "<:Locked:899050875916541963>") {
+      await set(`${user.id}_april_achievement`, false);
+    }
+
+    if ((await get(`${user.id}_daily_achievement`)) === "<:Unlocked:899050875719393281>") {
+      await set(`${user.id}_daily_achievement`, true);
+    }
+    if ((await get(`${user.id}_learner_achievement`)) === "<:Unlocked:899050875719393281>") {
+      await set(`${user.id}_learner_achievement`, true);
+    }
+    if ((await get(`${user.id}_april_achievement`)) === "<:Unlocked:899050875719393281>") {
+      await set(`${user.id}_april_achievement`, true);
     }
 
     if (user.bot) {
@@ -38,15 +60,15 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle(`${user.username}'s Achievements`)
       .setDescription(
-        `**__It Begins...__** ${await get(`${user.id}_daily_achievement`)}
+        `**__It Begins...__** ${dailyAchievement == "true" ? trueEmoji : falseEmoji}
 Get your first daily reward.
 Reward: ${coinEmoji}250
 
-**__Learner__** ${await get(`${user.id}_learner_achievement`)}
+**__Learner__** ${learnerAchievement == "true" ? trueEmoji : falseEmoji}
 View \`/commands\` for the first time.
 Reward: ${coinEmoji}100
 
-**__April Fools!__** ${await get(`${user.id}_april_achievement`)}
+**__April Fools!__** ${aprilAchievement == "true" ? trueEmoji : falseEmoji}
 Use any command between 1st-3rd April.
 Reward: ${coinEmoji}500`
       )

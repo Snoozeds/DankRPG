@@ -40,7 +40,8 @@
 (userid)_marriageTime: The unix seconds of the time /accept was run : null
 
 # Achievements
-# will return null. However, should be whatever the denyEmoji is (globals.js) when checking /achievements.
+# Will return null. However, should be either true or false when checking /achievements.
+# In the past, these used to have the value of the true and false emojis themselves, but this has since changed.
 (userid)_daily_achievement: If the player has completed the daily achievement.
 (userid)_learner_achievement: If the player has completed the learner achievement.
 (userid)_april_achievement: If the player has completed the april fools achievement.

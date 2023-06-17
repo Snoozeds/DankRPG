@@ -11,8 +11,8 @@ const diamondEmoji = "<:Diamond:1109925710799319181>";
 const woodEmoji = "<:WoodLogs:1109931701469192294>";
 const stoneEmoji = "<:StoneDust:1109931144838922320>";
 const stoneRingEmoji = "<:StoneRing:1109928129763483688>";
-const falseEmoji = "<:Locked:899050875916541963>";
-const trueEmoji = "<:Unlocked:899050875719393281>";
+const falseEmoji = "<:AchievementLock:1119603099049414797>";  // Used for achievements
+const trueEmoji = "<:AchievementUnlock:1119603100253159484>"; // 
 
 // Get a value from the database.
 // await get(`${id}_key`);
