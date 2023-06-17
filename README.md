@@ -12,7 +12,7 @@ for your own bot.
 
 ## License
 Code in this Github repository falls under the [Apache 2.0 License](https://choosealicense.com/licenses/apache-2.0/). 
-Some emotes used by DankRPG are not within this repository, and are instead from [Pixeltier](https://pixeltier.itch.io/pixeltiers-16x16-rpg-icon-pack).
+Some art assets used by DankRPG is not within this repository, and are instead from [Pixeltier](https://pixeltier.itch.io/) or [Raven](https://clockworkraven.itch.io/). This repository's license does not apply to those assets.
 
 ## New features of the rewrite:
 

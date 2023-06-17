@@ -1,1 +1,0 @@
-The emoji within this folder are outdated as of 21/05/2023, apart from the HP emoji for now. The emoji that DankRPG now uses can be bought from [Pixeltier](https://pixeltier.itch.io/pixeltiers-16x16-rpg-icon-pack).
