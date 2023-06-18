@@ -19,9 +19,9 @@ module.exports = {
       const xp = 100;
       let achievementUnlocked = false;
       await incr(`${interaction.user.id}`, `coins`, 250);
-      if ((await get(`${interaction.user.id}_daily_achievement`)) === null || "<:Locked:899050875916541963>") {
+      if ((await get(`${interaction.user.id}_daily_achievement`)) == null || false) {
         await incr(`${interaction.user.id}`, `coins`, 250);
-        await set(`${interaction.user.id}_daily_achievement`, "<:Unlocked:899050875719393281>");
+        await set(`${interaction.user.id}_daily_achievement`, true);
         achievementUnlocked = true;
       }
 

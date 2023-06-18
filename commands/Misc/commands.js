@@ -21,9 +21,9 @@ module.exports = {
     ),
 
   async execute(interaction) {
-    if ((await get(`${interaction.user.id}_learner_achievement`)) !== `${trueEmoji}`) {
+    if ((await get(`${interaction.user.id}_learner_achievement`)) != true) {
       await incr(`${interaction.user.id}`, `coins`, 100);
-      await set(`${interaction.user.id}_learner_achievement`, "<:Unlocked:899050875719393281>");
+      await set(`${interaction.user.id}_learner_achievement`, true);
     }
     const cat = interaction.options.getString("category");
     const Images = new EmbedBuilder()

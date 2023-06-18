@@ -81,12 +81,12 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
   // Achievement for April Fools. (1st-3rd April)
   // REMEMBER. JAVASCRIPT COUNTS MONTHS FROM 0. HOW FUN.
-  if ((await redis.get(`${interaction.user.id}_april_achievement`)) !== null && (await redis.get(`${interaction.user.id}_april_achievement`)) !== `${trueEmoji}`) {
+  if ((await redis.get(`${interaction.user.id}_april_achievement`)) !== null && (await redis.get(`${interaction.user.id}_april_achievement`)) != true) {
     const today = new Date();
     const start = new Date(Date.UTC(today.getUTCFullYear(), 3, 1)); // April 1st, UTC
     const end = new Date(Date.UTC(today.getUTCFullYear(), 3, 3)); // April 3rd, UTC
     if (today >= start && today <= end) {
-      redis.set(`${interaction.user.id}_april_achievement`, `${trueEmoji}`);
+      redis.set(`${interaction.user.id}_april_achievement`, true);
       redis.incrby(`${interaction.user.id}_coins`, 500);
     }
   }
