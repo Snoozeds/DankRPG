@@ -44,6 +44,14 @@ app.post(
   })
 );
 app.listen(6969);
+// End of top.gg section.
+
+// This is used for uptime monitoring. This is not necessary.
+// Uptime monitoring I suggest: https://uptimerobot.com/, https://github.com/louislam/uptime-kuma (self-hosted, I use.)
+app.get("/ping", (req, res) => {
+  res.sendStatus(200);
+});
+app.listen(3000);
 
 // Command handler
 // Structure: ./commands/Category/command.js
