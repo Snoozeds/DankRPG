@@ -1,7 +1,6 @@
 const fs = require("node:fs");
 const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require("discord.js");
 const { token, topgg, usr, pwd } = require("./config.json");
-const { trueEmoji } = require("./globals.js");
 const Redis = require("ioredis");
 const express = require("express");
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
