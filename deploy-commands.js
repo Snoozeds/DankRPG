@@ -1,6 +1,5 @@
 // This file is for registering slash commands to every guild.
 // You can run this file with `node deploy-commands.js` in your terminal.
-// To deploy a specific command to a specific guild, use the 'deploy-command.js' file.
 
 const { REST, Routes } = require("discord.js");
 const { clientId, token } = require("./config.json");

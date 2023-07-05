@@ -2,18 +2,38 @@ const chance = require("chance").Chance();
 
 // Emoji variables. Change these out with your own.
 // Discord bots have "Nitro", so this is fine. To grab the id, escape the emoji with a backslash (e.g \:emoji:)
+
+// General Stats
 const coinEmoji = "<:Coins:1109913124171153438>";
 const hpEmoji = "<:RpgHeart:1119594242994618459>";
 const armorEmoji = "<:ArmorStat:1121286429042024581>";
-const armorUpEmoji = "<:ArmorStatUp:1121286519504781343>"
 const attackEmoji = "<:GraySword:1110247003851608074>";
+
+// Shop
+const armorUpEmoji = "<:ArmorStatUp:1121286519504781343>";
+const descriptionEmoji = "<:SpeechBubble:1121299256150610030>";
+
+// Items - Misc
 const lifesaverEmoji = "<:Lifesaver:1110248791304581280>";
+
+// Items - Armor (in order of strength)
+const celestialArmorEmoji = "<:CelestialArmor:1121263240102547527>";
+const sunforgedArmorEmoji = "<:SunforgedArmor:1121263235312660601>";
+const glacialArmorEmoji = "<:GlacialArmor:1121263241251790919>";
+const abyssalArmorEmoji = "<:AbyssalArmor:1121263231768477726>";
+const verdantArmorEmoji = "<:VerdantArmor:1121263234234720306>";
+const sylvanArmorEmoji = "<:SylvanArmor:1121263238785540136>";
+const topazineArmorEmoji = "<:TopazineArmor:1121263236570939512>";
+const stoneRingEmoji = "<:StoneRing:1109928129763483688>";
+
+// Resources
 const diamondEmoji = "<:Diamond:1109925710799319181>";
 const woodEmoji = "<:WoodLogs:1109931701469192294>";
 const stoneEmoji = "<:StoneDust:1109931144838922320>";
-const stoneRingEmoji = "<:StoneRing:1109928129763483688>";
-const falseEmoji = "<:AchievementLock:1119603099049414797>";  // Used for achievements
-const trueEmoji = "<:AchievementUnlock:1119603100253159484>"; // 
+
+// Achievements
+const falseEmoji = "<:AchievementLock:1119603099049414797>";
+const trueEmoji = "<:AchievementUnlock:1119603100253159484>";
 
 // Get a value from the database.
 // await get(`${id}_key`);
@@ -132,12 +152,20 @@ module.exports = {
   coinEmoji,
   hpEmoji,
   armorEmoji,
-  armorUpEmoji,
   attackEmoji,
+  armorUpEmoji,
+  descriptionEmoji,
   lifesaverEmoji,
   diamondEmoji,
   woodEmoji,
   stoneEmoji,
+  celestialArmorEmoji,
+  sunforgedArmorEmoji,
+  glacialArmorEmoji,
+  abyssalArmorEmoji,
+  verdantArmorEmoji,
+  sylvanArmorEmoji,
+  topazineArmorEmoji,
   stoneRingEmoji,
   get,
   set,
