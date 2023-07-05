@@ -78,25 +78,21 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 
   if ((await redis.get(`${interaction.user.id}_hasStarted`)) !== "1") {
-    interaction.deferReply();
-    // This will set all the variables to their default values.
-    // See variables.txt for more information.
-    redis.set(`${interaction.user.id}_coins`, "0");
-    redis.set(`${interaction.user.id}_hp`, "100");
-    redis.set(`${interaction.user.id}_max_hp`, "100");
-    redis.set(`${interaction.user.id}_armor`, "0");
-    redis.set(`${interaction.user.id}_damage`, "5");
-    redis.set(`${interaction.user.id}_xp`, "0");
-    redis.set(`${interaction.user.id}_xp_needed`, "100");
-    redis.set(`${interaction.user.id}_level_xp`, "100");
-    redis.set(`${interaction.user.id}_next_level`, 2);
-    redis.set(`${interaction.user.id}_level`, "1");
-    redis.set(`${interaction.user.id}_hasStarted`, "1");
-    redis.set(`${interaction.user.id}_color`, "#FFE302");
-    redis.set(`${interaction.user.id}_xp_alerts`, "1");
-    redis.set(`${interaction.user.id}_commandsUsed`, "1");
+    await redis.set(`${interaction.user.id}_coins`, "0");
+    await redis.set(`${interaction.user.id}_hp`, "100");
+    await redis.set(`${interaction.user.id}_max_hp`, "100");
+    await redis.set(`${interaction.user.id}_armor`, "0");
+    await redis.set(`${interaction.user.id}_damage`, "5");
+    await redis.set(`${interaction.user.id}_xp`, "0");
+    await redis.set(`${interaction.user.id}_xp_needed`, "100");
+    await redis.set(`${interaction.user.id}_level_xp`, "100");
+    await redis.set(`${interaction.user.id}_next_level`, 2);
+    await redis.set(`${interaction.user.id}_level`, "1");
+    await redis.set(`${interaction.user.id}_hasStarted`, "1");
+    await redis.set(`${interaction.user.id}_color`, "#FFE302");
+    await redis.set(`${interaction.user.id}_xp_alerts`, "1");
+    await redis.set(`${interaction.user.id}_commandsUsed`, "1");
 
-    // After setting the variables, we can continue.
     await command.execute(interaction);
   }
 
