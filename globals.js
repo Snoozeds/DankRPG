@@ -90,7 +90,14 @@ async function resetStats(userId) {
 // Calculate xp rewards for levelling up.
 // Each level: +5 damage (max 25), +100hp, +100max_hp, +1 armor
 // await calculateXP(id, nextlvl);
+
 async function calculateXP(id, nextlvl) {
+  // Once the user reaches level 25, they can't level up anymore.
+  const currentlvl = await get(`${id}_level`);
+  if (currentlvl == 25) {
+    return;
+  }
+
   // If the user is above level 10, they get less health increase, but more armor.
   if ((await get(`${id}_next_level`)) > 10) {
     await incr(id, "level", 1);
@@ -130,7 +137,13 @@ async function calculateXP(id, nextlvl) {
 // await checkXP(id, xp);
 // xp == amount of xp to give
 async function checkXP(id, xp) {
+  // Once the user reaches level 25, they can't level up anymore.
+  const currentlvl = await get(`${id}_level`);
   const nextlvl = await get(`${id}_next_level`);
+  // Once the user reaches level 25, they can't level up anymore.
+  if (currentlvl == 25) {
+    return;
+  }
   const xp_needed = Number(await get(`${id}_xp_needed`));
   if (xp >= xp_needed) {
     await calculateXP(id, nextlvl);
