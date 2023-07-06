@@ -19,7 +19,8 @@ module.exports = {
     const hpLoss = Math.floor(chance.integer({ min: hp / 7, max: hp / 6 }));
 
     // User's Lost HP AFTER armor is calculated.
-    const hpLossT = hpLoss - (await get(`${user.id}_armor`));
+    var hpLossT = hpLoss - (await get(`${user.id}_armor`));
+    hpLossT = Math.max(hpLossT, 1);
 
     // User's coins reward.
     const coins = Math.floor(chance.integer({ min: hp / 5, max: hp / 4 }));
