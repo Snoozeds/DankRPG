@@ -60,7 +60,7 @@ const commandFolders = fs.readdirSync("./commands");
 for (const folder of commandFolders) {
   const commandFiles = fs.readdirSync(`./commands/${folder}`).filter((file) => file.endsWith(".js"));
   for (const file of commandFiles) {
-    if(!command.data) return console.log(`\u001b[1;31mCommand ${file} does not have a data property. Please add one.\u001b[0m`);
+    const command = require(`./commands/${folder}/${file}`);
     client.commands.set(command.data.name, command);
     console.log("\u001b[1;36mLoaded command " + `'${command.data.name}'` + " from /" + folder + "/" + file + "\u001b[0m");
   }
