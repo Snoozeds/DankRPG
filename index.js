@@ -1,5 +1,6 @@
 const fs = require("node:fs");
-const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require("discord.js");
+const path = require('node:path');
+const { Client, Collection, GatewayIntentBits } = require("discord.js");
 const { token, topgg, usr, pwd } = require("./config.json");
 const Redis = require("ioredis");
 const express = require("express");
@@ -31,7 +32,7 @@ ap.on("posted", () => {
   console.log("Posted stats to Top.gg!");
 });
 
-// top.gg voting webhook.
+// Top.gg voting webhook.
 const Topgg = require("@top-gg/sdk");
 const app = express();
 const webhook = new Topgg.Webhook(topgg);
@@ -43,7 +44,6 @@ app.post(
   })
 );
 app.listen(6969);
-// End of top.gg section.
 
 // This is used for uptime monitoring. This is not necessary.
 // Uptime monitoring I suggest: https://uptimerobot.com/, https://github.com/louislam/uptime-kuma (self-hosted, I use.)
@@ -52,7 +52,7 @@ app.get("/ping", (req, res) => {
 });
 app.listen(3000);
 
-// Command handler
+// Slash commands
 // Structure: ./commands/Category/command.js
 client.commands = new Collection();
 const commandFolders = fs.readdirSync("./commands");
@@ -60,75 +60,27 @@ const commandFolders = fs.readdirSync("./commands");
 for (const folder of commandFolders) {
   const commandFiles = fs.readdirSync(`./commands/${folder}`).filter((file) => file.endsWith(".js"));
   for (const file of commandFiles) {
-    const command = require(`./commands/${folder}/${file}`);
+    if(!command.data) return console.log(`\u001b[1;31mCommand ${file} does not have a data property. Please add one.\u001b[0m`);
     client.commands.set(command.data.name, command);
     console.log("\u001b[1;36mLoaded command " + `'${command.data.name}'` + " from /" + folder + "/" + file + "\u001b[0m");
   }
 }
 
-client.on(Events.InteractionCreate, async (interaction) => {
-  if (!interaction.isChatInputCommand()) return;
+// Event handler
+// Structure: ./events/event.js
+const eventsPath = path.join(__dirname, "events");
+const eventFiles = fs.readdirSync(eventsPath).filter((file) => file.endsWith(".js"));
 
-  const command = interaction.client.commands.get(interaction.commandName);
-
-  // If the command doesn't exist, log it and return.
-  if (!command) {
-    console.error(`No command matching ${interaction.commandName} was found. Make sure the file exists.`);
-    return;
+for (const file of eventFiles) {
+  const filePath = path.join(eventsPath, file);
+  const event = require(filePath);
+  if (event.once) {
+    client.once(event.name, (...args) => event.execute(...args));
+  } else {
+    client.on(event.name, (...args) => event.execute(...args));
   }
-
-  if ((await redis.get(`${interaction.user.id}_hasStarted`)) !== "1") {
-    await redis.set(`${interaction.user.id}_coins`, "0");
-    await redis.set(`${interaction.user.id}_hp`, "100");
-    await redis.set(`${interaction.user.id}_max_hp`, "100");
-    await redis.set(`${interaction.user.id}_armor`, "0");
-    await redis.set(`${interaction.user.id}_damage`, "5");
-    await redis.set(`${interaction.user.id}_xp`, "0");
-    await redis.set(`${interaction.user.id}_xp_needed`, "100");
-    await redis.set(`${interaction.user.id}_level_xp`, "100");
-    await redis.set(`${interaction.user.id}_next_level`, 2);
-    await redis.set(`${interaction.user.id}_level`, "1");
-    await redis.set(`${interaction.user.id}_hasStarted`, "1");
-    await redis.set(`${interaction.user.id}_color`, "#FFE302");
-    await redis.set(`${interaction.user.id}_xp_alerts`, "1");
-    await redis.set(`${interaction.user.id}_commandsUsed`, "1");
-
-    await command.execute(interaction);
-  }
-
-  // Achievement for April Fools. (1st-3rd April)
-  // REMEMBER. JAVASCRIPT COUNTS MONTHS FROM 0. HOW FUN.
-  if ((await redis.get(`${interaction.user.id}_april_achievement`)) !== null && (await redis.get(`${interaction.user.id}_april_achievement`)) != true) {
-    const today = new Date();
-    const start = new Date(Date.UTC(today.getUTCFullYear(), 3, 1)); // April 1st, UTC
-    const end = new Date(Date.UTC(today.getUTCFullYear(), 3, 3)); // April 3rd, UTC
-    if (today >= start && today <= end) {
-      redis.set(`${interaction.user.id}_april_achievement`, true);
-      redis.incrby(`${interaction.user.id}_coins`, 500);
-    }
-  }
-  // End of April Fools achievement.
-
-  try {
-    await command.execute(interaction);
-  } catch (error) {
-    console.error(error);
-    await interaction.reply({
-      content: "There was an error while executing this command!",
-      ephemeral: true,
-    });
-    // The user will see this if an error occurs. Can be good for reporting bugs.
-  }
-});
+}
 
 client.login(token);
-
-client.once(Events.ClientReady, async () => {
-  console.log(`Logged in as ${client.user.tag}.`);
-  client.user.setPresence({
-    activities: [{ name: `/commands`, type: ActivityType.Watching }],
-    status: "online",
-  });
-});
 
 module.exports = client;
