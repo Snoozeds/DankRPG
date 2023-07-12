@@ -31,6 +31,7 @@ module.exports = {
       await redis.set(`${interaction.user.id}_commandsUsed`, "1");
 
       await command.execute(interaction);
+      return;
     }
 
     // Achievement for April Fools. (1st-3rd April)
