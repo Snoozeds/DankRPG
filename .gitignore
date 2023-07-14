@@ -3,3 +3,4 @@ config.json
 .prettierrc.json
 .prettierignore
 itsasecret.txt
+.dccache
