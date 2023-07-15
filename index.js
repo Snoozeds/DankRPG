@@ -1,5 +1,5 @@
 const fs = require("node:fs");
-const path = require('node:path');
+const path = require("node:path");
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
 const { token, topgg, usr, pwd } = require("./config.json");
 const Redis = require("ioredis");

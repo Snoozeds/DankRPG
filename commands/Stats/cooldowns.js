@@ -57,8 +57,6 @@ module.exports = {
       await interaction.reply({
         embeds: [embed],
       });
-
-      await incr(`${user.id}`, "commandsUsed", 1);
     } catch (error) {
       console.error(error);
       await interaction.reply({

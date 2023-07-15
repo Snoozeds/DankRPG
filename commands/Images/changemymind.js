@@ -79,7 +79,6 @@ module.exports = {
     const attachment = new AttachmentBuilder(await canvas.encode("png"), {
       name: "changemymind.png",
     });
-    await incr(`${interaction.user.id}`, "commandsUsed", 1);
     await interaction.editReply({ files: [attachment] }); // We must EDIT the reply, as the deferred reply already exists.
   },
 };

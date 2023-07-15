@@ -12,6 +12,5 @@ module.exports = {
     await interaction.reply({
       files: [attachment],
     });
-    await incr(`${interaction.user.id}`, "commandsUsed", 1);
   },
 };

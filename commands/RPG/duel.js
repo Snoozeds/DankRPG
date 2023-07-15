@@ -28,7 +28,7 @@ module.exports = {
       });
     }
 
-    if(targetCooldowned) {
+    if (targetCooldowned) {
       const timeLeft = msToMinutes(targetCooldowned.msLeft, false);
       return interaction.reply({
         content: `That user needs to wait ${timeLeft.minutes}m ${timeLeft.seconds}s before you can duel them.`,

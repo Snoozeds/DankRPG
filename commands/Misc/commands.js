@@ -118,6 +118,5 @@ module.exports = {
     } else if (cat === "Stats") {
       await interaction.reply({ embeds: [Stats] });
     }
-    await incr(`${interaction.user.id}`, "commandsUsed", 1);
   },
 };

@@ -16,6 +16,5 @@ module.exports = {
       .setColor(await get(`${user.id}_color`))
       .setTimestamp();
     await interaction.reply({ embeds: [embed] });
-    await incr(`${interaction.user.id}`, "commandsUsed", 1);
   },
 };

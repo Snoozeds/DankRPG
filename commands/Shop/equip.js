@@ -29,7 +29,7 @@ module.exports = {
           { name: "Abyssal armor", value: "abyssal" },
           { name: "Verdant armor", value: "verdant" },
           { name: "Sylvan armor", value: "sylvan" },
-          { name: "Topazine armor", value: "topazine" },
+          { name: "Topazine armor", value: "topazine" }
         )
     ),
   async execute(interaction) {

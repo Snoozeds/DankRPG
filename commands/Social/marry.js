@@ -56,7 +56,6 @@ module.exports = {
       await set(`${author.id}_marriageRequest`, user.id);
       await set(`${author.id}_sender`, "true");
       await set(`${user.id}_sender`, "false");
-      await incr(author.id, "commandsUsed", 1);
       return interaction.reply({
         content: "<@" + user.id + ">, " + author.username + " has requested to marry you!\nUse /accept to accept.",
       });

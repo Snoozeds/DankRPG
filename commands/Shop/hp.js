@@ -14,6 +14,5 @@ module.exports = {
       });
     }
     await interaction.reply(`It costs ${coinEmoji}**${maxhp - hp}** to heal to MaxHP.`);
-    await incr(`${interaction.user.id}`, "commandsUsed", 1);
   },
 };

@@ -34,7 +34,6 @@ module.exports = {
           .setColor(await get(`${interaction.user.id}_color`))
           .setTimestamp();
         await interaction.reply({ embeds: [trueEmbed] });
-        await incr(interaction.user.id, "commandsUsed", 1);
       } else {
         const falseEmbed = new EmbedBuilder()
           .setTitle(`${interaction.user.username}'s adventure`)
@@ -42,7 +41,6 @@ module.exports = {
           .setColor(await get(`${interaction.user.id}_color`))
           .setTimestamp();
         await interaction.reply({ embeds: [falseEmbed] });
-        await incr(`${interaction.user.id}`, "commandsUsed", 1);
       }
     }
   },

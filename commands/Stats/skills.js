@@ -36,7 +36,6 @@ module.exports = {
       .setColor(await get(`${interaction.user.id}_color`))
       .setFooter({ text: "Requested by " + interaction.user.username })
       .setTimestamp();
-    await incr(`${interaction.user.id}`, "commandsUsed", 1);
     await interaction.reply({ embeds: [embed] });
   },
 };

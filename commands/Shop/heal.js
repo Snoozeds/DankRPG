@@ -69,7 +69,6 @@ module.exports = {
         } else {
           await decr(id, "coins", cost);
           await incr(id, "hp", amount);
-          await incr(id, "commandsUsed", 1);
           const new_hp = await get(`${id}_hp`);
           const new_coins = await get(`${id}_coins`);
           const embed = new EmbedBuilder()

@@ -40,7 +40,6 @@ module.exports = {
         .setColor(await get(`${interaction.user.id}_color`));
 
       achievementUnlocked == true ? interaction.reply({ embeds: [achievementEmbed, embed] }) : interaction.reply({ embeds: [embed] });
-      await incr(`${interaction.user.id}`, "commandsUsed", 1);
     }
   },
 };

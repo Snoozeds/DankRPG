@@ -6,6 +6,5 @@ module.exports = {
   async execute(interaction) {
     const seconds = Math.round(Date.now() / 1000);
     await interaction.reply(`DankRPG has been up since <t:${Math.round(seconds - process.uptime())}:R>`);
-    await incr(`${interaction.user.id}`, "commandsUsed", 1);
   },
 };

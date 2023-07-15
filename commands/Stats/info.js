@@ -18,6 +18,5 @@ module.exports = {
       .setColor(await get(`${interaction.user.id}_color`))
       .setFooter({ text: `Made by Snoozeds#0802 <3` });
     await interaction.reply({ embeds: [infoEmbed] });
-    await incr(`${interaction.user.id}`, "commandsUsed", 1);
   },
 };

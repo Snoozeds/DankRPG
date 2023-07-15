@@ -44,7 +44,6 @@ module.exports = {
         await set(`${marriageRequest}_marriageTime`, Math.round(Date.now() / 1000));
         await set(`${user.id}_sender`, null);
         await set(`${marriageRequest}_sender`, null);
-        await incr(user.id, "commandsUsed", 1);
         return interaction.reply({
           content: "You are now married to <@" + marriageRequest + ">!",
         });

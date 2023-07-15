@@ -9,6 +9,5 @@ module.exports = {
       fetchReply: true,
     });
     await interaction.editReply(`**Websocket ping: \`${interaction.client.ws.ping}ms\`**`);
-    await incr(`${interaction.user.id}`, "commandsUsed", 1);
   },
 };

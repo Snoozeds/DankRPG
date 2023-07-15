@@ -79,7 +79,6 @@ module.exports = {
               .setColor(await get(`${user.id}_color`));
             await decr(user.id, "hp", hpLossT);
             await incr(user.id, "coins", coins);
-            await incr(user.id, "commandsUsed", 1);
             await interaction.reply({
               embeds: [embed],
             });
@@ -94,7 +93,6 @@ module.exports = {
               .setColor(await get(`${user.id}_color`));
             await decr(user.id, "hp", hpLossT);
             await incr(user.id, "coins", coins);
-            await incr(user.id, "commandsUsed", 1);
             await interaction.reply({
               embeds: [embed],
             });
@@ -106,7 +104,6 @@ module.exports = {
               .setDescription(`You start a fight.\n**You lose your fight!**\n**\\- ${hpLossT} ${hpEmoji}(${newHP}) :warning:**`)
               .setColor(await get(`${user.id}_color`));
             await decr(user.id, "hp", hpLossT);
-            await incr(user.id, "commandsUsed", 1);
             await interaction.reply({
               embeds: [embed],
             });
@@ -116,7 +113,6 @@ module.exports = {
               .setDescription(`You start a fight.\n**You lose your fight!**\n**\\- ${hpLossT} ${hpEmoji}(${newHP})**`)
               .setColor(await get(`${user.id}_color`));
             await decr(user.id, "hp", hpLossT);
-            await incr(user.id, "commandsUsed", 1);
             await interaction.reply({
               embeds: [embed],
             });

@@ -52,6 +52,5 @@ module.exports = {
       .setFooter({ text: "Requested by " + interaction.user.username })
       .setTimestamp();
     await interaction.reply({ embeds: [profile] });
-    await incr(`${interaction.user.id}`, "commandsUsed", 1);
   },
 };

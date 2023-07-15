@@ -26,12 +26,11 @@ module.exports = {
           user.bot ? "" : `**Commands used:** \`${await get(`${user.id}_commandsUsed`)}\`\n`
         }**Joined Discord:** <t:${createdAt}>\n**Joined server:** <t:${joinedAt}>\n\n**Roles (${numRoles}):** ${roles}\n\n**Links:**${
           user.avatarURL() ? `\n[Avatar](${user.avatarURL()})` : ""
-        }${user.banner ? `\n[Banner](${fuser.bannerURL({dynamic: true, size: 4096})})` : ""}`
+        }${user.banner ? `\n[Banner](${fuser.bannerURL({ dynamic: true, size: 4096 })})` : ""}`
       )
       .setColor(await get(`${author.id}_color`))
       .setThumbnail(user.avatarURL())
       .setImage(fuser.bannerURL({ dynamic: true, size: 4096 }));
     await interaction.reply({ embeds: [Embed] });
-    await incr(`${interaction.user.id}`, "commandsUsed", 1);
   },
 };

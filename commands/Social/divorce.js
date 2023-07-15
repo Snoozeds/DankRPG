@@ -54,7 +54,6 @@ module.exports = {
           await set(`${spouse}_sender`, null);
           await set(`${spouse}_marriageRequest`, null);
           await set(`${user.id}_marriedTo`, null);
-          await incr(`${interaction.user.id}`, "commandsUsed", 1);
         } else if (confirmation.customId === "no") {
           await confirmation.update({
             content: "Divorce cancelled.",

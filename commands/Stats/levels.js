@@ -14,6 +14,5 @@ module.exports = {
       .setThumbnail(interaction.user.displayAvatarURL({ format: "jpg", size: 4096 }))
       .setColor(await get(`${interaction.user.id}_color`));
     await interaction.reply({ embeds: [Embed] });
-    await incr(`${interaction.user.id}`, "commandsUsed", 1);
   },
 };

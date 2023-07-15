@@ -19,7 +19,6 @@ module.exports = {
       });
     }
     if (marriageStatus === "married") {
-      await incr(`${user.id}`, "commandsUsed", 1);
       const embed = new EmbedBuilder()
         .setTitle(`Marriage Status: ${user.username}`)
         .setDescription(`This user is married.`)

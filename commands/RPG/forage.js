@@ -50,7 +50,6 @@ module.exports = {
         await incr(user.id, set, amount);
       }
       await interaction.reply({ embeds: [embed] });
-      await incr(user.id, "commandsUsed", 1);
       await forageCommandCooldown.addUser(interaction.user.id);
     }
   },

@@ -17,7 +17,6 @@ module.exports = {
       });
     } else {
       await interaction.reply(`${fuser.bannerURL({ dynamic: true, size: 4096 })}`);
-      await incr(`${interaction.user.id}`, "commandsUsed", 1);
     }
   },
 };

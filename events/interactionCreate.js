@@ -1,4 +1,5 @@
 const { Events } = require("discord.js");
+const { incr } = require("../globals.js");
 
 module.exports = {
   name: Events.InteractionCreate,
@@ -48,6 +49,7 @@ module.exports = {
     }
 
     try {
+      await incr(`${interaction.user.id}`, "commandsUsed", 1);
       await command.execute(interaction);
     } catch (error) {
       console.error(error);

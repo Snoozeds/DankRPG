@@ -16,6 +16,5 @@ module.exports = {
       .setColor(await get(`${interaction.user.id}_color`))
       .setThumbnail(server.iconURL());
     await interaction.reply({ embeds: [embed] });
-    incr(`${interaction.user.id}`, "commandsUsed", 1);
   },
 };
