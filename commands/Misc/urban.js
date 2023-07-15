@@ -6,7 +6,8 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("urban")
     .setDescription("[NSFW] Define a term from Urban Dictionary.")
-    .addStringOption((option) => option.setName("term").setDescription("The term to define").setRequired(true)),
+    .addStringOption((option) => option.setName("term").setDescription("The term to define").setRequired(true))
+    .setNSFW(true),
   async execute(interaction) {
     const term = interaction.options.getString("term");
     const query = new URLSearchParams({ term });
