@@ -6,9 +6,7 @@ and also allow others to learn from [the DankRPG bot](https://dankrpg.xyz).
 ## What is DankRPG?
 
 DankRPG is a Discord Economy and RPG bot that was originally written in [BDFD](https://botdesignerdiscord.com/),
-then [aoi.js](https://aoi.js.org) and now finally [discord.js](https://discord.js.org). It offers a lot of rpg/economy features,
-and is constantly being updated. It is also open source, so you can learn from this repository, or even use it as a base
-for your own bot. 
+then [aoi.js](https://aoi.js.org) and now finally [discord.js](https://discord.js.org). You can learn more about this project by visiting [the website](https://dankrpg.xyz) and [documentation](https://docs.dankrpg.xyz).
 
 ## License
 Code in this Github repository falls under the [Apache 2.0 License](https://choosealicense.com/licenses/apache-2.0/). 
