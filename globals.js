@@ -48,7 +48,7 @@ async function set(key, value) {
 }
 
 // Increase a value by an amount.
-// await incr(`${id}_key`, value);
+// await incr(id, key, value);
 async function incr(id, key, value) {
   return redis.incrby(`${id}_${key}`, value);
 }
