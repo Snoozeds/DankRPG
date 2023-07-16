@@ -12,6 +12,14 @@ then [aoi.js](https://aoi.js.org) and now finally [discord.js](https://discord.j
 Code in this Github repository falls under the [Apache 2.0 License](https://choosealicense.com/licenses/apache-2.0/). 
 Some art assets used by DankRPG is not within this repository, and are instead from [Pixeltier](https://pixeltier.itch.io/) or [Raven](https://clockworkraven.itch.io/). This repository's license does not apply to those assets.
 
+The name 'DankRPG' and DankRPG's logo do not fall under the Apache 2.0 License and are not allowed to be used without obtaining written permission from the owner, Snoozeds.
+
+You may not use the name 'DankRPG' or DankRPG's logo in any way that implies endorsement of your project by the DankRPG team. Furthermore, you may not use the name 'DankRPG' or DankRPG's logo in any way that suggests your project is the official DankRPG bot.
+
+Additionally, you are prohibited from using the name 'DankRPG' or DankRPG's logo in any manner that could be harmful to the DankRPG brand or detrimental to the DankRPG team.
+
+You, however, are allowed to use terms such as 'based on DankRPG' or 'powered by DankRPG' to indicate that your project is built on top of DankRPG, as long as it is clear that your project is not the official DankRPG bot.
+
 ## New features of the rewrite:
 
 - [x] New, **much faster** RAM-based database, Redis. Though this may not be a good solution for low RAM capacity servers.
