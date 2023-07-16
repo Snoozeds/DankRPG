@@ -37,9 +37,9 @@ module.exports = {
     }
 
     if (item === "stone ring" || item === "stonering") {
-      if (coins < 1500 || coins == undefined) {
+      if (coins < 2000 || coins == undefined) {
         return interaction.reply({
-          content: `You don't have enough coins for this item! You need ${coinEmoji} 1500.`,
+          content: `You don't have enough coins for this item! You need ${coinEmoji} 2000.`,
           ephemeral: true,
         });
       }
@@ -50,18 +50,18 @@ module.exports = {
         });
       }
       await incr(`${user.id}`, "armor", 1);
-      await decr(`${user.id}`, "coins", 1500);
+      await decr(`${user.id}`, "coins", 2000);
       await set(`${user.id}_stoneRing`, 1);
       return interaction.reply({
-        content: `You bought a stone ring for ${coinEmoji}1500.`,
+        content: `You bought a stone ring for ${coinEmoji}2000.`,
         ephemeral: true,
       });
     }
 
     if (item === "celestial armor" || item === "celestialarmor" || item === "celestial") {
-      if (coins < 10000 || coins == undefined) {
+      if (coins < 35000 || coins == undefined) {
         return interaction.reply({
-          content: `You don't have enough coins for this item! You need ${coinEmoji} 10000.`,
+          content: `You don't have enough coins for this item! You need ${coinEmoji} 35000.`,
           ephemeral: true,
         });
       }
@@ -72,18 +72,18 @@ module.exports = {
           ephemeral: true,
         });
       }
-      await decr(`${user.id}`, "coins", 10000);
+      await decr(`${user.id}`, "coins", 35000);
       await set(`${user.id}_celestialArmor`, 1);
       return interaction.reply({
-        content: `You bought a celestial armor for ${coinEmoji}10000.`,
+        content: `You bought a celestial armor for ${coinEmoji}35000.`,
         ephemeral: true,
       });
     }
 
     if (item === "sunforged armor" || item === "sunforgedarmor" || item === "sunforged") {
-      if (coins < 8500 || coins == undefined) {
+      if (coins < 22500 || coins == undefined) {
         return interaction.reply({
-          content: `You don't have enough coins for this item! You need ${coinEmoji} 8500.`,
+          content: `You don't have enough coins for this item! You need ${coinEmoji} 22500.`,
           ephemeral: true,
         });
       }
@@ -94,18 +94,18 @@ module.exports = {
           ephemeral: true,
         });
       }
-      await decr(`${user.id}`, "coins", 8500);
+      await decr(`${user.id}`, "coins", 22500);
       await set(`${user.id}_sunforgedArmor`, 1);
       return interaction.reply({
-        content: `You bought a sunforged armor for ${coinEmoji}8500.`,
+        content: `You bought a sunforged armor for ${coinEmoji}22500.`,
         ephemeral: true,
       });
     }
 
     if (item === "glacial armor" || item === "glacialarmor" || item === "glacial") {
-      if (coins < 6500 || coins == undefined) {
+      if (coins < 17500 || coins == undefined) {
         return interaction.reply({
-          content: `You don't have enough coins for this item! You need ${coinEmoji} 6500.`,
+          content: `You don't have enough coins for this item! You need ${coinEmoji} 17500.`,
           ephemeral: true,
         });
       }
@@ -116,18 +116,18 @@ module.exports = {
           ephemeral: true,
         });
       }
-      await decr(`${user.id}`, "coins", 6500);
+      await decr(`${user.id}`, "coins", 17500);
       await set(`${user.id}_glacialArmor`, 1);
       return interaction.reply({
-        content: `You bought a glacial armor for ${coinEmoji}6500.`,
+        content: `You bought a glacial armor for ${coinEmoji}17500.`,
         ephemeral: true,
       });
     }
 
     if (item === "abyssal armor" || item === "abyssalarmor" || item === "abyssal") {
-      if (coins < 5500 || coins == undefined) {
+      if (coins < 13500 || coins == undefined) {
         return interaction.reply({
-          content: `You don't have enough coins for this item! You need ${coinEmoji} 5500.`,
+          content: `You don't have enough coins for this item! You need ${coinEmoji} 13500.`,
           ephemeral: true,
         });
       }
@@ -139,18 +139,18 @@ module.exports = {
         });
       }
 
-      await decr(`${user.id}`, "coins", 5500);
+      await decr(`${user.id}`, "coins", 13500);
       await set(`${user.id}_abyssalArmor`, 1);
       return interaction.reply({
-        content: `You bought a abyssal armor for ${coinEmoji}5500.`,
+        content: `You bought a abyssal armor for ${coinEmoji}13500.`,
         ephemeral: true,
       });
     }
 
     if (item === "verdant armor" || item === "verdantarmor" || item === "verdant") {
-      if (coins < 4500 || coins == undefined) {
+      if (coins < 10500 || coins == undefined) {
         return interaction.reply({
-          content: `You don't have enough coins for this item! You need ${coinEmoji} 4500.`,
+          content: `You don't have enough coins for this item! You need ${coinEmoji} 10500.`,
           ephemeral: true,
         });
       }
@@ -162,18 +162,18 @@ module.exports = {
         });
       }
 
-      await decr(`${user.id}`, "coins", 4500);
+      await decr(`${user.id}`, "coins", 10500);
       await set(`${user.id}_verdantArmor`, 1);
       return interaction.reply({
-        content: `You bought a verdant armor for ${coinEmoji}4500.`,
+        content: `You bought a verdant armor for ${coinEmoji}10500.`,
         ephemeral: true,
       });
     }
 
     if (item === "sylvan armor" || item === "sylvanarmor" || item === "sylvan") {
-      if (coins < 3500 || coins == undefined) {
+      if (coins < 7500 || coins == undefined) {
         return interaction.reply({
-          content: `You don't have enough coins for this item! You need ${coinEmoji} 3500.`,
+          content: `You don't have enough coins for this item! You need ${coinEmoji} 7500.`,
           ephemeral: true,
         });
       }
@@ -185,18 +185,18 @@ module.exports = {
         });
       }
 
-      await decr(`${user.id}`, "coins", 3500);
+      await decr(`${user.id}`, "coins", 7500);
       await set(`${user.id}_sylvanArmor`, 1);
       return interaction.reply({
-        content: `You bought a sylvan armor for ${coinEmoji}3500.`,
+        content: `You bought a sylvan armor for ${coinEmoji}7500.`,
         ephemeral: true,
       });
     }
 
     if (item === "topazine armor" || item === "topazinearmor" || item === "topazine") {
-      if (coins < 2500 || coins == undefined) {
+      if (coins < 4500 || coins == undefined) {
         return interaction.reply({
-          content: `You don't have enough coins for this item! You need ${coinEmoji} 2500.`,
+          content: `You don't have enough coins for this item! You need ${coinEmoji} 4500.`,
           ephemeral: true,
         });
       }
@@ -208,10 +208,10 @@ module.exports = {
         });
       }
 
-      await decr(`${user.id}`, "coins", 2500);
+      await decr(`${user.id}`, "coins", 4500);
       await set(`${user.id}_topazineArmor`, 1);
       return interaction.reply({
-        content: `You bought a topazine armor for ${coinEmoji}2500.`,
+        content: `You bought a topazine armor for ${coinEmoji}4500.`,
         ephemeral: true,
       });
     }

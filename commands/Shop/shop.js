@@ -72,42 +72,42 @@ module.exports = {
 
 ${celestialArmorEmoji} Celestial Armor (**celestial**)
 ${descriptionEmoji} Armor of immense strength, said to have been forged by the gods themselves.
-${coinEmoji} **10,000**
+${coinEmoji} **35,000**
 ${armorUpEmoji} **+50**
           
 ${sunforgedArmorEmoji} Sunforged Armor (**sunforged**)
 ${descriptionEmoji} Extremely rare and formidable armor, forged in the heat of the sun.
-${coinEmoji} **8500**
+${coinEmoji} **22,500**
 ${armorUpEmoji} **+35**
           
 ${glacialArmorEmoji} Glacial Armor (**glacial**)
 ${descriptionEmoji} Very rare and robust armor, meticulously forged in the coldest of glaciers.
-${coinEmoji} **6500**
+${coinEmoji} **17,500**
 ${armorUpEmoji} **+30**
           
 ${abyssalArmorEmoji} Abyssal Armor (**abyssal**)
 ${descriptionEmoji} Rare and powerful armor, imbued with the essence of the deep sea.
-${coinEmoji} **5500**
+${coinEmoji} **13,500**
 ${armorUpEmoji} **+25**
           
 ${verdantArmorEmoji} Verdant Armor (**verdant**)
 ${descriptionEmoji} Strong and sought-after armor, adorned with the essence of lush greenery.
-${coinEmoji} **4500**
+${coinEmoji} **10,500**
 ${armorUpEmoji} **+20**
           
 ${sylvanArmorEmoji} Sylvan Armor (**sylvan**)
 ${descriptionEmoji} Highly coveted and rare armor, emanating the magic of ancient forests.
-${coinEmoji} **3500**
+${coinEmoji} **7,500**
 ${armorUpEmoji} **+10**
           
 ${topazineArmorEmoji} Topazine Armor (**topazine**)
 ${descriptionEmoji} Relatively common armor, imbued with the essence of the earth.
-${coinEmoji} **2500**
+${coinEmoji} **4,500**
 ${armorUpEmoji} **+2**
           
 ${stoneRingEmoji} Stone Ring (Owned: ${(await get(`${user.id}_stoneRing`)) || 0}) (**stonering**)
 ${descriptionEmoji} A small ring crafted from stone.
-${coinEmoji} **1500**
+${coinEmoji} **2,000**
 ${armorUpEmoji} **+1**`
             )
             .setFooter({ text: "Use /buy <id> to buy an item and /equip to equip an item. You can only equip one armor item at once." })
