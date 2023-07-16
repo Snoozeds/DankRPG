@@ -30,7 +30,7 @@ then [aoi.js](https://aoi.js.org) and now finally [discord.js](https://discord.j
 - [discord-command-cooldown](https://npmjs.com/package/discord-command-cooldown)
 - [undici](https://npmjs.com/package/undici)
 - [@napi-rs/canvas](https://npmjs.com/package/@napi-rs/canvas) **(0.1.25)**
-- optional, but recommended: [pm2](https://npmjs.com/package/pm2)
+- optional, but recommended: [forever](https://www.npmjs.com/package/forever)
 
 ## License
 Code in this Github repository falls under the [Apache 2.0 License](https://choosealicense.com/licenses/apache-2.0/). 
@@ -66,7 +66,7 @@ Once you're done, run `deploy-commands.js` to **globally** deploy the slash comm
 You'll only need to run this again if you add new commands. Follow discord.js's guide [here](https://discordjs.guide/creating-your-bot/command-deployment.html#guild-commands) if you want to add them to a server instead. \
 \
 Finally, run `node index.js` to start DankRPG to see if you encounter any errors. \
-If you don't, use `pm2 start index.js` to start the bot in the background.
+If you don't, use `forever start index.js` to start the bot in the background.
 
 ## Errors:
 
