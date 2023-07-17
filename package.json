@@ -11,10 +11,10 @@
   "dependencies": {
     "@napi-rs/canvas": "^0.1.25",
     "chance": "^1.1.9",
-    "discord-command-cooldown": "^1.0.8",
     "discord.js": "^14.9.0",
     "ioredis": "^5.2.3",
-    "undici": "^5.20.0"
+    "undici": "^5.20.0",
+    "ms": "^2.1.2"
   },
   "optionalDependencies": {
     "@top-gg/sdk": "^3.1.3",

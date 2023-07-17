@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, set, incr, decr, hpEmoji, coinEmoji, checkXP, resetStats } = require("../../globals.js");
+const { get, incr, decr, hpEmoji, coinEmoji, checkXP, resetStats, cooldown } = require("../../globals.js");
 const chance = require("chance").Chance();
+const ms = require("ms");
 
 module.exports = {
   data: new SlashCommandBuilder().setName("fight").setDescription("Start a fight. Rewards and damage increase per level. Higher chance of winning per damage."),
@@ -35,14 +36,9 @@ module.exports = {
     // User's success rate for the fight.
     const successrate = (await get(`${user.id}_damage`)) * 4;
 
-    const { CommandCooldown, msToMinutes } = require("discord-command-cooldown");
-    const ms = require("ms");
-    const fightCommandCooldown = new CommandCooldown("fight", ms(`${chance.integer({ min: 10, max: 20 })}s`));
-    const userCooldowned = await fightCommandCooldown.getUser(interaction.user.id);
-    if (userCooldowned) {
-      const timeLeft = msToMinutes(userCooldowned.msLeft, false);
+    if (await cooldown.check(user.id, "fight")) {
       await interaction.reply({
-        content: `You need to wait ${timeLeft.seconds}s before using this command again!`,
+        content: `You need to wait ${ms(await cooldown.get(interaction.user.id, "fight"))} before you can fight again.`,
         ephemeral: true,
       });
     } else {
@@ -61,7 +57,7 @@ module.exports = {
           await resetStats(user.id);
         }
       } else {
-        await fightCommandCooldown.addUser(interaction.user.id);
+        await cooldown.set(user.id, "fight", `${chance.integer({ min: 10, max: 20 })}s`);
         if (
           chance.bool({
             likelihood: 0 + successrate,

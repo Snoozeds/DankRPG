@@ -1,8 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-
-const { get, set, decr, incr, resetStats, hpEmoji, attackEmoji, armorEmoji } = require("../../globals.js");
-
-const { CommandCooldown, msToMinutes } = require("discord-command-cooldown");
+const { get, set, decr, incr, resetStats, hpEmoji, attackEmoji, armorEmoji, cooldown } = require("../../globals.js");
 const ms = require("ms");
 const chance = require("chance").Chance();
 
@@ -13,34 +10,34 @@ module.exports = {
     .addUserOption((option) => option.setName("user").setDescription("The user to duel.").setRequired(true)),
   async execute(interaction) {
     const user = interaction.user;
-    // Cooldown
-    const duelCommandCooldown = new CommandCooldown("duel", ms(`1h`));
-    const duelCancelCooldown = new CommandCooldown("duelCancel", ms(`5m`));
-    const userCooldowned = await duelCommandCooldown.getUser(user.id);
-    const targetCooldowned = await duelCommandCooldown.getUser(interaction.options.getUser("user").id);
-    const userCancelled = await duelCancelCooldown.getUser(user.id);
+    
+    // Cooldowns
+    const userCooldowned = await cooldown.check(interaction.user.id, "duel")
+    const targetCooldowned = await cooldown.check(interaction.options.getUser("user").id, "duel")
+    const userCancelled = await cooldown.check(interaction.user.id, "duelCancel")
 
     if (userCooldowned) {
-      const timeLeft = msToMinutes(userCooldowned.msLeft, false);
+      const minutes = Math.floor((await cooldown.get(interaction.user.id, "duel")) / 60000) % 60;
+      const seconds = Math.floor((await cooldown.get(interaction.user.id, "duel")) / 1000) % 60;
       return interaction.reply({
-        content: `You need to wait ${timeLeft.minutes}m ${timeLeft.seconds}s before using this command again!`,
+        content: `You need to wait ${minutes}m ${seconds}s before using this command again!`,
         ephemeral: true,
       });
     }
 
     if (targetCooldowned) {
-      const timeLeft = msToMinutes(targetCooldowned.msLeft, false);
+      const minutes = Math.floor((await cooldown.get(interaction.options.getUser("user").id, "duel")) / 60000) % 60;
+      const seconds = Math.floor((await cooldown.get(interaction.options.getUser("user").id, "duel")) / 1000) % 60;
       return interaction.reply({
-        content: `That user needs to wait ${timeLeft.minutes}m ${timeLeft.seconds}s before you can duel them.`,
-        ephemeral: false,
+        content: `That user needs to wait ${minutes}m ${seconds}s before you can duel them.`,
+        ephemeral: true,
       });
     }
 
     // Cooldown so users can't spam cancel duel requests.
     if (userCancelled) {
-      const timeLeft = msToMinutes(userCancelled.msLeft, false);
       return interaction.reply({
-        content: `You have cancelled a duel request recently. You need to wait ${timeLeft.seconds}s before using this command again.`,
+        content: `You have cancelled a duel request recently. You need to wait ${ms(await cooldown.get(interaction.user.id, "duelCancel"))} before using this command again.`,
         ephemeral: true,
       });
     }
@@ -165,7 +162,7 @@ module.exports = {
           embeds: [],
         });
         await set(`${user.id}_duel`, false);
-        await duelCancelCooldown.addUser(user.id);
+        await cooldown.set(interaction.user.id, "duelCancel", "5m");
         cancelCollector.stop();
       }
     });
@@ -199,8 +196,8 @@ module.exports = {
           .setColor(await get(`${user.id}_color`));
         await set(`${target.id}_duel`, true);
         await set(`${target.id}_duelTimestamp`, Date.now());
-        await duelCommandCooldown.addUser(user.id);
-        await duelCommandCooldown.addUser(target.id);
+        await cooldown.set(interaction.user.id, "duel", "1h");
+        await cooldown.set(target.id, "duel", "1h");
 
         let lastAction = `${user.username} started a duel.`; // For the embed description
 

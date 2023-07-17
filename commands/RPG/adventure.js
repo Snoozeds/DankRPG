@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, coinEmoji, incr, checkXP } = require("../../globals.js");
-const { CommandCooldown, msToMinutes } = require("discord-command-cooldown");
+const { get, coinEmoji, incr, checkXP, cooldown } = require("../../globals.js");
 const ms = require("ms");
 const chance = require("chance").Chance();
 
@@ -8,16 +7,13 @@ module.exports = {
   data: new SlashCommandBuilder().setName("adventure").setDescription("Starts an RPG adventure. Random chance of getting coins, doesn't scale."),
   async execute(interaction) {
     const xp = chance.integer({ min: 10, max: 25 });
-    const adventureCommandCooldown = new CommandCooldown("adventure", ms(`${chance.integer({ min: 20, max: 30 })}s`)); // random cooldown between 20 and 30 seconds.
-    const userCooldowned = await adventureCommandCooldown.getUser(interaction.user.id);
-    if (userCooldowned) {
-      const timeLeft = msToMinutes(userCooldowned.msLeft, false);
-      await interaction.reply({
-        content: `You need to wait ${timeLeft.seconds}s before using this command again!`,
+    if(await cooldown.check(interaction.user.id, "adventure")) {
+      return interaction.reply({
+        content: `You're on cooldown! Please wait ${ms(await cooldown.get(interaction.user.id, "adventure"))} before using this command again.`,
         ephemeral: true,
       });
     } else {
-      await adventureCommandCooldown.addUser(interaction.user.id);
+      await cooldown.set(interaction.user.id, "adventure", `${chance.integer({ min: 20, max: 30})}s`);
       // 50% chance to get a random amount of coins.
       if (chance.bool({ likelihood: 50 }) == true) {
         const outcome = Math.floor(chance.normal({ mean: 15, dev: 5 })); // https://chancejs.com/miscellaneous/normal.html

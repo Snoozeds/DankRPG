@@ -1,4 +1,4 @@
-const chance = require("chance").Chance();
+const ms = require("ms");
 
 // Emoji variables. Change these out with your own.
 // Discord bots have "Nitro", so this is fine. To grab the id, escape the emoji with a backslash (e.g \:emoji:)
@@ -140,7 +140,6 @@ async function checkXP(id, xp) {
   // Once the user reaches level 25, they can't level up anymore.
   const currentlvl = await get(`${id}_level`);
   const nextlvl = await get(`${id}_next_level`);
-  // Once the user reaches level 25, they can't level up anymore.
   if (currentlvl == 25) {
     return;
   }
@@ -160,6 +159,81 @@ function perc(part, total) {
   if (total == 0) return 0;
   return (100 * part) / total;
 }
+
+// Cooldown system
+// Cooldowns are stored in the database as a unix second timestamp.
+
+// Check if a cooldown is active.
+// await checkCooldown(id, command);
+async function checkCooldown(id, command) {
+  const now = Date.now();
+  const cooldownUntil = await get(`${id}_${command}_cooldown`);
+  if (cooldownUntil == null || cooldownUntil < now) {
+    return false;
+  }
+  return true;
+}
+
+// Set a cooldown
+// The cooldown can be a number (milliseconds), or a string (e.g 1s, 1m, 1h, 1d, 1w, 1m, 1y)
+// await setCooldown(id, command, cooldown);
+async function setCooldown(id, command, cooldown) {
+  const now = Date.now();
+  const cooldownUntil = await get(`${id}_${command}_cooldown`);
+
+  let cooldownValue;
+  if (typeof cooldown === "number") {
+    if (cooldown < 0) {
+      throw new Error("Cooldown cannot be negative!");
+    }
+    cooldownValue = now + cooldown;
+  } else if (typeof cooldown === "string") {
+    cooldownValue = now + ms(cooldown);
+  } else {
+    throw new Error("Invalid cooldown value! Value sent: " + cooldown);
+  }
+
+  if (cooldownUntil == null || cooldownUntil < now) {
+    await set(`${id}_${command}_cooldown`, cooldownValue);
+    return true;
+  } else {
+    return false;
+  }
+}
+
+
+// Remove a cooldown.
+// await removeCooldown(id, command);
+async function removeCooldown(id, command) {
+  await set(`${id}_${command}_cooldown`, null);
+}
+
+// Get a cooldown's time in milliseconds.
+// await getCooldown(id, command);
+async function getCooldown(id, command) {
+  const now = Date.now();
+  const cooldownUntil = await get(`${id}_${command}_cooldown`);
+  if (cooldownUntil == null || cooldownUntil < now) {
+    return 0;
+  } else {
+    return cooldownUntil - now;
+  }
+}
+
+// Reset all cooldowns for a user.
+// This is used for when a user dies.
+// await resetCooldowns(id);
+async function resetCooldowns(id) {
+  let cursor = "0";
+  do {
+    const [nextCursor, keys] = await redis.scan(cursor, "MATCH", `${id}_*_cooldown`);
+    if (keys.length > 0) {
+      await redis.del(...keys);
+      console.log(`Deleted cooldowns: ${keys.join(", ")}\nfor user ${id}`);
+    }
+    cursor = nextCursor;
+  } while (cursor !== "0");
+} // We could also just use KEYS, but that's not exactly recommended for production. https://redis.io/commands/keys
 
 module.exports = {
   coinEmoji,
@@ -191,3 +265,13 @@ module.exports = {
   trueEmoji,
   resetStats,
 };
+
+const cooldown = {
+  check: checkCooldown,
+  set: setCooldown,
+  remove: removeCooldown,
+  get: getCooldown,
+  reset: resetCooldowns,
+};
+
+module.exports.cooldown = cooldown;

@@ -27,9 +27,9 @@ then [aoi.js](https://aoi.js.org) and now finally [discord.js](https://discord.j
 - [Discord.js](https://discord.js.org) **(v14+)**
 - [ioRedis](https://npmjs.com/package/ioredis)
 - [chance.js](https://npmjs.com/package/chance)
-- [discord-command-cooldown](https://npmjs.com/package/discord-command-cooldown)
 - [undici](https://npmjs.com/package/undici)
-- [@napi-rs/canvas](https://npmjs.com/package/@napi-rs/canvas) **(0.1.25)**
+- [@napi-rs/canvas](https://npmjs.com/package/@napi-rs/canvas)
+- [ms](https://npmjs.com/package/ms) (used for cooldown formatting)
 - optional, but recommended: [forever](https://www.npmjs.com/package/forever) / [pm2](https://www.npmjs.com/package/pm2)
 
 ## License

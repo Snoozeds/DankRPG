@@ -1,21 +1,20 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { set, get, coinEmoji, incr, checkXP } = require("../../globals.js");
+const { set, get, coinEmoji, incr, checkXP, cooldown } = require("../../globals.js");
+const ms = require("ms");
 
 module.exports = {
   data: new SlashCommandBuilder().setName("daily").setDescription("Claim your daily reward."),
   async execute(interaction) {
-    const { CommandCooldown, msToMinutes } = require("discord-command-cooldown");
-    const ms = require("ms");
-    const dailyCommandCooldown = new CommandCooldown("daily", ms("24h"));
-    const userCooldowned = await dailyCommandCooldown.getUser(interaction.user.id);
-    if (userCooldowned) {
-      const timeLeft = msToMinutes(userCooldowned.msLeft, false);
-      await interaction.reply({
-        content: `You need to wait **${timeLeft.hours}h ${timeLeft.minutes}m ${timeLeft.seconds}s** before running daily again!`,
-        ephmeral: true,
+    if (await cooldown.check(interaction.user.id, "daily")) {
+      const hours = Math.floor((await cooldown.get(interaction.user.id, "daily")) / 3600000);
+      const minutes = Math.floor((await cooldown.get(interaction.user.id, "daily")) / 60000) % 60;
+      const seconds = Math.floor((await cooldown.get(interaction.user.id, "daily")) / 1000) % 60;
+      return interaction.reply({
+        content: `Your daily reward is not ready yet. Please wait ${hours}h ${minutes}m ${seconds}s.`,
+        ephemeral: true,
       });
     } else {
-      await dailyCommandCooldown.addUser(interaction.user.id);
+      await cooldown.set(interaction.user.id, "daily", "24h");
       const xp = 100;
       let achievementUnlocked = false;
       await incr(`${interaction.user.id}`, `coins`, 250);

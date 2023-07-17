@@ -1,7 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { set, get, incr, checkXP } = require("../../globals.js");
+const { set, get, incr, checkXP, cooldown } = require("../../globals.js");
 const chance = require("chance").Chance();
-const { CommandCooldown, msToMinutes } = require("discord-command-cooldown");
 const ms = require("ms");
 
 module.exports = {
@@ -18,15 +17,12 @@ module.exports = {
     // If the user has a pickaxe, they mine faster, get more stone, and get more XP.
     const [mineCooldownTime, minStone, maxStone, xpAmount] = pickaxe >= 1 ? [ms("15s"), 10, 20, 20] : [ms("30s"), 5, 10, 10];
 
-    const mineCooldown = new CommandCooldown("mine", mineCooldownTime);
     const stone = chance.integer({ min: minStone, max: maxStone });
     const xp = xpAmount;
 
-    const userCooldowned = await mineCooldown.getUser(user.id);
-    if (userCooldowned) {
-      const timeLeft = msToMinutes(userCooldowned.msLeft, false);
+    if (await cooldown.check(user.id, "mine")) {
       await interaction.reply({
-        content: `You need to wait ${timeLeft.seconds}s before using this command again!`,
+        content: `You need to wait ${ms(await cooldown.get(user.id, "mine"))} before you can mine again.`,
         ephemeral: true,
       });
     } else {
@@ -38,7 +34,7 @@ module.exports = {
       );
       embed.setColor(await get(`${user.id}_color`));
       await incr(`${user.id}`, "stone", stone);
-      await mineCooldown.addUser(user.id);
+      await cooldown.set(user.id, "mine", mineCooldownTime);
       await interaction.reply({ embeds: [embed] });
     }
   },

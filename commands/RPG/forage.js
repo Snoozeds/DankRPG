@@ -1,10 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, set, incr, diamondEmoji } = require("../../globals.js");
-const { CommandCooldown, msToMinutes } = require("discord-command-cooldown");
-const ms = require("ms");
+const { get, set, incr, diamondEmoji, cooldown } = require("../../globals.js");
 const chance = require("chance").Chance();
-
-const forageCommandCooldown = new CommandCooldown("forage", ms("30s")); // create CommandCooldown instance here
+const ms = require("ms");
 
 module.exports = {
   data: new SlashCommandBuilder().setName("forage").setDescription("Forages for items in the wilderness."),
@@ -20,11 +17,9 @@ module.exports = {
       }
     }
 
-    const userCooldowned = await forageCommandCooldown.getUser(interaction.user.id);
-    if (userCooldowned) {
-      const timeLeft = msToMinutes(userCooldowned.msLeft, false);
+    if (await cooldown.check(user.id, "forage")) {
       await interaction.reply({
-        content: `You need to wait ${timeLeft.seconds}s before using this command again!`,
+        content: `You need to wait ${ms(await cooldown.get(user.id, "forage"))} before you can forage again.`,
         ephemeral: true,
       });
     } else {
@@ -50,7 +45,7 @@ module.exports = {
         await incr(user.id, set, amount);
       }
       await interaction.reply({ embeds: [embed] });
-      await forageCommandCooldown.addUser(interaction.user.id);
+      await cooldown.set(user.id, "forage", "30s");
     }
   },
 };
