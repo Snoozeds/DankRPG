@@ -66,7 +66,7 @@ Once you're done, run `deploy-commands.js` to **globally** deploy the slash comm
 You'll only need to run this again if you add new commands. Follow discord.js's guide [here](https://discordjs.guide/creating-your-bot/command-deployment.html#guild-commands) if you want to add them to a server instead. \
 \
 Finally, run `node index.js` to start DankRPG to see if you encounter any errors. \
-If you don't, use `forever start index.js` or `pm2 start index.js` to start the bot in the background if you have either of them installed.
+If you don't, use `pm2 start index.js` to start the bot in the background.
 
 ## Errors:
 
