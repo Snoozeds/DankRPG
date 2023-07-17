@@ -8,9 +8,13 @@ const coinEmoji = "<:Coins:1109913124171153438>";
 const hpEmoji = "<:RpgHeart:1119594242994618459>";
 const armorEmoji = "<:ArmorStat:1121286429042024581>";
 const attackEmoji = "<:GraySword:1110247003851608074>";
+const levelEmoji = "<:LevelBook:1130623075717759030>";
+
+// Stats being increased
+const armorUpEmoji = "<:ArmorStatUp:1121286519504781343>";
+const levelUpEmoji = "<:LevelBookUp:1130623558217900193>";
 
 // Shop
-const armorUpEmoji = "<:ArmorStatUp:1121286519504781343>";
 const descriptionEmoji = "<:SpeechBubble:1121299256150610030>";
 
 // Items - Misc
@@ -128,7 +132,7 @@ async function calculateXP(id, nextlvl) {
       await incr(id, "level_xp", 100 * nextlvl);
       await incr(id, "next_level", 1);
       await set(`${id}_xp`, 0);
-      await set(`${id}_xp_needed`, 100 * nextlvl);
+      await set(`${id}_xp_needed`, 100 * nextlvl);incr
     }
   }
 }
@@ -240,7 +244,9 @@ module.exports = {
   hpEmoji,
   armorEmoji,
   attackEmoji,
+  levelEmoji,
   armorUpEmoji,
+  levelUpEmoji,
   descriptionEmoji,
   lifesaverEmoji,
   diamondEmoji,

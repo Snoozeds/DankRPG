@@ -1,5 +1,5 @@
 const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
-const { get, coinEmoji, hpEmoji, armorEmoji, attackEmoji, incr, set } = require("../../globals.js");
+const { get, coinEmoji, hpEmoji, armorEmoji, attackEmoji, levelEmoji } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -38,7 +38,7 @@ module.exports = {
         },
         {
           name: "Level",
-          value: `**${await get(`${user.id}_level`)}** **(${await get(`${user.id}_xp`)}XP)**`,
+          value: `**${levelEmoji} ${await get(`${user.id}_level`)}** | **${await get(`${user.id}_xp`)}/${Number(await get(`${user.id}_level_xp`)) - 100}**`,
           inline: true,
         },
         {

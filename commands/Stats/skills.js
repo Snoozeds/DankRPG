@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, incr, hpEmoji, armorEmoji, attackEmoji } = require("../../globals.js");
+const { get, hpEmoji, armorEmoji, attackEmoji, levelEmoji } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder().setName("skills").setDescription("Explains your skills."),
@@ -28,7 +28,7 @@ module.exports = {
           inline: false,
         },
         {
-          name: `:up: Level (${await get(`${interaction.user.id}_level`)})`,
+          name: `${levelEmoji} Level (${await get(`${interaction.user.id}_level`)})`,
           value: `You gain more rewards per level. You gain XP by using commands.`,
           inline: false,
         }

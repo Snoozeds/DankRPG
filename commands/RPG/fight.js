@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, incr, decr, hpEmoji, coinEmoji, checkXP, resetStats, cooldown } = require("../../globals.js");
+const { get, incr, decr, hpEmoji, coinEmoji, checkXP, resetStats, cooldown, levelUpEmoji } = require("../../globals.js");
 const chance = require("chance").Chance();
 const ms = require("ms");
 
@@ -70,7 +70,7 @@ module.exports = {
               .setDescription(
                 `You start a fight.\n**\\- ${hpLossT} ${hpEmoji} (${newHP}) :warning:**\n**+ ${coins} ${coinEmoji} (${newCoins})**${
                   (await get(`${interaction.user.id}_xp_alerts`)) == "1" ? `\n**+ ${xp}XP**` : ""
-                } ${(await checkXP(interaction.user.id, xp)) == true ? ` :up: **Level up!** Check /levels.` : ""}`
+                } ${(await checkXP(interaction.user.id, xp)) == true ? ` ${levelUpEmoji} **Level up!** Check /levels.` : ""}`
               )
               .setColor(await get(`${user.id}_color`));
             await decr(user.id, "hp", hpLossT);
@@ -84,7 +84,7 @@ module.exports = {
               .setDescription(
                 `You start a fight.\n**\\- ${hpLossT} ${hpEmoji} (${newHP})**\n**+ ${coins} ${coinEmoji} (${newCoins})**${
                   (await get(`${interaction.user.id}_xp_alerts`)) == "1" ? `\n**+ ${xp}XP**` : ""
-                } ${(await checkXP(interaction.user.id, xp)) == true ? ` :up: **Level up!** Check /levels.` : ""}`
+                } ${(await checkXP(interaction.user.id, xp)) == true ? ` ${levelUpEmoji} **Level up!** Check /levels.` : ""}`
               )
               .setColor(await get(`${user.id}_color`));
             await decr(user.id, "hp", hpLossT);
