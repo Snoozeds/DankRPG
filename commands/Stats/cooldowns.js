@@ -61,9 +61,10 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setTitle("Cooldowns")
-      .setDescription("Your active cooldowns:")
+      .setDescription("You can use these commands again at the following times.")
       .setFields(fields)
       .setColor(await get(`${interaction.user.id}_color`))
+      .setThumbnail(interaction.user.displayAvatarURL({ dynamic: true }));
 
     await interaction.reply({ embeds: [embed] });
   },
