@@ -13,6 +13,7 @@ const {
   verdantArmorEmoji,
   sylvanArmorEmoji,
   topazineArmorEmoji,
+  shopImage,
   descriptionEmoji,
   armorUpEmoji,
 } = require("../../globals.js");
@@ -52,13 +53,14 @@ module.exports = {
         if (i.values[0] === "health") {
           const embed = new EmbedBuilder()
             .setTitle("Health items")
-            .setDescription(`Your balance: **${coinEmoji}${await get(`${user.id}_coins`)}**`)
+            .setDescription(`"Welcome to my shop!"\nYour balance: **${coinEmoji}${await get(`${user.id}_coins`)}**`)
             .addFields({
               name: `${lifesaverEmoji} Lifesaver (Owned: ${(await get(`${user.id}_lifesaver`)) || 0})`,
               value: `**Cost: ${coinEmoji}500**\nSaves you from death. Used automatically.\nid: lifesaver`,
             })
             .setFooter({ text: "Use /buy <id> to buy an item." })
-            .setColor(await get(`${user.id}_color`));
+            .setColor(await get(`${user.id}_color`))
+            .setThumbnail(shopImage);
           await i.update({
             content: "",
             embeds: [embed],
@@ -68,7 +70,7 @@ module.exports = {
           const embed = new EmbedBuilder()
             .setTitle("Equipment")
             .setDescription(
-              `Your balance: **${coinEmoji}${await get(`${user.id}_coins`)}**
+              `"Welcome to my shop!"\nYour balance: **${coinEmoji}${await get(`${user.id}_coins`)}**
 
 ${celestialArmorEmoji} Celestial Armor (**celestial**)
 ${descriptionEmoji} Armor of immense strength, said to have been forged by the gods themselves.
@@ -111,7 +113,8 @@ ${coinEmoji} **2,000**
 ${armorUpEmoji} **+1**`
             )
             .setFooter({ text: "Use /buy <id> to buy an item and /equip to equip an item. You can only equip one armor item at once." })
-            .setColor(await get(`${user.id}_color`));
+            .setColor(await get(`${user.id}_color`))
+            .setThumbnail(shopImage);
           await i.update({
             content: "",
             embeds: [embed],

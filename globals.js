@@ -15,6 +15,8 @@ const armorUpEmoji = "<:ArmorStatUp:1121286519504781343>";
 const levelUpEmoji = "<:LevelBookUp:1130623558217900193>";
 
 // Shop
+// Set shopImage to "null" (no quotes) if you don't want an image. I have not provided one.
+const shopImage = null;
 const descriptionEmoji = "<:SpeechBubble:1121299256150610030>";
 
 // Items - Misc
@@ -247,6 +249,7 @@ module.exports = {
   levelEmoji,
   armorUpEmoji,
   levelUpEmoji,
+  shopImage,
   descriptionEmoji,
   lifesaverEmoji,
   diamondEmoji,
