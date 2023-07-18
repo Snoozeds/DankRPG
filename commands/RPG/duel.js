@@ -127,7 +127,11 @@ module.exports = {
         },
         {
           name: `Rules:`,
-          value: `- The first person to reach 0 health loses. **It is highly recommended to own a lifesaver.**\n- Defending will divide damage by your armor stat.\n - If you do not have armor, or your armor is 1, damage will be divided by 2 when defending.\n- You may try to escape, but will not recieve any rewards for doing so.\n - Escape chance increases by 5% for each failed attempt, and caps once it goes past 60%.\n- You have 1 hour to respond to this duel. If you do not respond within 1 hour, the duel will be cancelled.\n- The winner of the duel will receive 250 coins.`,
+          value: `- The first person to reach 0 health dies and loses the duel. **It is highly recommended to own a lifesaver.**\n- Defending will divide damage by your armor stat.\n - If you do not have armor, or your armor is 1, damage will be divided by 2 when defending.\n- You may try to escape, but will not recieve any rewards for doing so.\n - Escape chance increases by 5% for each failed attempt, and caps once it goes past 60%.\n- You have 1 hour to respond to this duel. If you do not respond within 1 hour, the duel will be cancelled.\n- The winner of the duel will receive 250 coins.`,
+        },
+        {
+          name: `Actions`,
+          value: `${target.username}, do you accept this duel?`,
         }
       )
       .setColor(await get(`${user.id}_color`));
@@ -139,7 +143,7 @@ module.exports = {
     const row = new ActionRowBuilder().addComponents(yesButton, noButton, userCancel);
 
     const setup = await interaction.reply({
-      content: `<@${target.id}>, you have been challenged to a duel! Do you accept this duel?\nYou have 1 hour to respond.\n\n**Please note this command is in beta, and bugs may occur. If you encounter any bugs, feel free to join the [Discord server](https://discord.gg/Cc3xBSpWeB) and report them.**`,
+      content: `<@${target.id}>, you have been challenged to a duel! Do you accept this duel?\nYou have 1 hour to respond.`,
       embeds: [setupEmbed],
       components: [row],
     });
