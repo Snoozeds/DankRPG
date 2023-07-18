@@ -108,7 +108,7 @@ ${coinEmoji} **4,500**
 ${armorUpEmoji} **+2**
           
 ${stoneRingEmoji} Stone Ring (Owned: ${(await get(`${user.id}_stoneRing`)) || 0}) (**stonering**)
-${descriptionEmoji} A small ring crafted from stone.
+${descriptionEmoji} A small ring crafted from stone. Automatically equips itself when bought. Cannot be unequipped.
 ${coinEmoji} **2,000**
 ${armorUpEmoji} **+1**`
             )
