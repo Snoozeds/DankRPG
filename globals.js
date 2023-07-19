@@ -91,6 +91,17 @@ async function resetStats(userId) {
   await set(`${userId}_daily_achievement`, null);
   await set(`${userId}_learner_achievement`, null);
   await set(`${userId}_april_achievement`, null);
+
+  await set(`${userId}_celestialArmor`, null);
+  await set(`${userId}_sunforgedArmor`, null);
+  await set(`${userId}_glacialArmor`, null);
+  await set(`${userId}_abyssalArmor`, null);
+  await set(`${userId}_verdantArmor`, null);
+  await set(`${userId}_sylvanArmor`, null);
+  await set(`${userId}_topazineArmor`, null);
+  await set(`${userId}_stoneRing`, null);
+
+  await resetCooldowns(userId);
 }
 
 // Calculate xp rewards for levelling up.
