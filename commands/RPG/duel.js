@@ -488,10 +488,6 @@ module.exports = {
       }
     } catch (error) {
       // Duel timed out
-      await interaction.editReply({
-        content: `${target.username} did not respond in time. The duel has been cancelled.`,
-        components: [],
-      });
       await set(`${user.id}_duel`, false);
       await set(`${target.id}_duel`, false);
       if (!(error instanceof Discord.InteractionCollectorError)) {
