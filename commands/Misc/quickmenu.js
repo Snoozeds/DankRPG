@@ -2,7 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, Butt
 const { set, get } = require("../../globals.js");
 
 module.exports = {
-  data: new SlashCommandBuilder().setName("qm").setDescription("Access parts of the bot quickly."),
+  data: new SlashCommandBuilder().setName("qm").setDescription("Quickly access menus and commands."),
   async execute(interaction) {
     const user = interaction.user;
     const hasSeen = await get(`${user.id}_qmSeen`);
