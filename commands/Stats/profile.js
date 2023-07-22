@@ -38,7 +38,7 @@ module.exports = {
         },
         {
           name: "Level",
-          value: `**${levelEmoji} ${await get(`${user.id}_level`)}** | **${await get(`${user.id}_xp`)}/${Number(await get(`${user.id}_level_xp`)) - 100}**`,
+          value: `**${levelEmoji} ${await get(`${user.id}_level`)}** | **${await get(`${user.id}_xp`)}XP**`,
           inline: true,
         },
         {
