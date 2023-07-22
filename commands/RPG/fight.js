@@ -37,7 +37,7 @@ module.exports = {
     const successrate = (await get(`${user.id}_damage`)) * 4;
 
     if (await cooldown.check(user.id, "fight")) {
-      await interaction.reply({
+      return interaction.reply({
         content: `You need to wait ${ms(await cooldown.get(interaction.user.id, "fight"))} before you can fight again.`,
         ephemeral: true,
       });

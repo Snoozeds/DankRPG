@@ -18,7 +18,7 @@ module.exports = {
     }
 
     if (await cooldown.check(user.id, "forage")) {
-      await interaction.reply({
+      return interaction.reply({
         content: `You need to wait ${ms(await cooldown.get(user.id, "forage"))} before you can forage again.`,
         ephemeral: true,
       });

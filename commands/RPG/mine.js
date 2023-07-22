@@ -21,7 +21,7 @@ module.exports = {
     const xp = xpAmount;
 
     if (await cooldown.check(user.id, "mine")) {
-      await interaction.reply({
+      return interaction.reply({
         content: `You need to wait ${ms(await cooldown.get(user.id, "mine"))} before you can mine again.`,
         ephemeral: true,
       });
