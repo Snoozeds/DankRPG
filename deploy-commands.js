@@ -17,6 +17,7 @@ for (const folder of commandFolders) {
   }
 }
 
+
 const rest = new REST({ version: "10" }).setToken(token);
 
 (async () => {
@@ -28,6 +29,13 @@ const rest = new REST({ version: "10" }).setToken(token);
     });
 
     console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+    
+    // Save each command and its ID to a JSON file.
+    if (!fs.existsSync("./command_data")) {
+      fs.mkdirSync("./command_data");
+    }
+    fs.writeFileSync("./command_data/commands.json", JSON.stringify(data));
+    console.log("Saved command data to ./command_data/commands.json")
   } catch (error) {
     console.error(error);
   }
