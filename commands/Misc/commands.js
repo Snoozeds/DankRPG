@@ -32,8 +32,7 @@ module.exports = {
         `**Images:**
 \`/avatar\` - Shows your/another user's avatar.
 \`/banner\` - Shows your/another user's banner.
-\`/changemymind\` - Change my mind.
-\`/neko\` - Shows a random neko image.`
+\`/changemymind\` - Change my mind.`
       )
       .setColor(await get(`${interaction.user.id}_color`));
 
