@@ -95,6 +95,7 @@ module.exports = {
       };
 
       // Quick menu: Commands
+      if(interaction.message.interaction.user.id === interaction.user.id) {
       if (customId === "qm_commands") {
         const row = new ActionRowBuilder().addComponents(
           new ButtonBuilder().setCustomId("commands_images").setLabel("Images").setStyle(ButtonStyle.Secondary),
@@ -488,6 +489,12 @@ module.exports = {
         const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_back").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
         await interaction.update({ embeds: [embed], components: [row] });
       }
+    } else {
+      await interaction.reply({
+        content: "You cannot use this button.",
+        ephemeral: true,
+      });
+    }
     }
   },
 };
