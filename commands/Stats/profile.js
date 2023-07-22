@@ -47,7 +47,7 @@ module.exports = {
           inline: true,
         },
       ])
-      .setThumbnail(user.displayAvatarURL({ format: "jpg", size: 4096 }))
+      .setThumbnail(user.displayAvatarURL({ dynamic: true, size: 4096 }))
       .setColor(await get(`${user.id}_color`))
       .setFooter({ text: "Requested by " + interaction.user.username })
       .setTimestamp();
