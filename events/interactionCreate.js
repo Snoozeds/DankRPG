@@ -130,7 +130,7 @@ module.exports = {
   </8ball:${await getCommandId("8ball")}> - Ask the magic 8ball a question.
   </commands:${await getCommandId("commands")}> - Shows all available commands.
   </ping:${await getCommandId("ping")}> - Shows the bot's ping.
-  </qm:${await getCommandId("qm")}> - Access parts of the bot quickly.
+  </qm:${await getCommandId("qm")}> - Quickly access menus and commands.
   </settings embedcolor:${await getCommandId("settings")}> - Change the embed color.
   </settings xpalerts:${await getCommandId("settings")}> - Toggle XP alerts.
   </time:${await getCommandId("time")}> - Get the current time for a timezone.
