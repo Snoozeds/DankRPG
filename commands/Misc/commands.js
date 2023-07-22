@@ -43,6 +43,7 @@ module.exports = {
 \`/8ball\` - Ask the magic 8ball a question.
 \`/commands\` - Shows all available commands.
 \`/ping\` - Shows the bot's ping.
+\`/qm\` - Quickly access menus and commands.
 \`/settings embedcolor\` - Change the embed color.
 \`/settings xpalerts\` - Toggle XP alerts.
 \`/time\` - Get the current time for a timezone.
