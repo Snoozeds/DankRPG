@@ -1,6 +1,5 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { set, get, incr } = require("../../globals.js");
-require("../../globals.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const { set } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -10,7 +9,7 @@ module.exports = {
       subcommand
         .setName("embedcolor")
         .setDescription("Changes the color of embeds.")
-        .addStringOption((option) => option.setName("color").setDescription("The HEX color code you want to set. Add a # before the code.").setRequired(true))
+        .addStringOption((option) => option.setName("color").setDescription("The HEX color code you want to set.").setRequired(true))
     )
     .addSubcommand((subcommand) =>
       subcommand
@@ -27,18 +26,21 @@ module.exports = {
         )
     ),
   async execute(interaction) {
-    const response = interaction.options.getString("color");
+    let response = interaction.options.getString("color");
     if (interaction.options.getSubcommand() === "embedcolor") {
-      var reg = /^#([0-9a-f]{3}([0-9a-f]{3})?)$/i;
-      if (reg.test(response) === false) {
+      if (!response.startsWith("#")) {
+        response = "#" + response;
+      }
+      try {
+        const embed = new EmbedBuilder().setDescription(`Your embed color has been set to ${response}.`).setColor(response);
         await interaction.reply({
-          content: "That is not a valid HEX color code.\nA valid HEX color code must be a 3 or 6 digit hexadecimal number with a '#' symbol at the beginning.",
+          embeds: [embed],
           ephemeral: true,
         });
-      } else {
         await set(`${interaction.user.id}_color`, response);
-        await interaction.reply({
-          content: "Your embed color has been set to " + response + ".",
+      } catch (err) {
+        return interaction.reply({
+          content: "There was an error setting your embed color. Most likely, the color you provided was invalid.\nOnline color picker: <https://dankrpg.xyz/color.html>",
           ephemeral: true,
         });
       }
