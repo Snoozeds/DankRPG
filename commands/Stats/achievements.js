@@ -20,16 +20,16 @@ module.exports = {
     userAchievements = [dailyAchievement, learnerAchievement, aprilAchievement, fearedAchievement].filter((achievement) => achievement == "true").length;
 
     if (!(await get(`${user.id}_daily_achievement`))) {
-      await set(`${user.id}_daily_achievement`, `${falseEmoji}`);
+      await set(`${user.id}_daily_achievement`, false);
     }
     if (!(await get(`${user.id}_learner_achievement`))) {
-      await set(`${user.id}_learner_achievement`, `${falseEmoji}`);
+      await set(`${user.id}_learner_achievement`, false);
     }
     if (!(await get(`${user.id}_april_achievement`))) {
-      await set(`${user.id}_april_achievement`, `${falseEmoji}`);
+      await set(`${user.id}_april_achievement`, false);
     }
     if (!(await get(`${user.id}_feared_achievement`))) {
-      await set(`${user.id}_feared_achievement`, `${falseEmoji}`);
+      await set(`${user.id}_feared_achievement`, false);
     }
 
     // In the past, I used to use the emoji themselves as the value, but now I use "true" and "false" instead.
