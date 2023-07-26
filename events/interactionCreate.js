@@ -151,7 +151,7 @@ module.exports = {
   </chop:${await getCommandId("chop")}> - Chop down a tree to get wood. Requires an axe.
   </daily:${await getCommandId("daily")}> - Claim your daily reward.
   </duel:${await getCommandId("duel")}> - Duel another user for coins.
-  </fight:${await getCommandId("fight")}> - Start a fight. Rewards and damage increase per level. Higher chance of winning per damage.
+  </fight:${await getCommandId("fight")}> - Turn-based fight system. Rewards and difficulty scale with your level.
   </forage:${await getCommandId("forage")}> - Forage for items in the wilderness.
   </mine:${await getCommandId("mine")}> - Mine for stone. Craft a pickaxe to mine faster.`
           )

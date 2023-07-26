@@ -59,7 +59,7 @@ module.exports = {
 \`/adventure\` - Starts an RPG adventure. Random chance of getting coins, doesn't scale.
 \`/chop\` - Chop down a tree to get wood. Requires an axe.
 \`/daily\` - Claim your daily reward.
-\`/fight\` - Start a fight. Rewards and damage increase per level. Higher chance of winning per damage.
+\`/fight\` - Turn-based fight system. Rewards and difficulty scale with your level.
 \`/forage\` - Forages for items in the wilderness.
 \`/mine\` - Mines for stone. Requires a pickaxe.
 \`/start\` - Starts your DankRPG journey.`
