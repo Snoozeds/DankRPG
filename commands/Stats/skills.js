@@ -19,12 +19,12 @@ module.exports = {
         },
         {
           name: `${armorEmoji} Armor (${await get(`${interaction.user.id}_armor`)})`,
-          value: `Reduces your damage taken **(armor \* 100%)**.`,
+          value: `Reduces your damage taken in fights.`,
           inline: false,
         },
         {
           name: `${attackEmoji} Damage (${await get(`${interaction.user.id}_damage`)})`,
-          value: `Increases your chance of winning fights.`,
+          value: `Increases your damage dealt in fights.`,
           inline: false,
         },
         {
