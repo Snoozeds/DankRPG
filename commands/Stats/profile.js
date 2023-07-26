@@ -13,6 +13,21 @@ module.exports = {
         content: "Bots don't have RPG profiles.\nIf you are looking for information about a bot user, use `/userinfo`.",
         ephemeral: true,
       });
+    const hpType = await get(`${user.id}_hp_display`);
+    
+    let hpMessage = "";
+    if (hpType === "hp" || hpType == null) {
+      hpMessage = `**${hpEmoji} ${await get(`${user.id}_hp`)}**`;
+    } else if (hpType === "hp/maxhp") {
+      hpMessage = `**${hpEmoji} ${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)}**`;
+    } else if (hpType === "hp/maxhp%") {
+      hpMessage = `**${hpEmoji} ${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)} (${Math.round(
+        ((await get(`${user.id}_hp`)) / (await get(`${user.id}_max_hp`))) * 100
+      )}%)**`;
+    } else if (hpType === "hp%") {
+      hpMessage = `**${hpEmoji} ${await get(`${user.id}_hp`)} (${Math.round(((await get(`${user.id}_hp`)) / (await get(`${user.id}_max_hp`))) * 100)}%)**`;
+    }
+    
     const profile = new EmbedBuilder()
       .setTitle(`${user.username}'s Profile`)
       .setFields([
@@ -23,7 +38,7 @@ module.exports = {
         },
         {
           name: "HP",
-          value: `**${hpEmoji} ${await get(`${user.id}_hp`)}**`,
+          value: `${hpMessage}`,
           inline: true,
         },
         {

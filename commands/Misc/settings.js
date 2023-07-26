@@ -25,6 +25,23 @@ module.exports = {
         .addBooleanOption((option) =>
           option.setName("interactions").setDescription("Whether or not you want other users to be able to use certain commands on you.").setRequired(true)
         )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("hpdisplay")
+        .setDescription("Changes how your HP is displayed in /profile.")
+        .addStringOption((option) =>
+          option
+            .setName("display")
+            .setDescription("The type of display you want.")
+            .setRequired(true)
+            .addChoices(
+              { name: "HP", value: "hp" },
+              { name: "HP/Max HP", value: "hp/maxhp" },
+              { name: "HP/Max HP (Percentage)", value: "hp/maxhp%" },
+              { name: "HP (Percentage)", value: "hp%" }
+            )
+        )
     ),
   async execute(interaction) {
     const user = interaction.user;
@@ -32,7 +49,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle(`Your user settings`)
         .addFields(
-          { name: "Embed color:", value: await get(`${user.id}_color`) || "Not set", inline: false },
+          { name: "Embed color:", value: (await get(`${user.id}_color`)) || "Not set", inline: false },
           { name: "XP alerts:", value: (await get(`${user.id}_xp_alerts`)) === "1" ? "Enabled" : "Disabled", inline: false },
           { name: "Interactions:", value: (await get(`${user.id}_interactions`)) === "1" ? "Enabled" : "Disabled", inline: false }
         )
@@ -89,6 +106,36 @@ module.exports = {
         await set(`${interaction.user.id}_interactions`, "0");
         await interaction.reply({
           content: "Other users can now no longer use certain commands on you.\nThese are as follows: `marry`. `duel`.",
+          ephemeral: true,
+        });
+      }
+    } else if (interaction.options.getSubcommand() === "hpdisplay") {
+      let response = interaction.options.getString("display");
+      if (response === "hp") {
+        await set(`${interaction.user.id}_hp_display`, "hp");
+        await interaction.reply({
+          content: "Your HP display has been set to `HP`.",
+          ephemeral: true,
+        });
+      }
+      if (response === "hp/maxhp") {
+        await set(`${interaction.user.id}_hp_display`, "hp/maxhp");
+        await interaction.reply({
+          content: "Your HP display has been set to `HP/Max HP`.",
+          ephemeral: true,
+        });
+      }
+      if (response === "hp/maxhp%") {
+        await set(`${interaction.user.id}_hp_display`, "hp/maxhp%");
+        await interaction.reply({
+          content: "Your HP display has been set to `HP/Max HP (Percentage)`.",
+          ephemeral: true,
+        });
+      }
+      if (response === "hp%") {
+        await set(`${interaction.user.id}_hp_display`, "hp%");
+        await interaction.reply({
+          content: "Your HP display has been set to `HP (Percentage)`.",
           ephemeral: true,
         });
       }
