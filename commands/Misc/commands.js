@@ -48,6 +48,7 @@ module.exports = {
 \`/settings embedcolor\` - Change the embed color.
 \`/settings xpalerts\` - Toggle XP alerts.
 \`/settings interactions\` - Toggle interactions.
+\`/settings hpdisplay\` - Change how your HP is displayed in /profile.
 \`/time\` - Get the current time for a timezone.
 \`/uptime\` - Shows the bot's uptime.
 \`/urban\` - Search the urban dictionary.`
