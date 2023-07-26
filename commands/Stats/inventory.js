@@ -6,6 +6,7 @@ const {
   diamondEmoji,
   stoneEmoji,
   woodEmoji,
+  lifesaverEmoji,
   celestialArmorEmoji,
   sunforgedArmorEmoji,
   glacialArmorEmoji,
@@ -51,6 +52,7 @@ module.exports = {
         name: "Lifesavers",
         key: `${user.id}_lifesaver`,
         price: inventoryPrices._lifesaver,
+        emoji: lifesaverEmoji,
       },
       {
         name: "Diamonds",
@@ -144,14 +146,14 @@ module.exports = {
         inventoryDescription += `**${item.emoji} ${item.name}**: ${value} (${coinEmoji}${itemValue})\n`;
         totalInventoryValue += itemValue;
       } else if (value && value > 0) {
-        inventoryDescription += `${item.name}: ${value}\n`;
+        inventoryDescription += `**${item.emoji}${item.name}**: ${value}\n`;
       }
     }
 
-    // Add the armors to the inventory description.
-    inventoryDescription += `\n**Armor:**\n${armorDescription}`;
+    // Add the armors to the inventory description if there are any.
+    inventoryDescription += armorDescription !== "" ? `\n**Armor:**\n${armorDescription}` : "";
 
-    // If the inventory is empty, reply with an ephemeral message.
+    // If the inventory is empty, set the description to a default message.
     if (inventoryDescription === "") {
       inventoryDescription = "This user has an empty inventory.";
     }
