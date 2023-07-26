@@ -9,14 +9,15 @@ module.exports = {
 
   async execute(interaction) {
     const user = interaction.options.getUser("user") || interaction.user;
-    const totalAchievements = 3;
+    const totalAchievements = 4; // Update this when adding new achievements.
     let userAchievements = 0;
 
     const dailyAchievement = await get(`${user.id}_daily_achievement`);
     const learnerAchievement = await get(`${user.id}_learner_achievement`);
     const aprilAchievement = await get(`${user.id}_april_achievement`);
+    const fearedAchievement = await get(`${user.id}_feared_achievement`);
 
-    userAchievements = [dailyAchievement, learnerAchievement, aprilAchievement].filter((achievement) => achievement == "true").length;
+    userAchievements = [dailyAchievement, learnerAchievement, aprilAchievement, fearedAchievement].filter((achievement) => achievement == "true").length;
 
     if (!(await get(`${user.id}_daily_achievement`))) {
       await set(`${user.id}_daily_achievement`, `${falseEmoji}`);
@@ -26,6 +27,9 @@ module.exports = {
     }
     if (!(await get(`${user.id}_april_achievement`))) {
       await set(`${user.id}_april_achievement`, `${falseEmoji}`);
+    }
+    if (!(await get(`${user.id}_feared_achievement`))) {
+      await set(`${user.id}_feared_achievement`, `${falseEmoji}`);
     }
 
     // In the past, I used to use the emoji themselves as the value, but now I use "true" and "false" instead.
@@ -68,11 +72,15 @@ Reward: ${coinEmoji}250
 View \`/commands\` for the first time.
 Reward: ${coinEmoji}100
 
+**__Feared__** ${fearedAchievement == "true" ? trueEmoji : falseEmoji}
+Win 100 fights.
+Reward: ${coinEmoji}1000
+
 **__April Fools!__** ${aprilAchievement == "true" ? trueEmoji : falseEmoji}
 Use any command between 1st-3rd April.
 Reward: ${coinEmoji}500`
       )
-      .setThumbnail(user.displayAvatarURL({ format: "jpg", size: 4096 }))
+      .setThumbnail(user.displayAvatarURL({ dynamic: true, size: 4096 }))
       .setFooter({
         text: `${userAchievements}/${totalAchievements} (${Math.trunc(perc(userAchievements, totalAchievements))}%)`,
       })
