@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, coinEmoji, incr, checkXP, cooldown, levelUpEmoji } = require("../../globals.js");
+const { get, coinEmoji, incr, checkXP, cooldown, levelEmoji, levelUpEmoji } = require("../../globals.js");
 const ms = require("ms");
 const chance = require("chance").Chance();
 
@@ -23,7 +23,7 @@ module.exports = {
           .setDescription(
             `<@${interaction.user.id}> starts an adventure.\nThey find **${coinEmoji}${outcome}**. They now have a balance of **${coinEmoji}${await get(
               `${interaction.user.id}_coins`
-            )}**.${(await get(`${interaction.user.id}_xp_alerts`)) == "1" ? `\n+${xp}XP` : ""} ${
+            )}**.${(await get(`${interaction.user.id}_xp_alerts`)) == "1" ? `\n+${levelEmoji}${xp}` : ""} ${
               (await checkXP(interaction.user.id, xp)) == true ? ` ${levelUpEmoji} **Level up!** Check /levels.` : ""
             }`
           )

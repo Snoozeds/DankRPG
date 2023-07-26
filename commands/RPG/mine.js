@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { set, get, incr, checkXP, cooldown, levelUpEmoji } = require("../../globals.js");
+const { set, get, incr, checkXP, cooldown, levelEmoji, levelUpEmoji } = require("../../globals.js");
 const chance = require("chance").Chance();
 const ms = require("ms");
 
@@ -28,7 +28,7 @@ module.exports = {
     } else {
       embed.setTitle("Stone mined!");
       embed.setDescription(
-        `<@${user.id}> mined some rocks and got **${stone} stone!**${(await get(`${user.id}_xp_alerts`)) == "1" ? `\n+${xp}XP` : ""} ${
+        `<@${user.id}> mined some rocks and got **${stone} stone!**${(await get(`${user.id}_xp_alerts`)) == "1" ? `\n+${levelEmoji}${xp}` : ""} ${
           (await checkXP(user.id, xp)) == true ? ` ${levelUpEmoji} **Level up!** Check /levels.` : ""
         }`
       );

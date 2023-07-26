@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { set, get, coinEmoji, incr, checkXP, cooldown, levelUpEmoji } = require("../../globals.js");
+const { set, get, coinEmoji, incr, checkXP, cooldown, levelEmoji, levelUpEmoji } = require("../../globals.js");
 const ms = require("ms");
 
 module.exports = {
@@ -29,7 +29,7 @@ module.exports = {
         .setTitle("Daily Reward")
         .setDescription(
           `:white_check_mark: You collected your daily reward of ${coinEmoji}**250**. You now have ${coinEmoji}**${await get(`${user.id}_coins`)}**. ${
-            (await get(`${user.id}_xp_alerts`)) == "1" ? `\n+${xp}XP` : ""
+            (await get(`${user.id}_xp_alerts`)) == "1" ? `\n+${levelEmoji}${xp}` : ""
           } ${(await checkXP(user.id, xp)) == true ? ` ${levelUpEmoji} **Level up!** Check /levels.` : ""}`
         )
         .setColor(await get(`${user.id}_color`));
