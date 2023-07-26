@@ -39,8 +39,8 @@ const webhook = new Topgg.Webhook(topgg);
 app.post(
   "/vote",
   webhook.listener((voted) => {
-    redis.incrby(`${vote.user}_votes`, 1);
-    redis.incrby(`${vote.user}_coins`, 250);
+    redis.incrby(`${voted.user}_votes`, 1);
+    redis.incrby(`${voted.user}_coins`, 250);
   })
 );
 app.listen(6969);
