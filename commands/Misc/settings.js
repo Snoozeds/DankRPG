@@ -1,10 +1,11 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { set } = require("../../globals.js");
+const { get, set } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("settings")
     .setDescription("Change your own settings.")
+    .addSubcommand((subcommand) => subcommand.setName("view").setDescription("View your current settings."))
     .addSubcommand((subcommand) =>
       subcommand
         .setName("embedcolor")
@@ -26,8 +27,23 @@ module.exports = {
         )
     ),
   async execute(interaction) {
-    let response = interaction.options.getString("color");
-    if (interaction.options.getSubcommand() === "embedcolor") {
+    const user = interaction.user;
+    if (interaction.options.getSubcommand() === "view") {
+      const embed = new EmbedBuilder()
+        .setTitle(`Your user settings`)
+        .addFields(
+          { name: "Embed color:", value: await get(`${user.id}_color`) || "Not set", inline: false },
+          { name: "XP alerts:", value: (await get(`${user.id}_xp_alerts`)) === "1" ? "Enabled" : "Disabled", inline: false },
+          { name: "Interactions:", value: (await get(`${user.id}_interactions`)) === "1" ? "Enabled" : "Disabled", inline: false }
+        )
+        .setColor(await get(`${user.id}_color`))
+        .setThumbnail(user.displayAvatarURL({ dynamic: true }));
+      await interaction.reply({
+        embeds: [embed],
+        ephemeral: false,
+      });
+    } else if (interaction.options.getSubcommand() === "embedcolor") {
+      let response = interaction.options.getString("color");
       if (!response.startsWith("#")) {
         response = "#" + response;
       }
