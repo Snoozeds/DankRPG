@@ -94,9 +94,10 @@ module.exports = {
         return command ? command.id : null; // Return null if the command is not found
       };
 
+      const isAuthor = interaction.message.interaction.user.id === interaction.user.id;
+
       // Quick menu: Commands
-      if (interaction.message.interaction.user.id === interaction.user.id) {
-        if (customId === "qm_commands") {
+        if (customId === "qm_commands" && isAuthor) {
           const row = new ActionRowBuilder().addComponents(
             new ButtonBuilder().setCustomId("commands_images").setLabel("Images").setStyle(ButtonStyle.Secondary),
             new ButtonBuilder().setCustomId("commands_misc").setLabel("Misc").setStyle(ButtonStyle.Secondary),
@@ -111,7 +112,7 @@ module.exports = {
             new ButtonBuilder().setCustomId("qm_commandsBack").setEmoji("⬅️").setStyle(ButtonStyle.Primary)
           );
           await interaction.update({ components: [row, row2] });
-        } else if (customId === "commands_images") {
+        } else if (customId === "commands_images" && isAuthor) {
           const embed = new EmbedBuilder()
             .setTitle(`Commands: Images`)
             .setDescription(
@@ -123,7 +124,7 @@ module.exports = {
             .setColor(await get(`${user.id}_color`));
           const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_commandsBack").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
           await interaction.update({ embeds: [embed], components: [row] });
-        } else if (customId === "commands_misc") {
+        } else if (customId === "commands_misc" && isAuthor) {
           const embed = new EmbedBuilder()
             .setTitle(`Commands: Misc`)
             .setDescription(
@@ -145,7 +146,7 @@ module.exports = {
             .setColor(await get(`${user.id}_color`));
           const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_commandsBack").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
           await interaction.update({ embeds: [embed], components: [row] });
-        } else if (customId === "commands_rpg") {
+        } else if (customId === "commands_rpg" && isAuthor) {
           const embed = new EmbedBuilder()
             .setTitle(`Commands: RPG`)
             .setDescription(
@@ -161,7 +162,7 @@ module.exports = {
             .setColor(await get(`${user.id}_color`));
           const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_commandsBack").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
           await interaction.update({ embeds: [embed], components: [row] });
-        } else if (customId === "commands_shop") {
+        } else if (customId === "commands_shop" && isAuthor) {
           const embed = new EmbedBuilder()
             .setTitle(`Commands: Shop`)
             .setDescription(
@@ -177,7 +178,7 @@ module.exports = {
             .setColor(await get(`${user.id}_color`));
           const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_commandsBack").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
           await interaction.update({ embeds: [embed], components: [row] });
-        } else if (customId === "commands_social") {
+        } else if (customId === "commands_social" && isAuthor) {
           const embed = new EmbedBuilder()
             .setTitle(`Commands: Social`)
             .setDescription(
@@ -189,7 +190,7 @@ module.exports = {
             .setColor(await get(`${user.id}_color`));
           const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_commandsBack").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
           await interaction.update({ embeds: [embed], components: [row] });
-        } else if (customId === "commands_stats") {
+        } else if (customId === "commands_stats" && isAuthor) {
           const embed = new EmbedBuilder()
             .setTitle(`Commands: Stats`)
             .setDescription(
@@ -207,7 +208,7 @@ module.exports = {
             .setColor(await get(`${user.id}_color`));
           const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_commandsBack").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
           await interaction.update({ embeds: [embed], components: [row] });
-        } else if (customId === "qm_commandsBack") {
+        } else if (customId === "qm_commandsBack" && isAuthor) {
           const row = new ActionRowBuilder().addComponents(
             new ButtonBuilder().setCustomId("commands_images").setLabel("Images").setStyle(ButtonStyle.Secondary),
             new ButtonBuilder().setCustomId("commands_misc").setLabel("Misc").setStyle(ButtonStyle.Secondary),
@@ -223,7 +224,7 @@ module.exports = {
           );
 
           await interaction.update({ components: [row, row2] });
-        } else if (customId === "qm_back") {
+        } else if (customId === "qm_back" && isAuthor) {
           const row = new ActionRowBuilder().addComponents(
             new ButtonBuilder().setCustomId("qm_commands").setLabel("Commands").setStyle(ButtonStyle.Primary),
             new ButtonBuilder().setCustomId("qm_profile").setLabel("Profile").setStyle(ButtonStyle.Primary),
@@ -234,7 +235,7 @@ module.exports = {
         }
 
         // Quick menu: Profile
-        if (customId === "qm_profile") {
+        if (customId === "qm_profile" && isAuthor) {
           const hpType = await get(`${user.id}_hp_display`);
           let hpMessage = "";
           if (hpType === "hp" || hpType == null) {
@@ -293,7 +294,7 @@ module.exports = {
         }
 
         // Quick menu: Inventory
-        if (customId === "qm_inventory") {
+        if (customId === "qm_inventory" && isAuthor) {
           // Define the prices of each item in the inventory.
           const inventoryPrices = {
             _lifesaver: 0,
@@ -441,7 +442,7 @@ module.exports = {
         }
 
         // Quick menu: Cooldowns
-        if (customId === "qm_cooldowns") {
+        if (customId === "qm_cooldowns" && isAuthor) {
           const dailyCooldown = await cooldown.get(interaction.user.id, "daily");
           const fightCooldown = await cooldown.get(interaction.user.id, "fight");
           const adventureCooldown = await cooldown.get(interaction.user.id, "adventure");
@@ -506,12 +507,6 @@ module.exports = {
           const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_back").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
           await interaction.update({ embeds: [embed], components: [row] });
         }
-      } else {
-        await interaction.reply({
-          content: "You cannot use this button.",
-          ephemeral: true,
-        });
       }
-    }
   },
 };
