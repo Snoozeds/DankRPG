@@ -132,8 +132,10 @@ module.exports = {
   </commands:${await getCommandId("commands")}> - Shows all available commands.
   </ping:${await getCommandId("ping")}> - Shows the bot's ping.
   </qm:${await getCommandId("qm")}> - Quickly access menus and commands.
+  </settings view:${await getCommandId("settings")}> - View your current settings.
   </settings embedcolor:${await getCommandId("settings")}> - Change the embed color.
   </settings xpalerts:${await getCommandId("settings")}> - Toggle XP alerts.
+  </settings interactions:${await getCommandId("settings")}> - Toggle interactions.
   </time:${await getCommandId("time")}> - Get the current time for a timezone.
   </uptime:${await getCommandId("uptime")}> - Shows the bot's uptime.${
               interaction.channel.nsfw === true ? `\n</urban:${await getCommandId("urban")}> - Search the Urban Dictionary.` : ""

@@ -44,8 +44,10 @@ module.exports = {
 \`/commands\` - Shows all available commands.
 \`/ping\` - Shows the bot's ping.
 \`/qm\` - Quickly access menus and commands.
+\`/settings view\` - View your current settings.
 \`/settings embedcolor\` - Change the embed color.
 \`/settings xpalerts\` - Toggle XP alerts.
+\`/settings interactions\` - Toggle interactions.
 \`/time\` - Get the current time for a timezone.
 \`/uptime\` - Shows the bot's uptime.
 \`/urban\` - Search the urban dictionary.`
