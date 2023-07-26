@@ -51,7 +51,8 @@ module.exports = {
         .addFields(
           { name: "Embed color:", value: (await get(`${user.id}_color`)) || "Not set", inline: false },
           { name: "XP alerts:", value: (await get(`${user.id}_xp_alerts`)) === "1" ? "Enabled" : "Disabled", inline: false },
-          { name: "Interactions:", value: (await get(`${user.id}_interactions`)) === "1" ? "Enabled" : "Disabled", inline: false }
+          { name: "Interactions:", value: (await get(`${user.id}_interactions`)) === "1" ? "Enabled" : "Disabled", inline: false },
+          { name: "HP display:", value: (await get(`${user.id}_hp_display`)) || "Not set", inline: false }
         )
         .setColor(await get(`${user.id}_color`))
         .setThumbnail(user.displayAvatarURL({ dynamic: true }));
