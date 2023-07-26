@@ -27,7 +27,7 @@ module.exports = {
     const enemyDamage = Math.floor(chance.integer({ min: userDamage / 2, max: userDamage }) - userDamage * (userArmor / 100));
 
     // Used for the 'Feared' achievement
-    const fightsWon = await get(`${user.id}_fights_won`);
+    const fightsWon = Number(await get(`${user.id}_fights_won`));
 
     // Check if user is on cooldown
     if (await cooldown.check(user.id, "fight")) {
@@ -223,11 +223,12 @@ module.exports = {
           const xpMessage = xpAlerts === "1" ? `\n+ ${levelEmoji}**${xp}**\n` : "";
           const levelUpMessage = (await checkXP(user.id, xp)) === true ? ` ${levelUpEmoji} **Level up!** Check /levels.\n` : "";
           const coinsMessage = coins > 0 ? `+ ${coinEmoji}**${coins}**\n` : ""; // If coins is somehow 0, don't show it.
-          const achievementUnlocked = await get(`${user.id}_feared_achievement`) === "false" && fightsWon >= 100 ? true : false;
-          const achievementMessage = achievementUnlocked ? `\nCongrats, you unlocked the **Feared** achievement!` : "";
+          const achievement = await get(`${user.id}_feared_achievement`) === "true";
+          const achievementUnlocked = fightsWon >= 100 && !achievement;
+          const achievementMessage = achievementUnlocked ? `Congrats, you unlocked the **Feared** achievement! (+${coinEmoji}1000)` : "";
 
           if(achievementUnlocked) {
-            await set(`${user.id}_feared_achievement`, trueEmoji);
+            await set(`${user.id}_feared_achievement`, true);
             await incr(user.id, "coins", 1000);
           }
 
