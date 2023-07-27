@@ -139,6 +139,7 @@ module.exports = {
   </settings xpalerts:${await getCommandId("settings")}> - Toggle XP alerts.
   </settings interactions:${await getCommandId("settings")}> - Toggle interactions.
   </settings hpdisplay:${await getCommandId("settings")}> - Change how your HP is displayed in /profile.
+  </settings reset:${await getCommandId("settings")}> - Reset your settings.
   </time:${await getCommandId("time")}> - Get the current time for a timezone.
   </uptime:${await getCommandId("uptime")}> - Shows the bot's uptime.${
               interaction.channel.nsfw === true ? `\n</urban:${await getCommandId("urban")}> - Search the Urban Dictionary.` : ""
