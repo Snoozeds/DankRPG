@@ -21,7 +21,7 @@ module.exports = {
     let fightEnded = false;
 
     // Calculate enemy stats
-    let enemyHP = Math.floor(chance.integer({ min: userLevel * 15, max: userLevel * 30 }));
+    let enemyHP = Math.floor(chance.integer({ min: userLevel * 15, max: userLevel * 27 }));
     const enemyMaxHP = enemyHP;
     const enemyArmor = Math.floor(chance.integer({ min: userArmor / 4, max: userArmor / 3 }));
     const enemyDamage = Math.floor(chance.integer({ min: userDamage / 2, max: userDamage }) - userDamage * (userArmor / 100));
@@ -176,7 +176,7 @@ module.exports = {
 
         // Calculate coins based off level
         const userLevel = await get(`${user.id}_level`);
-        const coins = chance.integer({ min: userLevel * 13, max: userLevel * 20 });
+        const coins = chance.integer({ min: userLevel * 15, max: userLevel * 20 });
 
         // Calculate XP
         const xp = chance.integer({ min: userLevel * 5, max: userLevel * 7 });
