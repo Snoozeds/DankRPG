@@ -42,6 +42,24 @@ module.exports = {
               { name: "HP (Percentage)", value: "hp%" }
             )
         )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("reset")
+        .setDescription("Resets settings to default.")
+        .addStringOption((option) =>
+          option
+            .setName("setting")
+            .setDescription("The setting you want to reset.")
+            .setRequired(true)
+            .addChoices(
+              { name: "Embed color", value: "embedcolor" },
+              { name: "XP alerts", value: "xpalerts" },
+              { name: "Interactions", value: "interactions" },
+              { name: "HP display", value: "hpdisplay" },
+              { name: "All", value: "all" }
+            )
+        )
     ),
   async execute(interaction) {
     const user = interaction.user;
@@ -137,6 +155,46 @@ module.exports = {
         await set(`${interaction.user.id}_hp_display`, "hp%");
         await interaction.reply({
           content: "Your HP display has been set to `HP (Percentage)`.",
+          ephemeral: true,
+        });
+      }
+    } else if (interaction.options.getSubcommand() === "reset") {
+      let response = interaction.options.getString("setting");
+      if (response === "embedcolor") {
+        await set(`${interaction.user.id}_color`, "#ffe302");
+        await interaction.reply({
+          content: "Your embed color has been reset to default. (#ffe302)",
+          ephemeral: true,
+        });
+      }
+      if (response === "xpalerts") {
+        await set(`${interaction.user.id}_xp_alerts`, "1");
+        await interaction.reply({
+          content: "Your xp alerts setting has been reset to default. (Enabled)",
+          ephemeral: true,
+        });
+      }
+      if (response === "interactions") {
+        await set(`${interaction.user.id}_interactions`, "1");
+        await interaction.reply({
+          content: "Your interactions setting has been reset to default. (Enabled)",
+          ephemeral: true,
+        });
+      }
+      if (response === "hpdisplay") {
+        await set(`${interaction.user.id}_hp_display`, "hp");
+        await interaction.reply({
+          content: "Your HP display setting has been reset to default. (HP)",
+          ephemeral: true,
+        });
+      }
+      if (response === "all") {
+        await set(`${interaction.user.id}_color`, "ffe302");
+        await set(`${interaction.user.id}_xp_alerts`, "1");
+        await set(`${interaction.user.id}_interactions`, "1");
+        await set(`${interaction.user.id}_hp_display`, "hp");
+        await interaction.reply({
+          content: "All your settings have been reset to their defaults.",
           ephemeral: true,
         });
       }
