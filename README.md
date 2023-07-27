@@ -51,7 +51,7 @@ Then, create a file named `config.json` in the root directory, and paste the fol
   "usr": "User + password combo for the redis database.",
   "pwd": "--",
   "topgg": "Used for posting stats to top.gg. Please see disclaimer in index.js.",
-  "topggAuth": "Used for voting rewards. Please see disclaimer in index.js.",
+  "topggAuth": "Used for voting rewards. Please see disclaimer in index.js."
 }
 ```
 
