@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
-const { token, topgg, usr, pwd } = require("./config.json");
+const { token, topgg, topggAuth, usr, pwd } = require("./config.json"); // Remove topgg, topggAuth if you don't want to use top.gg. See comments below.
 const Redis = require("ioredis");
 const express = require("express");
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -25,6 +25,7 @@ redis.on("error", (err) => {
 
 // This section is kept here for transparency purposes.
 // You cannot wholly publish DankRPG on top.gg without significant changes, as it is a "template".
+// https://support.top.gg/support/solutions/articles/73000502502-bot-guidelines
 // Uploading server count to top.gg.
 const { AutoPoster } = require("topgg-autoposter");
 const ap = AutoPoster(topgg, client);
@@ -35,7 +36,7 @@ ap.on("posted", () => {
 // Top.gg voting webhook.
 const Topgg = require("@top-gg/sdk");
 const app = express();
-const webhook = new Topgg.Webhook(topgg);
+const webhook = new Topgg.Webhook(topggAuth);
 app.post(
   "/vote",
   webhook.listener((voted) => {

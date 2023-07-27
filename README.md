@@ -49,7 +49,9 @@ Then, create a file named `config.json` in the root directory, and paste the fol
   "token": "Your bot's token from https://discord.com/developers/applications",
   "clientId": "This is the same as the bot's userID. If you don't know how to get it, just use the link above as well.",
   "usr": "User + password combo for the redis database.",
-  "pwd": "--"
+  "pwd": "--",
+  "topgg": "Used for posting stats to top.gg. Please see disclaimer in index.js.",
+  "topggAuth": "Used for voting rewards. Please see disclaimer in index.js.",
 }
 ```
 
