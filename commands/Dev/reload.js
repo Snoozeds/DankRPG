@@ -31,9 +31,9 @@ module.exports = {
     }
 
     try {
-      interaction.client.commands.delete(command.data.name);
       const newCommand = require(commandLocation);
       interaction.client.commands.set(newCommand.data.name, newCommand);
+      interaction.client.commands.delete(command.data.name);
       await interaction.reply(`Command \`${newCommand.data.name}\` was reloaded!`);
     } catch (error) {
       console.error(error);
