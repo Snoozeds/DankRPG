@@ -176,7 +176,8 @@ module.exports = {
 
         // Calculate coins based off level
         const userLevel = await get(`${user.id}_level`);
-        const coins = chance.integer({ min: userLevel * 15, max: userLevel * 20 });
+        const multiplier = chance.integer({ min: 100, max: 150 }) / 100; // 1.0 - 1.5
+        const coins = Math.round(50 * Math.pow(multiplier, userLevel - 1));
 
         // Calculate XP
         const xp = chance.integer({ min: userLevel * 5, max: userLevel * 7 });
