@@ -8,6 +8,7 @@ module.exports = {
     .setDescription("Reloads a command.")
     .addStringOption((option) => option.setName("command").setDescription("The command you want to reload.").setRequired(true)),
   async execute(interaction) {
+    // Change the user ID to your own. You can also do multiple IDs like: ["ID1", "ID2"].
     if (interaction.user.id !== "764564962815115267") return interaction.reply({ content: "You are not authorized to use this command.", ephemeral: true });
 
     const commandName = interaction.options.getString("command");
