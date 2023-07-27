@@ -58,8 +58,9 @@ Then, create a file named `config.json` in the root directory, and paste the fol
 You'll then want to have a look through the `index.js` and `globals.js` files to change some configuration options. \
 I've left some comments in the code to help you out. \
 \
-Once you're done, run `deploy-commands.js` to **globally** deploy the slash commands to your bot. \
-You'll only need to run this again if you add new commands. Follow discord.js's guide [here](https://discordjs.guide/creating-your-bot/command-deployment.html#guild-commands) if you want to add them to a server instead. \
+Once you're done with that, head into the deploy-commands.js file and change the guildID near the bottom to your test server's ID, if you have one. \
+This is for commands with the nonGlobal option set to true. \
+Then, run `node deploy-commands.js` to deploy the slash commands, both global and non-global. \
 \
 Finally, run `node index.js` to start DankRPG to see if you encounter any errors. \
 If you don't, use `pm2 start index.js` to start the bot in the background.
