@@ -18,7 +18,7 @@ module.exports = {
       await cooldown.set(user.id, "daily", "24h");
       const xp = 100;
       let achievementUnlocked = false;
-      await incr(`${user.id}`, `coins`, 250);
+      await incr(`${user.id}`, `coins`, 500);
       if ((await get(`${user.id}_daily_achievement`)) == null || (await get(`${user.id}_daily_achievement`)) == "false") {
         await incr(`${user.id}`, `coins`, 250);
         await set(`${user.id}_daily_achievement`, true);
@@ -28,7 +28,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle("Daily Reward")
         .setDescription(
-          `:white_check_mark: You collected your daily reward of ${coinEmoji}**250**. You now have ${coinEmoji}**${await get(`${user.id}_coins`)}**. ${
+          `:white_check_mark: You collected your daily reward of ${coinEmoji}**500**. You now have ${coinEmoji}**${await get(`${user.id}_coins`)}**. ${
             (await get(`${user.id}_xp_alerts`)) == "1" ? `\n+${levelEmoji}${xp}` : ""
           } ${(await checkXP(user.id, xp)) == true ? ` ${levelUpEmoji} **Level up!** Check /levels.` : ""}`
         )
