@@ -37,7 +37,7 @@ module.exports = {
       });
     } else {
       // Cooldown
-      await cooldown.set(user.id, "fight", `${chance.integer({ min: 25, max: 35})}s`);
+      await cooldown.set(user.id, "fight", `${chance.integer({ min: 25, max: 35 })}s`);
 
       // Inital reply for buttons
       // Embed
@@ -160,7 +160,6 @@ module.exports = {
           embed.setDescription(`The ${enemy} attacked you for ${damage} damage!`);
           embed.spliceFields(0, 1, { name: `${hpEmoji} Your HP`, value: `${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)}`, inline: true });
         }
-        
 
         // Update reply
         interaction.editReply({
@@ -176,8 +175,13 @@ module.exports = {
 
         // Calculate coins based off level
         const userLevel = await get(`${user.id}_level`);
-        const multiplier = chance.integer({ min: 100, max: 150 }) / 100; // 1.0 - 1.5
-        const coins = Math.round(50 * Math.pow(multiplier, userLevel - 1));
+        const multiplier = chance.integer({ min: 100, max: 130 }) / 100; // 1.0 - 1.3
+        let coins = Math.round(30 * Math.pow(multiplier, userLevel - 1));
+
+        // Cap of 2000 coins, so people can't farm coins too easily, breaking the economy :-)
+        if (coins > 2000) {
+          coins = 2000;
+        }
 
         // Calculate XP
         const xp = chance.integer({ min: userLevel * 5, max: userLevel * 7 });
@@ -193,7 +197,7 @@ module.exports = {
             });
             collector.stop();
             return;
-          } else if(await get(`${user.id}_lifesaver`) === 0) {
+          } else if ((await get(`${user.id}_lifesaver`)) === 0) {
             await interaction.followUp({
               content: `You died! You have no lifesavers and get your stats reset.`,
               ephemeral: true,
@@ -224,11 +228,11 @@ module.exports = {
           const xpMessage = xpAlerts === "1" ? `\n+ ${levelEmoji}**${xp}**\n` : "";
           const levelUpMessage = (await checkXP(user.id, xp)) === true ? ` ${levelUpEmoji} **Level up!** Check /levels.\n` : "";
           const coinsMessage = coins > 0 ? `+ ${coinEmoji}**${coins}**\n` : ""; // If coins is somehow 0, don't show it.
-          const achievement = await get(`${user.id}_feared_achievement`) === "true";
+          const achievement = (await get(`${user.id}_feared_achievement`)) === "true";
           const achievementUnlocked = fightsWon >= 100 && !achievement;
           const achievementMessage = achievementUnlocked ? `Congrats, you unlocked the **Feared** achievement! (+${coinEmoji}1000)` : "";
 
-          if(achievementUnlocked) {
+          if (achievementUnlocked) {
             await set(`${user.id}_feared_achievement`, true);
             await incr(user.id, "coins", 1000);
           }
