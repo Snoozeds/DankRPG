@@ -41,7 +41,7 @@ app.post(
   "/vote",
   webhook.listener((voted) => {
     redis.incrby(`${voted.user}_votes`, 1);
-    redis.incrby(`${voted.user}_coins`, 250);
+    redis.incrby(`${voted.user}_coins`, 500);
   })
 );
 app.listen(6969);
