@@ -7,10 +7,13 @@ const ms = require("ms");
 const coinEmoji = "<:Coins:1109913124171153438>";
 const hpEmoji = "<:RpgHeart:1119594242994618459>";
 const armorEmoji = "<:ArmorStat:1121286429042024581>";
-const attackEmoji = "<:GraySword:1110247003851608074>";
+const attackEmoji = "<:Atk:1134903673688965180>";
+const critEmoji = "<:AtkCrit:1134903672149655553>";
 const levelEmoji = "<:LevelBook:1130623075717759030>";
 
 // Stats being increased
+const attackUpEmoji = "<:AtkUp:1134903669356240957>";
+const critUpEmoji = "<:AtkCritUp:1134903668345421884>";
 const armorUpEmoji = "<:ArmorStatUp:1121286519504781343>";
 const levelUpEmoji = "<:LevelBookUp:1130623558217900193>";
 
@@ -257,7 +260,10 @@ module.exports = {
   hpEmoji,
   armorEmoji,
   attackEmoji,
+  critEmoji,
   levelEmoji,
+  attackUpEmoji,
+  critUpEmoji,
   armorUpEmoji,
   levelUpEmoji,
   shopImage,
