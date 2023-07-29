@@ -5,7 +5,7 @@ module.exports = {
   data: new SlashCommandBuilder().setName("stats").setDescription("View your stats."),
   async execute(interaction) {
     const embed = new EmbedBuilder()
-      .setTitle("Skills")
+      .setTitle("Stats")
       .addFields(
         {
           name: `${hpEmoji} MaxHP (${await get(`${interaction.user.id}_max_hp`)})`,
