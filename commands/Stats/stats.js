@@ -2,29 +2,33 @@ const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const { get, hpEmoji, armorEmoji, attackEmoji, critEmoji, levelEmoji } = require("../../globals.js");
 
 module.exports = {
-  data: new SlashCommandBuilder().setName("stats").setDescription("View your stats."),
+  data: new SlashCommandBuilder()
+    .setName("stats")
+    .setDescription("View your/another user's stats.")
+    .addUserOption((option) => option.setName("user").setDescription("The user to view stats for.").setRequired(false)),
   async execute(interaction) {
+    const user = interaction.options.getUser("user") ?? interaction.user;
     const embed = new EmbedBuilder()
-      .setTitle("Stats")
+      .setTitle(`Stats: ${user.username}`)
       .addFields(
         {
-          name: `${hpEmoji} MaxHP (${await get(`${interaction.user.id}_max_hp`)})`,
-          value: `The maximum amount of health points you can have.`,
+          name: `${hpEmoji} MaxHP (${await get(`${user.id}_max_hp`)})`,
+          value: `The maximum amount of health points ${user.username} can have.`,
           inline: false,
         },
         {
-          name: `${hpEmoji} HP (${await get(`${interaction.user.id}_hp`)})`,
-          value: `Your current health points.`,
+          name: `${hpEmoji} HP (${await get(`${user.id}_hp`)})`,
+          value: `${user.username}'s current health points.`,
           inline: false,
         },
         {
-          name: `${armorEmoji} Armor (${await get(`${interaction.user.id}_armor`)})`,
-          value: `Reduces your damage taken in fights.`,
+          name: `${armorEmoji} Armor (${await get(`${user.id}_armor`)})`,
+          value: `Reduces ${user.username}'s damage taken in fights.`,
           inline: false,
         },
         {
-          name: `${attackEmoji} Damage (${await get(`${interaction.user.id}_damage`)})`,
-          value: `Increases the damage you deal in fights.`,
+          name: `${attackEmoji} Damage (${await get(`${user.id}_damage`)})`,
+          value: `Increases the damage ${user.username} deals in fights.`,
           inline: false,
         },
         {
@@ -33,13 +37,14 @@ module.exports = {
           inline: false,
         },
         {
-          name: `${levelEmoji} Level (${await get(`${interaction.user.id}_level`)})`,
-          value: `Your stats increase as you level up. Level up by using RPG commands.`,
+          name: `${levelEmoji} Level (${await get(`${user.id}_level`)})`,
+          value: `MaxHP, HP, armor, and damage increase as level increases. Level up by using RPG commands.`,
           inline: false,
         }
       )
       .setColor(await get(`${interaction.user.id}_color`))
       .setFooter({ text: "Requested by " + interaction.user.username })
+      .setThumbnail(user.displayAvatarURL({ dynamic: true, size: 4096 }))
       .setTimestamp();
     await interaction.reply({ embeds: [embed] });
   },
