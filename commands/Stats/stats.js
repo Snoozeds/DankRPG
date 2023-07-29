@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, hpEmoji, armorEmoji, attackEmoji, levelEmoji } = require("../../globals.js");
+const { get, hpEmoji, armorEmoji, attackEmoji, critEmoji, levelEmoji } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder().setName("stats").setDescription("View your stats."),
@@ -25,6 +25,11 @@ module.exports = {
         {
           name: `${attackEmoji} Damage (${await get(`${interaction.user.id}_damage`)})`,
           value: `Increases the damage you deal in fights.`,
+          inline: false,
+        },
+        {
+          name: `${critEmoji} Crit Chance (25%)`,
+          value: `The chance to do a "critical hit" in fights. Critical hits deal double damage.`,
           inline: false,
         },
         {
