@@ -38,7 +38,7 @@ module.exports = {
         },
         {
           name: `${levelEmoji} Level (${await get(`${user.id}_level`)})`,
-          value: `MaxHP, HP, armor, and damage increase as level increases. Level up by using RPG commands.`,
+          value: `MaxHP, HP, armor, and damage increase as level increases. Level up by using RPG commands. The max level is 25.`,
           inline: false,
         }
       )
