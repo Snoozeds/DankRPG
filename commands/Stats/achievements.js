@@ -9,15 +9,20 @@ module.exports = {
 
   async execute(interaction) {
     const user = interaction.options.getUser("user") || interaction.user;
-    const totalAchievements = 4; // Update this when adding new achievements.
+
+    // IMPORTANT: If you add more achievements, make sure to update the totalAchievements variable.
+    const totalAchievements = 5;
     let userAchievements = 0;
 
+    // Achievement variables.
     const dailyAchievement = await get(`${user.id}_daily_achievement`);
     const learnerAchievement = await get(`${user.id}_learner_achievement`);
-    const aprilAchievement = await get(`${user.id}_april_achievement`);
     const fearedAchievement = await get(`${user.id}_feared_achievement`);
+    const dedicatedAchievement = await get(`${user.id}_dedicated_achievement`);
+    const aprilAchievement = await get(`${user.id}_april_achievement`);
 
-    userAchievements = [dailyAchievement, learnerAchievement, aprilAchievement, fearedAchievement].filter((achievement) => achievement == "true").length;
+    // IMPORTANT: If you add more achievements, make sure to add them to this array.
+    userAchievements = [dailyAchievement, learnerAchievement, fearedAchievement, dedicatedAchievement, aprilAchievement].filter((achievement) => achievement == "true").length;
 
     if (!(await get(`${user.id}_daily_achievement`))) {
       await set(`${user.id}_daily_achievement`, false);
@@ -25,11 +30,14 @@ module.exports = {
     if (!(await get(`${user.id}_learner_achievement`))) {
       await set(`${user.id}_learner_achievement`, false);
     }
-    if (!(await get(`${user.id}_april_achievement`))) {
-      await set(`${user.id}_april_achievement`, false);
-    }
     if (!(await get(`${user.id}_feared_achievement`))) {
       await set(`${user.id}_feared_achievement`, false);
+    }
+    if (!(await get(`${user.id}_dedicated_achievement`))) {
+      await set(`${user.id}_dedicated_achievement`, false);
+    }
+    if (!(await get(`${user.id}_april_achievement`))) {
+      await set(`${user.id}_april_achievement`, false);
     }
 
     // In the past, I used to use the emoji themselves as the value, but now I use "true" and "false" instead.
@@ -75,6 +83,10 @@ Reward: ${coinEmoji}100
 **__Feared__** ${fearedAchievement == "true" ? trueEmoji : falseEmoji}
 Win 100 fights.
 Reward: ${coinEmoji}1000
+
+**__Dedicated__** ${dedicatedAchievement == "true" ? trueEmoji : falseEmoji}
+Collect 30 daily rewards in a row without missing a day.
+Reward: ${coinEmoji}500
 
 **__April Fools!__** ${aprilAchievement == "true" ? trueEmoji : falseEmoji}
 Use any command between 1st-3rd April.
