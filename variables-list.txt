@@ -31,6 +31,7 @@
 # These are variables that are only used in the command they are created in.
 (userid)_duel: If the player is in a duel : null
 (userid)_duelTimestamp: The unix milliseconds of when the duel started : null
+(userid)_dailyStreak: The current daily streak of the player in days (max is 30) : null
 
 # Marriages
 (userid)_marriageRequest: The id of the player who sent the request : null
