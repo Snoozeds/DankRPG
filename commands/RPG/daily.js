@@ -10,16 +10,8 @@ module.exports = {
     const xp = 100; // XP to give per daily reward
 
     // Variables for the daily streak system
-    const lastDaily = await get(`${user.id}_lastDailyCollectedTimestamp`);
-    const lastCollectionDate = lastDaily ? new Date(lastDaily) : null;
+    const lastDaily = await get(`${user.id}_lastDaily`);
     const currentTimestamp = Date.now();
-
-    // Check if the user has already claimed their daily reward today
-    const claimedToday =
-      lastCollectionDate &&
-      lastCollectionDate.getDate() === currentTimestamp.getDate() &&
-      lastCollectionDate.getMonth() === currentTimestamp.getMonth() &&
-      lastCollectionDate.getFullYear() === currentTimestamp.getFullYear();
 
     // Cooldown - 24 hours
     if (await cooldown.check(user.id, "daily")) {
@@ -31,7 +23,9 @@ module.exports = {
         ephemeral: true,
       });
     } else {
-      if (!claimedToday) {
+      
+      // If the last daily reward was collected more than 48 hours ago, reset the streak.
+      if (lastDaily != null && currentTimestamp - lastDaily > ms("48h")) {
         await set(`${user.id}_dailyStreak`, 0);
       }
 
@@ -72,6 +66,7 @@ module.exports = {
       }
 
       await incr(`${user.id}`, `coins`, coinsReward);
+      await set(`${user.id}_lastDaily`, currentTimestamp);
       const embed = new EmbedBuilder()
         .setTitle("Daily Reward")
         .setDescription(
