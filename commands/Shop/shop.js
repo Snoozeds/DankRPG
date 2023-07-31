@@ -74,7 +74,7 @@ module.exports = {
 
 ${celestialArmorEmoji} Celestial Armor (**celestial**)
 ${descriptionEmoji} Armor of immense strength, said to have been forged by the gods themselves.
-${coinEmoji} **35,000**
+${coinEmoji} **30,000**
 ${armorUpEmoji} **+50**
 \-
 ${sunforgedArmorEmoji} Sunforged Armor (**sunforged**)

@@ -59,9 +59,9 @@ module.exports = {
     }
 
     if (item === "celestial armor" || item === "celestialarmor" || item === "celestial") {
-      if (coins < 35000 || coins == undefined) {
+      if (coins < 30000 || coins == undefined) {
         return interaction.reply({
-          content: `You don't have enough coins for this item! You need ${coinEmoji} 35000.`,
+          content: `You don't have enough coins for this item! You need ${coinEmoji} 30000.`,
           ephemeral: true,
         });
       }
@@ -72,10 +72,10 @@ module.exports = {
           ephemeral: true,
         });
       }
-      await decr(`${user.id}`, "coins", 35000);
+      await decr(`${user.id}`, "coins", 30000);
       await set(`${user.id}_celestialArmor`, 1);
       return interaction.reply({
-        content: `You bought a celestial armor for ${coinEmoji}35000.`,
+        content: `You bought a celestial armor for ${coinEmoji} 30000.`,
         ephemeral: true,
       });
     }
