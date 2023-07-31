@@ -73,8 +73,8 @@ module.exports = {
         const userDamage = (await get(`${user.id}_damage`)) * 2;
 
         // Calculate damage
-        // "Crit" hit support. 25% chance to do double damage.
-        const damage = chance.string({ pool: "1234" }) === "1" ? userDamage * 2 : userDamage;
+        // "Crit" hit support. 10% chance to do double damage.
+        const damage = chance.bool({ likelihood: 10 }) ? userDamage * 2 : userDamage;
 
         // Check if enemy would die
         if (enemyHP - damage <= 0) {
