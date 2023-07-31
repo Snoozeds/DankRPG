@@ -29,7 +29,7 @@ module.exports = {
     const select = new StringSelectMenuBuilder().setCustomId("shop").setPlaceholder("Select an item category.").addOptions(
       new StringSelectMenuOptionBuilder().setLabel("Health items").setDescription("Items that restore your health.").setValue("health").setEmoji(hpEmoji),
 
-      new StringSelectMenuOptionBuilder().setLabel("Equipment").setDescription("Items that increase your stats.").setValue("equipment").setEmoji(armorEmoji)
+      new StringSelectMenuOptionBuilder().setLabel("Armor").setDescription("Items that increase your armor.").setValue("armor").setEmoji(armorEmoji)
     );
 
     const row = new ActionRowBuilder().addComponents(select);
@@ -66,9 +66,9 @@ module.exports = {
             embeds: [embed],
             components: [row],
           });
-        } else if (i.values[0] === "equipment") {
+        } else if (i.values[0] === "armor") {
           const embed = new EmbedBuilder()
-            .setTitle("Equipment")
+            .setTitle("Armor")
             .setDescription(
               `"Welcome to my shop!"\nYour balance: **${coinEmoji}${await get(`${user.id}_coins`)}**
 
