@@ -581,6 +581,26 @@ module.exports = {
         const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_back").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
         await interaction.update({ embeds: [embed], components: [row] });
       }
+    } else if (interaction.isModalSubmit()) {
+      if (interaction.customId === "report") {
+        // CHANGE THIS TO YOUR OWN CHANNEL ID!
+        const channel = interaction.client.channels.cache.get("1136390984024981625");
+
+        // Get values
+        const user = interaction.user;
+        const reportType = interaction.fields.getTextInputValue("reportType");
+        const reportDescription = interaction.fields.getTextInputValue("description");
+
+        const embed = new EmbedBuilder()
+          .setTitle("New Report")
+          .setDescription(`**User:** ${user.username} (${user.id})\n**Report Type:** ${reportType}\n**Description:** ${reportDescription}`)
+          .setColor("#FF0000")
+          .setTimestamp();
+
+        await channel.send({ embeds: [embed] });
+
+        await interaction.reply({ content: "Your submission was received successfully!", ephemeral: true });
+      }
     }
   },
 };
