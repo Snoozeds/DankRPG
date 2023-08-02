@@ -141,6 +141,7 @@ module.exports = {
   </commands:${await getCommandId("commands")}> - Shows all available commands.
   </ping:${await getCommandId("ping")}> - Shows the bot's ping.
   </qm:${await getCommandId("qm")}> - Quickly access menus and commands.
+  </report:${await getCommandId("report")}> - Send a bug report, suggestion, or user report to the developer.
   </settings view:${await getCommandId("settings")}> - View your current settings.
   </settings embedcolor:${await getCommandId("settings")}> - Change the embed color.
   </settings xpalerts:${await getCommandId("settings")}> - Toggle XP alerts.

@@ -44,6 +44,7 @@ module.exports = {
 \`/commands\` - Shows all available commands.
 \`/ping\` - Shows the bot's ping.
 \`/qm\` - Quickly access menus and commands.
+\`/report\` - Send a bug report, suggestion, or user report to the developer.
 \`/settings view\` - View your current settings.
 \`/settings embedcolor\` - Change the embed color.
 \`/settings xpalerts\` - Toggle XP alerts.
