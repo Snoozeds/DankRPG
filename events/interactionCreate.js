@@ -206,12 +206,13 @@ module.exports = {
             `**Stats:**
   </achievements:${await getCommandId("achievements")}> - Shows your/another user's achievements.
   </cooldowns:${await getCommandId("cooldowns")}> - Shows your cooldowns.
+  </equipped:${await getCommandId("equipped")}> - Shows your equipped items.
   </info:${await getCommandId("info")}> - Shows information about the bot.
   </inventory:${await getCommandId("inventory")}> - Shows your/another user's inventory.
   </levels:${await getCommandId("levels")}> - Shows your/another user's levels.
   </profile:${await getCommandId("profile")}> - Shows your/another user's profile.
   </serverinfo:${await getCommandId("serverinfo")}> - Shows info about the current server.
-  </skills:${await getCommandId("skills")}> - Explains your skills.
+  </stats:${await getCommandId("stats")}> - View your/another user's stats.
   </userinfo:${await getCommandId("userinfo")}> - Shows information about you/another user.`
           )
           .setColor(await get(`${user.id}_color`));

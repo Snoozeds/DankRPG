@@ -98,13 +98,14 @@ module.exports = {
         `**Stats:**
 \`/achievements\` - Shows your/another user's achievements.
 \`/cooldowns\` - Shows your cooldowns.
+\`/equipped\` - Shows your equipped items.
 \`/info\` - View info about DankRPG.
 \`/inventory\` - Shows your/another user's inventory.
 \`/levels\` - Shows your/another user's level.
 \`/marriage\` - Shows your/another user's marriage.
 \`/profile\` - Shows your/another user's profile.
 \`/serverinfo\` - Shows info about the current server.
-\`/skills\` - Explains your skills.
+\`/stats\` - Shows your/another user's stats.
 \`/userinfo\` - Shows info about you or another user.`
       )
       .setColor(await get(`${interaction.user.id}_color`));
