@@ -11,6 +11,7 @@ module.exports = {
     const user = interaction.user;
     const coins = await get(`${user.id}_coins`);
 
+    // Misc items
     if (item == "lifesaver") {
       if (coins < 500 || coins == undefined) {
         return interaction.reply({
@@ -36,6 +37,7 @@ module.exports = {
       });
     }
 
+    // Armor
     if (item === "stone ring" || item === "stonering") {
       if (coins < 2000 || coins == undefined) {
         return interaction.reply({
@@ -212,6 +214,169 @@ module.exports = {
       await set(`${user.id}_topazineArmor`, 1);
       return interaction.reply({
         content: `You bought a topazine armor for ${coinEmoji}4500.`,
+        ephemeral: true,
+      });
+    }
+
+    // Weapons
+
+    if (item === "crimson dagger" || item === "crimsondagger" || item === "crimson" || item === "cd") {
+      if (coins < 5000 || coins == undefined) {
+        return interaction.reply({
+          content: `You don't have enough coins for this item! You need ${coinEmoji} 5000.`,
+          ephemeral: true,
+        });
+      }
+
+      if ((await get(`${user.id}_crimsonDagger`)) >= 1) {
+        return interaction.reply({
+          content: "You can only have 1 crimson dagger.",
+          ephemeral: true,
+        });
+      }
+
+      await decr(`${user.id}`, "coins", 5000);
+      await set(`${user.id}_crimsonDagger`, 1);
+      return interaction.reply({
+        content: `You bought a crimson dagger for ${coinEmoji}5000. Make sure to equip it with /equip.`,
+        ephemeral: true,
+      });
+    }
+
+    if (item === "squire's honor" || item === "squires honor" || item === "squire'shonor" || item === "squireshonor" || item === "squires" || item === "sh") {
+      if (coins < 7500 || coins == undefined) {
+        return interaction.reply({
+          content: `You don't have enough coins for this item! You need ${coinEmoji} 7500.`,
+          ephemeral: true,
+        });
+      }
+
+      if ((await get(`${user.id}_squiresHonor`)) >= 1) {
+        return interaction.reply({
+          content: "You can only have 1 squire's honor.",
+          ephemeral: true,
+        });
+      }
+
+      await decr(`${user.id}`, "coins", 7500);
+      await set(`${user.id}_squiresHonor`, 1);
+      return interaction.reply({
+        content: `You bought a squire's honor for ${coinEmoji}7500. Make sure to equip it with /equip.`,
+        ephemeral: true,
+      });
+    }
+
+    if (item === "zephyr's breeze" || item === "zephyrs breeze" || item === "zephyr'sbreeze" || item === "zephyrsbreeze" || item === "zephyrs" || item === "zb") {
+      if (coins < 13000 || coins == undefined) {
+        return interaction.reply({
+          content: `You don't have enough coins for this item! You need ${coinEmoji} 13000.`,
+          ephemeral: true,
+        });
+      }
+
+      if ((await get(`${user.id}_zephyrsBreeze`)) >= 1) {
+        return interaction.reply({
+          content: "You can only have 1 zephyr's breeze.",
+          ephemeral: true,
+        });
+      }
+
+      await decr(`${user.id}`, "coins", 13000);
+      await set(`${user.id}_zephyrsBreeze`, 1);
+      return interaction.reply({
+        content: `You bought a zephyr's breeze for ${coinEmoji}13000. Make sure to equip it with /equip.`,
+        ephemeral: true,
+      });
+    }
+
+    if (item === "azureblade" || item === "azure blade" || item === "ab") {
+      if (coins < 17000 || coins == undefined) {
+        return interaction.reply({
+          content: `You don't have enough coins for this item! You need ${coinEmoji} 17000.`,
+          ephemeral: true,
+        });
+      }
+
+      if ((await get(`${user.id}_azureBlade`)) >= 1) {
+        return interaction.reply({
+          content: "You can only have 1 azure blade.",
+          ephemeral: true,
+        });
+      }
+
+      await decr(`${user.id}`, "coins", 17000);
+      await set(`${user.id}_azureBlade`, 1);
+      return interaction.reply({
+        content: `You bought an azure blade for ${coinEmoji}17000. Make sure to equip it with /equip.`,
+        ephemeral: true,
+      });
+    }
+
+    if (item === "umbraleclipse" || item === "umbral eclipse" || item === "umbral" || item === "ue") {
+      if (coins < 23000 || coins == undefined) {
+        return interaction.reply({
+          content: `You don't have enough coins for this item! You need ${coinEmoji} 23000.`,
+          ephemeral: true,
+        });
+      }
+
+      if ((await get(`${user.id}_umbralEclipse`)) >= 1) {
+        return interaction.reply({
+          content: "You can only have 1 umbral eclipse.",
+          ephemeral: true,
+        });
+      }
+
+      await decr(`${user.id}`, "coins", 23000);
+      await set(`${user.id}_umbralEclipse`, 1);
+      return interaction.reply({
+        content: `You bought an umbral eclipse for ${coinEmoji}23000. Make sure to equip it with /equip.`,
+        ephemeral: true,
+      });
+    }
+
+    if (item === "divinewrath" || item === "divine wrath" || item === "divine" || item === "dw") {
+      if (coins < 30000 || coins == undefined) {
+        return interaction.reply({
+          content: `You don't have enough coins for this item! You need ${coinEmoji} 30000.`,
+          ephemeral: true,
+        });
+      }
+
+      if ((await get(`${user.id}_divineWrath`)) >= 1) {
+        return interaction.reply({
+          content: "You can only have 1 divine wrath.",
+          ephemeral: true,
+        });
+      }
+
+      await decr(`${user.id}`, "coins", 30000);
+      await set(`${user.id}_divineWrath`, 1);
+      return interaction.reply({
+        content: `You bought a divine wrath for ${coinEmoji}30000. Make sure to equip it with /equip.`,
+        ephemeral: true,
+      });
+    }
+
+    if (item === "bladeofthedead" || item === "blade of the dead" || item === "blade" || item === "botd") {
+      if (coins < 37000 || coins == undefined) {
+        return interaction.reply({
+          content: `You don't have enough coins for this item! You need ${coinEmoji} 37000.`,
+          ephemeral: true,
+        });
+      }
+
+      if ((await get(`${user.id}_bladeOfTheDead`)) >= 1) {
+        return interaction.reply({
+          content: "You can only have 1 blade of the dead.",
+          ephemeral: true,
+        });
+      }
+
+      await decr(`${user.id}`, "coins", 37000);
+      await set(`${user.id}_bladeOfTheDead`, 1);
+      return interaction.reply({
+        content: `You bought a blade of the dead for ${coinEmoji}37000. Make sure to equip it with /equip.`,
         ephemeral: true,
       });
     }

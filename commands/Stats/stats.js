@@ -32,7 +32,7 @@ module.exports = {
           inline: false,
         },
         {
-          name: `${critEmoji} Crit Chance (10%)`,
+          name: `${critEmoji} Crit Chance (${10 + Number(await get(`${user.id}_critChance`))}%)`,
           value: `The chance to do a "critical hit" in fights. Critical hits deal double damage.`,
           inline: false,
         },

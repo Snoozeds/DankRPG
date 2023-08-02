@@ -4,6 +4,8 @@ const {
   get,
   decr,
   armorEmoji,
+  attackEmoji,
+  critEmoji,
   celestialArmorEmoji,
   sunforgedArmorEmoji,
   glacialArmorEmoji,
@@ -11,61 +13,366 @@ const {
   verdantArmorEmoji,
   sylvanArmorEmoji,
   topazineArmorEmoji,
+  bladeOfTheDeadEmoji,
+  divineWrathEmoji,
+  umbralEclipseEmoji,
+  azurebladeEmoji,
+  zephyrsBreezeEmoji,
+  squiresHonorEmoji,
+  crimsonDaggerEmoji,
 } = require("../../globals.js");
 
 module.exports = {
-  data: new SlashCommandBuilder().setName("unequip").setDescription("Unequip your armor."),
+  data: new SlashCommandBuilder()
+    .setName("unequip")
+    .setDescription("Unequip an item.")
+    .addStringOption((option) =>
+      option
+        .setName("item")
+        .setDescription("The item to equip.")
+        .setRequired(true)
+        .addChoices(
+          { name: "Celestial Armor", value: "celestial" },
+          { name: "Sunforged Armor", value: "sunforged" },
+          { name: "Glacial Armor", value: "glacial" },
+          { name: "Abyssal Armor", value: "abyssal" },
+          { name: "Verdant Armor", value: "verdant" },
+          { name: "Sylvan Armor", value: "sylvan" },
+          { name: "Topazine Armor", value: "topazine" },
+          { name: "Blade of the Dead", value: "blade" },
+          { name: "Blade of the Dead", value: "blade" },
+          { name: "Divine Wrath", value: "divine" },
+          { name: "Umbral Eclipse", value: "umbral" },
+          { name: "Azureblade", value: "azureblade" },
+          { name: "Zephyr's breeze", value: "zephyr" },
+          { name: "Squire's honor", value: "squire" },
+          { name: "Crimson Dagger", value: "crimson" }
+        )
+    ),
   async execute(interaction) {
     const user = interaction.user;
-    const equippedArmor = await get(`${user.id}_armorEquipped`);
+    const item = interaction.options.getString("item");
 
-    if (equippedArmor == "none" || equippedArmor == undefined) {
-      return interaction.reply({
-        content: "You don't have any armor equipped!",
+    async function userOwnsItem(item) {
+      const owned = await get(`${user.id}_${item}`);
+      if (owned === "1") {
+        return true;
+      }
+      return false;
+    }
+
+    async function userHasEquippedItem(item) {
+      const equipped = await get(`${user.id}_${item}Equipped`);
+      if (equipped === 1) {
+        return true;
+      }
+      return false;
+    }
+
+    // Armor
+    if (item === "celestial") {
+      if (!userOwnsItem("celestialArmor")) {
+        return await interaction.reply({
+          content: `You don't own this item.`,
+          ephemeral: true,
+        });
+      }
+      if (!userHasEquippedItem("celestial")) {
+        return await interaction.reply({
+          content: `You don't have this item equipped.`,
+          ephemeral: true,
+        });
+      }
+      await set(`${user.id}_celestialEquipped`, 0);
+      await set(`${user.id}_armorEquipped`, "none");
+      await decr(`${user.id}`, "armor", 50);
+      return await interaction.reply({
+        content: `Unequipped ${celestialArmorEmoji} Celestial Armor.\n-${armorEmoji} 50.`,
+        ephemeral: true,
+      });
+    }
+    if (item === "sunforged") {
+      if (!userOwnsItem("sunforgedArmor")) {
+        return await interaction.reply({
+          content: `You don't own this item.`,
+          ephemeral: true,
+        });
+      }
+      if (!userHasEquippedItem("sunforged")) {
+        return await interaction.reply({
+          content: `You don't have this item equipped.`,
+          ephemeral: true,
+        });
+      }
+      await set(`${user.id}_sunforgedEquipped`, 0);
+      await set(`${user.id}_armorEquipped`, "none");
+      await decr(`${user.id}`, "armor", 35);
+      return await interaction.reply({
+        content: `Unequipped ${sunforgedArmorEmoji} Sunforged Armor.\n-${armorEmoji} 35.`,
+        ephemeral: true,
+      });
+    }
+    if (item === "glacial") {
+      if (!userOwnsItem("glacialArmor")) {
+        return await interaction.reply({
+          content: `You don't own this item.`,
+          ephemeral: true,
+        });
+      }
+      if (!userHasEquippedItem("glacial")) {
+        return await interaction.reply({
+          content: `You don't have this item equipped.`,
+          ephemeral: true,
+        });
+      }
+      await set(`${user.id}_glacialEquipped`, 0);
+      await set(`${user.id}_armorEquipped`, "none");
+      await decr(`${user.id}`, "armor", 25);
+      return await interaction.reply({
+        content: `Unequipped ${glacialArmorEmoji} Glacial Armor.\n-${armorEmoji} 25.`,
+        ephemeral: true,
+      });
+    }
+    if (item === "abyssal") {
+      if (!userOwnsItem("abyssalArmor")) {
+        return await interaction.reply({
+          content: `You don't own this item.`,
+          ephemeral: true,
+        });
+      }
+      if (!userHasEquippedItem("abyssal")) {
+        return await interaction.reply({
+          content: `You don't have this item equipped.`,
+          ephemeral: true,
+        });
+      }
+      await set(`${user.id}_abyssalEquipped`, 0);
+      await set(`${user.id}_armorEquipped`, "none");
+      await decr(`${user.id}`, "armor", 20);
+      return await interaction.reply({
+        content: `Unequipped ${abyssalArmorEmoji} Abyssal Armor.\n-${armorEmoji} 20.`,
+        ephemeral: true,
+      });
+    }
+    if (item === "verdant") {
+      if (!userOwnsItem("verdantArmor")) {
+        return await interaction.reply({
+          content: `You don't own this item.`,
+          ephemeral: true,
+        });
+      }
+      if (!userHasEquippedItem("verdant")) {
+        return await interaction.reply({
+          content: `You don't have this item equipped.`,
+          ephemeral: true,
+        });
+      }
+      await set(`${user.id}_verdantEquipped`, 0);
+      await set(`${user.id}_armorEquipped`, "none");
+      await decr(`${user.id}`, "armor", 15);
+      return await interaction.reply({
+        content: `Unequipped ${verdantArmorEmoji} Verdant Armor.\n-${armorEmoji} 15.`,
+        ephemeral: true,
+      });
+    }
+    if (item === "sylvan") {
+      if (!userOwnsItem("sylvanArmor")) {
+        return await interaction.reply({
+          content: `You don't own this item.`,
+          ephemeral: true,
+        });
+      }
+      if (!userHasEquippedItem("sylvan")) {
+        return await interaction.reply({
+          content: `You don't have this item equipped.`,
+          ephemeral: true,
+        });
+      }
+      await set(`${user.id}_sylvanEquipped`, 0);
+      await set(`${user.id}_armorEquipped`, "none");
+      await decr(`${user.id}`, "armor", 10);
+      return await interaction.reply({
+        content: `Unequipped ${sylvanArmorEmoji} Sylvan Armor.\n-${armorEmoji} 10.`,
+        ephemeral: true,
+      });
+    }
+    if (item === "topazine") {
+      if (!userOwnsItem("topazineArmor")) {
+        return await interaction.reply({
+          content: `You don't own this item.`,
+          ephemeral: true,
+        });
+      }
+      if (!userHasEquippedItem("topazine")) {
+        return await interaction.reply({
+          content: `You don't have this item equipped.`,
+          ephemeral: true,
+        });
+      }
+      await set(`${user.id}_topazineEquipped`, 0);
+      await set(`${user.id}_armorEquipped`, "none");
+      await decr(`${user.id}`, "armor", 5);
+      return await interaction.reply({
+        content: `Unequipped ${topazineArmorEmoji} Topazine Armor.\n-${armorEmoji} 5.`,
         ephemeral: true,
       });
     }
 
-    let unequippedArmorEmoji = "";
-    let armorValue = 0;
-
-    // spaghet
-    if (equippedArmor === "celestial") {
-      unequippedArmorEmoji = celestialArmorEmoji;
-      armorValue = 50;
-      await set(`${user.id}_celestialEquipped`, 0);
-    } else if (equippedArmor === "sunforged") {
-      unequippedArmorEmoji = sunforgedArmorEmoji;
-      armorValue = 35;
-      await set(`${user.id}_sunforgedEquipped`, 0);
-    } else if (equippedArmor === "glacial") {
-      unequippedArmorEmoji = glacialArmorEmoji;
-      armorValue = 25;
-      await set(`${user.id}_glacialEquipped`, 0);
-    } else if (equippedArmor === "abyssal") {
-      unequippedArmorEmoji = abyssalArmorEmoji;
-      armorValue = 20;
-      await set(`${user.id}_abyssalEquipped`, 0);
-    } else if (equippedArmor === "verdant") {
-      unequippedArmorEmoji = verdantArmorEmoji;
-      armorValue = 15;
-      await set(`${user.id}_verdantEquipped`, 0);
-    } else if (equippedArmor === "sylvan") {
-      unequippedArmorEmoji = sylvanArmorEmoji;
-      armorValue = 10;
-      await set(`${user.id}_sylvanEquipped`, 0);
-    } else if (equippedArmor === "topazine") {
-      unequippedArmorEmoji = topazineArmorEmoji;
-      armorValue = 5;
-      await set(`${user.id}_topazineEquipped`, 0);
+    // Swords
+    if (item === "blade") {
+      if (!userOwnsItem("bladeOfTheDead")) {
+        return await interaction.reply({
+          content: `You don't own this item.`,
+          ephemeral: true,
+        });
+      }
+      if (!userHasEquippedItem("botd")) {
+        return await interaction.reply({
+          content: `You don't have this item equipped.`,
+          ephemeral: true,
+        });
+      }
+      await set(`${user.id}_botdEquipped`, 0);
+      await set(`${user.id}_swordEquipped`, "none");
+      await decr(`${user.id}`, "attack", 60);
+      await decr(`${user.id}`, "critChance", 60);
+      return await interaction.reply({
+        content: `Unequipped ${bladeOfTheDeadEmoji} Blade of the Dead.\n-${attackEmoji} 60.\n-${critEmoji} 60.`,
+        ephemeral: true,
+      });
     }
+    if (item === "divine") {
+      if (!userOwnsItem("divineWrath")) {
+        return await interaction.reply({
+          content: `You don't own this item.`,
+          ephemeral: true,
+        });
+      }
+      if (!userHasEquippedItem("divine")) {
+        return await interaction.reply({
+          content: `You don't have this item equipped.`,
+          ephemeral: true,
+        });
+      }
+      await set(`${user.id}_divineEquipped`, 0);
+      await set(`${user.id}_swordEquipped`, "none");
+      await decr(`${user.id}`, "attack", 40);
+      await decr(`${user.id}`, "critChance", 50);
+      return await interaction.reply({
+        content: `Unequipped ${divineWrathEmoji} Divine Wrath.\n-${attackEmoji} 40.\n-${critEmoji} 50.`,
+        ephemeral: true,
+      });
+    }
+    if (item === "umbral") {
+      if (!userOwnsItem("umbralEclipse")) {
+        return await interaction.reply({
+          content: `You don't own this item.`,
+          ephemeral: true,
+        });
+      }
+      if (!userHasEquippedItem("umbral")) {
+        return await interaction.reply({
+          content: `You don't have this item equipped.`,
+          ephemeral: true,
+        });
+      }
+      await set(`${user.id}_umbralEquipped`, 0);
+      await set(`${user.id}_swordEquipped`, "none");
+      await decr(`${user.id}`, "attack", 30);
+      await decr(`${user.id}`, "critChance", 40);
+      return await interaction.reply({
+        content: `Unequipped ${umbralEclipseEmoji} Umbral Eclipse.\n-${attackEmoji} 30.\n-${critEmoji} 40.`,
+        ephemeral: true,
+      });
+    }
+    if (item === "azureblade") {
+      if (!userOwnsItem("azureblade")) {
+        return await interaction.reply({
+          content: `You don't own this item.`,
+          ephemeral: true,
+        });
+      }
+      if (!userHasEquippedItem("azureblade")) {
+        return await interaction.reply({
+          content: `You don't have this item equipped.`,
+          ephemeral: true,
+        });
+      }
+      await set(`${user.id}_azurebladeEquipped`, 0);
+      await set(`${user.id}_swordEquipped`, "none");
+      await decr(`${user.id}`, "attack", 20);
+      await decr(`${user.id}`, "critChance", 35);
+      return await interaction.reply({
+        content: `Unequipped ${azurebladeEmoji} Azureblade.\n-${attackEmoji} 20.\n-${critEmoji} 35.`,
+        ephemeral: true,
+      });
+    }
+    if (item === "zephyr") {
+      if (!userOwnsItem("zephyrsBreeze")) {
+        return await interaction.reply({
+          content: `You don't own this item.`,
+          ephemeral: true,
+        });
+      }
+      if (!userHasEquippedItem("zephyr")) {
+        return await interaction.reply({
+          content: `You don't have this item equipped.`,
+          ephemeral: true,
+        });
+      }
+      await set(`${user.id}_zephyrEquipped`, 0);
+      await set(`${user.id}_swordEquipped`, "none");
+      await decr(`${user.id}`, "attack", 15);
+      await decr(`${user.id}`, "critChance", 30);
 
-    await set(`${user.id}_armorEquipped`, "none");
-    await decr(`${user.id}`, "armor", armorValue);
-
-    return interaction.reply({
-      content: `You unequipped ${unequippedArmorEmoji} ${equippedArmor}.\n${armorEmoji}**-${armorValue}**`,
-      ephemeral: true,
-    });
+      return await interaction.reply({
+        content: `Unequipped ${zephyrsBreezeEmoji} Zephyr's Breeze.\n-${attackEmoji} 15.\n-${critEmoji} 30.`,
+        ephemeral: true,
+      });
+    }
+    if (item === "squire") {
+      if (!userOwnsItem("squiresHonor")) {
+        return await interaction.reply({
+          content: `You don't own this item.`,
+          ephemeral: true,
+        });
+      }
+      if (!userHasEquippedItem("squire")) {
+        return await interaction.reply({
+          content: `You don't have this item equipped.`,
+          ephemeral: true,
+        });
+      }
+      await set(`${user.id}_squireEquipped`, 0);
+      await set(`${user.id}_swordEquipped`, "none");
+      await decr(`${user.id}`, "attack", 10);
+      await decr(`${user.id}`, "critChance", 15);
+      return await interaction.reply({
+        content: `Unequipped ${squiresHonorEmoji} Squire's Honor.\n-${attackEmoji} 10.\n-${critEmoji} 15.`,
+        ephemeral: true,
+      });
+    }
+    if (item === "crimson") {
+      if (!userOwnsItem("crimsonDagger")) {
+        return await interaction.reply({
+          content: `You don't own this item.`,
+          ephemeral: true,
+        });
+      }
+      if (!userHasEquippedItem("crimson")) {
+        return await interaction.reply({
+          content: `You don't have this item equipped.`,
+          ephemeral: true,
+        });
+      }
+      await set(`${user.id}_crimsonEquipped`, 0);
+      await set(`${user.id}_swordEquipped`, "none");
+      await decr(`${user.id}`, "attack", 5);
+      await decr(`${user.id}`, "critChance", 10);
+      return await interaction.reply({
+        content: `Unequipped ${crimsonDaggerEmoji} Crimson Dagger.\n-${attackEmoji} 5.\n-${critEmoji} 10.`,
+        ephemeral: true,
+      });
+    }
   },
 };

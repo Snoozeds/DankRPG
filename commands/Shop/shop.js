@@ -13,6 +13,16 @@ const {
   verdantArmorEmoji,
   sylvanArmorEmoji,
   topazineArmorEmoji,
+  attackEmoji,
+  attackUpEmoji,
+  critUpEmoji,
+  bladeOfTheDeadEmoji,
+  divineWrathEmoji,
+  umbralEclipseEmoji,
+  azurebladeEmoji,
+  zephyrsBreezeEmoji,
+  squiresHonorEmoji,
+  crimsonDaggerEmoji,
   shopImage,
   descriptionEmoji,
   armorUpEmoji,
@@ -26,11 +36,14 @@ module.exports = {
     // We have to defer the reply. Discord gets mad otherwise.
     await interaction.deferReply();
 
-    const select = new StringSelectMenuBuilder().setCustomId("shop").setPlaceholder("Select an item category.").addOptions(
-      new StringSelectMenuOptionBuilder().setLabel("Health items").setDescription("Items that restore your health.").setValue("health").setEmoji(hpEmoji),
-
-      new StringSelectMenuOptionBuilder().setLabel("Armor").setDescription("Items that increase your armor.").setValue("armor").setEmoji(armorEmoji)
-    );
+    const select = new StringSelectMenuBuilder()
+      .setCustomId("shop")
+      .setPlaceholder("Select an item category.")
+      .addOptions(
+        new StringSelectMenuOptionBuilder().setLabel("Health items").setDescription("Items that restore your health.").setValue("health").setEmoji(hpEmoji),
+        new StringSelectMenuOptionBuilder().setLabel("Armor").setDescription("Items that increase your armor.").setValue("armor").setEmoji(armorEmoji),
+        new StringSelectMenuOptionBuilder().setLabel("Weapons").setDescription("Items that increase your attack.").setValue("weapons").setEmoji(attackEmoji)
+      );
 
     const row = new ActionRowBuilder().addComponents(select);
 
@@ -105,7 +118,7 @@ ${armorUpEmoji} **+10**
 ${topazineArmorEmoji} Topazine Armor (**topazine**)
 ${descriptionEmoji} Relatively common armor, imbued with the essence of the earth.
 ${coinEmoji} **4,500**
-${armorUpEmoji} **+2**
+${armorUpEmoji} **+5**
 \-
 ${stoneRingEmoji} Stone Ring (Owned: ${(await get(`${user.id}_stoneRing`)) || 0}) (**stonering**)
 ${descriptionEmoji} A small ring crafted from stone. Automatically equips itself when bought. Cannot be unequipped.
@@ -113,6 +126,62 @@ ${coinEmoji} **2,000**
 ${armorUpEmoji} **+1**`
             )
             .setFooter({ text: "Use /buy <id> to buy an item and /equip to equip an item. You can only equip one armor item at once." })
+            .setColor(await get(`${user.id}_color`))
+            .setThumbnail(shopImage);
+          await i.update({
+            content: "",
+            embeds: [embed],
+            components: [row],
+          });
+        } else if (i.values[0] === "weapons") {
+          const embed = new EmbedBuilder()
+            .setTitle("Weapons")
+            .setDescription(
+              `"Welcome to my shop!"\nYour balance: **${coinEmoji}${await get(`${user.id}_coins`)}**
+
+${bladeOfTheDeadEmoji} Blade of the Dead (**blade**/**botd**)
+${descriptionEmoji} The Blade of the Dead strikes fear into the hearts of enemies. Its malevolent aura grants the wielder the power to drain life from foes, leaving devastation in their wake.
+${coinEmoji} **37,000**
+${attackUpEmoji} **+60**
+${critUpEmoji} **+60%**
+-
+${divineWrathEmoji} Divine Wrath (**divine**/**dw**)
+${descriptionEmoji} Carved from a single shard of a fallen comet, the Celestial Edge is a legendary blade imbued with the very essence of the gods.
+${coinEmoji} **30,000**
+${attackUpEmoji} **+40**
+${critUpEmoji} **+50%**
+-
+${umbralEclipseEmoji} Umbral Eclipse (**umbral**/**ue**)
+${descriptionEmoji} A lethal masterpiece forged from shadowy steel, the Umbral eclipse is the perfect fusion of elegance and devastation.
+${coinEmoji} **23,000**
+${attackUpEmoji} **+30**
+${critUpEmoji} **+40%**
+-
+${azurebladeEmoji} Azureblade (**azureblade**/**ab**)
+${descriptionEmoji} A legendary sword forged from shimmering azure steel, the Azureblade is the perfect all-rounder for a medium-skilled adventurer.
+${coinEmoji} **17,000**
+${attackUpEmoji} **+20**
+${critUpEmoji} **+35%**
+-
+${zephyrsBreezeEmoji} Zephyr's Breeze (**zephyrs**/**zb**)
+${descriptionEmoji} Crafted with ethereal precision, the Zephyr Breeze cleaves through foes with unmatched speed and grace.
+${coinEmoji} **13,000**
+${attackUpEmoji} **+15**
+${critUpEmoji} **+30%**
+-
+${squiresHonorEmoji} Squire's Honor (**squires**/**sh**)
+${descriptionEmoji} A sword once used by knights across the country, the Squire's Honor is the perfect choice for an adventurer just starting out.
+${coinEmoji} **7,500**
+${attackUpEmoji} **+10**
+${critUpEmoji} **+15%**
+-
+${crimsonDaggerEmoji} Crimson Dagger (**crimson**/**cd**)
+${descriptionEmoji} A fast, strong and cost effective dagger, crafted from crimson.
+${coinEmoji} **5,000**
+${attackUpEmoji} **+5**
+${critUpEmoji} **+10%**`
+            )
+            .setFooter({ text: "Use /buy <id> to buy an item and /equip to equip an item. You can only equip one weapon at once." })
             .setColor(await get(`${user.id}_color`))
             .setThumbnail(shopImage);
           await i.update({
