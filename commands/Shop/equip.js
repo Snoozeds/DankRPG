@@ -205,7 +205,7 @@ module.exports = {
           ephemeral: true,
         });
       }
-      if ((await get(`${user.id}_bladeEquipped`)) === 1) {
+      if ((await get(`${user.id}_botdEquipped`)) === 1) {
         return interaction.reply({
           content: "You already have this item equipped!",
           ephemeral: true,
