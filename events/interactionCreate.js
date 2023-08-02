@@ -343,7 +343,7 @@ module.exports = {
           {
             name: "Celestial Armor",
             key: `${user.id}_celestialArmor`,
-            price: 35000,
+            price: 30000,
             emoji: celestialArmorEmoji,
           },
           {
