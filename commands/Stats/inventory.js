@@ -14,6 +14,13 @@ const {
   verdantArmorEmoji,
   sylvanArmorEmoji,
   topazineArmorEmoji,
+  bladeOfTheDeadEmoji,
+  divineWrathEmoji,
+  umbralEclipseEmoji,
+  azurebladeEmoji,
+  zephyrsBreezeEmoji,
+  squiresHonorEmoji,
+  crimsonDaggerEmoji,
 } = require("../../globals.js");
 
 // Define the prices of each item in the inventory.
@@ -46,7 +53,7 @@ module.exports = {
     await setDefaultInventoryValues(user.id, "_wood", 0);
     await setDefaultInventoryValues(user.id, "_stone", 0);
 
-    // An array for the inventory items.
+    // Inventory arrays
     const inventoryItems = [
       {
         name: "Lifesavers",
@@ -119,13 +126,73 @@ module.exports = {
       },
     ];
 
+    const weaponItems = [
+      {
+        name: "Blade of the Dead",
+        key: `${user.id}_bladeOfTheDead`,
+        price: 37000,
+        emoji: bladeOfTheDeadEmoji,
+      },
+      {
+        name: "Divine Wrath",
+        key: `${user.id}_divineWrath`,
+        price: 30000,
+        emoji: divineWrathEmoji,
+      },
+      {
+        name: "Umbral Eclipse",
+        key: `${user.id}_umbralEclipse`,
+        price: 23000,
+        emoji: umbralEclipseEmoji,
+      },
+      {
+        name: "Azureblade",
+        key: `${user.id}_azureblade`,
+        price: 17000,
+        emoji: azurebladeEmoji,
+      },
+      {
+        name: "Zephyr's Breeze",
+        key: `${user.id}_zephyrsBreeze`,
+        price: 13000,
+        emoji: zephyrsBreezeEmoji,
+      },
+      {
+        name: "Squire's Honor",
+        key: `${user.id}_squiresHonor`,
+        price: 7500,
+        emoji: squiresHonorEmoji,
+      },
+      {
+        name: "Crimson Dagger",
+        key: `${user.id}_crimsonDagger`,
+        price: 5000,
+        emoji: crimsonDaggerEmoji,
+      },
+    ];
+
     // Sort the inventory items by price.
     inventoryItems.sort((a, b) => a.price - b.price);
     armorItems.sort((a, b) => b.price - a.price);
+    weaponItems.sort((a, b) => b.price - a.price);
+
+    let totalInventoryValue = 0;
+
+    // Loop through the weapon items and add them to the description.
+    let weaponDescription = "";
+    for (const item of weaponItems) {
+      const value = await get(item.key);
+      if (value && item.price && item.price > 0 && value > 0) {
+        const itemValue = value * item.price;
+        weaponDescription += `**${item.emoji} ${item.name}**: ${value} (${coinEmoji}${itemValue})\n`;
+        totalInventoryValue += itemValue;
+      } else if (value && value > 0) {
+        weaponDescription += `**${item.emoji}${item.name}**: ${value}\n`;
+      }
+    }
 
     // Loop through the armor items and add them to the description.
     let armorDescription = "";
-    let totalInventoryValue = 0;
     for (const item of armorItems) {
       const value = await get(item.key);
       if (value && item.price && item.price > 0 && value > 0) {
@@ -152,6 +219,9 @@ module.exports = {
 
     // Add the armors to the inventory description if there are any.
     inventoryDescription += armorDescription !== "" ? `\n**Armor:**\n${armorDescription}` : "";
+
+    // Add the weapons to the inventory description if there are any.
+    inventoryDescription += weaponDescription !== "" ? `\n**Weapons:**\n${weaponDescription}` : "";
 
     // If the inventory is empty, set the description to a default message.
     if (inventoryDescription === "") {
