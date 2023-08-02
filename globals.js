@@ -35,6 +35,15 @@ const sylvanArmorEmoji = "<:SylvanArmor:1121263238785540136>";
 const topazineArmorEmoji = "<:TopazineArmor:1121263236570939512>";
 const stoneRingEmoji = "<:StoneRing:1109928129763483688>";
 
+// Items - Weapons (in order of strength)
+const bladeOfTheDeadEmoji = "<:BladeofTheDead:1134086324576591972>";
+const divineWrathEmoji = "<:DivineWrath:1134086320327761972>";
+const umbralEclipseEmoji = "<:UmbralEclipse:1134086329521668118>";
+const azurebladeEmoji = "<:Azureblade:1134086638746734682>";
+const zephyrsBreezeEmoji = "<:ZephyrsBreeze:1134086322215207043>";
+const squiresHonorEmoji = "<:SquiresHonor:1134086325960708186>";
+const crimsonDaggerEmoji = "<:CrimsonDagger:1134087299248955503>";
+
 // Resources
 const diamondEmoji = "<:Diamond:1109925710799319181>";
 const woodEmoji = "<:WoodLogs:1109931701469192294>";
@@ -280,6 +289,13 @@ module.exports = {
   sylvanArmorEmoji,
   topazineArmorEmoji,
   stoneRingEmoji,
+  bladeOfTheDeadEmoji,
+  divineWrathEmoji,
+  umbralEclipseEmoji,
+  azurebladeEmoji,
+  zephyrsBreezeEmoji,
+  squiresHonorEmoji,
+  crimsonDaggerEmoji,
   get,
   set,
   incr,
