@@ -50,6 +50,7 @@ module.exports = {
 \`/settings xpalerts\` - Toggle XP alerts.
 \`/settings interactions\` - Toggle interactions.
 \`/settings hpdisplay\` - Change how your HP is displayed in /profile.
+\`/settings leveldisplay\` - Change how your level is displayed in /profile.
 \`/settings reset\` - Reset your settings.
 \`/time\` - Get the current time for a timezone.
 \`/uptime\` - Shows the bot's uptime.

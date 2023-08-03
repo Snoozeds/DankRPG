@@ -14,7 +14,9 @@ module.exports = {
         ephemeral: true,
       });
     const hpType = await get(`${user.id}_hp_display`);
+    const xpType = await get(`${user.id}_level_display`);
     
+    // hpMessage set to the user's hpType setting.
     let hpMessage = "";
     if (hpType === "hp" || hpType == null) {
       hpMessage = `**${hpEmoji} ${await get(`${user.id}_hp`)}**`;
@@ -26,6 +28,14 @@ module.exports = {
       )}%)**`;
     } else if (hpType === "hp%") {
       hpMessage = `**${hpEmoji} ${await get(`${user.id}_hp`)} (${Math.round(((await get(`${user.id}_hp`)) / (await get(`${user.id}_max_hp`))) * 100)}%)**`;
+    }
+
+    // levelMessage set to the user's levelType setting.
+    let levelMessage = "";
+    if (xpType === "level/xp" || xpType == null) {
+      levelMessage = `**${levelEmoji} ${await get(`${user.id}_level`)} | ${await get(`${user.id}_xp`)}XP**`;
+    } else if (xpType === "level/xpnext") {
+      levelMessage = `**${levelEmoji} ${await get(`${user.id}_level`)} | ${await get(`${user.id}_xp`)}XP (${await get(`${user.id}_xp_needed`)})**`;
     }
     
     const profile = new EmbedBuilder()
@@ -53,7 +63,7 @@ module.exports = {
         },
         {
           name: "Level",
-          value: `**${levelEmoji} ${await get(`${user.id}_level`)}** | **${await get(`${user.id}_xp`)}XP**`,
+          value: `${levelMessage}`,
           inline: true,
         },
         {

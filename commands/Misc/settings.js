@@ -45,6 +45,21 @@ module.exports = {
     )
     .addSubcommand((subcommand) =>
       subcommand
+        .setName("leveldisplay")
+        .setDescription("Changes how your level is displayed in /profile.")
+        .addStringOption((option) =>
+          option
+            .setName("display")
+            .setDescription("The type of display you want.")
+            .setRequired(true)
+            .addChoices(
+              { name: "Level | XP", value: "level/xp" },
+              { name: "Level | XP (XP left to next level)", value: "level/xpnext" }
+            )
+        )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
         .setName("reset")
         .setDescription("Resets settings to default.")
         .addStringOption((option) =>
@@ -70,7 +85,8 @@ module.exports = {
           { name: "Embed color:", value: (await get(`${user.id}_color`)) || "Not set", inline: false },
           { name: "XP alerts:", value: (await get(`${user.id}_xp_alerts`)) === "1" ? "Enabled" : "Disabled", inline: false },
           { name: "Interactions:", value: (await get(`${user.id}_interactions`)) === "1" ? "Enabled" : "Disabled", inline: false },
-          { name: "HP display:", value: (await get(`${user.id}_hp_display`)) || "Not set", inline: false }
+          { name: "HP display:", value: (await get(`${user.id}_hp_display`)) || "Not set", inline: false }, 
+          { name: "Level display:", value: (await get(`${user.id}_level_display`)) || "Not set", inline: false }
         )
         .setColor(await get(`${user.id}_color`))
         .setThumbnail(user.displayAvatarURL({ dynamic: true }));
@@ -129,6 +145,7 @@ module.exports = {
         });
       }
     } else if (interaction.options.getSubcommand() === "hpdisplay") {
+
       let response = interaction.options.getString("display");
       if (response === "hp") {
         await set(`${interaction.user.id}_hp_display`, "hp");
@@ -155,6 +172,22 @@ module.exports = {
         await set(`${interaction.user.id}_hp_display`, "hp%");
         await interaction.reply({
           content: "Your HP display has been set to `HP (Percentage)`.",
+          ephemeral: true,
+        });
+      }
+    } else if (interaction.options.getSubcommand() === "leveldisplay") {
+      let response = interaction.options.getString("display");
+      if (response === "level/xp") {
+        await set(`${interaction.user.id}_level_display`, "level/xp");
+        await interaction.reply({
+          content: "Your level display has been set to `Level | XP`.",
+          ephemeral: true,
+        });
+      }
+      if (response === "level/xpnext") {
+        await set(`${interaction.user.id}_level_display`, "level/xpnext");
+        await interaction.reply({
+          content: "Your level display has been set to `Level | XP (XP left to next level)`.",
           ephemeral: true,
         });
       }
