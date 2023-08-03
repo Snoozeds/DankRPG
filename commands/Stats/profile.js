@@ -15,7 +15,7 @@ module.exports = {
       });
     const hpType = await get(`${user.id}_hp_display`);
     const xpType = await get(`${user.id}_level_display`);
-    
+
     // hpMessage set to the user's hpType setting.
     let hpMessage = "";
     if (hpType === "hp" || hpType == null) {
@@ -32,12 +32,14 @@ module.exports = {
 
     // levelMessage set to the user's levelType setting.
     let levelMessage = "";
-    if (xpType === "level/xp" || xpType == null) {
+    if (xpType === "level") {
+      levelMessage = `**${levelEmoji} ${await get(`${user.id}_level`)}**`;
+    } else if (xpType === "level/xp" || xpType == null) {
       levelMessage = `**${levelEmoji} ${await get(`${user.id}_level`)} | ${await get(`${user.id}_xp`)}XP**`;
     } else if (xpType === "level/xpnext") {
       levelMessage = `**${levelEmoji} ${await get(`${user.id}_level`)} | ${await get(`${user.id}_xp`)}XP (${await get(`${user.id}_xp_needed`)})**`;
     }
-    
+
     const profile = new EmbedBuilder()
       .setTitle(`${user.username}'s Profile`)
       .setFields([
