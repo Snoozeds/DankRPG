@@ -13,8 +13,8 @@ module.exports = {
         content: "Bots don't have RPG profiles.\nIf you are looking for information about a bot user, use `/userinfo`.",
         ephemeral: true,
       });
-    const hpType = await get(`${user.id}_hp_display`);
-    const xpType = await get(`${user.id}_level_display`);
+    const hpType = await get(`${interaction.user.id}_hp_display`);
+    const xpType = await get(`${interaction.user.id}_level_display`);
 
     // hpMessage set to the user's hpType setting.
     let hpMessage = "";

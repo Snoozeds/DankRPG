@@ -248,8 +248,8 @@ module.exports = {
 
       // Quick menu: Profile
       if (customId === "qm_profile" && isAuthor) {
-        const hpType = await get(`${user.id}_hp_display`);
-        const xpType = await get(`${user.id}_level_display`);
+        const hpType = await get(`${interaction.user.id}_hp_display`);
+        const xpType = await get(`${interaction.user.id}_level_display`);
 
         // hpMessage set to the user's hpType setting.
         let hpMessage = "";
