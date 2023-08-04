@@ -8,7 +8,7 @@ module.exports = {
     .addUserOption((option) => option.setName("user").setDescription("The member whose inventory you want to view").setRequired(false)),
 
   async execute(interaction) {
-    const user = interaction.options.getUser("user") || interaction.user;
+    const user = interaction.options.getUser("user") ?? interaction.user;
 
     // IMPORTANT: If you add more achievements, make sure to update the totalAchievements variable.
     const totalAchievements = 5;
@@ -96,7 +96,7 @@ Reward: ${coinEmoji}500`
       .setFooter({
         text: `${userAchievements}/${totalAchievements} (${Math.trunc(perc(userAchievements, totalAchievements))}%)`,
       })
-      .setColor(await get(`${user.id}_color`));
+      .setColor(await get(`${interaction.user.id}_color`));
 
     await interaction.reply({ embeds: [embed] });
   },
