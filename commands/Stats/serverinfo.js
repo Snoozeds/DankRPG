@@ -12,9 +12,9 @@ module.exports = {
       .setDescription(
         `\`${server.name} (${server.id})\`\n**Owner:** ${await server.fetchOwner()}\n**Created:** <t:${Date.parse(server.createdAt) / 1000}> (<t:${
           Date.parse(server.createdAt) / 1000
-        }:R>)\n**Members:** ${server.memberCount}\n**Emojis:** ${server.emojis.cache.size}\n**Boosts:** ${server.premiumSubscriptionCount}\n**Boost Level:** ${
-          server.premiumTier
-        }`
+        }:R>)\n**Members:** ${server.memberCount}${server.emojis.cache.size > 0 ? `\n**Emojis:** ${server.emojis.cache.size}` : ``}${
+          server.premiumSubscriptionCount > 0 ? `\n**Boosts:** ${server.premiumSubscriptionCount}` : ``
+        }${server.premiumTier > 0 ? `\n**Boost Level:** ${server.premiumTier}` : ``}`
       )
       .setColor(await get(`${interaction.user.id}_color`))
       .setThumbnail(server.iconURL())
