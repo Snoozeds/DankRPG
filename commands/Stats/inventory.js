@@ -21,12 +21,14 @@ const {
   zephyrsBreezeEmoji,
   squiresHonorEmoji,
   crimsonDaggerEmoji,
+  demonWingEmoji,
 } = require("../../globals.js");
 
 // Define the prices of each item in the inventory.
 const inventoryPrices = {
   _lifesaver: 0,
   _diamond: 250,
+  _demonWing: 300,
   _wood: 1,
   _stone: 5,
 };
@@ -79,6 +81,12 @@ module.exports = {
         price: inventoryPrices._wood,
         emoji: woodEmoji,
       },
+      {
+        name: "Demon Wing",
+        key: `${user.id}_demonWing`,
+        price: inventoryPrices._demonWing,
+        emoji: demonWingEmoji,
+      }
     ];
 
     const armorItems = [
