@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { set, incr, get, checkXP, cooldown, levelEmoji, levelUpEmoji } = require("../../globals");
+const { set, incr, get, checkXP, cooldown, woodEmoji, levelEmoji, levelUpEmoji } = require("../../globals");
 const chance = require("chance").Chance();
 const ms = require("ms");
 
@@ -30,7 +30,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle("Wood chopped!")
         .setDescription(
-          `<@${user.id}> chopped down a tree and got **${wood} wood!**${(await get(`${interaction.user.id}_xp_alerts`)) == "1" ? `\n+${levelEmoji}${xp}` : ""} ${
+          `<@${user.id}> chopped down a tree and got **${woodEmoji}${wood}**${(await get(`${interaction.user.id}_xp_alerts`)) == "1" ? `\n+${levelEmoji}${xp}` : ""} ${
             (await checkXP(interaction.user.id, xp)) == true ? ` ${levelUpEmoji} **Level up!** Check /levels.` : ""
           }`
         )
