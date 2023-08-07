@@ -45,7 +45,7 @@ const squiresHonorEmoji = "<:SquiresHonor:1134086325960708186>";
 const crimsonDaggerEmoji = "<:CrimsonDagger:1134087299248955503>";
 
 // Items - Drops (from random events -- coming soon.)
-const demonWing = "<:DemonWing:1138200819267817545>";
+const demonWingEmoji = "<:DemonWing:1138200819267817545>";
 
 // Resources
 const diamondEmoji = "<:Diamond:1109925710799319181>";
@@ -281,7 +281,7 @@ module.exports = {
   shopImage,
   descriptionEmoji,
   lifesaverEmoji,
-  demonWing,
+  demonWingEmoji,
   diamondEmoji,
   woodEmoji,
   stoneEmoji,
