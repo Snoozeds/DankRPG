@@ -44,10 +44,13 @@ const zephyrsBreezeEmoji = "<:ZephyrsBreeze:1134086322215207043>";
 const squiresHonorEmoji = "<:SquiresHonor:1134086325960708186>";
 const crimsonDaggerEmoji = "<:CrimsonDagger:1134087299248955503>";
 
+// Items - Drops (from random events -- coming soon.)
+const demonWing = "<:DemonWing:1138200819267817545>";
+
 // Resources
 const diamondEmoji = "<:Diamond:1109925710799319181>";
 const woodEmoji = "<:WoodLogs:1109931701469192294>";
-const stoneEmoji = "<:StoneDust:1109931144838922320>";
+const stoneEmoji = "<:Stone:1138200822828773457>";
 
 // Achievements
 const falseEmoji = "<:AchievementLock:1119603099049414797>";
@@ -278,6 +281,7 @@ module.exports = {
   shopImage,
   descriptionEmoji,
   lifesaverEmoji,
+  demonWing,
   diamondEmoji,
   woodEmoji,
   stoneEmoji,
