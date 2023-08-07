@@ -1,5 +1,20 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const { set, get, incr, decr, cooldown, coinEmoji, hpEmoji, armorEmoji, attackEmoji, levelEmoji, levelUpEmoji, resetStats, checkXP, trueEmoji } = require("../../globals.js");
+const {
+  set,
+  get,
+  incr,
+  decr,
+  cooldown,
+  coinEmoji,
+  hpEmoji,
+  armorEmoji,
+  attackEmoji,
+  levelEmoji,
+  levelUpEmoji,
+  resetStats,
+  checkXP,
+  demonWingEmoji,
+} = require("../../globals.js");
 const ms = require("ms");
 const chance = require("chance").Chance();
 
@@ -187,7 +202,7 @@ module.exports = {
         // Calculate XP
         const xp = chance.integer({ min: userLevel * 5, max: userLevel * 7 });
 
-        // if player died
+        // If player died
         if (playerDied) {
           if (await get(`${user.id}_lifesaver`)) {
             await decr(`${user.id}_lifesaver`, 1);
@@ -222,17 +237,22 @@ module.exports = {
           return;
         }
 
-        // if enemy died
+        // If enemy died
         if (!playerDied) {
-          // XP
+          // 10% chance for enemy to drop a demon wing.
+          const demonWing = chance.bool({ likelihood: 10 });
+          const demonWingMessage = demonWing ? `**__Item Drops:__**\n${demonWingEmoji}**You got a Demon Wing!**` : "";
+
+          // Rewards
           const xpAlerts = await get(`${user.id}_xp_alerts`);
           const xpMessage = xpAlerts === "1" ? `\n+ ${levelEmoji}**${xp}**\n` : "";
           const levelUpMessage = (await checkXP(user.id, xp)) === true ? ` ${levelUpEmoji} **Level up!** Check /levels.\n` : "";
-          const coinsMessage = coins > 0 ? `+ ${coinEmoji}**${coins}**\n` : ""; // If coins is somehow 0, don't show it.
+          const coinsMessage = `+ ${coinEmoji}**${coins}**\n`;
           const achievement = (await get(`${user.id}_feared_achievement`)) === "true";
           const achievementUnlocked = fightsWon >= 100 && !achievement;
           const achievementMessage = achievementUnlocked ? `Congrats, you unlocked the **Feared** achievement! (+${coinEmoji}1000)` : "";
 
+          // Check if user unlocked the 'Feared' achievement.
           if (achievementUnlocked) {
             await set(`${user.id}_feared_achievement`, true);
             await incr(user.id, "coins", 1000);
@@ -240,13 +260,16 @@ module.exports = {
 
           // Update reply
           await interaction.editReply({
-            content: `You killed the ${enemy}!\n**Rewards:** ${xpMessage}${levelUpMessage}${coinsMessage}${achievementMessage}`,
+            content: `You killed the ${enemy}!\n**__Rewards:__**${xpMessage}${levelUpMessage}${coinsMessage}${achievementMessage}${demonWingMessage}`,
             components: [],
           });
 
           // Give rewards
           await incr(user.id, "coins", coins);
           await incr(user.id, "fights_won", 1);
+          if (demonWing) {
+            await incr(user.id, "demonWing", 1);
+          }
 
           await collector.stop();
           return;
