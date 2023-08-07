@@ -63,7 +63,7 @@ module.exports = {
         .addFields(
           { name: `${hpEmoji} Your HP`, value: `${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)}`, inline: true },
           { name: `${armorEmoji} Your Armor`, value: `${await get(`${user.id}_armor`)}`, inline: true },
-          { name: `${attackEmoji} Your Damage`, value: `${(await get(`${user.id}_damage`)) * 2}`, inline: true },
+          { name: `${attackEmoji} Your Damage`, value: `${(await get(`${user.id}_damage`)) * 2} | ${10 + Number(await get(`${user.id}_critChance`))}%`, inline: true },
           { name: `${hpEmoji} Enemy HP`, value: `${enemyHP}/${enemyMaxHP}`, inline: true },
           { name: `${armorEmoji} Enemy Armor`, value: `${enemyArmor}`, inline: true },
           { name: `${attackEmoji} Enemy Damage`, value: `${enemyDamage}`, inline: true }
