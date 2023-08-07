@@ -15,7 +15,7 @@ module.exports = {
 
     if (!Number.isInteger(amount) || amount <= 0) {
       return interaction.reply({
-        content: "The amount must be a positive integer.",
+        content: "The amount must be a number greater than 0.",
         ephemeral: true,
       });
     }
@@ -25,18 +25,19 @@ module.exports = {
       {
         name: "diamond",
         value: 250,
-        description: "A rarity, worth 250 coins.",
       },
       {
         name: "stone",
         value: 5,
-        description: "A common item, worth 5 coins.",
       },
       {
         name: "wood",
         value: 1,
-        description: "A common item, worth 1 coin.",
       },
+      {
+        name: "demonWing",
+        value: 300,
+      }
     ];
 
     // Find the item in the items array
@@ -45,7 +46,7 @@ module.exports = {
     // If the item doesn't exist, return
     if (!selectedItem) {
       return interaction.reply({
-        content: `The item \`${item}\` doesn't exist.`,
+        content: `The item \`${item}\` doesn't exist. Valid items:\n\`diamond\`, \`stone\`, \`wood\`, \`demonWing\``,
         ephemeral: true,
       });
     }
