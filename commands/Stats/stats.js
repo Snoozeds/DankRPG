@@ -37,7 +37,7 @@ module.exports = {
           inline: false,
         },
         {
-          name: `${critEmoji} Crit Multiplier (${2 + Number(await get(`${user.id}_critMultiplier`))}`,
+          name: `${critEmoji} Crit Multiplier (${2 + Number(await get(`${user.id}_critMultiplier`))})`,
           value: `The multiplier applied to damage when a critical hit is dealt.`,
           inline: false,
         },
