@@ -187,7 +187,8 @@ module.exports = {
   </sell:${await getCommandId("sell")}> - Sell an item from your inventory.
   </shop:${await getCommandId("shop")}> - Shows the shop.
   </unequip:${await getCommandId("unequip")}> - Unequip an item from your inventory.
-  </upgrade:${await getCommandId("upgrade")}> - Upgrade your stats.`
+  </upgrade apply:${await getCommandId("upgrade")}> - Apply an upgrade.
+  </upgrade view:${await getCommandId("upgrade")}> - View all upgrades.`
           )
           .setColor(await get(`${user.id}_color`));
         const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_commandsBack").setEmoji("⬅️").setStyle(ButtonStyle.Primary));

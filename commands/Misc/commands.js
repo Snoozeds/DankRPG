@@ -84,7 +84,8 @@ module.exports = {
 \`/sell\` - Sell an item from your inventory.
 \`/shop\` - Shows the shop.
 \`/unequip\` - Unequip an item from your inventory.
-\`/upgrade\` - Upgrade your stats.`
+\`/upgrade apply\` - Apply an upgrade.
+\`/upgrade view\` - View all upgrades.`
       )
       .setColor(await get(`${interaction.user.id}_color`));
 
