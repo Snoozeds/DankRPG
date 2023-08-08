@@ -33,7 +33,12 @@ module.exports = {
         },
         {
           name: `${critEmoji} Crit Chance (${10 + Number(await get(`${user.id}_critChance`))}%)`,
-          value: `The chance to do a "critical hit" in fights. Critical hits deal double damage.`,
+          value: `The chance to do a "critical hit" in fights.`,
+          inline: false,
+        },
+        {
+          name: `${critEmoji} Crit Multiplier (${2 + Number(await get(`${user.id}_critMultiplier`))}`,
+          value: `The multiplier applied to damage when a critical hit is dealt.`,
           inline: false,
         },
         {
