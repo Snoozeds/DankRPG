@@ -51,7 +51,10 @@ module.exports = {
             await set(`${user.id}_critMultiplier`, (await get(`${user.id}_critMultiplierLevel`)) * 0.1);
             await decr(user.id, "coins", critMultiCost);
             await decr(user.id, "demonWing", critMultiWingsCost);
-            await interaction.reply({ content: `You upgraded your crit multiplier to level ${critMultiLevel + 1} for ${coinEmoji}${critMultiCost} and ${demonWingEmoji}${critMultiWingsCost}.`, ephemeral: true });
+            await interaction.reply({
+              content: `You upgraded your crit multiplier to level ${critMultiLevel + 1} for ${coinEmoji}${critMultiCost} and ${demonWingEmoji}${critMultiWingsCost}.`,
+              ephemeral: true,
+            });
           }
         }
       }
