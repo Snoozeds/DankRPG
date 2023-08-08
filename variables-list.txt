@@ -27,6 +27,7 @@
 (userid)_stoneRing: If the player has a stone ring : null
 (userid)_interactions: If the player wants interactions : null
 (userid)_critChance: Critical chance of the player for /fight (on top of the 10% base) : null
+(userid)_critMultiplier: The damage that a critical hit does (on top of the base 2 *) : null
 
 # Local Variables
 # These are variables that are only used in the command they are created in.

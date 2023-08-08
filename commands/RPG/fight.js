@@ -89,8 +89,9 @@ module.exports = {
 
         // Calculate damage
         // "Crit" hit support. Chance is 10% + crit chance if the user has any weapons that give crit chance.
+        const critMultiplier = 2 + Number(await get(`${user.id}_critMultiplier`));
         const likelihood = 10 + Number(await get(`${user.id}_critChance`));
-        const damage = chance.bool({ likelihood: likelihood }) ? userDamage * 2 : userDamage;
+        const damage = chance.bool({ likelihood: likelihood }) ? userDamage * critMultiplier : userDamage;
 
         // Check if enemy would die
         if (enemyHP - damage <= 0) {
