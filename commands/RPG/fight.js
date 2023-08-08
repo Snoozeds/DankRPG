@@ -36,10 +36,10 @@ module.exports = {
     let fightEnded = false;
 
     // Calculate enemy stats
-    let enemyHP = Math.floor(chance.integer({ min: userLevel * 15, max: userLevel * 27 }));
+    let enemyHP = Math.floor(chance.integer({ min: userLevel * 15, max: userLevel * 27 }) + chance.integer({ min: userDamage * 1.5, max: userDamage * 2.5 }));
     const enemyMaxHP = enemyHP;
     const enemyArmor = Math.floor(chance.integer({ min: userArmor / 4, max: userArmor / 3 }));
-    const enemyDamage = Math.floor(chance.integer({ min: userDamage / 2, max: userDamage }) - userDamage * (userArmor / 100));
+    const enemyDamage = Math.floor(chance.integer({ min: userDamage / 3, max: userDamage / 2 }) - userDamage * (userArmor / 100));
 
     // Used for the 'Feared' achievement
     const fightsWon = Number(await get(`${user.id}_fights_won`));
@@ -91,7 +91,7 @@ module.exports = {
         // "Crit" hit support. Chance is 10% + crit chance if the user has any weapons that give crit chance.
         const critMultiplier = 2 + Number(await get(`${user.id}_critMultiplier`));
         const likelihood = 10 + Number(await get(`${user.id}_critChance`));
-        const damage = chance.bool({ likelihood: likelihood }) ? userDamage * critMultiplier : userDamage;
+        const damage = Math.floor(chance.bool({ likelihood: likelihood }) ? userDamage * critMultiplier : userDamage);
 
         // Check if enemy would die
         if (enemyHP - damage <= 0) {
