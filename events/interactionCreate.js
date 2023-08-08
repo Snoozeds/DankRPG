@@ -183,9 +183,11 @@ module.exports = {
   </craft:${await getCommandId("craft")}> - Craft an item with the materials you have.
   </equip:${await getCommandId("equip")}> - Equip an item from your inventory.
   </heal:${await getCommandId("heal")}> - Heal yourself for 1 Coin per 1HP.
+  </hp:${await getCommandId("hp")}> - Checks how much it costs to heal to MaxHP.
   </sell:${await getCommandId("sell")}> - Sell an item from your inventory.
   </shop:${await getCommandId("shop")}> - Shows the shop.
-  </unequip:${await getCommandId("unequip")}> - Unequip an item from your inventory.`
+  </unequip:${await getCommandId("unequip")}> - Unequip an item from your inventory.
+  </upgrade:${await getCommandId("upgrade")}> - Upgrade your stats.`
           )
           .setColor(await get(`${user.id}_color`));
         const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_commandsBack").setEmoji("⬅️").setStyle(ButtonStyle.Primary));

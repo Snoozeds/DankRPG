@@ -78,9 +78,13 @@ module.exports = {
         `**Shop:**
 \`/buy\` - Buy an item from the shop.
 \`/craft\` - Craft an item with the materials you have.
+\`/equip\` - Equip an item from your inventory.
 \`/heal\` - Heal yourself for 1 Coin per 1HP.
 \`/hp\` - Checks how much it costs to heal to MaxHP.
-\`/shop\` - Shows the shop.`
+\`/sell\` - Sell an item from your inventory.
+\`/shop\` - Shows the shop.
+\`/unequip\` - Unequip an item from your inventory.
+\`/upgrade\` - Upgrade your stats.`
       )
       .setColor(await get(`${interaction.user.id}_color`));
 
