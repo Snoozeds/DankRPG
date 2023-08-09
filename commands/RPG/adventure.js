@@ -6,17 +6,17 @@ const chance = require("chance").Chance();
 module.exports = {
   data: new SlashCommandBuilder().setName("adventure").setDescription("Starts an RPG adventure. Random chance of getting coins, doesn't scale."),
   async execute(interaction) {
-    const xp = chance.integer({ min: 10, max: 25 });
+    const xp = chance.integer({ min: 10, max: 20 });
     if(await cooldown.check(interaction.user.id, "adventure")) {
       return interaction.reply({
         content: `You're on cooldown! Please wait ${ms(await cooldown.get(interaction.user.id, "adventure"))} before using this command again.`,
         ephemeral: true,
       });
     } else {
-      await cooldown.set(interaction.user.id, "adventure", `${chance.integer({ min: 20, max: 30})}s`);
-      // 50% chance to get a random amount of coins.
-      if (chance.bool({ likelihood: 50 }) == true) {
-        const outcome = Math.floor(chance.normal({ mean: 15, dev: 5 })); // https://chancejs.com/miscellaneous/normal.html
+      await cooldown.set(interaction.user.id, "adventure", `${chance.integer({ min: 15, max: 20})}s`);
+      // 60% chance to get a random amount of coins.
+      if (chance.bool({ likelihood: 60 }) == true) {
+        const outcome = Math.floor(chance.normal({ mean: 30, dev: 5 })); // https://chancejs.com/miscellaneous/normal.html
         await incr(`${interaction.user.id}`, `coins`, outcome);
         const trueEmbed = new EmbedBuilder()
           .setTitle(`${interaction.user.username}'s adventure`)
