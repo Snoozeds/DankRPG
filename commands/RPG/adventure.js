@@ -4,7 +4,7 @@ const ms = require("ms");
 const chance = require("chance").Chance();
 
 module.exports = {
-  data: new SlashCommandBuilder().setName("adventure").setDescription("Starts an RPG adventure. Random chance of getting coins, doesn't scale."),
+  data: new SlashCommandBuilder().setName("adventure").setDescription("Starts an RPG adventure. 60% chance of getting coins, doesn't scale."),
   async execute(interaction) {
     const xp = chance.integer({ min: 10, max: 20 });
     if(await cooldown.check(interaction.user.id, "adventure")) {

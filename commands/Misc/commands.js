@@ -63,7 +63,7 @@ module.exports = {
       .setTitle(`Commands`)
       .setDescription(
         `**RPG:**
-\`/adventure\` - Starts an RPG adventure. Random chance of getting coins, doesn't scale.
+\`/adventure\` - Starts an RPG adventure. 60% chance of getting coins, doesn't scale.
 \`/chop\` - Chop down a tree to get wood. Requires an axe.
 \`/daily\` - Claim your daily reward.
 \`/fight\` - Turn-based fight system. Rewards and difficulty scale with your level.
