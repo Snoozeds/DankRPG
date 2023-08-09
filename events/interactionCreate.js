@@ -149,6 +149,7 @@ module.exports = {
   </settings interactions:${await getCommandId("settings")}> - Toggle interactions.
   </settings hpdisplay:${await getCommandId("settings")}> - Change how your HP is displayed in /profile.
   </settings leveldisplay:${await getCommandId("settings")}> - Change how your level is displayed in /profile.
+  </settings confirmations:${await getCommandId("settings")}> - Toggle the type of confirmations you get when performing certain actions.
   </settings reset:${await getCommandId("settings")}> - Reset your settings.
   </time:${await getCommandId("time")}> - Get the current time for a timezone.
   </uptime:${await getCommandId("uptime")}> - Shows the bot's uptime.${

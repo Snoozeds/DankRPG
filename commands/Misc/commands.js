@@ -51,6 +51,7 @@ module.exports = {
 \`/settings interactions\` - Toggle interactions.
 \`/settings hpdisplay\` - Change how your HP is displayed in /profile.
 \`/settings leveldisplay\` - Change how your level is displayed in /profile.
+\`/settings confirmations\` - Toggle the type of confirmations you get when performing certain actions.
 \`/settings reset\` - Reset your settings.
 \`/time\` - Get the current time for a timezone.
 \`/uptime\` - Shows the bot's uptime.
