@@ -72,6 +72,18 @@ module.exports = {
               { name: "All", value: "all" }
             )
         )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("confirmations")
+        .setDescription("Change whether you get confirmations for certain actions, such as buying and selling.")
+        .addStringOption((option) =>
+          option
+            .setName("type")
+            .setDescription("The type of confirmation(s) you want to change.")
+            .setRequired(true)
+            .addChoices({ name: "Buying", value: "buying" }, { name: "Selling", value: "selling" }, { name: "All", value: "all" })
+        )
     ),
   async execute(interaction) {
     const user = interaction.user;
@@ -231,6 +243,38 @@ module.exports = {
         await set(`${interaction.user.id}_hp_display`, "hp");
         await interaction.reply({
           content: "All your settings have been reset to their defaults.",
+          ephemeral: true,
+        });
+      }
+    } else if (interaction.options.getSubcommand() === "confirmations") {
+      const buyConfirmation = await get(`${user.id}_buyConfirmation`);
+      const sellConfirmation = await get(`${user.id}_sellConfirmation`);
+      const response = interaction.options.getString("type");
+
+      if (response === "buying") {
+        const newValue = buyConfirmation === "0" ? "1" : "0";
+        await set(`${user.id}_buyConfirmation`, newValue);
+        await interaction.reply({
+          content: `You will ${newValue === "1" ? "now" : "no longer"} get confirmations when buying items.`,
+          ephemeral: true,
+        });
+      }
+
+      if (response === "selling") {
+        const newValue = sellConfirmation === "0" ? "1" : "0";
+        await set(`${user.id}_sellConfirmation`, newValue);
+        await interaction.reply({
+          content: `You will ${newValue === "1" ? "now" : "no longer"} get confirmations when selling items.`,
+          ephemeral: true,
+        });
+      }
+
+      if (response === "all") {
+        const newValue = (buyConfirmation === "0" || sellConfirmation === "0") ? "1" : "0";
+        await set(`${user.id}_buyConfirmation`, newValue);
+        await set(`${user.id}_sellConfirmation`, newValue);
+        await interaction.reply({
+          content: `You will ${newValue === "1" ? "now" : "no longer"} get confirmations for all actions.`,
           ephemeral: true,
         });
       }
