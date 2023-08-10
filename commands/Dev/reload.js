@@ -7,7 +7,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("reload")
     .setDescription("Reloads a command.")
-    .addStringOption((option) => option.setName("command").setDescription("The command you want to reload.").setRequired(true)),
+    .addStringOption((option) => option.setName("command").setDescription("The command's file name that you want to reload.").setRequired(true)),
   async execute(interaction) {
     if (interaction.user.id !== config.ownerID) return interaction.reply({ content: "You are not authorized to use this command.", ephemeral: true });
 
@@ -15,7 +15,7 @@ module.exports = {
     const command = interaction.client.commands.get(commandName);
     let commandLocation = "";
 
-    if (!command) return interaction.reply({ content: `There is no command with the name \`${commandName}\`.`, ephemeral: true });
+    if (!command) return interaction.reply({ content: `There is no command file with the name \`${commandName}\`.`, ephemeral: true });
 
     // Loop through the ./commands folder and its subfolders to find the command specified.
     const commandFolders = fs.readdirSync("./commands");
@@ -35,6 +35,7 @@ module.exports = {
       const newCommand = require(commandLocation);
       interaction.client.commands.set(newCommand.data.name, newCommand);
       await interaction.reply(`Command \`${newCommand.data.name}\` was reloaded!`);
+      console.log(`Command ${newCommand.data.name} was reloaded.`);
     } catch (error) {
       console.error(error);
       await interaction.reply(`There was an error while reloading the command \`${command.data.name}\`:\n\`${error.message}\``);
