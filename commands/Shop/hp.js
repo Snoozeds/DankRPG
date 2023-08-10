@@ -9,7 +9,7 @@ module.exports = {
     const maxhp = await get(`${user.id}_max_hp`);
     if (hp === undefined) {
       return interaction.reply({
-        content: "You don't have a profile yet! Use /start to create one.",
+        content: "You don't have a profile yet! Please try running this command again.",
         ephemeral: true,
       });
     }
