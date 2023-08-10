@@ -3,6 +3,7 @@ const { get, set, incr, trueEmoji } = require("../../globals.js");
 
 // Used to link commands, making them clickable in the embed.
 // See ../deploy-commands for how the command IDs are stored.
+const fs = require("node:fs");
 const getCommandId = (commandName) => {
   // Read the JSON file containing the command IDs
   const commandData = fs.readFileSync("./command_data/commands.json", "utf8");
