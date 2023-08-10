@@ -152,9 +152,7 @@ module.exports = {
   </settings confirmations:${await getCommandId("settings")}> - Toggle the type of confirmations you get when performing certain actions.
   </settings reset:${await getCommandId("settings")}> - Reset your settings.
   </time:${await getCommandId("time")}> - Get the current time for a timezone.
-  </uptime:${await getCommandId("uptime")}> - Shows the bot's uptime.${
-              interaction.channel.nsfw === true ? `\n</urban:${await getCommandId("urban")}> - Search the Urban Dictionary.` : ""
-            }`
+  </uptime:${await getCommandId("uptime")}> - Shows the bot's uptime.`
           )
           .setColor(await get(`${user.id}_color`));
         const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_commandsBack").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
