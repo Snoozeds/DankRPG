@@ -1,6 +1,18 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const { get, set, incr, trueEmoji } = require("../../globals.js");
 
+// Used to link commands, making them clickable in the embed.
+// See ../deploy-commands for how the command IDs are stored.
+const getCommandId = (commandName) => {
+  // Read the JSON file containing the command IDs
+  const commandData = fs.readFileSync("./command_data/commands.json", "utf8");
+  const data = JSON.parse(commandData);
+
+  // Retrieve the command ID from the parsed data
+  const command = data.find((cmd) => cmd.name === commandName);
+  return command ? command.id : null; // Return null if the command is not found
+};
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("commands")
@@ -30,9 +42,9 @@ module.exports = {
       .setTitle(`Commands`)
       .setDescription(
         `**Images:**
-\`/avatar\` - Shows your/another user's avatar.
-\`/banner\` - Shows your/another user's banner.
-\`/changemymind\` - Change my mind.`
+</avatar:${await getCommandId("avatar")}> - Shows your/another user's avatar.
+</banner:${await getCommandId("banner")}> - Shows your/another user's banner.
+</changemymind:${await getCommandId("changemymind")}> - Change my mind.`
       )
       .setColor(await get(`${interaction.user.id}_color`));
 
@@ -40,22 +52,21 @@ module.exports = {
       .setTitle(`Commands`)
       .setDescription(
         `**Misc:**
-\`/8ball\` - Ask the magic 8ball a question.
-\`/commands\` - Shows all available commands.
-\`/ping\` - Shows the bot's ping.
-\`/qm\` - Quickly access menus and commands.
-\`/report\` - Send a bug report, suggestion, or user report to the developer.
-\`/settings view\` - View your current settings.
-\`/settings embedcolor\` - Change the embed color.
-\`/settings xpalerts\` - Toggle XP alerts.
-\`/settings interactions\` - Toggle interactions.
-\`/settings hpdisplay\` - Change how your HP is displayed in /profile.
-\`/settings leveldisplay\` - Change how your level is displayed in /profile.
-\`/settings confirmations\` - Toggle the type of confirmations you get when performing certain actions.
-\`/settings reset\` - Reset your settings.
-\`/time\` - Get the current time for a timezone.
-\`/uptime\` - Shows the bot's uptime.
-\`/urban\` - Search the urban dictionary.`
+</8ball:${await getCommandId("8ball")}> - Ask the magic 8ball a question.
+</commands:${await getCommandId("commands")}> - Shows all available commands.
+</ping:${await getCommandId("ping")}> - Shows the bot's ping.
+</qm:${await getCommandId("qm")}> - Quickly access menus and commands.
+</report:${await getCommandId("report")}> - Send a bug report, suggestion, or user report to the developer.
+</settings view:${await getCommandId("settings")}> - View your current settings.
+</settings embedcolor:${await getCommandId("settings")}> - Change the embed color.
+</settings xpalerts:${await getCommandId("settings")}> - Toggle XP alerts.
+</settings interactions:${await getCommandId("settings")}> - Toggle interactions.
+</settings hpdisplay:${await getCommandId("settings")}> - Change how your HP is displayed in /profile.
+</settings leveldisplay:${await getCommandId("settings")}> - Change how your level is displayed in /profile.
+</settings confirmations:${await getCommandId("settings")}> - Toggle the type of confirmations you get when performing certain actions.
+</settings reset:${await getCommandId("settings")}> - Reset your settings.
+</time:${await getCommandId("time")}> - Get the current time for a timezone.
+</uptime:${await getCommandId("uptime")}> - Shows the bot's uptime.`
       )
       .setColor(await get(`${interaction.user.id}_color`));
 
@@ -63,13 +74,13 @@ module.exports = {
       .setTitle(`Commands`)
       .setDescription(
         `**RPG:**
-\`/adventure\` - Starts an RPG adventure. 60% chance of getting coins, doesn't scale.
-\`/chop\` - Chop down a tree to get wood. Requires an axe.
-\`/daily\` - Claim your daily reward.
-\`/fight\` - Turn-based fight system. Rewards and difficulty scale with your level.
-\`/forage\` - Forages for items in the wilderness.
-\`/mine\` - Mines for stone. Requires a pickaxe.
-\`/start\` - Starts your DankRPG journey.`
+</adventure:${await getCommandId("adventure")}> - Starts an RPG adventure. 60% chance of getting coins, doesn't scale.
+</chop:${await getCommandId("chop")}> - Chop down a tree to get wood. Requires an axe.
+</daily:${await getCommandId("daily")}> - Claim your daily reward.
+</duel:${await getCommandId("duel")}> - Duel another user for coins.
+</fight:${await getCommandId("fight")}> - Turn-based fight system. Rewards and difficulty scale with your level.
+</forage:${await getCommandId("forage")}> - Forage for items in the wilderness.
+</mine:${await getCommandId("mine")}> - Mine for stone. Craft a pickaxe to mine faster.`
       )
       .setColor(await get(`${interaction.user.id}_color`));
 
@@ -77,16 +88,16 @@ module.exports = {
       .setTitle(`Commands`)
       .setDescription(
         `**Shop:**
-\`/buy\` - Buy an item from the shop.
-\`/craft\` - Craft an item with the materials you have.
-\`/equip\` - Equip an item from your inventory.
-\`/heal\` - Heal yourself for 1 Coin per 1HP.
-\`/hp\` - Checks how much it costs to heal to MaxHP.
-\`/sell\` - Sell an item from your inventory.
-\`/shop\` - Shows the shop.
-\`/unequip\` - Unequip an item from your inventory.
-\`/upgrade apply\` - Apply an upgrade.
-\`/upgrade view\` - View all upgrades.`
+</buy:${await getCommandId("buy")}> - Buy an item from the shop.
+</craft:${await getCommandId("craft")}> - Craft an item with the materials you have.
+</equip:${await getCommandId("equip")}> - Equip an item from your inventory.
+</heal:${await getCommandId("heal")}> - Heal yourself for 1 Coin per 1HP.
+</hp:${await getCommandId("hp")}> - Checks how much it costs to heal to MaxHP.
+</sell:${await getCommandId("sell")}> - Sell an item from your inventory.
+</shop:${await getCommandId("shop")}> - Shows the shop.
+</unequip:${await getCommandId("unequip")}> - Unequip an item from your inventory.
+</upgrade apply:${await getCommandId("upgrade")}> - Apply an upgrade.
+</upgrade view:${await getCommandId("upgrade")}> - View all upgrades.`
       )
       .setColor(await get(`${interaction.user.id}_color`));
 
@@ -94,9 +105,9 @@ module.exports = {
       .setTitle(`Commands`)
       .setDescription(
         `**Social:**
-\`/accept\` - Accept a marriage request.
-\`/divorce\` - Divorce your spouse.
-\`/marry\` - Marry another user.`
+</accept:${await getCommandId("accept")}> - Accept an ongoing marriage request.
+</divorce:${await getCommandId("divorce")}> - Divorce your partner.
+</marry:${await getCommandId("marry")}> - Propose to another user.`
       )
       .setColor(await get(`${interaction.user.id}_color`));
 
@@ -104,17 +115,16 @@ module.exports = {
       .setTitle(`Commands`)
       .setDescription(
         `**Stats:**
-\`/achievements\` - Shows your/another user's achievements.
-\`/cooldowns\` - Shows your cooldowns.
-\`/equipped\` - Shows your equipped items.
-\`/info\` - View info about DankRPG.
-\`/inventory\` - Shows your/another user's inventory.
-\`/levels\` - Shows your/another user's level.
-\`/marriage\` - Shows your/another user's marriage.
-\`/profile\` - Shows your/another user's profile.
-\`/serverinfo\` - Shows info about the current server.
-\`/stats\` - Shows your/another user's stats.
-\`/userinfo\` - Shows info about you or another user.`
+</achievements:${await getCommandId("achievements")}> - Shows your/another user's achievements.
+</cooldowns:${await getCommandId("cooldowns")}> - Shows your cooldowns.
+</equipped:${await getCommandId("equipped")}> - Shows your equipped items.
+</info:${await getCommandId("info")}> - Shows information about the bot.
+</inventory:${await getCommandId("inventory")}> - Shows your/another user's inventory.
+</levels:${await getCommandId("levels")}> - Shows your/another user's levels.
+</profile:${await getCommandId("profile")}> - Shows your/another user's profile.
+</serverinfo:${await getCommandId("serverinfo")}> - Shows info about the current server.
+</stats:${await getCommandId("stats")}> - View your/another user's stats.
+</userinfo:${await getCommandId("userinfo")}> - Shows information about you/another user.`
       )
       .setColor(await get(`${interaction.user.id}_color`));
 
