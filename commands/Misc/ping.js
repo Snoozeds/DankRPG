@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require("discord.js");
-const { incr } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder().setName("ping").setDescription("Responds with DankRPG's ping."),

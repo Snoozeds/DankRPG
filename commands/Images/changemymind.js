@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, AttachmentBuilder } = require("discord.js");
-const { incr } = require("../../globals.js");
 
 // If characters do not render properly, you may need to install the "Arial" font.
 
