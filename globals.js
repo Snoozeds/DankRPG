@@ -116,6 +116,19 @@ async function resetStats(userId) {
   await set(`${userId}_topazineArmor`, null);
   await set(`${userId}_stoneRing`, null);
 
+  await set(`${userId}_bladeOfTheDead`, null);
+  await set(`${userId}_divineWrath`, null);
+  await set(`${userId}_umbralEclipse`, null);
+  await set(`${userId}_azureblade`, null);
+  await set(`${userId}_zephyrsBreeze`, null);
+  await set(`${userId}_squiresHonor`, null);
+  await set(`${userId}_crimsonDagger`, null);
+
+  await set(`${userId}_demonWing`, null);
+  await set(`${userId}_lifesaver`, null);
+  await set(`${userId}_critChance`, null);
+  await set(`${userId}_critMultiplier`, null);
+
   await resetCooldowns(userId);
 }
 
