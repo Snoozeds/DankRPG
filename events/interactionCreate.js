@@ -43,6 +43,7 @@ module.exports = {
         return;
       }
 
+      // "Start" the user, setting default variables.
       if ((await redis.get(`${interaction.user.id}_hasStarted`)) !== "1") {
         await redis.set(`${interaction.user.id}_coins`, "0");
         await redis.set(`${interaction.user.id}_hp`, "100");
@@ -368,8 +369,8 @@ module.exports = {
             name: "Demon Wing",
             key: `${user.id}_demonWing`,
             price: inventoryPrices._demonWing,
-            emoji: demonWingEmoji
-          }
+            emoji: demonWingEmoji,
+          },
         ];
 
         const armorItems = [

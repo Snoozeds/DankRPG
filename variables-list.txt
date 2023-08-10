@@ -14,7 +14,7 @@
 (userid)_xp_alerts: If the player wants to be alerted when they gain xp : 1
 (userid)_commandsUsed: How many commands the player has used : 1
 
-# NOT included in /start (will return null if blank):
+# NOT included when the user starts, see events/interactionCreate.js (will return null if blank):
 # When these are used in a command, they are typically changed from null to their default values of 0. 
 # In some cases, they may instead be increased by 1. Please note that Redis will INCR a null value to 1. However, other databases may not behave the same.
 (userid)_votes : How many votes the player has : null
