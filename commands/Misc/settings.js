@@ -69,6 +69,9 @@ module.exports = {
               { name: "XP alerts", value: "xpalerts" },
               { name: "Interactions", value: "interactions" },
               { name: "HP display", value: "hpdisplay" },
+              { name: "Level display", value: "leveldisplay" },
+              { name: "Buy confirmations", value: "buyconfirmation" },
+              { name: "Sell confirmations", value: "sellconfirmation" },
               { name: "All", value: "all" }
             )
         )
@@ -236,11 +239,35 @@ module.exports = {
           ephemeral: true,
         });
       }
+      if (response === "leveldisplay") {
+        await set(`${interaction.user.id}_level_display`, "level/xp");
+        await interaction.reply({
+          content: "Your level display setting has been reset to default. (Level | XP)",
+          ephemeral: true,
+        });
+      }
+      if (response === "buyconfirmation") {
+        await set(`${interaction.user.id}_buyConfirmation`, "1");
+        await interaction.reply({
+          content: "Your buy confirmation setting has been reset to default. (Enabled)",
+          ephemeral: true,
+        });
+      }
+      if (response === "sellconfirmation") {
+        await set(`${interaction.user.id}_sellConfirmation`, "1");
+        await interaction.reply({
+          content: "Your sell confirmation setting has been reset to default. (Enabled)",
+          ephemeral: true,
+        });
+      }
       if (response === "all") {
         await set(`${interaction.user.id}_color`, "ffe302");
         await set(`${interaction.user.id}_xp_alerts`, "1");
         await set(`${interaction.user.id}_interactions`, "1");
         await set(`${interaction.user.id}_hp_display`, "hp");
+        await set(`${interaction.user.id}_level_display`, "level/xp");
+        await set(`${interaction.user.id}_buyConfirmation`, "1");
+        await set(`${interaction.user.id}_sellConfirmation`, "1");
         await interaction.reply({
           content: "All your settings have been reset to their defaults.",
           ephemeral: true,
@@ -270,7 +297,7 @@ module.exports = {
       }
 
       if (response === "all") {
-        const newValue = (buyConfirmation === "0" || sellConfirmation === "0") ? "1" : "0";
+        const newValue = buyConfirmation === "0" || sellConfirmation === "0" ? "1" : "0";
         await set(`${user.id}_buyConfirmation`, newValue);
         await set(`${user.id}_sellConfirmation`, newValue);
         await interaction.reply({
