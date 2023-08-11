@@ -23,9 +23,13 @@ module.exports = {
   async execute(interaction) {
     const user = interaction.user;
 
+    // 10% chance for enemy to drop a demon wing.
+    const demonWing = chance.bool({ likelihood: 10 });
+    const demonWingMessage = demonWing ? `**__Item Drops:__**\n${demonWingEmoji}**You got a Demon Wing!**` : "";
+
     // Get random enemy
     const enemyType = require("./enemies.json").enemyTypes;
-    const enemy = enemyType[Math.floor(Math.random() * enemyType.length)];
+    const enemy = demonWing ? "Demon" : enemyType[Math.floor(Math.random() * enemyType.length)];
 
     // Get user stats
     const userLevel = await get(`${user.id}_level`);
@@ -240,10 +244,6 @@ module.exports = {
 
         // If enemy died
         if (!playerDied) {
-          // 10% chance for enemy to drop a demon wing.
-          const demonWing = chance.bool({ likelihood: 10 });
-          const demonWingMessage = demonWing ? `**__Item Drops:__**\n${demonWingEmoji}**You got a Demon Wing!**` : "";
-
           // Rewards
           const xpAlerts = await get(`${user.id}_xp_alerts`);
           const xpMessage = xpAlerts === "1" ? `\n+ ${levelEmoji}**${xp}**\n` : "";
