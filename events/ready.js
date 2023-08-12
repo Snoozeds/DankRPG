@@ -6,7 +6,7 @@ module.exports = {
   execute(client) {
     console.log(`Logged in as ${client.user.tag}.`);
     client.user.setPresence({
-      activities: [{ name: `/commands`, type: ActivityType.Watching }],
+      activities: [{ name: `/commands | dankrpg.xyz`, type: ActivityType.Watching }],
       status: "online",
     });
   },
