@@ -74,7 +74,7 @@ Developer-only commands may give an error saying **"You are not authorized to us
 You need to add your userID in `/src/commands/Dev/owner.json` for them to work. You can get your userID by enabling developer mode in Discord, and right clicking your name.
 
 ## Contributing:
-Any contribution to DankRPG is welcome, as long as it falls under license. If you wish to contribute, please open a pull request with your changes. Very significant changes, such as replacing core components of the bot, will most likely be rejected.
+Any contribution to DankRPG is welcome, as long as it falls under the same license (Apache 2.0). If you wish to contribute, please open a pull request with your changes. Very significant changes, such as replacing core components of the bot, will most likely be rejected.
 
 Some things to note:
 - Please make sure your code is formatted correctly, and is readable. 
