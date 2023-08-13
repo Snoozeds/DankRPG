@@ -1,69 +1,68 @@
+<img src="https://assets.dankrpg.xyz/Images/dankrpg.png" alt="Logo" /> <br />
+<br />
+
+[![Discord](https://img.shields.io/discord/856149002734403615?color=7289da&logo=discord&logoColor=white)](https://discord.gg/Cc3xBSpWeB)
+[![GitHub](https://img.shields.io/github/license/Snoozeds/DankRPG?color=blue)](https://github.com/Snoozeds/DankRPG/blob/main/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/Snoozeds/DankRPG)](https://github.com/Snoozeds/DankRPG/issues)
+[![Latest release](https://img.shields.io/github/v/release/Snoozeds/DankRPG?include_prereleases)](https://github.com/Snoozeds/DankRPG/releases/latest)
+<br />
+[![Patreon](https://img.shields.io/badge/Patreon-Donate%20(monthly)-red?logo=patreon)](https://patreon.com/snoozeds)
+[![Linode](https://img.shields.io/badge/Linode-$100%20credit-blue?logo=akamai)](https://www.linode.com/lp/refer/?r=2f0b0fc7f85a9c71619bd2f30b9e970e60b2c168)
+[![Steam](https://img.shields.io/badge/Steam-Trade-white?logo=steam)](https://steamcommunity.com/tradeoffer/new/?partner=972682532&token=T6WoQBBx)
+<br />
+[![Invite](https://img.shields.io/badge/Bot%20Invite-DankRPG-blue?logo=discord&logoColor=white)](https://drpg.io/invite)
+[![Doc](https://img.shields.io/badge/Documentation-View-blue)](https://docs.dankrpg.xyz)
+
 # DankRPG
 
-Welcome to DankRPG's Github repository. This mainly exists to keep transparency,
-and also allow others to learn from [the DankRPG bot](https://dankrpg.xyz).
+Welcome to the Github repository for DankRPG, a Discord Economy and RPG bot. This mainly exists for transparency, and for people to contribute to the bot. You may run your own instance if you wish by following the [setup](#forewarning) guide below.
 
 ## What is DankRPG?
 
-DankRPG is a Discord Economy and RPG bot that was originally written in [BDFD](https://botdesignerdiscord.com/),
-then [aoi.js](https://aoi.js.org) and now finally [discord.js](https://discord.js.org). You can learn more about this project by visiting [the website](https://dankrpg.xyz) and [documentation](https://docs.dankrpg.xyz).
+DankRPG is a Discord Economy and RPG bot that has a wide variety of items, commands, user settings, and more. Its code is written in JavaScript, using the [Discord.js](https://discord.js.org) library, and is 100% open source. It uses a Redis database for storing user data. The official DankRPG bot is currently in 100+ servers, and is growing and improving every day.
 
-## New features of the rewrite:
+You may find more information about the bot on the [website](https://dankrpg.xyz), or by reading the [documentation](https://drpg.io/docs).
 
-- [x] New, **much faster** RAM-based database, Redis. Though this may not be a good solution for low RAM capacity servers.
-- [x] Custom functions
-- [x] More variables
-- [x] Fully slash command based, with an easier way of integrating slash commands.
-- [x] A more realistic randomization system, using chance.js.
-
-## Pre-requisites:
-
-- [Node.js](https://nodejs.org/en/) (I used v18.7.0, may work on older versions 16.9+)
-- [Redis](https://redis.io/)
-- optional: [redis-commander](https://npmjs.com/package/redis-commander) (for viewing the database in a browser, gui only.)
-
-## Pre-requesites (NPM):
-
-- [Discord.js](https://discord.js.org) **(v14+)**
-- [ioRedis](https://npmjs.com/package/ioredis)
-- [chance.js](https://npmjs.com/package/chance)
-- [undici](https://npmjs.com/package/undici)
-- [@napi-rs/canvas](https://npmjs.com/package/@napi-rs/canvas)
-- [ms](https://npmjs.com/package/ms) (used for cooldown formatting)
-- optional, but recommended: [forever](https://www.npmjs.com/package/forever) / [pm2](https://www.npmjs.com/package/pm2)
 
 ## License
-Code in this Github repository falls under the [Apache 2.0 License](https://choosealicense.com/licenses/apache-2.0/). 
-Some art assets used by DankRPG is not within this repository, and are instead from [Pixeltier](https://pixeltier.itch.io/) or [Raven](https://clockworkraven.itch.io/). This repository's license does not apply to those assets.
+Code in this Github repository falls under the [Apache 2.0 License](https://choosealicense.com/licenses/apache-2.0/). We recommend you read this to understand what you can and can't do with the code.
 
-The name 'DankRPG' and DankRPG's logo do not fall under the Apache 2.0 License. You may not use the name 'DankRPG' or DankRPG's logo in any way that implies endorsement of your project by the DankRPG team. Furthermore, you may not use the name 'DankRPG' or DankRPG's logo in any way that suggests your project is the official DankRPG bot. Additionally, you are prohibited from using the name 'DankRPG' or DankRPG's logo in any manner that could be harmful to the DankRPG brand or detrimental to the DankRPG team. You, however, are allowed to use terms such as 'based on DankRPG' or 'powered by DankRPG' to indicate that your project is built on top of DankRPG, as long as it is clear that your project is not the official DankRPG bot.
+Some art assets (such as emoji) used by the official DankRPG bot is not within this repository, and are instead from [Pixeltier](https://pixeltier.itch.io/) or [Raven](https://clockworkraven.itch.io/). This repository's license does not apply to those assets. Please go support them if you like their work.
+
+The name 'DankRPG' does not fall under this license either, and you may not use it to state or imply that your version is the original or official DankRPG bot, supported by the original authors, contributors, or author of the bot.
+
+## Forewarning:
+
+This setup guide assumes you know basic JavaScript and Node.js. It is not recommended to run your own instance of DankRPG unless you know what you're doing.
+
+Always download the latest release from the [releases](https://github.com/Snoozeds/DankRPG/releases) page. The master branch is not guaranteed to be stable.
+
+As the code is 100% open-source, it includes sections of top.gg code. This is to post stats to top.gg, and to reward users for voting. It is recommended to remove this code, however, if you wish to use top.gg, please read [this disclaimer](https://support.top.gg/support/solutions/articles/73000502502-bot-guidelines) ("**Must not be an unmodified instance or fork of another bot and must have a considerable amount of modification.**")
+
+**I recommend you also read comments in index.js and globals.js bare minimum, as they contain important information like the above.**
+
 ## Setup:
-
-Learn how to create a Discord Bot account [here](https://discordjs.guide/preparations/setting-up-a-bot-application.html), if you haven't already. \
-Clone the repository, and install the required pre-requesites. \
-Follow Redis's installation guide [here](https://redis.io/topics/quickstart) to setup the database. \
-Then, create a file named `config.json` in the root directory, and paste the following:
+Create a file named `config.json` in the root directory, and paste the following:
 
 ```json
 {
   "token": "Your bot's token from https://discord.com/developers/applications",
-  "clientId": "This is the same as the bot's userID. If you don't know how to get it, just use the link above as well.",
-  "usr": "User + password combo for the redis database.",
-  "pwd": "--",
+  "clientId": "This is the same as the bot's userID.",
+  "usr": "User for the Redis database, if needed.",
+  "pwd": "Password for the Redis database, if needed.",
   "topgg": "Used for posting stats to top.gg. Please see disclaimer in index.js.",
   "topggAuth": "Used for voting rewards. Please see disclaimer in index.js."
 }
 ```
 
-You'll then want to have a look through the `index.js` and `globals.js` files to change some configuration options. \
-I've left some comments in the code to help you out. \
-\
-Once you're done with that, head into the deploy-commands.js file and change the guildID near the bottom to your test server's ID, if you have one. \
-This is for commands with the nonGlobal option set to true. \
-Then, run `node deploy-commands.js` to deploy the slash commands, both global and non-global. \
-\
-Finally, run `node index.js` to start DankRPG to see if you encounter any errors. \
-If you don't, use `pm2 start index.js` to start the bot in the background.
+You will want to change these values to your own. \
+Next, use a package manager like npm or yarn to install the dependencies. (e.g `npm install`)
+
+You will also need to install [Redis](https://redis.io/topics/quickstart) and run it. You may change Redis to something else if you wish, but it would require somewhat significant code changes. Help for this is not provided.
+
+Once you have done this, you can run the bot using `node index.js`. If no errors occur, you should be good to go. I then recommend using a process manager like [PM2](https://npmjs.com/package/pm2) or [forever](https://www.npmjs.com/package/forever) to keep the bot running.
+
+If you have any issues relating to the code, or running the bot, please open an issue on this repository by following this link: [Open issue](https://github.com/Snoozeds/DankRPG/issues/new)
 
 ## Errors:
 
@@ -71,7 +70,16 @@ You may get an error saying **"ERR: Database connection failed! Is the database 
 This is most likely because you haven't started a Redis server, or you have the wrong configuration/firewall. \
 Make sure you have followed Redis's installation guide [here](https://redis.io/topics/quickstart) to setup the database.
 
-## Support DankRPG:
+Developer-only commands may give an error saying **"You are not authorized to use this command."** \
+You need to add your userID in `/src/commands/Dev/owner.json` for them to work. You can get your userID by enabling developer mode in Discord, and right clicking your name.
 
-**top.gg:** If you want to support DankRPG, you can do so by [voting](https://top.gg/bot/855479925863481345/vote) for it on top.gg \
-**Linode:** Get $100 of free server credit for 60 days using my referral link. [link](https://www.linode.com/lp/refer/?r=2f0b0fc7f85a9c71619bd2f30b9e970e60b2c168)
+## Contributing:
+Any contribution to DankRPG is welcome, as long as it falls under license. If you wish to contribute, please open a pull request with your changes. Very significant changes, such as replacing core components of the bot, will most likely be rejected.
+
+Some things to note:
+- Please make sure your code is formatted correctly, and is readable. 
+- Preferably use a formatter like Prettier. The .prettierrc file is included in this repository.
+- Please make sure your code is commented where necessary.
+- Please make sure your code is tested, and doesn't break anything.
+- Please make sure your code is not malicious, or breaks the license.
+
