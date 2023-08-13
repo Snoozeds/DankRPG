@@ -6,7 +6,7 @@ module.exports = {
   execute(client) {
     console.log(`Logged in as ${client.user.tag}.`);
     client.user.setPresence({
-      activities: [{ name: `/commands|drpg.io`, type: ActivityType.Playing }],
+      activities: [{ name: `/commands | drpg.io`, type: ActivityType.Playing }],
       status: "online",
     });
   },
