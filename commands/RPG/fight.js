@@ -302,7 +302,7 @@ module.exports = {
           setTimeout(async () => {
             if (fightEnded) return;
             await enemyAttacks();
-          }, 3000);
+          }, 2000);
 
           // User defends
         } else if (i.customId === "defend") {
@@ -319,7 +319,7 @@ module.exports = {
           setTimeout(async () => {
             if (fightEnded) return;
             await enemyAttacks();
-          }, 3000);
+          }, 2000);
         } else if (i.customId === "flee") {
           await playerFlees();
           collector.stop();
