@@ -10,11 +10,20 @@ module.exports = {
     .addUserOption((option) => option.setName("user").setDescription("The user to duel.").setRequired(true)),
   async execute(interaction) {
     const user = interaction.user;
-    
+    const target = interaction.options.getUser("user");
+
+    const isBlocked = await redis.lrange(`${target.id}_blockedUsers`, 0, -1);
+    if (isBlocked !== null && isBlocked.includes(user.id)) {
+      return interaction.reply({
+        content: "You cannot duel this user.",
+        ephemeral: true,
+      });
+    }
+
     // Cooldowns
-    const userCooldowned = await cooldown.check(interaction.user.id, "duel")
-    const targetCooldowned = await cooldown.check(interaction.options.getUser("user").id, "duel")
-    const userCancelled = await cooldown.check(interaction.user.id, "duelCancel")
+    const userCooldowned = await cooldown.check(interaction.user.id, "duel");
+    const targetCooldowned = await cooldown.check(interaction.options.getUser("user").id, "duel");
+    const userCancelled = await cooldown.check(interaction.user.id, "duelCancel");
 
     if (userCooldowned) {
       const minutes = Math.floor((await cooldown.get(interaction.user.id, "duel")) / 60000) % 60;
@@ -47,7 +56,6 @@ module.exports = {
     const userMaxHealth = await get(`${user.id}_max_hp`);
     const userArmor = await get(`${user.id}_armor`);
     const userDamage = await get(`${user.id}_damage`);
-    const target = interaction.options.getUser("user");
     const targetHealth = await get(`${target.id}_hp`);
     const targetMaxHealth = await get(`${target.id}_max_hp`);
     const targetArmor = await get(`${target.id}_armor`);

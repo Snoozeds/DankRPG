@@ -45,6 +45,9 @@
 (userid)_buyConfirmation: Whether or not the user gets a confirmation when buying items : null
 (userid)_sellConfirmation: Whether or not the user gets a confirmation when selling items : null
 
+# Not under /settings, but acts similar to a setting.
+(userid)_blockedUsers: A Redis list of users that the player has blocked. : null
+
 # Marriages
 (userid)_marriageRequest: The id of the player who sent the request : null
 (userid)_sender: Whether the player is the sender of the request : null

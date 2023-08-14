@@ -21,14 +21,19 @@ module.exports = {
           ephemeral: true,
         });
       }
-      const authorInteractions = await get(`${author.id}_interactions`);
-      if (authorInteractions === null) {
+      const isBlocked = await redis.lrange(`${user.id}_blockedUsers`, 0, -1);
+      if (isBlocked !== null && isBlocked.includes(author.id)) {
+        return interaction.reply({
+          content: "You cannot marry this user.",
+          ephemeral: true,
+        });
+      }
+      if ((await get(`${author.id}_interactions`)) === null) {
         await set(`${author.id}_interactions`, "1");
       }
-      const userInteractions = await get(`${user.id}_interactions`);
-      if (userInteractions === null) {
+      if ((await get(`${user.id}_interactions`)) === null) {
         await set(`${user.id}_interactions`, "1");
-      } else if (userInteractions === "0") {
+      } else if ((await get(`${user.id}_interactions`)) === "0") {
         return interaction.reply({
           content: "This user has interactions disabled!",
           ephemeral: true,

@@ -199,6 +199,9 @@ module.exports = {
           .setDescription(
             `**Social:**
   </accept:${await getCommandId("accept")}> - Accept an ongoing marriage request.
+  </block add:${await getCommandId("block")}> - Block a user.
+  </block list:${await getCommandId("block")}> - List all blocked users.
+  </block reset:${await getCommandId("block")}> - Unblocks ALL USERS.
   </divorce:${await getCommandId("divorce")}> - Divorce your partner.
   </marry:${await getCommandId("marry")}> - Propose to another user.`
           )
