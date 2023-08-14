@@ -98,7 +98,9 @@ module.exports = {
           { name: "XP alerts:", value: (await get(`${user.id}_xp_alerts`)) === "1" ? "Enabled" : "Disabled", inline: false },
           { name: "Interactions:", value: (await get(`${user.id}_interactions`)) === "1" ? "Enabled" : "Disabled", inline: false },
           { name: "HP display:", value: (await get(`${user.id}_hp_display`)) || "Not set", inline: false },
-          { name: "Level display:", value: (await get(`${user.id}_level_display`)) || "Not set", inline: false }
+          { name: "Level display:", value: (await get(`${user.id}_level_display`)) || "Not set", inline: false },
+          { name: "Buy confirmations:", value: (await get(`${user.id}_buyConfirmation`)) === "1" ? "Enabled" : "Disabled", inline: false },
+          { name: "Sell confirmations:", value: (await get(`${user.id}_sellConfirmation`)) === "1" ? "Enabled" : "Disabled", inline: false }
         )
         .setColor(await get(`${user.id}_color`))
         .setThumbnail(user.displayAvatarURL({ dynamic: true }));

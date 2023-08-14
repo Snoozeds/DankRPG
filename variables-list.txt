@@ -35,6 +35,16 @@
 (userid)_duelTimestamp: The unix milliseconds of when the duel started : null
 (userid)_dailyStreak: The current daily streak of the player in days (max is 30) : null
 
+# User settings
+# All will return null unless explicitly set to true or false.
+(userid)_color: The color of embeds in commands ran by the user : null
+(userid)_xp_alerts: Whether or not the user gets xp alerts : null
+(userid)_interactions: Whether or not the user gets interactions : null
+(userid)_hp_display: How the user's HP is displayed in /profile : null
+(userid)_level_display: How the user's level is displayed in /profile : null
+(userid)_buyConfirmation: Whether or not the user gets a confirmation when buying items : null
+(userid)_sellConfirmation: Whether or not the user gets a confirmation when selling items : null
+
 # Marriages
 (userid)_marriageRequest: The id of the player who sent the request : null
 (userid)_sender: Whether the player is the sender of the request : null
