@@ -196,10 +196,10 @@ module.exports = {
 
         // Calculate coins based off level
         const userLevel = await get(`${user.id}_level`);
-        const multiplier = chance.integer({ min: 100, max: 130 }) / 100; // 1.0 - 1.3
+        const multiplier = chance.integer({ min: 100, max: 140 }) / 100; // 1.0 - 1.4
         let coins = Math.round(30 * Math.pow(multiplier, userLevel - 1));
 
-        // Cap of 2000 coins, so people can't farm coins too easily, breaking the economy :-)
+        // Cap of 2000 coins so people can't farm coins too easily, breaking the economy :-)
         if (coins > 2000) {
           coins = 2000;
         }
