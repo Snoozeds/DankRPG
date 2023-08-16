@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, set, incr, trueEmoji } = require("../../globals.js");
+const { get, set, incr, coinEmoji } = require("../../globals.js");
 
 // Used to link commands, making them clickable in the embed.
 // See ../deploy-commands for how the command IDs are stored.
@@ -34,10 +34,7 @@ module.exports = {
     ),
 
   async execute(interaction) {
-    if ((await get(`${interaction.user.id}_learner_achievement`)) != true) {
-      await incr(`${interaction.user.id}`, `coins`, 100);
-      await set(`${interaction.user.id}_learner_achievement`, true);
-    }
+    const user = interaction.user;
     const cat = interaction.options.getString("category");
     const Images = new EmbedBuilder()
       .setTitle(`Commands`)
@@ -145,6 +142,17 @@ module.exports = {
       await interaction.reply({ embeds: [Social] });
     } else if (cat === "Stats") {
       await interaction.reply({ embeds: [Stats] });
+    }
+
+    // Learner achievement
+    if ((await get(`${interaction.user.id}_learner_achievement`)) != true) {
+      await incr(`${interaction.user.id}`, `coins`, 100);
+      await set(`${interaction.user.id}_learner_achievement`, true);
+      const embed = new EmbedBuilder()
+        .setTitle("Achievement Unlocked!")
+        .setDescription(`:white_check_mark: You unlocked the **Learner** achievement, ${user.username}! (+${coinEmoji}**100**.)`)
+        .setColor(await get(`${interaction.user.id}_color`));
+      await interaction.followUp({ embeds: [embed] });
     }
   },
 };
