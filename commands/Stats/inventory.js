@@ -180,7 +180,7 @@ module.exports = {
     ];
 
     // Sort the inventory items by price.
-    inventoryItems.sort((a, b) => a.price - b.price);
+    inventoryItems.sort((a, b) => b.price - a.price);
     armorItems.sort((a, b) => b.price - a.price);
     weaponItems.sort((a, b) => b.price - a.price);
 
