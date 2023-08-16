@@ -14,6 +14,10 @@ module.exports = {
       await set(`${user.id}_stone`, 0);
     }
 
+    if ((await get(`${user.id}_diamond`)) == null || (await get(`${user.id}_diamond`)) == "0" || (await get(`${user.id}_diamond`)) == "") {
+      await set(`${user.id}_diamond`, 0);
+    }
+
     // If the user has a pickaxe, they mine faster, get more stone, and get more XP.
     const [mineCooldownTime, minStone, maxStone, xpAmount] = pickaxe >= 1 ? [ms("15s"), 10, 20, 20] : [ms("30s"), 5, 10, 10];
 
