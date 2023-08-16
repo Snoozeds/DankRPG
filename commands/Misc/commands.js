@@ -145,7 +145,7 @@ module.exports = {
     }
 
     // Learner achievement
-    if ((await get(`${interaction.user.id}_learner_achievement`)) != true) {
+    if ((await get(`${interaction.user.id}_learner_achievement`)) !== "true") {
       await incr(`${interaction.user.id}`, `coins`, 100);
       await set(`${interaction.user.id}_learner_achievement`, true);
       const embed = new EmbedBuilder()
