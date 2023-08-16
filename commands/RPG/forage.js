@@ -28,7 +28,6 @@ module.exports = {
         .setTitle("Foraging...")
         .setDescription(`<@${user.id}> goes foraging in the wilderness.`)
         .setColor(await get(`${user.id}_color`))
-        .setThumbnail("https://assets.dankrpg.xyz/Images/forage.png");
       if (rare) {
         embed.setFields({
           name: "Diamond",
