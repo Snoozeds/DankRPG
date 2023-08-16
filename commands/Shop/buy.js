@@ -30,7 +30,7 @@ const items = {
     name: "Lifesaver",
     emoji: lifesaverEmoji,
     variable: "lifesaver",
-    price: 500,
+    price: 1000,
     armor: 0,
   },
   stoneRing: {

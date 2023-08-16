@@ -69,7 +69,7 @@ module.exports = {
             .setDescription(`"Welcome to my shop!"\nYour balance: **${coinEmoji}${await get(`${user.id}_coins`)}**`)
             .addFields({
               name: `${lifesaverEmoji} Lifesaver (Owned: ${(await get(`${user.id}_lifesaver`)) || 0})`,
-              value: `**Cost: ${coinEmoji}500**\nSaves you from death. Used automatically.\nid: lifesaver`,
+              value: `**Cost: ${coinEmoji}1000**\nSaves you from death. Used automatically.\nid: lifesaver`,
             })
             .setFooter({ text: "Use /buy <id> to buy an item." })
             .setColor(await get(`${user.id}_color`))
