@@ -26,7 +26,7 @@ const {
 
 // Define the prices of each item in the inventory.
 const inventoryPrices = {
-  _lifesaver: 0,
+  _lifesaver: 1000,
   _diamond: 250,
   _demonWing: 300,
   _wood: 1,
