@@ -57,7 +57,7 @@ module.exports = {
               { name: "Level", value: "level" },
               { name: "Level | XP", value: "level/xp" },
               { name: "Level | XP (XP left to next level)", value: "level/xpnext" },
-              { name: "Level | XP (XP left to next level) (Bar)", value: "level/xpnextbar" }
+              { name: "Level (XP left to next level) (Bar)", value: "level/xpnextbar" }
             )
         )
     )
@@ -229,7 +229,7 @@ module.exports = {
         await set(`${interaction.user.id}_level_display`, "level/xpnextbar");
         await interaction.reply({
           content:
-            "Your level display has been set to `Level | XP (XP left to next level) (Bar)`\n:information_source: This may make the profile embed significantly longer. This option is best used on non-mobile devices.",
+            "Your level display has been set to `Level (XP left to next level) (Bar)`\n:information_source: This may make the profile embed significantly longer. This option is best used on non-mobile devices.",
           ephemeral: true,
         });
       }
