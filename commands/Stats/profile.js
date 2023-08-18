@@ -17,6 +17,7 @@ module.exports = {
     const xpType = await get(`${interaction.user.id}_level_display`);
 
     // hpMessage set to the user's hpType setting.
+    let hpName = "HP";
     let hpMessage = "";
     if (hpType === "hp" || hpType == null) {
       hpMessage = `**${hpEmoji} ${await get(`${user.id}_hp`)}**`;
@@ -28,16 +29,30 @@ module.exports = {
       )}%)**`;
     } else if (hpType === "hp%") {
       hpMessage = `**${hpEmoji} ${await get(`${user.id}_hp`)} (${Math.round(((await get(`${user.id}_hp`)) / (await get(`${user.id}_max_hp`))) * 100)}%)**`;
+    } else if (hpType === "hp/maxhpbar") {
+      const hp = await get(`${user.id}_hp`);
+      const maxHp = await get(`${user.id}_max_hp`);
+      const hpBar = ":red_square:".repeat(Math.round((hp / maxHp) * 10)) + ":black_large_square:".repeat(10 - Math.round((hp / maxHp) * 10));
+      const percentage = (hp / maxHp) * 100
+      hpMessage = `**${hpEmoji} ${hpBar}**`;
+      hpName = `HP ${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)} (${percentage.toFixed(2)}%)`;
     }
-
     // levelMessage set to the user's levelType setting.
     let levelMessage = "";
+    let levelName = "Level";
     if (xpType === "level") {
       levelMessage = `**${levelEmoji} ${await get(`${user.id}_level`)}**`;
     } else if (xpType === "level/xp" || xpType == null) {
       levelMessage = `**${levelEmoji} ${await get(`${user.id}_level`)} | ${await get(`${user.id}_xp`)}XP**`;
     } else if (xpType === "level/xpnext") {
       levelMessage = `**${levelEmoji} ${await get(`${user.id}_level`)} | ${await get(`${user.id}_xp`)}XP (${await get(`${user.id}_xp_needed`)})**`;
+    } else if (xpType === "level/xpnextbar") {
+      const xp = await get(`${user.id}_xp`);
+      const xpNeeded = (await get(`${user.id}_level`)) * 100; // The amount of xp needed to level up.
+      const xpBar = ":blue_square:".repeat(Math.round((xp / xpNeeded) * 10)) + ":black_large_square:".repeat(10 - Math.round((xp / xpNeeded) * 10));
+      const percentage = (xp / xpNeeded) * 100
+      levelMessage = `**${levelEmoji} ${xpBar}**`;
+      levelName = `Level ${await get(`${user.id}_level`)} (${percentage.toFixed(2)}%)`;
     }
 
     const profile = new EmbedBuilder()
@@ -49,8 +64,8 @@ module.exports = {
           inline: true,
         },
         {
-          name: "HP",
-          value: `${hpMessage}`,
+          name: hpName,
+          value: hpMessage,
           inline: true,
         },
         {
@@ -64,8 +79,8 @@ module.exports = {
           inline: true,
         },
         {
-          name: "Level",
-          value: `${levelMessage}`,
+          name: levelName,
+          value: levelMessage,
           inline: true,
         },
         {

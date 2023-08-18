@@ -39,7 +39,8 @@ module.exports = {
               { name: "HP", value: "hp" },
               { name: "HP/Max HP", value: "hp/maxhp" },
               { name: "HP/Max HP (Percentage)", value: "hp/maxhp%" },
-              { name: "HP (Percentage)", value: "hp%" }
+              { name: "HP (Percentage)", value: "hp%" },
+              { name: "HP/Max HP (Bar)", value: "hp/maxhpbar" }
             )
         )
     )
@@ -52,7 +53,12 @@ module.exports = {
             .setName("display")
             .setDescription("The type of display you want.")
             .setRequired(true)
-            .addChoices({ name: "Level", value: "level" }, { name: "Level | XP", value: "level/xp" }, { name: "Level | XP (XP left to next level)", value: "level/xpnext" })
+            .addChoices(
+              { name: "Level", value: "level" },
+              { name: "Level | XP", value: "level/xp" },
+              { name: "Level | XP (XP left to next level)", value: "level/xpnext" },
+              { name: "Level | XP (XP left to next level) (Bar)", value: "level/xpnextbar" }
+            )
         )
     )
     .addSubcommand((subcommand) =>
@@ -188,6 +194,14 @@ module.exports = {
           ephemeral: true,
         });
       }
+      if (response === "hp/maxhpbar") {
+        await set(`${interaction.user.id}_hp_display`, "hp/maxhpbar");
+        await interaction.reply({
+          content:
+            "Your HP display has been set to `HP/Max HP (Bar)`\n:information_source: This may make the profile embed significantly longer. This option is best used on non-mobile devices.",
+          ephemeral: true,
+        });
+      }
     } else if (interaction.options.getSubcommand() === "leveldisplay") {
       let response = interaction.options.getString("display");
       if (response === "level") {
@@ -208,6 +222,14 @@ module.exports = {
         await set(`${interaction.user.id}_level_display`, "level/xpnext");
         await interaction.reply({
           content: "Your level display has been set to `Level | XP (XP left to next level)`.",
+          ephemeral: true,
+        });
+      }
+      if (response === "level/xpnextbar") {
+        await set(`${interaction.user.id}_level_display`, "level/xpnextbar");
+        await interaction.reply({
+          content:
+            "Your level display has been set to `Level | XP (XP left to next level) (Bar)`\n:information_source: This may make the profile embed significantly longer. This option is best used on non-mobile devices.",
           ephemeral: true,
         });
       }
