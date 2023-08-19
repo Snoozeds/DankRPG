@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, incr } = require("../../globals.js");
+const { get } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -21,13 +21,17 @@ module.exports = {
     if (marriageStatus === "married") {
       const embed = new EmbedBuilder()
         .setTitle(`Marriage Status: ${user.username}`)
-        .setDescription(`This user is married.`)
+        .setDescription(`Marriage stats:`)
         .setFields(
           { name: "Married to:", value: `<@${marriageRequest}>`, inline: true },
           {
             name: "Married since:",
             value: `<t:${marriageTime}:R>`,
             inline: true,
+          },
+          {
+            name: "Anniversaries reached:",
+            value: `${marriageTime > 3155760000 ? "**1 month**\n**1 year**" : marriageTime > 262980000 ? "**1 month**" : "None"}`,
           }
         )
         .setColor(await get(`${interaction.user.id}_color`))
