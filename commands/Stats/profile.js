@@ -33,7 +33,7 @@ module.exports = {
       const hp = await get(`${user.id}_hp`);
       const maxHp = await get(`${user.id}_max_hp`);
       const hpBar = ":red_square:".repeat(Math.round((hp / maxHp) * 10)) + ":black_large_square:".repeat(10 - Math.round((hp / maxHp) * 10));
-      const percentage = (hp / maxHp) * 100
+      const percentage = (hp / maxHp) * 100;
       hpMessage = `**${hpEmoji} ${hpBar}**`;
       hpName = `HP ${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)} (${percentage.toFixed(2)}%)`;
     }
@@ -50,7 +50,7 @@ module.exports = {
       const xp = await get(`${user.id}_xp`);
       const xpNeeded = (await get(`${user.id}_level`)) * 100; // The amount of xp needed to level up.
       const xpBar = ":blue_square:".repeat(Math.round((xp / xpNeeded) * 10)) + ":black_large_square:".repeat(10 - Math.round((xp / xpNeeded) * 10));
-      const percentage = (xp / xpNeeded) * 100
+      const percentage = (xp / xpNeeded) * 100;
       levelMessage = `**${levelEmoji} ${xpBar}**`;
       levelName = `Level ${await get(`${user.id}_level`)} (${percentage.toFixed(2)}%)`;
     }
