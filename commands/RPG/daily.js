@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { set, get, coinEmoji, incr, checkXP, cooldown, levelEmoji, levelUpEmoji } = require("../../globals.js");
+const { set, get, coinEmoji, incr, checkXP, cooldown, levelEmoji, levelUpEmoji, trueEmoji } = require("../../globals.js");
 const ms = require("ms");
 
 module.exports = {
@@ -81,12 +81,12 @@ module.exports = {
 
       const achievementEmbed = new EmbedBuilder()
         .setTitle("Achievement Unlocked!")
-        .setDescription(`:white_check_mark: You unlocked the **It Begins** achievement! (+${coinEmoji}**250**.)`)
+        .setDescription(`${trueEmoji} You unlocked the **It Begins** achievement! (+${coinEmoji}**250**.)`)
         .setColor(await get(`${user.id}_color`));
 
       const dedicatedEmbed = new EmbedBuilder()
         .setTitle("Achievement Unlocked!")
-        .setDescription(`:white_check_mark: You unlocked the **Dedicated** achievement, ${user.username}! (+${coinEmoji}**500**.)`)
+        .setDescription(`${trueEmoji} You unlocked the **Dedicated** achievement, ${user.username}! (+${coinEmoji}**500**.)`)
         .setColor(await get(`${user.id}_color`));
 
       if (achievementUnlocked) {
