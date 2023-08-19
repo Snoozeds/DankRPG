@@ -173,7 +173,7 @@ async function calculateXP(id, nextlvl) {
       await incr(id, "level_xp", 100 * nextlvl);
       await incr(id, "next_level", 1);
       await set(`${id}_xp`, 0);
-      await set(`${id}_xp_needed`, 100 * nextlvl);incr
+      await set(`${id}_xp_needed`, 100 * nextlvl);
     }
   }
 }
