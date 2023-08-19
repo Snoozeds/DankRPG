@@ -10,7 +10,11 @@ module.exports = {
     const user = interaction.options.getUser("user") || interaction.user;
     const Embed = new EmbedBuilder()
       .setTitle(`${user.username}'s level`)
-      .setDescription(`**Level:** ${await get(`${user.id}_level`)}\n**XP:** ${await get(`${user.id}_xp`)}\n**XP to next level:** ${await get(`${user.id}_xp_needed`)}`)
+      .setDescription(
+        `**Level:** ${await get(`${user.id}_level`)}\n**XP:** ${await get(`${user.id}_xp`)}\n**XP to next level:** ${await get(`${user.id}_xp_needed`)} (${
+          (await get(`${user.id}_level`)) * 100
+        } total)`
+      )
       .setThumbnail(user.displayAvatarURL({ format: "jpg", size: 4096 }))
       .setColor(await get(`${interaction.user.id}_color`));
     await interaction.reply({ embeds: [Embed] });
