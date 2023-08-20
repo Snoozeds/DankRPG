@@ -3,23 +3,7 @@ const {
   set,
   get,
   incr,
-  armorEmoji,
-  attackUpEmoji,
-  critUpEmoji,
-  celestialArmorEmoji,
-  sunforgedArmorEmoji,
-  glacialArmorEmoji,
-  abyssalArmorEmoji,
-  verdantArmorEmoji,
-  sylvanArmorEmoji,
-  topazineArmorEmoji,
-  bladeOfTheDeadEmoji,
-  divineWrathEmoji,
-  umbralEclipseEmoji,
-  azurebladeEmoji,
-  zephyrsBreezeEmoji,
-  squiresHonorEmoji,
-  crimsonDaggerEmoji,
+  emoji,
 } = require("../../globals.js");
 
 module.exports = {
@@ -95,7 +79,7 @@ module.exports = {
       }
 
       await interaction.reply({
-        content: `You equipped ${celestialArmorEmoji} Celestial Armor.\n${armorEmoji}**+50**`,
+        content: `You equipped ${emoji.celestialArmor} Celestial Armor.\n${emoji.armor}**+50**`,
         ephemeral: true,
       });
 
@@ -111,7 +95,7 @@ module.exports = {
       }
 
       await interaction.reply({
-        content: `You equipped ${sunforgedArmorEmoji} Sunforged Armor.\n${armorEmoji}**+35**`,
+        content: `You equipped ${emoji.sunforgedArmor} Sunforged Armor.\n${emoji.armor}**+35**`,
         ephemeral: true,
       });
 
@@ -127,7 +111,7 @@ module.exports = {
       }
 
       await interaction.reply({
-        content: `You equipped ${glacialArmorEmoji} Glacial Armor.\n${armorEmoji}**+25**`,
+        content: `You equipped ${emoji.glacialArmor} Glacial Armor.\n${emoji.armor}**+25**`,
         ephemeral: true,
       });
 
@@ -143,7 +127,7 @@ module.exports = {
       }
 
       await interaction.reply({
-        content: `You equipped ${abyssalArmorEmoji} Abyssal Armor.\n${armorEmoji}**+20**`,
+        content: `You equipped ${emoji.abyssalArmor} Abyssal Armor.\n${emoji.armor}**+20**`,
         ephemeral: true,
       });
 
@@ -159,7 +143,7 @@ module.exports = {
       }
 
       await interaction.reply({
-        content: `You equipped ${verdantArmorEmoji} Verdant Armor.\n${armorEmoji}**+15**`,
+        content: `You equipped ${emoji.verdantArmor} Verdant Armor.\n${emoji.armor}**+15**`,
         ephemeral: true,
       });
 
@@ -175,7 +159,7 @@ module.exports = {
       }
 
       await interaction.reply({
-        content: `You equipped ${sylvanArmorEmoji} Sylvan Armor.\n${armorEmoji}**+10**`,
+        content: `You equipped ${emoji.sylvanArmor} Sylvan Armor.\n${emoji.armor}**+10**`,
         ephemeral: true,
       });
 
@@ -191,7 +175,7 @@ module.exports = {
       }
 
       await interaction.reply({
-        content: `You equipped ${topazineArmorEmoji} Topazine Armor.\n${armorEmoji}**+5**`,
+        content: `You equipped ${emoji.topazineArmor} Topazine Armor.\n${emoji.armor}**+5**`,
         ephemeral: true,
       });
 
@@ -213,7 +197,7 @@ module.exports = {
       }
 
       await interaction.reply({
-        content: `You equipped ${bladeOfTheDeadEmoji} Blade of the Dead.\n${attackUpEmoji}**+60**\n${critUpEmoji}**+60%**`,
+        content: `You equipped ${emoji.bladeOfTheDead} Blade of the Dead.\n${emoji.attackUp}**+60**\n${emoji.critUp}**+60%**`,
         ephemeral: true,
       });
 
@@ -236,7 +220,7 @@ module.exports = {
       }
 
       await interaction.reply({
-        content: `You equipped ${divineWrathEmoji} Divine Wrath.\n${attackUpEmoji}**+40**\n${critUpEmoji}**+50%**`,
+        content: `You equipped ${emoji.divineWrath} Divine Wrath.\n${emoji.attackUp}**+40**\n${emoji.critUp}**+50%**`,
         ephemeral: true,
       });
 
@@ -259,7 +243,7 @@ module.exports = {
       }
 
       await interaction.reply({
-        content: `You equipped ${umbralEclipseEmoji} Umbral Eclipse.\n${attackUpEmoji}**+30**\n${critUpEmoji}**+40%**`,
+        content: `You equipped ${emoji.umbralEclipse} Umbral Eclipse.\n${emoji.attackUp}**+30**\n${emoji.critUp}**+40%**`,
         ephemeral: true,
       });
 
@@ -282,7 +266,7 @@ module.exports = {
       }
 
       await interaction.reply({
-        content: `You equipped ${azurebladeEmoji} Azureblade.\n${attackUpEmoji}**+20**\n${critUpEmoji}**+35%**`,
+        content: `You equipped ${emoji.azureBlade} Azureblade.\n${emoji.attackUp}**+20**\n${emoji.critUp}**+35%**`,
         ephemeral: true,
       });
 
@@ -305,7 +289,7 @@ module.exports = {
       }
 
       await interaction.reply({
-        content: `You equipped ${zephyrsBreezeEmoji} Zephyr's Breeze.\n${attackUpEmoji}**+15**\n${critUpEmoji}**+30%**`,
+        content: `You equipped ${emoji.zephyrsBreeze} Zephyr's Breeze.\n${emoji.attackUp}**+15**\n${emoji.critUp}**+30%**`,
         ephemeral: true,
       });
 
@@ -328,7 +312,7 @@ module.exports = {
       }
 
       await interaction.reply({
-        content: `You equipped ${squiresHonorEmoji} Squire's Honor.\n${attackUpEmoji}**+10**\n${critUpEmoji}**+15%**`,
+        content: `You equipped ${emoji.squiresHonor} Squire's Honor.\n${emoji.attackUp}**+10**\n${emoji.critUp}**+15%**`,
         ephemeral: true,
       });
 
@@ -351,7 +335,7 @@ module.exports = {
       }
 
       await interaction.reply({
-        content: `You equipped ${crimsonDaggerEmoji} Crimson Dagger.\n${attackUpEmoji}**+5**\n${critUpEmoji}**+10%**`,
+        content: `You equipped ${emoji.crimsonDagger} Crimson Dagger.\n${emoji.attackUp}**+5**\n${emoji.critUp}**+10%**`,
         ephemeral: true,
       });
 

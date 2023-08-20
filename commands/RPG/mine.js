@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { set, get, incr, checkXP, cooldown, stoneEmoji, levelEmoji, levelUpEmoji, diamondEmoji } = require("../../globals.js");
+const { set, get, incr, checkXP, cooldown, emoji, } = require("../../globals.js");
 const chance = require("chance").Chance();
 const ms = require("ms");
 
@@ -35,14 +35,14 @@ module.exports = {
       if (chance.bool({ likelihood: 30 })) {
         await incr(`${user.id}`, "diamond", 1);
         embed.setDescription(
-          `<@${user.id}> mined some rocks and got **${stoneEmoji}${stone}** and **${diamondEmoji}1**!${
-            (await get(`${user.id}_xp_alerts`)) == "1" ? `\n+${levelEmoji}${xp}` : ""
-          } ${(await checkXP(user.id, xp)) == true ? ` ${levelUpEmoji} **Level up!** Check /levels.` : ""}`
+          `<@${user.id}> mined some rocks and got **${emoji.stone}${stone}** and **${emoji.diamond}1**!${
+            (await get(`${user.id}_xp_alerts`)) == "1" ? `\n+${emoji.level}${xp}` : ""
+          } ${(await checkXP(user.id, xp)) == true ? ` ${emoji.levelUp} **Level up!** Check /levels.` : ""}`
         );
       } else {
         embed.setDescription(
-          `<@${user.id}> mined some rocks and got **${stoneEmoji}${stone}**.${(await get(`${user.id}_xp_alerts`)) == "1" ? `\n+${levelEmoji}${xp}` : ""} ${
-            (await checkXP(user.id, xp)) == true ? ` ${levelUpEmoji} **Level up!** Check /levels.` : ""
+          `<@${user.id}> mined some rocks and got **${emoji.stone}${stone}**.${(await get(`${user.id}_xp_alerts`)) == "1" ? `\n+${emoji.level}${xp}` : ""} ${
+            (await checkXP(user.id, xp)) == true ? ` ${emoji.levelUp} **Level up!** Check /levels.` : ""
           }`
         );
       }

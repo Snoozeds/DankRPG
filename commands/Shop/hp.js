@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js");
-const { get, incr, coinEmoji } = require("../../globals.js");
+const { get, emoji } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder().setName("hp").setDescription("Checks how much it costs to heal to MaxHP."),
@@ -13,6 +13,6 @@ module.exports = {
         ephemeral: true,
       });
     }
-    await interaction.reply(`It costs ${coinEmoji}**${maxhp - hp}** to heal to MaxHP.`);
+    await interaction.reply(`It costs ${emoji.coins}**${maxhp - hp}** to heal to MaxHP.`);
   },
 };

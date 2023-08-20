@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require("discord.js");
-const { get, incr, decr, coinEmoji, stoneEmoji, woodEmoji, diamondEmoji, demonWingEmoji } = require("../../globals.js");
+const { get, incr, decr, emoji } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -40,14 +40,14 @@ module.exports = {
           const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
           const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
           const row = new ActionRowBuilder().addComponents(yes, no);
-          const reply = await interaction.reply({ content: `Are you sure you want to sell ${woodEmoji}${wood} for ${coinEmoji}${wood}?`, components: [row] });
+          const reply = await interaction.reply({ content: `Are you sure you want to sell ${emoji.wood}${wood} for ${emoji.coins}${wood}?`, components: [row] });
           const collectorFilter = (i) => i.user.id === interaction.user.id;
           try {
             const confirmation = await reply.awaitMessageComponent({ filter: collectorFilter, time: 60000 }); // Waits 1 minute for a response.
             if (confirmation.customId === "yes") {
               await decr(user.id, "wood", wood);
               await incr(user.id, "coins", wood);
-              await confirmation.update({ content: `You sold ${woodEmoji}${wood} for ${coinEmoji}${wood}.`, components: [] });
+              await confirmation.update({ content: `You sold ${emoji.wood}${wood} for ${emoji.coins}${wood}.`, components: [] });
             } else if (confirmation.customId === "no") {
               await confirmation.update({ content: "Sell cancelled.", components: [] });
             }
@@ -57,7 +57,7 @@ module.exports = {
         } else if ((await get(`${user.id}_sellConfirmation`)) === "0") {
           await decr(user.id, "wood", wood);
           await incr(user.id, "coins", wood);
-          await interaction.reply({ content: `You sold ${woodEmoji}${wood} for ${coinEmoji}${wood}.`, components: [] });
+          await interaction.reply({ content: `You sold ${emoji.wood}${wood} for ${emoji.coins}${wood}.`, components: [] });
         }
       } else {
         const wood = Number(await get(`${user.id}_wood`));
@@ -72,7 +72,7 @@ module.exports = {
           const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
           const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
           const row = new ActionRowBuilder().addComponents(yes, no);
-          const reply = await interaction.reply({ content: `Are you sure you want to sell ${woodEmoji}${amount} for ${coinEmoji}${amount}?`, components: [row] });
+          const reply = await interaction.reply({ content: `Are you sure you want to sell ${emoji.wood}${amount} for ${emoji.coins}${amount}?`, components: [row] });
           const collectorFilter = (i) => i.user.id === interaction.user.id;
           try {
             const confirmation = await reply.awaitMessageComponent({ filter: collectorFilter, time: 60000 }); // Waits 1 minute for a response.
@@ -88,7 +88,7 @@ module.exports = {
 
               await decr(user.id, "wood", amount);
               await incr(user.id, "coins", amount);
-              await confirmation.update({ content: `You sold ${woodEmoji}${amount} for ${coinEmoji}${amount}.`, components: [] });
+              await confirmation.update({ content: `You sold ${emoji.wood}${amount} for ${emoji.coins}${amount}.`, components: [] });
             } else if (confirmation.customId === "no") {
               await confirmation.update({ content: "Sell cancelled.", components: [] });
             }
@@ -108,14 +108,14 @@ module.exports = {
           const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
           const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
           const row = new ActionRowBuilder().addComponents(yes, no);
-          const reply = await interaction.reply({ content: `Are you sure you want to sell ${stoneEmoji}${stone} for ${coinEmoji}${stone * 5}?`, components: [row] });
+          const reply = await interaction.reply({ content: `Are you sure you want to sell ${emoji.stone}${stone} for ${emoji.coins}${stone * 5}?`, components: [row] });
           const collectorFilter = (i) => i.user.id === interaction.user.id;
           try {
             const confirmation = await reply.awaitMessageComponent({ filter: collectorFilter, time: 60000 }); // Waits 1 minute for a response.
             if (confirmation.customId === "yes") {
               await decr(user.id, "stone", stone);
               await incr(user.id, "coins", stone * 5);
-              await confirmation.update({ content: `You sold ${stoneEmoji}${stone} for ${coinEmoji}${stone * 5}.`, components: [] });
+              await confirmation.update({ content: `You sold ${emoji.stone}${stone} for ${emoji.coins}${stone * 5}.`, components: [] });
             } else if (confirmation.customId === "no") {
               await confirmation.update({ content: "Sell cancelled.", components: [] });
             }
@@ -125,7 +125,7 @@ module.exports = {
         } else if ((await get(`${user.id}_sellConfirmation`)) === "0") {
           await decr(user.id, "stone", stone);
           await incr(user.id, "coins", stone * 5);
-          await interaction.reply({ content: `You sold ${stoneEmoji}${stone} for ${coinEmoji}${stone * 5}.`, components: [] });
+          await interaction.reply({ content: `You sold ${emoji.stone}${stone} for ${emoji.coins}${stone * 5}.`, components: [] });
         }
       } else {
         const stone = Number(await get(`${user.id}_stone`));
@@ -140,7 +140,7 @@ module.exports = {
           const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
           const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
           const row = new ActionRowBuilder().addComponents(yes, no);
-          const reply = await interaction.reply({ content: `Are you sure you want to sell ${stoneEmoji}${amount} for ${coinEmoji}${amount * 5}?`, components: [row] });
+          const reply = await interaction.reply({ content: `Are you sure you want to sell ${emoji.stone}${amount} for ${emoji.coins}${amount * 5}?`, components: [row] });
           const collectorFilter = (i) => i.user.id === interaction.user.id;
           try {
             const confirmation = await reply.awaitMessageComponent({ filter: collectorFilter, time: 60000 }); // Waits 1 minute for a response.
@@ -156,7 +156,7 @@ module.exports = {
 
               await decr(user.id, "stone", amount);
               await incr(user.id, "coins", amount * 5);
-              await confirmation.update({ content: `You sold ${stoneEmoji}${amount} for ${coinEmoji}${amount * 5}.`, components: [] });
+              await confirmation.update({ content: `You sold ${emoji.stone}${amount} for ${emoji.coins}${amount * 5}.`, components: [] });
             } else if (confirmation.customId === "no") {
               await confirmation.update({ content: "Sell cancelled.", components: [] });
             }
@@ -166,7 +166,7 @@ module.exports = {
         } else if ((await get(`${user.id}_sellConfirmation`)) === "0") {
           await decr(user.id, "stone", amount);
           await incr(user.id, "coins", amount * 5);
-          await interaction.reply({ content: `You sold ${stoneEmoji}${amount} for ${coinEmoji}${amount * 5}.`, components: [] });
+          await interaction.reply({ content: `You sold ${emoji.stone}${amount} for ${emoji.coins}${amount * 5}.`, components: [] });
         }
       }
     } else if (item === "diamond") {
@@ -180,14 +180,14 @@ module.exports = {
           const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
           const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
           const row = new ActionRowBuilder().addComponents(yes, no);
-          const reply = await interaction.reply({ content: `Are you sure you want to sell ${diamondEmoji}${diamond} for ${coinEmoji}${amount * 250}?`, components: [row] });
+          const reply = await interaction.reply({ content: `Are you sure you want to sell ${emoji.diamond}${diamond} for ${emoji.coins}${amount * 250}?`, components: [row] });
           const collectorFilter = (i) => i.user.id === interaction.user.id;
           try {
             const confirmation = await reply.awaitMessageComponent({ filter: collectorFilter, time: 60000 }); // Waits 1 minute for a response.
             if (confirmation.customId === "yes") {
               await decr(user.id, "diamond", diamond);
               await incr(user.id, "coins", diamond * 250);
-              await confirmation.update({ content: `You sold ${diamondEmoji}${diamond} for ${coinEmoji}${diamond * 250}.`, components: [] });
+              await confirmation.update({ content: `You sold ${emoji.diamond}${diamond} for ${emoji.coins}${diamond * 250}.`, components: [] });
             } else if (confirmation.customId === "no") {
               await confirmation.update({ content: "Sell cancelled.", components: [] });
             }
@@ -208,7 +208,7 @@ module.exports = {
           const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
           const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
           const row = new ActionRowBuilder().addComponents(yes, no);
-          const reply = await interaction.reply({ content: `Are you sure you want to sell ${diamondEmoji}${amount} for ${coinEmoji}${amount * 250}?`, components: [row] });
+          const reply = await interaction.reply({ content: `Are you sure you want to sell ${emoji.diamond}${amount} for ${emoji.coins}${amount * 250}?`, components: [row] });
           const collectorFilter = (i) => i.user.id === interaction.user.id;
           try {
             const confirmation = await reply.awaitMessageComponent({ filter: collectorFilter, time: 60000 }); // Waits 1 minute for a response.
@@ -224,7 +224,7 @@ module.exports = {
 
               await decr(user.id, "diamond", amount);
               await incr(user.id, "coins", amount * 250);
-              await confirmation.update({ content: `You sold ${diamondEmoji}${amount} for ${coinEmoji}${amount * 250}.`, components: [] });
+              await confirmation.update({ content: `You sold ${emoji.diamond}${amount} for ${emoji.coins}${amount * 250}.`, components: [] });
             } else if (confirmation.customId === "no") {
               await confirmation.update({ content: "Sell cancelled.", components: [] });
             }
@@ -234,7 +234,7 @@ module.exports = {
         } else if ((await get(`${user.id}_sellConfirmation`)) === "0") {
           await decr(user.id, "diamond", amount);
           await incr(user.id, "coins", amount * 250);
-          await interaction.reply({ content: `You sold ${diamondEmoji}${amount} for ${coinEmoji}${amount * 250}.`, components: [] });
+          await interaction.reply({ content: `You sold ${emoji.diamond}${amount} for ${emoji.coins}${amount * 250}.`, components: [] });
         }
       }
     } else if (item === "demonWing") {
@@ -249,7 +249,7 @@ module.exports = {
           const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
           const row = new ActionRowBuilder().addComponents(yes, no);
           const reply = await interaction.reply({
-            content: `Are you sure you want to sell ${demonWingEmoji}${demonWing} for ${coinEmoji}${demonWing * 300}?`,
+            content: `Are you sure you want to sell ${emoji.demonWing}${demonWing} for ${emoji.coins}${demonWing * 300}?`,
             components: [row],
           });
           const collectorFilter = (i) => i.user.id === interaction.user.id;
@@ -258,7 +258,7 @@ module.exports = {
             if (confirmation.customId === "yes") {
               await decr(user.id, "demonWing", demonWing);
               await incr(user.id, "coins", demonWing * 300);
-              await confirmation.update({ content: `You sold ${demonWingEmoji}${demonWing} for ${coinEmoji}${demonWing * 300}.`, components: [] });
+              await confirmation.update({ content: `You sold ${emoji.demonWing}${demonWing} for ${emoji.coins}${demonWing * 300}.`, components: [] });
             } else if (confirmation.customId === "no") {
               await confirmation.update({ content: "Sell cancelled.", components: [] });
             }
@@ -279,7 +279,7 @@ module.exports = {
           const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
           const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
           const row = new ActionRowBuilder().addComponents(yes, no);
-          const reply = await interaction.reply({ content: `Are you sure you want to sell ${demonWingEmoji}${amount} for ${coinEmoji}${amount * 300}?`, components: [row] });
+          const reply = await interaction.reply({ content: `Are you sure you want to sell ${emoji.demonWing}${amount} for ${emoji.coins}${amount * 300}?`, components: [row] });
           const collectorFilter = (i) => i.user.id === interaction.user.id;
           try {
             const confirmation = await reply.awaitMessageComponent({ filter: collectorFilter, time: 60000 }); // Waits 1 minute for a response.
@@ -294,7 +294,7 @@ module.exports = {
               }
               await decr(user.id, "demonWing", amount);
               await incr(user.id, "coins", amount * 300);
-              await confirmation.update({ content: `You sold ${demonWingEmoji}${amount} for ${coinEmoji}${amount * 300}.`, components: [] });
+              await confirmation.update({ content: `You sold ${emoji.demonWing}${amount} for ${emoji.coins}${amount * 300}.`, components: [] });
             } else if (confirmation.customId === "no") {
               await confirmation.update({ content: "Sell cancelled.", components: [] });
             }
@@ -304,7 +304,7 @@ module.exports = {
         } else if ((await get(`${user.id}_sellConfirmation`)) === "0") {
           await decr(user.id, "demonWing", amount);
           await incr(user.id, "coins", amount * 300);
-          await interaction.reply({ content: `You sold ${demonWingEmoji}${amount} for ${coinEmoji}${amount * 300}.`, components: [] });
+          await interaction.reply({ content: `You sold ${emoji.demonWing}${amount} for ${emoji.coins}${amount * 300}.`, components: [] });
         }
       }
     }

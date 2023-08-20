@@ -1,139 +1,116 @@
 const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require("discord.js");
-const {
-  set,
-  decr,
-  incr,
-  get,
-  coinEmoji,
-  lifesaverEmoji,
-  stoneRingEmoji,
-  armorUpEmoji,
-  celestialArmorEmoji,
-  sunforgedArmorEmoji,
-  glacialArmorEmoji,
-  abyssalArmorEmoji,
-  verdantArmorEmoji,
-  sylvanArmorEmoji,
-  topazineArmorEmoji,
-  crimsonDaggerEmoji,
-  squiresHonorEmoji,
-  zephyrsBreezeEmoji,
-  azureBladeEmoji,
-  umbralEclipseEmoji,
-  divineWrathEmoji,
-  bladeOfTheDeadEmoji,
-} = require("../../globals.js");
+const { set, decr, incr, get, emoji } = require("../../globals.js");
 
 // Array of the items, armor value is just there for rings where the armor is automatically added to the user's armor, instead of equipped.
 const items = {
   lifesaver: {
     name: "Lifesaver",
-    emoji: lifesaverEmoji,
+    emoji: emoji.lifesaver,
     variable: "lifesaver",
     price: 1000,
     armor: 0,
   },
   stoneRing: {
     name: "Stone Ring",
-    emoji: stoneRingEmoji,
+    emoji: emoji.stoneRing,
     variable: "stoneRing",
     price: 2000,
     armor: 1,
   },
   celestialArmor: {
     name: "Celestial Armor",
-    emoji: celestialArmorEmoji,
+    emoji: emoji.celestialArmor,
     variable: "celestialArmor",
     price: 30000,
     armor: 0,
   },
   sunforgedArmor: {
     name: "Sunforged Armor",
-    emoji: sunforgedArmorEmoji,
+    emoji: emoji.sunforgedArmor,
     variable: "sunforgedArmor",
     price: 22500,
     armor: 0,
   },
   glacialArmor: {
     name: "Glacial Armor",
-    emoji: glacialArmorEmoji,
+    emoji: emoji.glacialArmor,
     variable: "glacialArmor",
     price: 17500,
     armor: 0,
   },
   abyssalArmor: {
     name: "Abyssal Armor",
-    emoji: abyssalArmorEmoji,
+    emoji: emoji.abyssalArmor,
     variable: "abyssalArmor",
     price: 13500,
     armor: 0,
   },
   verdantArmor: {
     name: "Verdant Armor",
-    emoji: verdantArmorEmoji,
+    emoji: emoji.verdantArmor,
     variable: "verdantArmor",
     price: 10500,
     armor: 0,
   },
   sylvanArmor: {
     name: "Sylvan Armor",
-    emoji: sylvanArmorEmoji,
+    emoji: emoji.sylvanArmor,
     variable: "sylvanArmor",
     price: 7500,
     armor: 0,
   },
   topazineArmor: {
     name: "Topazine Armor",
-    emoji: topazineArmorEmoji,
+    emoji: emoji.topazineArmor,
     variable: "topazineArmor",
     price: 4500,
     armor: 0,
   },
   crimsonDagger: {
     name: "Crimson Dagger",
-    emoji: crimsonDaggerEmoji,
+    emoji: emoji.crimsonDagger,
     variable: "crimsonDagger",
     price: 5000,
     armor: 0,
   },
   squiresHonor: {
     name: "Squire's Honor",
-    emoji: squiresHonorEmoji,
+    emoji: emoji.squiresHonor,
     variable: "squiresHonor",
     price: 7500,
     armor: 0,
   },
   zephyrsBreeze: {
     name: "Zephyr's Breeze",
-    emoji: zephyrsBreezeEmoji,
+    emoji: emoji.zephyrsBreeze,
     variable: "zephyrsBreeze",
     price: 13000,
     armor: 0,
   },
   azureBlade: {
     name: "Azure Blade",
-    emoji: azureBladeEmoji,
+    emoji: emoji.azureBlade,
     variable: "azureBlade",
     price: 17000,
     armor: 0,
   },
   umbralEclipse: {
     name: "Umbral Eclipse",
-    emoji: umbralEclipseEmoji,
+    emoji: emoji.umbralEclipse,
     variable: "umbralEclipse",
     price: 23000,
     armor: 0,
   },
   divineWrath: {
     name: "Divine Wrath",
-    emoji: divineWrathEmoji,
+    emoji: emoji.divineWrath,
     variable: "divineWrath",
     price: 30000,
     armor: 0,
   },
   bladeOfTheDead: {
     name: "Blade of the Dead",
-    emoji: bladeOfTheDeadEmoji,
+    emoji: emoji.bladeOfTheDead,
     variable: "bladeOfTheDead",
     price: 37000,
     armor: 0,
@@ -165,7 +142,7 @@ module.exports = {
     // Check if user has enough coins
     if (coins < items[item].price) {
       return interaction.reply({
-        content: `You don't have enough coins to buy this item. You need ${coinEmoji}${items[item].price - coins} more.`,
+        content: `You don't have enough coins to buy this item. You need ${emoji.coins}${items[item].price - coins} more.`,
         ephemeral: true,
       });
     }
@@ -186,7 +163,7 @@ module.exports = {
       const row = new ActionRowBuilder().addComponents(yes, no);
 
       const reply = await interaction.reply({
-        content: `Are you sure you want to buy ${items[item].emoji}${items[item].name} for ${coinEmoji}${items[item].price}?`,
+        content: `Are you sure you want to buy ${items[item].emoji}${items[item].name} for ${emoji.coins}${items[item].price}?`,
         components: [row],
       });
 
@@ -198,7 +175,7 @@ module.exports = {
           // Check user still has enough coins
           if (userCoins < items[item].price) {
             return confirmation.update({
-              content: `You no longer have enough coins to buy this item. You need ${coinEmoji}${items[item].price - userCoins} more.`,
+              content: `You no longer have enough coins to buy this item. You need ${emoji.coins}${items[item].price - userCoins} more.`,
               components: [],
             });
           }
@@ -219,7 +196,7 @@ module.exports = {
           }
 
           await confirmation.update({
-            content: `You bought ${items[item].emoji}1 for ${coinEmoji}${items[item].price}${items[item].armor > 0 ? `\n${armorUpEmoji} +**${items[item].armor}**` : ""}.`,
+            content: `You bought ${items[item].emoji}1 for ${emoji.coins}${items[item].price}${items[item].armor > 0 ? `\n${emoji.armorUp} +**${items[item].armor}**` : ""}.`,
             components: [],
           });
         } else if (confirmation.customId === "no") {
@@ -241,7 +218,7 @@ module.exports = {
       await set(`${user.id}_${items[item].variable}`, 1);
       await decr(user.id, "coins", items[item].price);
       return interaction.reply({
-        content: `You bought ${items[item].emoji}1 for ${coinEmoji}${items[item].price}.`,
+        content: `You bought ${items[item].emoji}1 for ${emoji.coins}${items[item].price}.`,
         ephemeral: true,
       });
     }

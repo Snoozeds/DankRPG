@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, set, incr, diamondEmoji, cooldown } = require("../../globals.js");
+const { get, set, incr, cooldown, emoji } = require("../../globals.js");
 const chance = require("chance").Chance();
 const ms = require("ms");
 
@@ -31,7 +31,7 @@ module.exports = {
       if (rare) {
         embed.setFields({
           name: "Diamond",
-          value: `You found 1x ${diamondEmoji}**Diamond**!`,
+          value: `You found 1x ${emoji.diamond}**Diamond**!`,
         });
         await incr(user.id, "diamond", 1);
       } else {
