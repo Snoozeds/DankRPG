@@ -246,7 +246,6 @@ async function setCooldown(id, command, cooldown) {
   }
 }
 
-
 // Remove a cooldown.
 // await removeCooldown(id, command);
 async function removeCooldown(id, command) {
@@ -333,4 +332,41 @@ const cooldown = {
   reset: resetCooldowns,
 };
 
+const emoji = {
+  coin: coinEmoji,
+  hp: hpEmoji,
+  armor: armorEmoji,
+  attack: attackEmoji,
+  crit: critEmoji,
+  level: levelEmoji,
+  attackUp: attackUpEmoji,
+  critUp: critUpEmoji,
+  armorUp: armorUpEmoji,
+  levelUp: levelUpEmoji,
+  description: descriptionEmoji,
+  lifesaver: lifesaverEmoji,
+  demonWing: demonWingEmoji,
+  diamond: diamondEmoji,
+  wood: woodEmoji,
+  stone: stoneEmoji,
+  celestialArmor: celestialArmorEmoji,
+  sunforgedArmor: sunforgedArmorEmoji,
+  glacialArmor: glacialArmorEmoji,
+  abyssalArmor: abyssalArmorEmoji,
+  verdantArmor: verdantArmorEmoji,
+  sylvanArmor: sylvanArmorEmoji,
+  topazineArmor: topazineArmorEmoji,
+  stoneRing: stoneRingEmoji,
+  bladeOfTheDead: bladeOfTheDeadEmoji,
+  divineWrath: divineWrathEmoji,
+  umbralEclipse: umbralEclipseEmoji,
+  azureblade: azurebladeEmoji,
+  zephyrsBreeze: zephyrsBreezeEmoji,
+  squiresHonor: squiresHonorEmoji,
+  crimsonDagger: crimsonDaggerEmoji,
+  false: falseEmoji,
+  true: trueEmoji,
+};
+
 module.exports.cooldown = cooldown;
+module.exports.emoji = emoji;
