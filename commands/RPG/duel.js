@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const { get, set, decr, incr, resetStats, hpEmoji, attackEmoji, armorEmoji, cooldown } = require("../../globals.js");
+const { get, set, decr, incr, resetStats, armorEmoji, cooldown, emoji } = require("../../globals.js");
 const ms = require("ms");
 const chance = require("chance").Chance();
 
@@ -125,12 +125,12 @@ module.exports = {
       .addFields(
         {
           name: `${user.username}'s Stats`,
-          value: `${hpEmoji}${userHealth}/${userMaxHealth}\n${armorEmoji}${userArmor}\n${attackEmoji}${userDamage} (${userDamage * 5} damage)`,
+          value: `${emoji.hp}${userHealth}/${userMaxHealth}\n${emoji.armor}${userArmor}\n${emoji.attack}${userDamage} (${userDamage * 5} damage)`,
           inline: true,
         },
         {
           name: `${target.username}'s Stats`,
-          value: `${hpEmoji}${targetHealth}/${targetMaxHealth}\n${armorEmoji}${targetArmor}\n${attackEmoji}${targetDamage} (${targetDamage * 5} damage)`,
+          value: `${emoji.hp}${targetHealth}/${targetMaxHealth}\n${emoji.armor}${targetArmor}\n${emoji.attack}${targetDamage} (${targetDamage * 5} damage)`,
           inline: true,
         },
         {
@@ -196,12 +196,12 @@ module.exports = {
             // Variables may be updated before the request is accepted, so we need to get the updated values.
             {
               name: `${user.username}'s Stats:`,
-              value: `${hpEmoji}${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)}\n${armorEmoji}${await get(`${user.id}_armor`)}`,
+              value: `${emoji.hp}${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)}\n${emoji.armor}${await get(`${user.id}_armor`)}`,
               inline: true,
             },
             {
               name: `${target.username}'s Stats:`,
-              value: `${hpEmoji}${await get(`${target.id}_hp`)}/${await get(`${target.id}_max_hp`)}\n${armorEmoji}${await get(`${target.id}_armor`)}`,
+              value: `${emoji.hp}${await get(`${target.id}_hp`)}/${await get(`${target.id}_max_hp`)}\n${emoji.armor}${await get(`${target.id}_armor`)}`,
               inline: true,
             }
           )
@@ -399,14 +399,14 @@ module.exports = {
           embed.addFields(
             {
               name: `${user.username}'s Stats`,
-              value: `${hpEmoji}${currentUserHealth}/${currentUserMaxHealth}\n${armorEmoji}${currentUserArmor}\n${attackEmoji}${currentUserDamage} (${
+              value: `${emoji.hp}${currentUserHealth}/${currentUserMaxHealth}\n${emoji.armor}${currentUserArmor}\n${emoji.attack}${currentUserDamage} (${
                 currentUserDamage * 5
               } damage)`,
               inline: true,
             },
             {
               name: `${target.username}'s Stats`,
-              value: `${hpEmoji}${currentTargetHealth}/${currentTargetMaxHealth}\n${armorEmoji}${currentTargetArmor}\n${attackEmoji}${currentTargetDamage} (${
+              value: `${emoji.hp}${currentTargetHealth}/${currentTargetMaxHealth}\n${emoji.armor}${currentTargetArmor}\n${emoji.attack}${currentTargetDamage} (${
                 currentTargetDamage * 5
               } damage)`,
               inline: true,

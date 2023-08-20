@@ -5,12 +5,7 @@ const {
   incr,
   decr,
   cooldown,
-  coinEmoji,
-  hpEmoji,
-  armorEmoji,
-  attackEmoji,
-  levelEmoji,
-  levelUpEmoji,
+  emoji,
   resetStats,
   checkXP,
   demonWingEmoji,
@@ -65,12 +60,12 @@ module.exports = {
         .setDescription(`You are fighting a ${enemy}!`)
         .setColor(await get(`${user.id}_color`))
         .addFields(
-          { name: `${hpEmoji} Your HP`, value: `${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)}`, inline: true },
-          { name: `${armorEmoji} Your Armor`, value: `${await get(`${user.id}_armor`)}`, inline: true },
-          { name: `${attackEmoji} Your Damage`, value: `${(await get(`${user.id}_damage`)) * 2} | ${10 + Number(await get(`${user.id}_critChance`))}%`, inline: true },
-          { name: `${hpEmoji} Enemy HP`, value: `${enemyHP}/${enemyMaxHP}`, inline: true },
-          { name: `${armorEmoji} Enemy Armor`, value: `${enemyArmor}`, inline: true },
-          { name: `${attackEmoji} Enemy Damage`, value: `${enemyDamage}`, inline: true }
+          { name: `${emoji.hp} Your HP`, value: `${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)}`, inline: true },
+          { name: `${emoji.armor} Your Armor`, value: `${await get(`${user.id}_armor`)}`, inline: true },
+          { name: `${emoji.attack} Your Damage`, value: `${(await get(`${user.id}_damage`)) * 2} | ${10 + Number(await get(`${user.id}_critChance`))}%`, inline: true },
+          { name: `${emoji.hp} Enemy HP`, value: `${enemyHP}/${enemyMaxHP}`, inline: true },
+          { name: `${emoji.armor} Enemy Armor`, value: `${enemyArmor}`, inline: true },
+          { name: `${emoji.attack} Enemy Damage`, value: `${enemyDamage}`, inline: true }
         );
 
       // Buttons
@@ -109,7 +104,7 @@ module.exports = {
 
         // Update embed
         embed.setDescription(`You attacked the ${enemy} for ${damage} damage!`);
-        embed.spliceFields(3, 1, { name: `${hpEmoji} Enemy HP`, value: `${Math.max(0, enemyHP)}/${enemyMaxHP}`, inline: true });
+        embed.spliceFields(3, 1, { name: `${emoji.hp} Enemy HP`, value: `${Math.max(0, enemyHP)}/${enemyMaxHP}`, inline: true });
 
         // Update reply
         interaction.editReply({
@@ -124,7 +119,7 @@ module.exports = {
 
         // Update embed
         embed.setDescription(`You are defending!`);
-        embed.spliceFields(1, 1, { name: `${armorEmoji} Your Armor`, value: `${await get(`${user.id}_armor`)} (Defending)`, inline: true });
+        embed.spliceFields(1, 1, { name: `${emoji.armor} Your Armor`, value: `${await get(`${user.id}_armor`)} (Defending)`, inline: true });
 
         // Update reply
         interaction.editReply({
@@ -141,7 +136,7 @@ module.exports = {
         const coins = chance.integer({ min: Math.floor(userCoins / 100), max: Math.floor(userCoins / 50) });
 
         // Update embed
-        embed.setDescription(`You fled from the ${enemy} **but lost ${coinEmoji}${coins} while running away!**`);
+        embed.setDescription(`You fled from the ${enemy} **but lost ${emoji.coins}${coins} while running away!**`);
 
         await decr(user.id, "coins", coins);
 
@@ -172,14 +167,14 @@ module.exports = {
           // User takes damage
           await decr(user.id, "hp", Math.floor(damage - userArmor / 2));
           userDefending = false;
-          embed.spliceFields(1, 1, { name: `${armorEmoji} Your Armor`, value: `${await get(`${user.id}_armor`)}`, inline: true });
+          embed.spliceFields(1, 1, { name: `${emoji.armor} Your Armor`, value: `${await get(`${user.id}_armor`)}`, inline: true });
           embed.setDescription(`The ${enemy} attacked you for ${Math.floor(damage - userArmor / 2)} damage!`);
-          embed.spliceFields(0, 1, { name: `${hpEmoji} Your HP`, value: `${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)}`, inline: true });
+          embed.spliceFields(0, 1, { name: `${emoji.hp} Your HP`, value: `${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)}`, inline: true });
         } else {
           // User takes damage
           await decr(user.id, "hp", damage);
           embed.setDescription(`The ${enemy} attacked you for ${damage} damage!`);
-          embed.spliceFields(0, 1, { name: `${hpEmoji} Your HP`, value: `${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)}`, inline: true });
+          embed.spliceFields(0, 1, { name: `${emoji.hp} Your HP`, value: `${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)}`, inline: true });
         }
 
         // Update reply
@@ -246,12 +241,12 @@ module.exports = {
         if (!playerDied) {
           // Rewards
           const xpAlerts = await get(`${user.id}_xp_alerts`);
-          const xpMessage = xpAlerts === "1" ? `\n+ ${levelEmoji}**${xp}**\n` : "";
-          const levelUpMessage = (await checkXP(user.id, xp)) === true ? ` ${levelUpEmoji} **Level up!** Check /levels.\n` : "";
-          const coinsMessage = `+ ${coinEmoji}**${coins}**\n`;
+          const xpMessage = xpAlerts === "1" ? `\n+ ${emoji.level}**${xp}**\n` : "";
+          const levelUpMessage = (await checkXP(user.id, xp)) === true ? ` ${emoji.levelUp} **Level up!** Check /levels.\n` : "";
+          const coinsMessage = `+ ${emoji.coins}**${coins}**\n`;
           const achievement = (await get(`${user.id}_feared_achievement`)) === "true";
           const achievementUnlocked = fightsWon >= 100 && !achievement;
-          const achievementMessage = achievementUnlocked ? `Congrats, you unlocked the **Feared** achievement! (+${coinEmoji}1000)` : "";
+          const achievementMessage = achievementUnlocked ? `Congrats, you unlocked the **Feared** achievement! (+${emoji.coins}1000)` : "";
 
           // Check if user unlocked the 'Feared' achievement.
           if (achievementUnlocked) {
