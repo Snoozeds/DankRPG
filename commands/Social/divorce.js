@@ -1,5 +1,5 @@
 const { ButtonBuilder, ButtonStyle, SlashCommandBuilder, ActionRowBuilder } = require("discord.js");
-const { set, get, incr } = require("../../globals.js");
+const { set, get } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder().setName("divorce").setDescription("Divorce your spouse"),

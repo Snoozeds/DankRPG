@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js");
-const { get, set, incr } = require("../../globals.js");
+const { get, set } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
