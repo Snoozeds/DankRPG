@@ -360,7 +360,7 @@ const emoji = {
   bladeOfTheDead: bladeOfTheDeadEmoji,
   divineWrath: divineWrathEmoji,
   umbralEclipse: umbralEclipseEmoji,
-  azureblade: azurebladeEmoji,
+  azureBlade: azurebladeEmoji,
   zephyrsBreeze: zephyrsBreezeEmoji,
   squiresHonor: squiresHonorEmoji,
   crimsonDagger: crimsonDaggerEmoji,
