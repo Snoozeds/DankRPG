@@ -47,7 +47,7 @@ module.exports = {
 
     const row = new ActionRowBuilder().addComponents(select);
 
-    const reply = await interaction.editReply({
+    await interaction.editReply({
       content: "Select a category to view items.",
       components: [row],
     });
