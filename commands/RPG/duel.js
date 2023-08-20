@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const { get, set, decr, incr, resetStats, armorEmoji, cooldown, emoji } = require("../../globals.js");
+const { get, set, decr, incr, resetStats, cooldown, emoji } = require("../../globals.js");
 const ms = require("ms");
 const chance = require("chance").Chance();
 

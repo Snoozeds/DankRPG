@@ -8,7 +8,6 @@ const {
   emoji,
   resetStats,
   checkXP,
-  demonWingEmoji,
 } = require("../../globals.js");
 const ms = require("ms");
 const chance = require("chance").Chance();
@@ -20,7 +19,7 @@ module.exports = {
 
     // 10% chance for enemy to drop a demon wing.
     const demonWing = chance.bool({ likelihood: 10 });
-    const demonWingMessage = demonWing ? `**__Item Drops:__**\n${demonWingEmoji}**You got a Demon Wing!**` : "";
+    const demonWingMessage = demonWing ? `**__Item Drops:__**\n${emoji.demonWing}**You got a Demon Wing!**` : "";
 
     // Get random enemy
     const enemyType = require("./enemies.json").enemyTypes;

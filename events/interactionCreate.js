@@ -430,7 +430,7 @@ module.exports = {
             name: "Azureblade",
             key: `${user.id}_azureblade`,
             price: 17000,
-            emoji: emoji.azureblade,
+            emoji: emoji.azureBlade,
           },
           {
             name: "Zephyr's Breeze",
@@ -716,7 +716,7 @@ ${emoji.coins} **23,000**
 ${emoji.attackUp} **+30**
 ${emoji.critUp} **+40%**
 -
-${emoji.azureblade} Azureblade (**azureblade**/**ab**) ${(await get(`${user.id}_azureblade`)) === "1" ? "(owned)" : ""}
+${emoji.azureBlade} Azureblade (**azureblade**/**ab**) ${(await get(`${user.id}_azureblade`)) === "1" ? "(owned)" : ""}
 ${emoji.description} A legendary sword forged from shimmering azure steel, the Azureblade is the perfect all-rounder for a medium-skilled adventurer.
 ${emoji.coins} **17,000**
 ${emoji.attackUp} **+20**

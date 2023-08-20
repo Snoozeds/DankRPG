@@ -73,7 +73,7 @@ module.exports = {
           `You collected your daily reward of ${emoji.coins}**${coinsReward}**. ${dailyStreak > 0 ? `Streak: ${dailyStreak} days.` : ""}\nYou now have ${emoji.coins}**${await get(
             `${user.id}_coins`
           )}**. ${(await get(`${user.id}_xp_alerts`)) == "1" ? `\n+${emoji.level}${xp}` : ""} ${
-            (await checkXP(user.id, xp)) == true ? ` ${emoji.levelUpEmoji} **Level up!** Check /levels.` : ""
+            (await checkXP(user.id, xp)) == true ? ` ${emoji.levelUp} **Level up!** Check /levels.` : ""
           }`
         )
         .setColor(await get(`${user.id}_color`));
