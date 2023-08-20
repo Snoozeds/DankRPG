@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const { cooldown, get } = require("../../globals.js");
-const ms = require("ms");
 
 module.exports = {
   data: new SlashCommandBuilder().setName("cooldowns").setDescription("View your active cooldowns."),
