@@ -40,7 +40,6 @@ module.exports = {
   name: Events.InteractionCreate,
   once: false,
   async execute(interaction) {
-    const isAuthor = interaction.message.interaction.user.id === interaction.user.id;
     if (interaction.isCommand()) {
       const command = interaction.client.commands.get(interaction.commandName);
 
@@ -96,6 +95,7 @@ module.exports = {
         // The user will see this if an error occurs. Can be good for reporting bugs.
       }
     } else if (interaction.isButton()) {
+      const isAuthor = interaction.message.interaction.user.id === interaction.user.id;
       const customId = interaction.customId;
       const user = interaction.user;
 
@@ -651,6 +651,7 @@ module.exports = {
         await interaction.reply({ content: "Your submission was received successfully!", ephemeral: true });
       }
     } else if (interaction.isStringSelectMenu()) {
+      const isAuthor = interaction.message.interaction.user.id === interaction.user.id;
       const customId = interaction.customId;
       // Shop select menu
       if (customId === "shop" && isAuthor) {
