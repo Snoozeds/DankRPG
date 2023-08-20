@@ -3,23 +3,7 @@ const {
   set,
   get,
   decr,
-  armorEmoji,
-  attackEmoji,
-  critEmoji,
-  celestialArmorEmoji,
-  sunforgedArmorEmoji,
-  glacialArmorEmoji,
-  abyssalArmorEmoji,
-  verdantArmorEmoji,
-  sylvanArmorEmoji,
-  topazineArmorEmoji,
-  bladeOfTheDeadEmoji,
-  divineWrathEmoji,
-  umbralEclipseEmoji,
-  azurebladeEmoji,
-  zephyrsBreezeEmoji,
-  squiresHonorEmoji,
-  crimsonDaggerEmoji,
+  emoji,
 } = require("../../globals.js");
 
 module.exports = {
@@ -87,7 +71,7 @@ module.exports = {
       await set(`${user.id}_armorEquipped`, "none");
       await decr(`${user.id}`, "armor", 50);
       return await interaction.reply({
-        content: `Unequipped ${celestialArmorEmoji} Celestial Armor.\n-${armorEmoji} 50.`,
+        content: `Unequipped ${emoji.celestialArmor} Celestial Armor.\n-${emoji.armor} 50.`,
         ephemeral: true,
       });
     }
@@ -108,7 +92,7 @@ module.exports = {
       await set(`${user.id}_armorEquipped`, "none");
       await decr(`${user.id}`, "armor", 35);
       return await interaction.reply({
-        content: `Unequipped ${sunforgedArmorEmoji} Sunforged Armor.\n-${armorEmoji} 35.`,
+        content: `Unequipped ${emoji.sunforgedArmor} Sunforged Armor.\n-${emoji.armor} 35.`,
         ephemeral: true,
       });
     }
@@ -129,7 +113,7 @@ module.exports = {
       await set(`${user.id}_armorEquipped`, "none");
       await decr(`${user.id}`, "armor", 25);
       return await interaction.reply({
-        content: `Unequipped ${glacialArmorEmoji} Glacial Armor.\n-${armorEmoji} 25.`,
+        content: `Unequipped ${emoji.glacialArmor} Glacial Armor.\n-${emoji.armor} 25.`,
         ephemeral: true,
       });
     }
@@ -150,7 +134,7 @@ module.exports = {
       await set(`${user.id}_armorEquipped`, "none");
       await decr(`${user.id}`, "armor", 20);
       return await interaction.reply({
-        content: `Unequipped ${abyssalArmorEmoji} Abyssal Armor.\n-${armorEmoji} 20.`,
+        content: `Unequipped ${emoji.abyssalArmor} Abyssal Armor.\n-${emoji.armor} 20.`,
         ephemeral: true,
       });
     }
@@ -171,7 +155,7 @@ module.exports = {
       await set(`${user.id}_armorEquipped`, "none");
       await decr(`${user.id}`, "armor", 15);
       return await interaction.reply({
-        content: `Unequipped ${verdantArmorEmoji} Verdant Armor.\n-${armorEmoji} 15.`,
+        content: `Unequipped ${emoji.verdantArmor} Verdant Armor.\n-${emoji.armor} 15.`,
         ephemeral: true,
       });
     }
@@ -192,7 +176,7 @@ module.exports = {
       await set(`${user.id}_armorEquipped`, "none");
       await decr(`${user.id}`, "armor", 10);
       return await interaction.reply({
-        content: `Unequipped ${sylvanArmorEmoji} Sylvan Armor.\n-${armorEmoji} 10.`,
+        content: `Unequipped ${emoji.sylvanArmor} Sylvan Armor.\n-${emoji.armor} 10.`,
         ephemeral: true,
       });
     }
@@ -213,7 +197,7 @@ module.exports = {
       await set(`${user.id}_armorEquipped`, "none");
       await decr(`${user.id}`, "armor", 5);
       return await interaction.reply({
-        content: `Unequipped ${topazineArmorEmoji} Topazine Armor.\n-${armorEmoji} 5.`,
+        content: `Unequipped ${emoji.topazineArmor} Topazine Armor.\n-${emoji.armor} 5.`,
         ephemeral: true,
       });
     }
@@ -237,7 +221,7 @@ module.exports = {
       await decr(`${user.id}`, "attack", 60);
       await decr(`${user.id}`, "critChance", 60);
       return await interaction.reply({
-        content: `Unequipped ${bladeOfTheDeadEmoji} Blade of the Dead.\n-${attackEmoji} 60.\n-${critEmoji} 60.`,
+        content: `Unequipped ${emoji.bladeOfTheDead} Blade of the Dead.\n-${emoji.attack} 60.\n-${emoji.crit} 60.`,
         ephemeral: true,
       });
     }
@@ -259,7 +243,7 @@ module.exports = {
       await decr(`${user.id}`, "attack", 40);
       await decr(`${user.id}`, "critChance", 50);
       return await interaction.reply({
-        content: `Unequipped ${divineWrathEmoji} Divine Wrath.\n-${attackEmoji} 40.\n-${critEmoji} 50.`,
+        content: `Unequipped ${emoji.divineWrath} Divine Wrath.\n-${emoji.attack} 40.\n-${emoji.crit} 50.`,
         ephemeral: true,
       });
     }
@@ -281,7 +265,7 @@ module.exports = {
       await decr(`${user.id}`, "attack", 30);
       await decr(`${user.id}`, "critChance", 40);
       return await interaction.reply({
-        content: `Unequipped ${umbralEclipseEmoji} Umbral Eclipse.\n-${attackEmoji} 30.\n-${critEmoji} 40.`,
+        content: `Unequipped ${emoji.umbralEclipse} Umbral Eclipse.\n-${emoji.attack} 30.\n-${emoji.crit} 40.`,
         ephemeral: true,
       });
     }
@@ -303,7 +287,7 @@ module.exports = {
       await decr(`${user.id}`, "attack", 20);
       await decr(`${user.id}`, "critChance", 35);
       return await interaction.reply({
-        content: `Unequipped ${azurebladeEmoji} Azureblade.\n-${attackEmoji} 20.\n-${critEmoji} 35.`,
+        content: `Unequipped ${emoji.azureBlade} Azureblade.\n-${emoji.attack} 20.\n-${emoji.crit} 35.`,
         ephemeral: true,
       });
     }
@@ -326,7 +310,7 @@ module.exports = {
       await decr(`${user.id}`, "critChance", 30);
 
       return await interaction.reply({
-        content: `Unequipped ${zephyrsBreezeEmoji} Zephyr's Breeze.\n-${attackEmoji} 15.\n-${critEmoji} 30.`,
+        content: `Unequipped ${emoji.zephyrsBreeze} Zephyr's Breeze.\n-${emoji.attack} 15.\n-${emoji.crit} 30.`,
         ephemeral: true,
       });
     }
@@ -348,7 +332,7 @@ module.exports = {
       await decr(`${user.id}`, "attack", 10);
       await decr(`${user.id}`, "critChance", 15);
       return await interaction.reply({
-        content: `Unequipped ${squiresHonorEmoji} Squire's Honor.\n-${attackEmoji} 10.\n-${critEmoji} 15.`,
+        content: `Unequipped ${emoji.squiresHonor} Squire's Honor.\n-${emoji.attack} 10.\n-${emoji.crit} 15.`,
         ephemeral: true,
       });
     }
@@ -370,7 +354,7 @@ module.exports = {
       await decr(`${user.id}`, "attack", 5);
       await decr(`${user.id}`, "critChance", 10);
       return await interaction.reply({
-        content: `Unequipped ${crimsonDaggerEmoji} Crimson Dagger.\n-${attackEmoji} 5.\n-${critEmoji} 10.`,
+        content: `Unequipped ${emoji.crimsonDagger} Crimson Dagger.\n-${emoji.attack} 5.\n-${emoji.crit} 10.`,
         ephemeral: true,
       });
     }

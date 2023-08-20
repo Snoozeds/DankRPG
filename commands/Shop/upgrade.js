@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { set, get, incr, decr, critEmoji, coinEmoji, demonWingEmoji } = require("../../globals.js");
+const { set, get, incr, decr, emoji } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -24,9 +24,9 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle(`Available Upgrades`)
         .addFields({
-          name: `${critEmoji} Crit Multiplier (${critMultiLevel * 0.1 + 2}x)`,
+          name: `${emoji.crit} Crit Multiplier (${critMultiLevel * 0.1 + 2}x)`,
           value: `Current level: ${critMultiLevel}${
-            critMultiLevel !== critMultiMaxLevel ? `\nNext level: ${critMultiLevel + 1} (+0.1)\nCost: ${coinEmoji}${critMultiCost}` : ""
+            critMultiLevel !== critMultiMaxLevel ? `\nNext level: ${critMultiLevel + 1} (+0.1)\nCost: ${emoji.coins}${critMultiCost}` : ""
           }`,
           inline: false,
         })
@@ -43,7 +43,7 @@ module.exports = {
           const demonWing = await get(`${user.id}_demonWing`);
           if (coins < critMultiCost || demonWing < critMultiWingsCost) {
             await interaction.reply({
-              content: `You don't have enough coins or demon wings to upgrade your crit multiplier.\n**You need ${coinEmoji}${critMultiCost} and ${demonWingEmoji}${critMultiWingsCost}.**`,
+              content: `You don't have enough coins or demon wings to upgrade your crit multiplier.\n**You need ${emoji.coins}${critMultiCost} and ${emoji.demonWing}${critMultiWingsCost}.**`,
               ephemeral: true,
             });
           } else {
@@ -52,7 +52,7 @@ module.exports = {
             await decr(user.id, "coins", critMultiCost);
             await decr(user.id, "demonWing", critMultiWingsCost);
             await interaction.reply({
-              content: `You upgraded your crit multiplier to level ${critMultiLevel + 1} for ${coinEmoji}${critMultiCost} and ${demonWingEmoji}${critMultiWingsCost}.`,
+              content: `You upgraded your crit multiplier to level ${critMultiLevel + 1} for ${emoji.coins}${critMultiCost} and ${emoji.demonWing}${critMultiWingsCost}.`,
               ephemeral: true,
             });
           }

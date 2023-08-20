@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, UserPremiumType } = require("discord.js");
-const { get, set, } = require("../../globals.js");
+const { get, set } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder().setName("accept").setDescription("Accept an active marriage request."),

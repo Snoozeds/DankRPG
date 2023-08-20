@@ -1,21 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const {
-  get,
-  celestialArmorEmoji,
-  sunforgedArmorEmoji,
-  glacialArmorEmoji,
-  abyssalArmorEmoji,
-  verdantArmorEmoji,
-  sylvanArmorEmoji,
-  topazineArmorEmoji,
-  bladeOfTheDeadEmoji,
-  divineWrathEmoji,
-  umbralEclipseEmoji,
-  azurebladeEmoji,
-  zephyrsBreezeEmoji,
-  squiresHonorEmoji,
-  crimsonDaggerEmoji,
-} = require("../../globals.js");
+const { get, emoji } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder().setName("equipped").setDescription("View your equipped items."),
@@ -42,46 +26,46 @@ module.exports = {
     // Add all equipped items to description
     let equippedDescription = "";
     if (celestialArmor === "1") {
-      equippedDescription += `${celestialArmorEmoji} Celestial Armor\n`;
+      equippedDescription += `${emoji.celestialArmor} Celestial Armor\n`;
     }
     if (sunforgedArmor === "1") {
-      equippedDescription += `${sunforgedArmorEmoji} Sunforged Armor\n`;
+      equippedDescription += `${emoji.sunforgedArmor} Sunforged Armor\n`;
     }
     if (glacialArmor === "1") {
-      equippedDescription += `${glacialArmorEmoji} Glacial Armor\n`;
+      equippedDescription += `${emoji.glacialArmor} Glacial Armor\n`;
     }
     if (abyssalArmor === "1") {
-      equippedDescription += `${abyssalArmorEmoji} Abyssal Armor\n`;
+      equippedDescription += `${emoji.abyssalArmor} Abyssal Armor\n`;
     }
     if (verdantArmor === "1") {
-      equippedDescription += `${verdantArmorEmoji} Verdant Armor\n`;
+      equippedDescription += `${emoji.verdantArmor} Verdant Armor\n`;
     }
     if (sylvanArmor === "1") {
-      equippedDescription += `${sylvanArmorEmoji} Sylvan Armor\n`;
+      equippedDescription += `${emoji.sylvanArmor} Sylvan Armor\n`;
     }
     if (topazineArmor === "1") {
-      equippedDescription += `${topazineArmorEmoji} Topazine Armor\n`;
+      equippedDescription += `${emoji.topazineArmor} Topazine Armor\n`;
     }
     if (bladeOfTheDead === "1") {
-      equippedDescription += `${bladeOfTheDeadEmoji} Blade of the Dead\n`;
+      equippedDescription += `${emoji.bladeOfTheDead} Blade of the Dead\n`;
     }
     if (divineWrath === "1") {
-      equippedDescription += `${divineWrathEmoji} Divine Wrath\n`;
+      equippedDescription += `${emoji.divineWrath} Divine Wrath\n`;
     }
     if (umbralEclipse === "1") {
-      equippedDescription += `${umbralEclipseEmoji} Umbral Eclipse\n`;
+      equippedDescription += `${emoji.umbralEclipse} Umbral Eclipse\n`;
     }
     if (azureblade === "1") {
-      equippedDescription += `${azurebladeEmoji} Azureblade\n`;
+      equippedDescription += `${emoji.azureBlade} Azureblade\n`;
     }
     if (zephyrsBreeze === "1") {
-      equippedDescription += `${zephyrsBreezeEmoji} Zephyr's Breeze\n`;
+      equippedDescription += `${emoji.zephyrsBreeze} Zephyr's Breeze\n`;
     }
     if (squiresHonor === "1") {
-      equippedDescription += `${squiresHonorEmoji} Squire's Honor\n`;
+      equippedDescription += `${emoji.squiresHonor} Squire's Honor\n`;
     }
     if (crimsonDagger === "1") {
-      equippedDescription += `${crimsonDaggerEmoji} Crimson Dagger\n`;
+      equippedDescription += `${emoji.crimsonDagger} Crimson Dagger\n`;
     }
 
     if (equippedDescription === "") {

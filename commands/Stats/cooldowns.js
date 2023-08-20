@@ -18,7 +18,7 @@ module.exports = {
       } else {
         return `<t:${Math.round((Date.now() + cooldown) / 1000)}:R>`;
       }
-    }    
+    }
 
     const fields = [
       {
