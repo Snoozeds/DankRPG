@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, hpEmoji, armorEmoji, attackEmoji, critEmoji, levelEmoji } = require("../../globals.js");
+const { get, emoji } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -12,37 +12,37 @@ module.exports = {
       .setTitle(`Stats: ${user.username}`)
       .addFields(
         {
-          name: `${hpEmoji} MaxHP (${await get(`${user.id}_max_hp`)})`,
+          name: `${emoji.hp} MaxHP (${await get(`${user.id}_max_hp`)})`,
           value: `The maximum amount of health points ${user.username} can have.`,
           inline: false,
         },
         {
-          name: `${hpEmoji} HP (${await get(`${user.id}_hp`)})`,
+          name: `${emoji.hp} HP (${await get(`${user.id}_hp`)})`,
           value: `${user.username}'s current health points.`,
           inline: false,
         },
         {
-          name: `${armorEmoji} Armor (${await get(`${user.id}_armor`)})`,
+          name: `${emoji.armor} Armor (${await get(`${user.id}_armor`)})`,
           value: `Reduces ${user.username}'s damage taken in fights.`,
           inline: false,
         },
         {
-          name: `${attackEmoji} Damage (${await get(`${user.id}_damage`)})`,
+          name: `${emoji.attack} Damage (${await get(`${user.id}_damage`)})`,
           value: `Increases the damage ${user.username} deals in fights.`,
           inline: false,
         },
         {
-          name: `${critEmoji} Crit Chance (${10 + Number(await get(`${user.id}_critChance`))}%)`,
+          name: `${emoji.crit} Crit Chance (${10 + Number(await get(`${user.id}_critChance`))}%)`,
           value: `The chance to do a "critical hit" in fights.`,
           inline: false,
         },
         {
-          name: `${critEmoji} Crit Multiplier (${2 + Number(await get(`${user.id}_critMultiplier`))})`,
+          name: `${emoji.crit} Crit Multiplier (${2 + Number(await get(`${user.id}_critMultiplier`))})`,
           value: `The multiplier applied to damage when a critical hit is dealt.`,
           inline: false,
         },
         {
-          name: `${levelEmoji} Level (${await get(`${user.id}_level`)})`,
+          name: `${emoji.level} Level (${await get(`${user.id}_level`)})`,
           value: `MaxHP, HP, armor, and damage increase as level increases. Level up by using RPG commands. The max level is 25.`,
           inline: false,
         }

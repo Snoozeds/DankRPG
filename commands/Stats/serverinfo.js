@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, incr } = require("../../globals.js");
+const { get } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder().setName("serverinfo").setDescription("Get info about the current server."),

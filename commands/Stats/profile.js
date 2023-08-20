@@ -1,5 +1,5 @@
 const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
-const { get, coinEmoji, hpEmoji, armorEmoji, attackEmoji, levelEmoji } = require("../../globals.js");
+const { get, emoji } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -20,38 +20,38 @@ module.exports = {
     let hpName = "HP";
     let hpMessage = "";
     if (hpType === "hp" || hpType == null) {
-      hpMessage = `**${hpEmoji} ${await get(`${user.id}_hp`)}**`;
+      hpMessage = `**${emoji.hp} ${await get(`${user.id}_hp`)}**`;
     } else if (hpType === "hp/maxhp") {
-      hpMessage = `**${hpEmoji} ${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)}**`;
+      hpMessage = `**${emoji.hp} ${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)}**`;
     } else if (hpType === "hp/maxhp%") {
-      hpMessage = `**${hpEmoji} ${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)} (${Math.round(
+      hpMessage = `**${emoji.hp} ${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)} (${Math.round(
         ((await get(`${user.id}_hp`)) / (await get(`${user.id}_max_hp`))) * 100
       )}%)**`;
     } else if (hpType === "hp%") {
-      hpMessage = `**${hpEmoji} ${await get(`${user.id}_hp`)} (${Math.round(((await get(`${user.id}_hp`)) / (await get(`${user.id}_max_hp`))) * 100)}%)**`;
+      hpMessage = `**${emoji.hp} ${await get(`${user.id}_hp`)} (${Math.round(((await get(`${user.id}_hp`)) / (await get(`${user.id}_max_hp`))) * 100)}%)**`;
     } else if (hpType === "hp/maxhpbar") {
       const hp = await get(`${user.id}_hp`);
       const maxHp = await get(`${user.id}_max_hp`);
       const hpBar = ":red_square:".repeat(Math.round((hp / maxHp) * 10)) + ":black_large_square:".repeat(10 - Math.round((hp / maxHp) * 10));
       const percentage = (hp / maxHp) * 100;
-      hpMessage = `**${hpEmoji} ${hpBar}**`;
+      hpMessage = `**${emoji.hp} ${hpBar}**`;
       hpName = `HP ${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)} (${percentage.toFixed(2)}%)`;
     }
     // levelMessage set to the user's levelType setting.
     let levelMessage = "";
     let levelName = "Level";
     if (xpType === "level") {
-      levelMessage = `**${levelEmoji} ${await get(`${user.id}_level`)}**`;
+      levelMessage = `**${emoji.level} ${await get(`${user.id}_level`)}**`;
     } else if (xpType === "level/xp" || xpType == null) {
-      levelMessage = `**${levelEmoji} ${await get(`${user.id}_level`)} | ${await get(`${user.id}_xp`)}XP**`;
+      levelMessage = `**${emoji.level} ${await get(`${user.id}_level`)} | ${await get(`${user.id}_xp`)}XP**`;
     } else if (xpType === "level/xpnext") {
-      levelMessage = `**${levelEmoji} ${await get(`${user.id}_level`)} | ${await get(`${user.id}_xp`)}XP (${await get(`${user.id}_xp_needed`)})**`;
+      levelMessage = `**${emoji.level} ${await get(`${user.id}_level`)} | ${await get(`${user.id}_xp`)}XP (${await get(`${user.id}_xp_needed`)})**`;
     } else if (xpType === "level/xpnextbar") {
       const xp = await get(`${user.id}_xp`);
       const xpNeeded = (await get(`${user.id}_level`)) * 100; // The amount of xp needed to level up.
       const xpBar = ":blue_square:".repeat(Math.round((xp / xpNeeded) * 10)) + ":black_large_square:".repeat(10 - Math.round((xp / xpNeeded) * 10));
       const percentage = (xp / xpNeeded) * 100;
-      levelMessage = `**${levelEmoji} ${xpBar}**`;
+      levelMessage = `**${emoji.level} ${xpBar}**`;
       levelName = `Level ${await get(`${user.id}_level`)} (${percentage.toFixed(2)}%)`;
     }
 
@@ -60,7 +60,7 @@ module.exports = {
       .setFields([
         {
           name: "Coins",
-          value: `**${coinEmoji} ${await get(`${user.id}_coins`)}**`,
+          value: `**${emoji.coins} ${await get(`${user.id}_coins`)}**`,
           inline: true,
         },
         {
@@ -70,12 +70,12 @@ module.exports = {
         },
         {
           name: "Armor",
-          value: `**${armorEmoji} ${await get(`${user.id}_armor`)}**`,
+          value: `**${emoji.armor} ${await get(`${user.id}_armor`)}**`,
           inline: true,
         },
         {
           name: "Damage",
-          value: `**${attackEmoji} ${await get(`${user.id}_damage`)}**`,
+          value: `**${emoji.attack} ${await get(`${user.id}_damage`)}**`,
           inline: true,
         },
         {

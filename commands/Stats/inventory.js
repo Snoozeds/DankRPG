@@ -1,28 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const {
-  get,
-  set,
-  coinEmoji,
-  diamondEmoji,
-  stoneEmoji,
-  woodEmoji,
-  lifesaverEmoji,
-  celestialArmorEmoji,
-  sunforgedArmorEmoji,
-  glacialArmorEmoji,
-  abyssalArmorEmoji,
-  verdantArmorEmoji,
-  sylvanArmorEmoji,
-  topazineArmorEmoji,
-  bladeOfTheDeadEmoji,
-  divineWrathEmoji,
-  umbralEclipseEmoji,
-  azurebladeEmoji,
-  zephyrsBreezeEmoji,
-  squiresHonorEmoji,
-  crimsonDaggerEmoji,
-  demonWingEmoji,
-} = require("../../globals.js");
+const { get, set, emoji } = require("../../globals.js");
 
 // Define the prices of each item in the inventory.
 const inventoryPrices = {
@@ -61,32 +38,32 @@ module.exports = {
         name: "Lifesavers",
         key: `${user.id}_lifesaver`,
         price: inventoryPrices._lifesaver,
-        emoji: lifesaverEmoji,
+        emoji: emoji.lifesaver,
       },
       {
         name: "Diamonds",
         key: `${user.id}_diamond`,
         price: inventoryPrices._diamond,
-        emoji: diamondEmoji,
+        emoji: emoji.diamond,
       },
       {
         name: "Stone",
         key: `${user.id}_stone`,
         price: inventoryPrices._stone,
-        emoji: stoneEmoji,
+        emoji: emoji.stone,
       },
       {
         name: "Wood",
         key: `${user.id}_wood`,
         price: inventoryPrices._wood,
-        emoji: woodEmoji,
+        emoji: emoji.wood,
       },
       {
         name: "Demon Wing",
         key: `${user.id}_demonWing`,
         price: inventoryPrices._demonWing,
-        emoji: demonWingEmoji,
-      }
+        emoji: emoji.demonWing,
+      },
     ];
 
     const armorItems = [
@@ -94,43 +71,43 @@ module.exports = {
         name: "Celestial Armor",
         key: `${user.id}_celestialArmor`,
         price: 30000,
-        emoji: celestialArmorEmoji,
+        emoji: emoji.celestialArmor,
       },
       {
         name: "Sunforged Armor",
         key: `${user.id}_sunforgedArmor`,
         price: 22500,
-        emoji: sunforgedArmorEmoji,
+        emoji: emoji.sunforgedArmor,
       },
       {
         name: "Glacial Armor",
         key: `${user.id}_glacialArmor`,
         price: 17500,
-        emoji: glacialArmorEmoji,
+        emoji: emoji.glacialArmor,
       },
       {
         name: "Abyssal Armor",
         key: `${user.id}_abyssalArmor`,
         price: 13500,
-        emoji: abyssalArmorEmoji,
+        emoji: emoji.abyssalArmor,
       },
       {
         name: "Verdant Armor",
         key: `${user.id}_verdantArmor`,
         price: 10500,
-        emoji: verdantArmorEmoji,
+        emoji: emoji.verdantArmor,
       },
       {
         name: "Sylvan Armor",
         key: `${user.id}_sylvanArmor`,
         price: 7500,
-        emoji: sylvanArmorEmoji,
+        emoji: emoji.sylvanArmor,
       },
       {
         name: "Topazine Armor",
         key: `${user.id}_topazineArmor`,
         price: 4500,
-        emoji: topazineArmorEmoji,
+        emoji: emoji.topazineArmor,
       },
     ];
 
@@ -139,43 +116,43 @@ module.exports = {
         name: "Blade of the Dead",
         key: `${user.id}_bladeOfTheDead`,
         price: 37000,
-        emoji: bladeOfTheDeadEmoji,
+        emoji: emoji.bladeOfTheDead,
       },
       {
         name: "Divine Wrath",
         key: `${user.id}_divineWrath`,
         price: 30000,
-        emoji: divineWrathEmoji,
+        emoji: emoji.divineWrath,
       },
       {
         name: "Umbral Eclipse",
         key: `${user.id}_umbralEclipse`,
         price: 23000,
-        emoji: umbralEclipseEmoji,
+        emoji: emoji.umbralEclipse,
       },
       {
         name: "Azureblade",
         key: `${user.id}_azureblade`,
         price: 17000,
-        emoji: azurebladeEmoji,
+        emoji: emoji.azureBlade,
       },
       {
         name: "Zephyr's Breeze",
         key: `${user.id}_zephyrsBreeze`,
         price: 13000,
-        emoji: zephyrsBreezeEmoji,
+        emoji: emoji.zephyrsBreeze,
       },
       {
         name: "Squire's Honor",
         key: `${user.id}_squiresHonor`,
         price: 7500,
-        emoji: squiresHonorEmoji,
+        emoji: emoji.squiresHonor,
       },
       {
         name: "Crimson Dagger",
         key: `${user.id}_crimsonDagger`,
         price: 5000,
-        emoji: crimsonDaggerEmoji,
+        emoji: emoji.crimsonDagger,
       },
     ];
 
@@ -192,7 +169,7 @@ module.exports = {
       const value = await get(item.key);
       if (value && item.price && item.price > 0 && value > 0) {
         const itemValue = value * item.price;
-        weaponDescription += `**${item.emoji} ${item.name}**: ${value} (${coinEmoji}${itemValue})\n`;
+        weaponDescription += `**${item.emoji} ${item.name}**: ${value} (${emoji.coins}${itemValue})\n`;
         totalInventoryValue += itemValue;
       } else if (value && value > 0) {
         weaponDescription += `**${item.emoji}${item.name}**: ${value}\n`;
@@ -205,7 +182,7 @@ module.exports = {
       const value = await get(item.key);
       if (value && item.price && item.price > 0 && value > 0) {
         const itemValue = value * item.price;
-        armorDescription += `**${item.emoji} ${item.name}** (${coinEmoji}${itemValue})\n`;
+        armorDescription += `**${item.emoji} ${item.name}** (${emoji.coins}${itemValue})\n`;
         totalInventoryValue += itemValue;
       } else if (value && value > 0) {
         armorDescription += `${item.name}: ${value}\n`;
@@ -218,7 +195,7 @@ module.exports = {
       const value = await get(item.key);
       if (value && item.price && item.price > 0 && value > 0) {
         const itemValue = value * item.price;
-        inventoryDescription += `**${item.emoji} ${item.name}**: ${value} (${coinEmoji}${itemValue})\n`;
+        inventoryDescription += `**${item.emoji} ${item.name}**: ${value} (${emoji.coins}${itemValue})\n`;
         totalInventoryValue += itemValue;
       } else if (value && value > 0) {
         inventoryDescription += `**${item.emoji}${item.name}**: ${value}\n`;
@@ -240,7 +217,7 @@ module.exports = {
       .setTitle(`${user.username}'s Inventory`)
       .setFields({
         name: "Total Inventory Value",
-        value: `${coinEmoji}**${totalInventoryValue.toLocaleString()}**`,
+        value: `${emoji.coins}**${totalInventoryValue.toLocaleString()}**`,
         inline: true,
       })
       .setDescription(`**Items:**\n${inventoryDescription}`)
