@@ -1,31 +1,6 @@
 const { ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ComponentType, SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const {
-  get,
-  coinEmoji,
-  stoneRingEmoji,
-  lifesaverEmoji,
-  hpEmoji,
-  armorEmoji,
-  celestialArmorEmoji,
-  sunforgedArmorEmoji,
-  glacialArmorEmoji,
-  abyssalArmorEmoji,
-  verdantArmorEmoji,
-  sylvanArmorEmoji,
-  topazineArmorEmoji,
-  attackEmoji,
-  attackUpEmoji,
-  critUpEmoji,
-  bladeOfTheDeadEmoji,
-  divineWrathEmoji,
-  umbralEclipseEmoji,
-  azurebladeEmoji,
-  zephyrsBreezeEmoji,
-  squiresHonorEmoji,
-  crimsonDaggerEmoji,
-  shopImage,
-  descriptionEmoji,
-  armorUpEmoji,
+  emoji
 } = require("../../globals.js");
 
 module.exports = {
@@ -40,9 +15,9 @@ module.exports = {
       .setCustomId("shop")
       .setPlaceholder("Select an item category.")
       .addOptions(
-        new StringSelectMenuOptionBuilder().setLabel("Health items").setDescription("Items that restore your health.").setValue("health").setEmoji(hpEmoji),
-        new StringSelectMenuOptionBuilder().setLabel("Armor").setDescription("Items that increase your armor.").setValue("armor").setEmoji(armorEmoji),
-        new StringSelectMenuOptionBuilder().setLabel("Weapons").setDescription("Items that increase your attack.").setValue("weapons").setEmoji(attackEmoji)
+        new StringSelectMenuOptionBuilder().setLabel("Health items").setDescription("Items that restore your health.").setValue("health").setEmoji(emoji.hp),
+        new StringSelectMenuOptionBuilder().setLabel("Armor").setDescription("Items that increase your armor.").setValue("armor").setEmoji(emoji.armor),
+        new StringSelectMenuOptionBuilder().setLabel("Weapons").setDescription("Items that increase your attack.").setValue("weapons").setEmoji(emoji.attack)
       );
 
     const row = new ActionRowBuilder().addComponents(select);
