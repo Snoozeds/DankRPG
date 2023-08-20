@@ -53,8 +53,8 @@ const woodEmoji = "<:WoodLogs:1109931701469192294>";
 const stoneEmoji = "<:Stone:1138200822828773457>";
 
 // Achievements
-const falseEmoji = "<:AchievementLock:1119603099049414797>";
-const trueEmoji = "<:AchievementUnlock:1119603100253159484>";
+const achievementLockEmoji = "<:AchievementLock:1119603099049414797>";
+const achievementUnlockEmoji = "<:AchievementUnlock:1119603100253159484>";
 
 // Get a value from the database.
 // await get(`${id}_key`);
@@ -319,8 +319,8 @@ module.exports = {
   calculateXP,
   checkXP,
   perc,
-  falseEmoji,
-  trueEmoji,
+  achievementLockEmoji,
+  achievementUnlockEmoji,
   resetStats,
 };
 
@@ -364,8 +364,8 @@ const emoji = {
   zephyrsBreeze: zephyrsBreezeEmoji,
   squiresHonor: squiresHonorEmoji,
   crimsonDagger: crimsonDaggerEmoji,
-  false: falseEmoji,
-  true: trueEmoji,
+  achievementLock: achievementLockEmoji,
+  achievementUnlock: achievementUnlockEmoji,
 };
 
 module.exports.cooldown = cooldown;
