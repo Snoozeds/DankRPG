@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { set, get, incr, decr, coinEmoji, hpEmoji } = require("../../globals.js");
+const { set, get, incr, decr, emoji } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -57,7 +57,7 @@ module.exports = {
       }
       if (coins < cost || coins === undefined) {
         return interaction.reply({
-          content: `You don't have enough coins to heal yourself for ${amount}HP!\n**You have ${coinEmoji}${coins}**, but **you need ${coinEmoji}${cost}**.`,
+          content: `You don't have enough coins to heal yourself for ${amount}HP!\n**You have ${emoji.coins}${coins}**, but **you need ${emoji.coins}${cost}**.`,
           ephemeral: true,
         });
       } else {
@@ -77,12 +77,12 @@ module.exports = {
             .setFields([
               {
                 name: "Coins",
-                value: `**${coinEmoji} ${new_coins}**`,
+                value: `**${emoji.coins} ${new_coins}**`,
                 inline: true,
               },
               {
                 name: "HP",
-                value: `**${hpEmoji} ${new_hp}** (+${amount})`,
+                value: `**${emoji.hp} ${new_hp}** (+${amount})`,
                 inline: true,
               },
             ])

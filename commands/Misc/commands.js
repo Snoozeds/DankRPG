@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, set, incr, coinEmoji, emoji } = require("../../globals.js");
+const { get, set, incr, emoji } = require("../../globals.js");
 
 // Used to link commands, making them clickable in the embed.
 // See ../deploy-commands for how the command IDs are stored.
