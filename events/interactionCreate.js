@@ -1,39 +1,5 @@
 const { Events, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const {
-  incr,
-  get,
-  cooldown,
-  coinEmoji,
-  hpEmoji,
-  attackEmoji,
-  armorEmoji,
-  levelEmoji,
-  diamondEmoji,
-  stoneEmoji,
-  woodEmoji,
-  lifesaverEmoji,
-  stoneRingEmoji,
-  celestialArmorEmoji,
-  sunforgedArmorEmoji,
-  glacialArmorEmoji,
-  abyssalArmorEmoji,
-  verdantArmorEmoji,
-  sylvanArmorEmoji,
-  topazineArmorEmoji,
-  bladeOfTheDeadEmoji,
-  divineWrathEmoji,
-  umbralEclipseEmoji,
-  azurebladeEmoji,
-  zephyrsBreezeEmoji,
-  squiresHonorEmoji,
-  crimsonDaggerEmoji,
-  demonWingEmoji,
-  shopImage,
-  descriptionEmoji,
-  attackUpEmoji,
-  armorUpEmoji,
-  critUpEmoji,
-} = require("../globals.js");
+const { incr, get, emoji, cooldown, shopImage } = require("../globals.js");
 const fs = require("node:fs");
 
 module.exports = {
@@ -267,38 +233,38 @@ module.exports = {
         let hpName = "HP";
         let hpMessage = "";
         if (hpType === "hp" || hpType == null) {
-          hpMessage = `**${hpEmoji} ${await get(`${user.id}_hp`)}**`;
+          hpMessage = `**${emoji.hp} ${await get(`${user.id}_hp`)}**`;
         } else if (hpType === "hp/maxhp") {
-          hpMessage = `**${hpEmoji} ${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)}**`;
+          hpMessage = `**${emoji.hp} ${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)}**`;
         } else if (hpType === "hp/maxhp%") {
-          hpMessage = `**${hpEmoji} ${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)} (${Math.round(
+          hpMessage = `**${emoji.hp} ${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)} (${Math.round(
             ((await get(`${user.id}_hp`)) / (await get(`${user.id}_max_hp`))) * 100
           )}%)**`;
         } else if (hpType === "hp%") {
-          hpMessage = `**${hpEmoji} ${await get(`${user.id}_hp`)} (${Math.round(((await get(`${user.id}_hp`)) / (await get(`${user.id}_max_hp`))) * 100)}%)**`;
+          hpMessage = `**${emoji.hp} ${await get(`${user.id}_hp`)} (${Math.round(((await get(`${user.id}_hp`)) / (await get(`${user.id}_max_hp`))) * 100)}%)**`;
         } else if (hpType === "hp/maxhpbar") {
           const hp = await get(`${user.id}_hp`);
           const maxHp = await get(`${user.id}_max_hp`);
           const hpBar = ":red_square:".repeat(Math.round((hp / maxHp) * 10)) + ":black_large_square:".repeat(10 - Math.round((hp / maxHp) * 10));
           const percentage = (hp / maxHp) * 100;
-          hpMessage = `**${hpEmoji} ${hpBar}**`;
+          hpMessage = `**${emoji.hp} ${hpBar}**`;
           hpName = `HP ${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)} (${percentage.toFixed(2)}%)`;
         }
         // levelMessage set to the user's levelType setting.
         let levelMessage = "";
         let levelName = "Level";
         if (xpType === "level") {
-          levelMessage = `**${levelEmoji} ${await get(`${user.id}_level`)}**`;
+          levelMessage = `**${emoji.level} ${await get(`${user.id}_level`)}**`;
         } else if (xpType === "level/xp" || xpType == null) {
-          levelMessage = `**${levelEmoji} ${await get(`${user.id}_level`)} | ${await get(`${user.id}_xp`)}XP**`;
+          levelMessage = `**${emoji.level} ${await get(`${user.id}_level`)} | ${await get(`${user.id}_xp`)}XP**`;
         } else if (xpType === "level/xpnext") {
-          levelMessage = `**${levelEmoji} ${await get(`${user.id}_level`)} | ${await get(`${user.id}_xp`)}XP (${await get(`${user.id}_xp_needed`)})**`;
+          levelMessage = `**${emoji.level} ${await get(`${user.id}_level`)} | ${await get(`${user.id}_xp`)}XP (${await get(`${user.id}_xp_needed`)})**`;
         } else if (xpType === "level/xpnextbar") {
           const xp = await get(`${user.id}_xp`);
           const xpNeeded = (await get(`${user.id}_level`)) * 100; // The amount of xp needed to level up.
           const xpBar = ":blue_square:".repeat(Math.round((xp / xpNeeded) * 10)) + ":black_large_square:".repeat(10 - Math.round((xp / xpNeeded) * 10));
           const percentage = (xp / xpNeeded) * 100;
-          levelMessage = `**${levelEmoji} ${xpBar}**`;
+          levelMessage = `**${emoji.level} ${xpBar}**`;
           levelName = `Level ${await get(`${user.id}_level`)} (${percentage.toFixed(2)}%)`;
         }
 
@@ -307,7 +273,7 @@ module.exports = {
           .setFields([
             {
               name: "Coins",
-              value: `**${coinEmoji} ${await get(`${user.id}_coins`)}**`,
+              value: `**${emoji.coins} ${await get(`${user.id}_coins`)}**`,
               inline: true,
             },
             {
@@ -317,12 +283,12 @@ module.exports = {
             },
             {
               name: "Armor",
-              value: `**${armorEmoji} ${await get(`${user.id}_armor`)}**`,
+              value: `**${emoji.armor} ${await get(`${user.id}_armor`)}**`,
               inline: true,
             },
             {
               name: "Damage",
-              value: `**${attackEmoji} ${await get(`${user.id}_damage`)}**`,
+              value: `**${emoji.attack} ${await get(`${user.id}_damage`)}**`,
               inline: true,
             },
             {
@@ -368,31 +334,31 @@ module.exports = {
             name: "Lifesavers",
             key: `${user.id}_lifesaver`,
             price: inventoryPrices._lifesaver,
-            emoji: lifesaverEmoji,
+            emoji: emoji.lifesaver,
           },
           {
             name: "Diamonds",
             key: `${user.id}_diamond`,
             price: inventoryPrices._diamond,
-            emoji: diamondEmoji,
+            emoji: emoji.diamond,
           },
           {
             name: "Stone",
             key: `${user.id}_stone`,
             price: inventoryPrices._stone,
-            emoji: stoneEmoji,
+            emoji: emoji.stone,
           },
           {
             name: "Wood",
             key: `${user.id}_wood`,
             price: inventoryPrices._wood,
-            emoji: woodEmoji,
+            emoji: emoji.wood,
           },
           {
             name: "Demon Wing",
             key: `${user.id}_demonWing`,
             price: inventoryPrices._demonWing,
-            emoji: demonWingEmoji,
+            emoji: emoji.demonWing,
           },
         ];
 
@@ -401,43 +367,43 @@ module.exports = {
             name: "Celestial Armor",
             key: `${user.id}_celestialArmor`,
             price: 30000,
-            emoji: celestialArmorEmoji,
+            emoji: emoji.celestialArmor,
           },
           {
             name: "Sunforged Armor",
             key: `${user.id}_sunforgedArmor`,
             price: 22500,
-            emoji: sunforgedArmorEmoji,
+            emoji: emoji.sunforgedArmor,
           },
           {
             name: "Glacial Armor",
             key: `${user.id}_glacialArmor`,
             price: 17500,
-            emoji: glacialArmorEmoji,
+            emoji: emoji.glacialArmor,
           },
           {
             name: "Abyssal Armor",
             key: `${user.id}_abyssalArmor`,
             price: 13500,
-            emoji: abyssalArmorEmoji,
+            emoji: emoji.abyssalArmor,
           },
           {
             name: "Verdant Armor",
             key: `${user.id}_verdantArmor`,
             price: 10500,
-            emoji: verdantArmorEmoji,
+            emoji: emoji.verdantArmor,
           },
           {
             name: "Sylvan Armor",
             key: `${user.id}_sylvanArmor`,
             price: 7500,
-            emoji: sylvanArmorEmoji,
+            emoji: emoji.sylvanArmor,
           },
           {
             name: "Topazine Armor",
             key: `${user.id}_topazineArmor`,
             price: 4500,
-            emoji: topazineArmorEmoji,
+            emoji: emoji.topazineArmor,
           },
         ];
 
@@ -446,43 +412,43 @@ module.exports = {
             name: "Blade of the Dead",
             key: `${user.id}_bladeOfTheDead`,
             price: 37000,
-            emoji: bladeOfTheDeadEmoji,
+            emoji: emoji.bladeOfTheDead,
           },
           {
             name: "Divine Wrath",
             key: `${user.id}_divineWrath`,
             price: 30000,
-            emoji: divineWrathEmoji,
+            emoji: emoji.divineWrath,
           },
           {
             name: "Umbral Eclipse",
             key: `${user.id}_umbralEclipse`,
             price: 23000,
-            emoji: umbralEclipseEmoji,
+            emoji: emoji.umbralEclipse,
           },
           {
             name: "Azureblade",
             key: `${user.id}_azureblade`,
             price: 17000,
-            emoji: azurebladeEmoji,
+            emoji: emoji.azureblade,
           },
           {
             name: "Zephyr's Breeze",
             key: `${user.id}_zephyrsBreeze`,
             price: 13000,
-            emoji: zephyrsBreezeEmoji,
+            emoji: emoji.zephyrsBreeze,
           },
           {
             name: "Squire's Honor",
             key: `${user.id}_squiresHonor`,
             price: 7500,
-            emoji: squiresHonorEmoji,
+            emoji: emoji.squiresHonor,
           },
           {
             name: "Crimson Dagger",
             key: `${user.id}_crimsonDagger`,
             price: 5000,
-            emoji: crimsonDaggerEmoji,
+            emoji: emoji.crimsonDagger,
           },
         ];
 
@@ -499,7 +465,7 @@ module.exports = {
           const value = await get(item.key);
           if (value && item.price && item.price > 0 && value > 0) {
             const itemValue = value * item.price;
-            weaponDescription += `**${item.emoji} ${item.name}**: ${value} (${coinEmoji}${itemValue})\n`;
+            weaponDescription += `**${item.emoji} ${item.name}**: ${value} (${emoji.coins}${itemValue})\n`;
             totalInventoryValue += itemValue;
           } else if (value && value > 0) {
             weaponDescription += `**${item.emoji}${item.name}**: ${value}\n`;
@@ -512,7 +478,7 @@ module.exports = {
           const value = await get(item.key);
           if (value && item.price && item.price > 0 && value > 0) {
             const itemValue = value * item.price;
-            armorDescription += `**${item.emoji} ${item.name}** (${coinEmoji}${itemValue})\n`;
+            armorDescription += `**${item.emoji} ${item.name}** (${emoji.coins}${itemValue})\n`;
             totalInventoryValue += itemValue;
           } else if (value && value > 0) {
             armorDescription += `${item.name}: ${value}\n`;
@@ -525,7 +491,7 @@ module.exports = {
           const value = await get(item.key);
           if (value && item.price && item.price > 0 && value > 0) {
             const itemValue = value * item.price;
-            inventoryDescription += `**${item.emoji} ${item.name}**: ${value} (${coinEmoji}${itemValue})\n`;
+            inventoryDescription += `**${item.emoji} ${item.name}**: ${value} (${emoji.coins}${itemValue})\n`;
             totalInventoryValue += itemValue;
           } else if (value && value > 0) {
             inventoryDescription += `**${item.emoji}${item.name}**: ${value}\n`;
@@ -547,7 +513,7 @@ module.exports = {
           .setTitle(`${user.username}'s Inventory`)
           .setFields({
             name: "Total Inventory Value",
-            value: `${coinEmoji}**${totalInventoryValue.toLocaleString()}**`,
+            value: `${emoji.coins}**${totalInventoryValue.toLocaleString()}**`,
             inline: true,
           })
           .setDescription(`**Items:**\n${inventoryDescription}`)
@@ -659,10 +625,10 @@ module.exports = {
         if (interaction.values[0] === "health") {
           const embed = new EmbedBuilder()
             .setTitle("Health items")
-            .setDescription(`"Welcome to my shop!"\nYour balance: **${coinEmoji}${await get(`${user.id}_coins`)}**`)
+            .setDescription(`"Welcome to my shop!"\nYour balance: **${emoji.coins}${await get(`${user.id}_coins`)}**`)
             .addFields({
-              name: `${lifesaverEmoji} Lifesaver (Owned: ${(await get(`${user.id}_lifesaver`)) || 0})`,
-              value: `**Cost: ${coinEmoji}1000**\nSaves you from death. Used automatically.\nid: lifesaver`,
+              name: `${emoji.lifesaver} Lifesaver (Owned: ${(await get(`${user.id}_lifesaver`)) || 0})`,
+              value: `**Cost: ${emoji.coins}1000**\nSaves you from death. Used automatically.\nid: lifesaver`,
             })
             .setFooter({ text: "Use /buy <id> to buy an item." })
             .setColor(await get(`${user.id}_color`))
@@ -675,47 +641,47 @@ module.exports = {
           const embed = new EmbedBuilder()
             .setTitle("Armor")
             .setDescription(
-              `"Welcome to my shop!"\nYour balance: **${coinEmoji}${await get(`${user.id}_coins`)}**
+              `"Welcome to my shop!"\nYour balance: **${emoji.coins}${await get(`${user.id}_coins`)}**
 
-${celestialArmorEmoji} Celestial Armor (**celestial**) ${(await get(`${user.id}_celestialArmor`)) === "1" ? "(owned)" : ""}
-${descriptionEmoji} Armor of immense strength, said to have been forged by the gods themselves.
-${coinEmoji} **30,000**
-${armorUpEmoji} **+50**
+${emoji.celestialArmor} Celestial Armor (**celestial**) ${(await get(`${user.id}_celestialArmor`)) === "1" ? "(owned)" : ""}
+${emoji.description} Armor of immense strength, said to have been forged by the gods themselves.
+${emoji.coins} **30,000**
+${emoji.armorUp} **+50**
 \-
-${sunforgedArmorEmoji} Sunforged Armor (**sunforged**) ${(await get(`${user.id}_sunforgedArmor`)) === "1" ? "(owned)" : ""}
-${descriptionEmoji} Extremely rare and formidable armor, forged in the heat of the sun.
-${coinEmoji} **22,500**
-${armorUpEmoji} **+35**
+${emoji.sunforgedArmor} Sunforged Armor (**sunforged**) ${(await get(`${user.id}_sunforgedArmor`)) === "1" ? "(owned)" : ""}
+${emoji.description} Extremely rare and formidable armor, forged in the heat of the sun.
+${emoji.coins} **22,500**
+${emoji.armorUp} **+35**
 \-
-${glacialArmorEmoji} Glacial Armor (**glacial**) ${(await get(`${user.id}_glacialArmor`)) === "1" ? "(owned)" : ""}
-${descriptionEmoji} Very rare and robust armor, meticulously forged in the coldest of glaciers.
-${coinEmoji} **17,500**
-${armorUpEmoji} **+30**
+${emoji.glacialArmor} Glacial Armor (**glacial**) ${(await get(`${user.id}_glacialArmor`)) === "1" ? "(owned)" : ""}
+${emoji.description} Very rare and robust armor, meticulously forged in the coldest of glaciers.
+${emoji.coins} **17,500**
+${emoji.armorUp} **+30**
 \-
-${abyssalArmorEmoji} Abyssal Armor (**abyssal**) ${(await get(`${user.id}_abyssalArmor`)) === "1" ? "(owned)" : ""}
-${descriptionEmoji} Rare and powerful armor, imbued with the essence of the deep sea.
-${coinEmoji} **13,500**
-${armorUpEmoji} **+25**
+${emoji.abyssalArmor} Abyssal Armor (**abyssal**) ${(await get(`${user.id}_abyssalArmor`)) === "1" ? "(owned)" : ""}
+${emoji.description} Rare and powerful armor, imbued with the essence of the deep sea.
+${emoji.coins} **13,500**
+${emoji.armorUp} **+25**
 \-
-${verdantArmorEmoji} Verdant Armor (**verdant**) ${(await get(`${user.id}_verdantArmor`)) === "1" ? "(owned)" : ""}
-${descriptionEmoji} Strong and sought-after armor, adorned with the essence of lush greenery.
-${coinEmoji} **10,500**
-${armorUpEmoji} **+20**
+${emoji.verdantArmor} Verdant Armor (**verdant**) ${(await get(`${user.id}_verdantArmor`)) === "1" ? "(owned)" : ""}
+${emoji.description} Strong and sought-after armor, adorned with the essence of lush greenery.
+${emoji.coins} **10,500**
+${emoji.armorUp} **+20**
 \-
-${sylvanArmorEmoji} Sylvan Armor (**sylvan**) ${(await get(`${user.id}_sylvanArmor`)) === "1" ? "(owned)" : ""}
-${descriptionEmoji} Highly coveted and rare armor, emanating the magic of ancient forests.
-${coinEmoji} **7,500**
-${armorUpEmoji} **+10**
+${emoji.sylvanArmor} Sylvan Armor (**sylvan**) ${(await get(`${user.id}_sylvanArmor`)) === "1" ? "(owned)" : ""}
+${emoji.description} Highly coveted and rare armor, emanating the magic of ancient forests.
+${emoji.coins} **7,500**
+${emoji.armorUp} **+10**
 \-
-${topazineArmorEmoji} Topazine Armor (**topazine**) ${(await get(`${user.id}_topazineArmor`)) === "1" ? "(owned)" : ""}
-${descriptionEmoji} Relatively common armor, imbued with the essence of the earth.
-${coinEmoji} **4,500**
-${armorUpEmoji} **+5**
+${emoji.topazineArmor} Topazine Armor (**topazine**) ${(await get(`${user.id}_topazineArmor`)) === "1" ? "(owned)" : ""}
+${emoji.description} Relatively common armor, imbued with the essence of the earth.
+${emoji.coins} **4,500**
+${emoji.armorUp} **+5**
 \-
-${stoneRingEmoji} Stone Ring (**stonering**) ${(await get(`${user.id}_stoneRing`)) === "1" ? "(owned)" : ""}
-${descriptionEmoji} A small ring crafted from stone. Automatically equips itself when bought. Cannot be unequipped.
-${coinEmoji} **2,000**
-${armorUpEmoji} **+1**`
+${emoji.stoneRing} Stone Ring (**stonering**) ${(await get(`${user.id}_stoneRing`)) === "1" ? "(owned)" : ""}
+${emoji.description} A small ring crafted from stone. Automatically equips itself when bought. Cannot be unequipped.
+${emoji.coins} **2,000**
+${emoji.armorUp} **+1**`
             )
             .setFooter({ text: "Use /buy <id> to buy an item and /equip to equip an item. You can only equip one armor item at once." })
             .setColor(await get(`${user.id}_color`))
@@ -728,49 +694,51 @@ ${armorUpEmoji} **+1**`
           const embed = new EmbedBuilder()
             .setTitle("Weapons")
             .setDescription(
-              `"Welcome to my shop!"\nYour balance: **${coinEmoji}${await get(`${user.id}_coins`)}**
+              `"Welcome to my shop!"\nYour balance: **${emoji.coins}${await get(`${user.id}_coins`)}**
 
-${bladeOfTheDeadEmoji} Blade of the Dead (**blade**/**botd**) ${(await get(`${user.id}_bladeOfTheDead`)) === "1" ? "(owned)" : ""}
-${descriptionEmoji} The Blade of the Dead strikes fear into the hearts of enemies. Its malevolent aura grants the wielder the power to drain life from foes, leaving devastation in their wake.
-${coinEmoji} **37,000**
-${attackUpEmoji} **+60**
-${critUpEmoji} **+60%**
+${emoji.bladeOfTheDead} Blade of the Dead (**blade**/**botd**) ${(await get(`${user.id}_bladeOfTheDead`)) === "1" ? "(owned)" : ""}
+${
+  emoji.description
+} The Blade of the Dead strikes fear into the hearts of enemies. Its malevolent aura grants the wielder the power to drain life from foes, leaving devastation in their wake.
+${emoji.coins} **37,000**
+${emoji.attackUp} **+60**
+${emoji.critUp} **+60%**
 -
-${divineWrathEmoji} Divine Wrath (**divine**/**dw**) ${(await get(`${user.id}_divineWrath`)) === "1" ? "(owned)" : ""}
-${descriptionEmoji} Carved from a single shard of a fallen comet, the Celestial Edge is a legendary blade imbued with the very essence of the gods.
-${coinEmoji} **30,000**
-${attackUpEmoji} **+40**
-${critUpEmoji} **+50%**
+${emoji.divineWrath} Divine Wrath (**divine**/**dw**) ${(await get(`${user.id}_divineWrath`)) === "1" ? "(owned)" : ""}
+${emoji.description} Carved from a single shard of a fallen comet, the Celestial Edge is a legendary blade imbued with the very essence of the gods.
+${emoji.coins} **30,000**
+${emoji.attackUp} **+40**
+${emoji.critUp} **+50%**
 -
-${umbralEclipseEmoji} Umbral Eclipse (**umbral**/**ue**) ${(await get(`${user.id}_umbralEclipse`)) === "1" ? "(owned)" : ""}
-${descriptionEmoji} A lethal masterpiece forged from shadowy steel, the Umbral eclipse is the perfect fusion of elegance and devastation.
-${coinEmoji} **23,000**
-${attackUpEmoji} **+30**
-${critUpEmoji} **+40%**
+${emoji.umbralEclipse} Umbral Eclipse (**umbral**/**ue**) ${(await get(`${user.id}_umbralEclipse`)) === "1" ? "(owned)" : ""}
+${emoji.description} A lethal masterpiece forged from shadowy steel, the Umbral eclipse is the perfect fusion of elegance and devastation.
+${emoji.coins} **23,000**
+${emoji.attackUp} **+30**
+${emoji.critUp} **+40%**
 -
-${azurebladeEmoji} Azureblade (**azureblade**/**ab**) ${(await get(`${user.id}_azureblade`)) === "1" ? "(owned)" : ""}
-${descriptionEmoji} A legendary sword forged from shimmering azure steel, the Azureblade is the perfect all-rounder for a medium-skilled adventurer.
-${coinEmoji} **17,000**
-${attackUpEmoji} **+20**
-${critUpEmoji} **+35%**
+${emoji.azureblade} Azureblade (**azureblade**/**ab**) ${(await get(`${user.id}_azureblade`)) === "1" ? "(owned)" : ""}
+${emoji.description} A legendary sword forged from shimmering azure steel, the Azureblade is the perfect all-rounder for a medium-skilled adventurer.
+${emoji.coins} **17,000**
+${emoji.attackUp} **+20**
+${emoji.critUp} **+35%**
 -
-${zephyrsBreezeEmoji} Zephyr's Breeze (**zephyrs**/**zb**) ${(await get(`${user.id}_zephyrsBreeze`)) === "1" ? "(owned)" : ""}
-${descriptionEmoji} Crafted with ethereal precision, the Zephyr Breeze cleaves through foes with unmatched speed and grace.
-${coinEmoji} **13,000**
-${attackUpEmoji} **+15**
-${critUpEmoji} **+30%**
+${emoji.zephyrsBreeze} Zephyr's Breeze (**zephyrs**/**zb**) ${(await get(`${user.id}_zephyrsBreeze`)) === "1" ? "(owned)" : ""}
+${emoji.description} Crafted with ethereal precision, the Zephyr Breeze cleaves through foes with unmatched speed and grace.
+${emoji.coins} **13,000**
+${emoji.attackUp} **+15**
+${emoji.critUp} **+30%**
 -
-${squiresHonorEmoji} Squire's Honor (**squires**/**sh**) ${(await get(`${user.id}_squiresHonor`)) === "1" ? "(owned)" : ""}
-${descriptionEmoji} A sword once used by knights across the country, the Squire's Honor is the perfect choice for an adventurer just starting out.
-${coinEmoji} **7,500**
-${attackUpEmoji} **+10**
-${critUpEmoji} **+15%**
+${emoji.squiresHonor} Squire's Honor (**squires**/**sh**) ${(await get(`${user.id}_squiresHonor`)) === "1" ? "(owned)" : ""}
+${emoji.description} A sword once used by knights across the country, the Squire's Honor is the perfect choice for an adventurer just starting out.
+${emoji.coins} **7,500**
+${emoji.attackUp} **+10**
+${emoji.critUp} **+15%**
 -
-${crimsonDaggerEmoji} Crimson Dagger (**crimson**/**cd**) ${(await get(`${user.id}_crimsonDagger`)) === "1" ? "(owned)" : ""}
-${descriptionEmoji} A fast, strong and cost effective dagger, crafted from crimson.
-${coinEmoji} **5,000**
-${attackUpEmoji} **+5**
-${critUpEmoji} **+10%**`
+${emoji.crimsonDagger} Crimson Dagger (**crimson**/**cd**) ${(await get(`${user.id}_crimsonDagger`)) === "1" ? "(owned)" : ""}
+${emoji.description} A fast, strong and cost effective dagger, crafted from crimson.
+${emoji.coins} **5,000**
+${emoji.attackUp} **+5**
+${emoji.critUp} **+10%**`
             )
             .setFooter({ text: "Use /buy <id> to buy an item and /equip to equip an item. You can only equip one weapon at once." })
             .setColor(await get(`${user.id}_color`))
