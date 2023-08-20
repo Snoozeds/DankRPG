@@ -333,7 +333,7 @@ const cooldown = {
 };
 
 const emoji = {
-  coin: coinEmoji,
+  coins: coinEmoji,
   hp: hpEmoji,
   armor: armorEmoji,
   attack: attackEmoji,

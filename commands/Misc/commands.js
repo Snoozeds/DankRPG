@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, set, incr, coinEmoji, trueEmoji } = require("../../globals.js");
+const { get, set, incr, coinEmoji, emoji } = require("../../globals.js");
 
 // Used to link commands, making them clickable in the embed.
 // See ../deploy-commands for how the command IDs are stored.
@@ -150,7 +150,7 @@ module.exports = {
       await set(`${interaction.user.id}_learner_achievement`, true);
       const embed = new EmbedBuilder()
         .setTitle("Achievement Unlocked!")
-        .setDescription(`${trueEmoji} You unlocked the **Learner** achievement, ${user.username}! (+${coinEmoji}**100**.)`)
+        .setDescription(`${emoji.achievementUnlock} You unlocked the **Learner** achievement, ${user.username}! (+${coinEmoji}**100**.)`)
         .setColor(await get(`${interaction.user.id}_color`));
       await interaction.followUp({ embeds: [embed] });
     }
