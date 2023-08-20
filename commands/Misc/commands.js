@@ -150,7 +150,7 @@ module.exports = {
       await set(`${interaction.user.id}_learner_achievement`, true);
       const embed = new EmbedBuilder()
         .setTitle("Achievement Unlocked!")
-        .setDescription(`${emoji.achievementUnlock} You unlocked the **Learner** achievement, ${user.username}! (+${coinEmoji}**100**.)`)
+        .setDescription(`${emoji.achievementUnlock} You unlocked the **Learner** achievement, ${user.username}! (+${emoji.coins}**100**.)`)
         .setColor(await get(`${interaction.user.id}_color`));
       await interaction.followUp({ embeds: [embed] });
     }
