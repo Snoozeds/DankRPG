@@ -288,6 +288,7 @@ module.exports = {
   checkXP,
   perc,
   resetStats,
+  shopImage,
 };
 
 const cooldown = {
