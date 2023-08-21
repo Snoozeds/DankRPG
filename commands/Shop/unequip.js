@@ -24,7 +24,6 @@ module.exports = {
           { name: "Sylvan Armor", value: "sylvan" },
           { name: "Topazine Armor", value: "topazine" },
           { name: "Blade of the Dead", value: "blade" },
-          { name: "Blade of the Dead", value: "blade" },
           { name: "Divine Wrath", value: "divine" },
           { name: "Umbral Eclipse", value: "umbral" },
           { name: "Azureblade", value: "azureblade" },
