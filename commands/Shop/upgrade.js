@@ -24,13 +24,14 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle(`Available Upgrades`)
         .addFields({
-          name: `${emoji.crit} Crit Multiplier (${critMultiLevel * 0.1 + 2}x)`,
+          name: `${emoji.crit} Crit Damage Multiplier (${critMultiLevel * 0.1 + 2}x)`,
           value: `Current level: ${critMultiLevel}${
-            critMultiLevel !== critMultiMaxLevel ? `\nNext level: ${critMultiLevel + 1} (+0.1)\nCost: ${emoji.coins}${critMultiCost}` : ""
+            critMultiLevel !== critMultiMaxLevel ? `\nNext level: ${critMultiLevel + 1} (+0.1)\n${emoji.coins} **${critMultiCost}** ${emoji.demonWing} **${critMultiWingsCost}**` : ""
           }`,
           inline: false,
         })
         .setThumbnail(user.displayAvatarURL({ dynamic: true }))
+        .setFooter({ text: `Tip: You can find more demon wings by fighting.`})
         .setColor(await get(`${interaction.user.id}_color`));
       await interaction.reply({ embeds: [embed] });
     } else if (interaction.options.getSubcommand() === "apply") {
