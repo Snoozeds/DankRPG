@@ -33,6 +33,9 @@ module.exports = {
     // Used for the 'Feared' achievement
     const fightsWon = Number(await get(`${user.id}_fights_won`));
 
+    // Used to stop enemy attacking after user dies.
+    let userDied = false;
+
     // Check if user is on cooldown
     if (await cooldown.check(user.id, "fight")) {
       return interaction.reply({
@@ -149,8 +152,11 @@ module.exports = {
         if (userHP - damage <= 0) {
           // User dies
           await set(`${user.id}_hp`, 0);
-          fightEnd(true);
+          await fightEnd(true);
         }
+
+        // If user has died, stop enemy from attacking.
+        if (userDied) return;
 
         // Check if user is defending
         if (userDefending) {
@@ -194,28 +200,32 @@ module.exports = {
 
         // If player died
         if (playerDied) {
+          userDied = true;
           if (await get(`${user.id}_lifesaver`)) {
-            await decr(`${user.id}_lifesaver`, 1);
+            await decr(user.id, "lifesaver", 1);
             await set(`${user.id}_hp`, 1);
-            await interaction.followUp({
+            await interaction.editReply({
               content: `You died but your lifesaver saved you! You now have 1 HP.`,
-              ephemeral: true,
+              components: [],
+              embeds: [],
             });
             collector.stop();
             return;
           } else if ((await get(`${user.id}_lifesaver`)) === 0) {
-            await interaction.followUp({
+            await interaction.editReply({
               content: `You died! You have no lifesavers and get your stats reset.`,
-              ephemeral: true,
+              components: [],
+              embeds: [],
             });
             await resetStats(user.id);
             collector.stop();
             return;
           }
           // Update embed
-          await interaction.followUp({
+          await interaction.editReply({
             content: `You died! You have no lifesavers and get your stats reset.`,
-            ephemeral: true,
+            components: [],
+            embeds: [],
           });
           await resetStats(user.id);
           collector.stop();
@@ -283,6 +293,7 @@ module.exports = {
           await playerAttacks();
           setTimeout(async () => {
             if (fightEnded) return;
+            if (userDied) return;
             await enemyAttacks();
           }, 2000);
 
@@ -297,6 +308,7 @@ module.exports = {
           await playerDefends();
           setTimeout(async () => {
             if (fightEnded) return;
+            if (userDied) return;
             await enemyAttacks();
           }, 2000);
         } else if (i.customId === "flee") {
