@@ -1,14 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const {
-  set,
-  get,
-  incr,
-  decr,
-  cooldown,
-  emoji,
-  resetStats,
-  checkXP,
-} = require("../../globals.js");
+const { set, get, incr, decr, cooldown, emoji, resetStats, checkXP } = require("../../globals.js");
 const ms = require("ms");
 const chance = require("chance").Chance();
 
@@ -283,11 +274,8 @@ module.exports = {
       collector.on("collect", async (i) => {
         // User attacks
         if (i.customId === "attack") {
-          // Hacky way to make the button not say "This interaction failed" due to the embed not being edited in the collector.
-          await i.reply({
-            content: `You attacked.`,
-            ephemeral: true,
-          });
+          // let discord know we received the interaction
+          i.deferUpdate();
           // remove buttons so user can't attack before enemy attacks.
           buttons.components.forEach((button) => {
             button.setDisabled(true);
@@ -300,11 +288,8 @@ module.exports = {
 
           // User defends
         } else if (i.customId === "defend") {
-          // Hacky way to make the button not say "This interaction failed" due to the embed not being edited in the collector.
-          await i.reply({
-            content: "You are defending.",
-            ephemeral: true,
-          });
+          // let discord know we received the interaction
+          i.deferUpdate();
           // remove buttons so user can't attack before enemy attacks.
           buttons.components.forEach((button) => {
             button.setDisabled(true);
