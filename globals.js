@@ -19,7 +19,7 @@ const levelUpEmoji = "<:LevelBookUp:1130623558217900193>";
 
 // Shop
 // Set shopImage to "null" (no quotes) if you don't want an image. I have not provided one.
-const shopImage = "https://cdn.discordapp.com/attachments/1130630977291571210/1130631761848717403/shopkeep.png";
+const shopImage = null;
 const descriptionEmoji = "<:SpeechBubble:1121299256150610030>";
 
 // Items - Misc
