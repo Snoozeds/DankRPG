@@ -11,6 +11,23 @@ const attackEmoji = "<:Atk:1134903673688965180>";
 const critEmoji = "<:AtkCrit:1134903672149655553>";
 const levelEmoji = "<:LevelBook:1130623075717759030>";
 
+// Bar Stats (used in /profile embed, enabled through /settings hpdisplay/leveldisplay)
+// hpdisplay
+const hpBarBegin = "<:HpBarBegin:1143584381580103731>";
+const hpBarMiddle = "<:HpBarMiddle:1143584380195966986>";
+const hpBarEnd = "<:HpBarEnd:1143584377830391858>";
+
+// leveldisplay
+const levelBarBegin = "<:LevelBarBegin:1143590906314883152>";
+const levelBarMiddle = "<:LevelBarMiddle:1143590910119120998>";
+const levelBarEnd = "<:LevelBarEnd:1143590908802105354>";
+
+// empty (transparent) bars
+const emptyBarBegin = "<:EmptyBarBegin:1143590911616499712>"
+const emptyBarMiddle = "<:EmptyBarMiddle:1143590915001294968>";
+const emptyBarEnd = "<:EmptyBarEnd:1143590913784946858>";
+//
+
 // Stats being increased
 const attackUpEmoji = "<:AtkUp:1134903669356240957>";
 const critUpEmoji = "<:AtkCritUp:1134903668345421884>";
@@ -310,6 +327,15 @@ const emoji = {
   attack: attackEmoji,
   crit: critEmoji,
   level: levelEmoji,
+  hpBarBegin: hpBarBegin,
+  hpBarMiddle: hpBarMiddle,
+  hpBarEnd: hpBarEnd,
+  levelBarBegin: levelBarBegin,
+  levelBarMiddle: levelBarMiddle,
+  levelBarEnd: levelBarEnd,
+  emptyBarBegin: emptyBarBegin,
+  emptyBarMiddle: emptyBarMiddle,
+  emptyBarEnd: emptyBarEnd,
   attackUp: attackUpEmoji,
   critUp: critUpEmoji,
   armorUp: armorUpEmoji,

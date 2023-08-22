@@ -229,6 +229,72 @@ module.exports = {
         const hpType = await get(`${interaction.user.id}_hp_display`);
         const xpType = await get(`${interaction.user.id}_level_display`);
 
+        async function generateHpBar(hp, maxHP, bars) {
+          const emptyBarBegin = emoji.emptyBarBegin;
+          const emptyBarMiddle = emoji.emptyBarMiddle;
+          const emptyBarEnd = emoji.emptyBarEnd;
+
+          const hpBarBegin = emoji.hpBarBegin;
+          const hpBarMiddle = emoji.hpBarMiddle;
+          const hpBarEnd = emoji.hpBarEnd;
+
+          if (hp === maxHP) return hpBarBegin + hpBarMiddle.repeat(bars - 2) + hpBarEnd;
+
+          if (hp <= maxHP / bars) {
+            return emptyBarBegin + emptyBarMiddle.repeat(bars - 2) + emptyBarEnd;
+          }
+
+          // calculate amount of full and empty bars
+          const fullBars = Math.round(hp / (maxHP / (bars - 1)));
+          const emptyBars = bars - fullBars;
+
+          // calculate whether the last bar should be full or empty
+          const remainder = hp % (maxHP / bars);
+          const fullBarEnds = remainder > 0 ? 1 : 0;
+
+          // generate the bar
+          const emptyPart = emptyBars > 1 ? emptyBarMiddle.repeat(emptyBars - 1) + emptyBarEnd : emptyBars === 1 && !fullBarEnds ? emptyBarMiddle + emptyBarEnd : "";
+          const hpPart = hpBarMiddle.repeat(fullBars - 2 + fullBarEnds) + (emptyPart.startsWith(emptyBarMiddle) ? emptyPart : emptyBarEnd + emptyPart);
+
+          // Check if the hpPart should end with hpBarEnd or emptyBarEnd
+          const finalPart = hp % (maxHP / bars) === 0 ? hpPart.slice(0, -1) + emptyBarMiddle : hpPart;
+
+          return hpBarBegin + finalPart;
+        }
+
+        async function generateLevelBar(xp, xpNeeded, bars) {
+          const emptyBarBegin = emoji.emptyBarBegin;
+          const emptyBarMiddle = emoji.emptyBarMiddle;
+          const emptyBarEnd = emoji.emptyBarEnd;
+
+          const levelBarBegin = emoji.levelBarBegin;
+          const levelBarMiddle = emoji.levelBarMiddle;
+          const levelBarEnd = emoji.levelBarEnd;
+
+          if (xp === xpNeeded) return levelBarBegin + levelBarMiddle.repeat(bars - 2) + levelBarEnd;
+
+          if (xp <= xpNeeded / bars) {
+            return emptyBarBegin + emptyBarMiddle.repeat(bars - 2) + emptyBarEnd;
+          }
+
+          // calculate amount of full and empty bars
+          const fullBars = Math.round(xp / (xpNeeded / (bars - 1)));
+          const emptyBars = bars - fullBars;
+
+          // calculate whether the last bar should be full or empty
+          const remainder = xp % (xpNeeded / bars);
+          const fullBarEnds = remainder > 0 ? 1 : 0;
+
+          // generate the bar
+          const emptyPart = emptyBars > 1 ? emptyBarMiddle.repeat(emptyBars - 1) + emptyBarEnd : emptyBars === 1 && !fullBarEnds ? emptyBarMiddle + emptyBarEnd : "";
+          const levelPart = levelBarMiddle.repeat(fullBars - 2 + fullBarEnds) + (emptyPart.startsWith(emptyBarMiddle) ? emptyPart : emptyBarEnd + emptyPart);
+
+          // Check if the levelPart should end with levelBarEnd or emptyBarEnd
+          const finalPart = xp % (xpNeeded / bars) === 0 ? levelPart.slice(0, -1) + emptyBarMiddle : levelPart;
+
+          return levelBarBegin + finalPart;
+        }
+
         // hpMessage set to the user's hpType setting.
         let hpName = "HP";
         let hpMessage = "";
@@ -245,9 +311,8 @@ module.exports = {
         } else if (hpType === "hp/maxhpbar") {
           const hp = await get(`${user.id}_hp`);
           const maxHp = await get(`${user.id}_max_hp`);
-          const hpBar = ":red_square:".repeat(Math.round((hp / maxHp) * 10)) + ":black_large_square:".repeat(10 - Math.round((hp / maxHp) * 10));
           const percentage = (hp / maxHp) * 100;
-          hpMessage = `**${emoji.hp} ${hpBar}**`;
+          hpMessage = `**${emoji.hp} ${await generateHpBar(hp, maxHp, 10)}**`;
           hpName = `HP ${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)} (${percentage.toFixed(2)}%)`;
         }
         // levelMessage set to the user's levelType setting.
@@ -262,9 +327,8 @@ module.exports = {
         } else if (xpType === "level/xpnextbar") {
           const xp = await get(`${user.id}_xp`);
           const xpNeeded = (await get(`${user.id}_level`)) * 100; // The amount of xp needed to level up.
-          const xpBar = ":blue_square:".repeat(Math.round((xp / xpNeeded) * 10)) + ":black_large_square:".repeat(10 - Math.round((xp / xpNeeded) * 10));
           const percentage = (xp / xpNeeded) * 100;
-          levelMessage = `**${emoji.level} ${xpBar}**`;
+          levelMessage = `**${emoji.level} ${await generateLevelBar(xp, xpNeeded, 10)}**`;
           levelName = `Level ${await get(`${user.id}_level`)} (${percentage.toFixed(2)}%)`;
         }
 
