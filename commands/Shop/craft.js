@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { incr, decr, get } = require("../../globals");
+const { incr, decr, get, emoji } = require("../../globals");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -27,7 +27,7 @@ module.exports = {
         });
       } else {
         embed.setTitle("Axe crafted!");
-        embed.setDescription(`<@${user.id}> crafted an axe!`);
+        embed.setDescription(`<@${user.id}> crafted an ${emoji.axe} axe!`);
         embed.setColor(await get(`${user.id}_color`));
         await decr(`${user.id}`, "wood", 5);
         await decr(`${user.id}`, "stone", 10);
@@ -49,7 +49,7 @@ module.exports = {
         });
       } else {
         embed.setTitle("Pickaxe crafted!");
-        embed.setDescription(`<@${user.id}> crafted a pickaxe!`);
+        embed.setDescription(`<@${user.id}> crafted a ${emoji.pickaxe} pickaxe!`);
         embed.setColor(await get(`${user.id}_color`));
         await decr(`${user.id}`, "wood", 25);
         await decr(`${user.id}`, "stone", 50);

@@ -30,7 +30,7 @@ module.exports = {
         ephemeral: true,
       });
     } else {
-      embed.setTitle("Stone mined!");
+      embed.setTitle(`${emoji.pickaxe} Stone mined!`);
       // 30% chance of getting a diamond as well.
       if (chance.bool({ likelihood: 30 })) {
         await incr(`${user.id}`, "diamond", 1);

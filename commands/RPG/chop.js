@@ -28,7 +28,7 @@ module.exports = {
     } else {
       await cooldown.set(interaction.user.id, "chop", chopCooldownTime);
       const embed = new EmbedBuilder()
-        .setTitle("Wood chopped!")
+        .setTitle(`${emoji.axe} Wood chopped!`)
         .setDescription(
           `<@${user.id}> chopped down a tree and got **${emoji.wood}${wood}**${(await get(`${interaction.user.id}_xp_alerts`)) == "1" ? `\n+${emoji.level}${xp}` : ""} ${
             (await checkXP(interaction.user.id, xp)) == true ? ` ${emoji.levelUp} **Level up!** Check /levels.` : ""
