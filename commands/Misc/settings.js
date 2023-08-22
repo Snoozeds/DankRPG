@@ -197,8 +197,7 @@ module.exports = {
       if (response === "hp/maxhpbar") {
         await set(`${interaction.user.id}_hp_display`, "hp/maxhpbar");
         await interaction.reply({
-          content:
-            "Your HP display has been set to `HP/Max HP (Bar)`\n:information_source: This may make the profile embed significantly longer. This option is best used on non-mobile devices.",
+          content: "Your HP display has been set to `HP/Max HP (Bar)`.",
           ephemeral: true,
         });
       }
@@ -228,8 +227,7 @@ module.exports = {
       if (response === "level/xpnextbar") {
         await set(`${interaction.user.id}_level_display`, "level/xpnextbar");
         await interaction.reply({
-          content:
-            "Your level display has been set to `Level (XP left to next level) (Bar)`\n:information_source: This may make the profile embed significantly longer. This option is best used on non-mobile devices.",
+          content: "Your level display has been set to `Level (XP left to next level) (Bar)`.",
           ephemeral: true,
         });
       }
