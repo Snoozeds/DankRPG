@@ -27,7 +27,7 @@ You may find more information about the bot on the [website](https://dankrpg.xyz
 ## License
 Code in this Github repository falls under the [Apache 2.0 License](https://choosealicense.com/licenses/apache-2.0/). We recommend you read this to understand what you can and can't do with the code.
 
-This repository also includes custom bar emoji in the Emoji folder. The assets in that folder are modified versions of art by [Pixellarion_Games](https://pixellarion-games.itch.io/) and fall under [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/). Please read the NOTICE file in that folder for more information.
+This repository also includes custom emoji art in the Emoji folder and its respective subfolders. Please note that the Apache 2.0 License does not apply to those assets, and you may read the NOTICE & README files inside those folders for specific license information.
 
 Other art assets (most emoji) used by the official DankRPG bot is **not within** this repository, and are instead from [Pixeltier](https://pixeltier.itch.io/) or [Raven](https://clockworkraven.itch.io/). This repository's license does not apply to those assets. Please go support them if you like their work.
 
