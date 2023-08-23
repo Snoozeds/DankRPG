@@ -29,7 +29,7 @@ module.exports = {
     .addSubcommand((subcommand) =>
       subcommand
         .setName("hpdisplay")
-        .setDescription("Changes how your HP is displayed in /profile.")
+        .setDescription("Changes how your HP is displayed to you in /profile.")
         .addStringOption((option) =>
           option
             .setName("display")
@@ -47,7 +47,7 @@ module.exports = {
     .addSubcommand((subcommand) =>
       subcommand
         .setName("leveldisplay")
-        .setDescription("Changes how your level is displayed in /profile.")
+        .setDescription("Changes how your level is displayed to you in /profile.")
         .addStringOption((option) =>
           option
             .setName("display")
