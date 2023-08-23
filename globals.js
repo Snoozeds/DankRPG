@@ -13,19 +13,19 @@ const levelEmoji = "<:LevelBook:1130623075717759030>";
 
 // Bar Stats (used in /profile embed, enabled through /settings hpdisplay/leveldisplay)
 // hpdisplay
-const hpBarBegin = "<:HpBarBegin:1143584381580103731>";
-const hpBarMiddle = "<:HpBarMiddle:1143584380195966986>";
-const hpBarEnd = "<:HpBarEnd:1143584377830391858>";
+const hpBarBegin = "<:HpBarBegin:1143843923471634513>";
+const hpBarMiddle = "<:HpBarMiddle:1143843924708966480>";
+const hpBarEnd = "<:HpBarEnd:1143843782610124820>";
 
 // leveldisplay
-const levelBarBegin = "<:LevelBarBegin:1143590906314883152>";
-const levelBarMiddle = "<:LevelBarMiddle:1143590910119120998>";
-const levelBarEnd = "<:LevelBarEnd:1143590908802105354>";
+const levelBarBegin = "<:LevelBarBegin:1143843926931951686>";
+const levelBarMiddle = "<:LevelBarMiddle:1143843928282501172>";
+const levelBarEnd = "<:LevelBarEnd:1143843784862482472>";
 
 // empty (transparent) bars
-const emptyBarBegin = "<:EmptyBarBegin:1143590911616499712>"
-const emptyBarMiddle = "<:EmptyBarMiddle:1143590915001294968>";
-const emptyBarEnd = "<:EmptyBarEnd:1143590913784946858>";
+const emptyBarBegin = "<:EmptyBarBegin:1143843919558348851>"
+const emptyBarMiddle = "<:EmptyBarMiddle:1143843922150445096>";
+const emptyBarEnd = "<:EmptyBarEnd:1143843781414760468>";
 //
 
 // Stats being increased
