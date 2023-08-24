@@ -1,5 +1,82 @@
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require("discord.js");
 const { set, get, incr, decr, emoji } = require("../../globals.js");
+
+async function confirmUpgrade(interaction, upgradeType, currentLevel, maxLevel, cost, wingsCost) {
+  const user = interaction.user;
+  const buyConfirmation = await get(`${user.id}_buyConfirmation`);
+  const coins = await get(`${user.id}_coins`);
+  const demonWing = await get(`${user.id}_demonWing`);
+
+  if (buyConfirmation === "1" || buyConfirmation === "null") {
+    const collectorFilter = (i) => i.user.id === user.id;
+    const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
+    const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
+    const row = new ActionRowBuilder().addComponents(yes, no);
+
+    if (coins < cost || demonWing < wingsCost) {
+      await interaction.reply({
+        content: `You don't have enough coins or demon wings to upgrade your ${upgradeType}.\n**You need ${emoji.coins}${cost} and ${emoji.demonWing}${wingsCost}.**`,
+        ephemeral: true,
+      });
+    }
+
+    if (currentLevel === maxLevel) {
+      await interaction.reply({
+        content: `You have already maxed out this upgrade.`,
+        ephemeral: true,
+      });
+    }
+
+    const reply = await interaction.reply({
+      content: `Are you sure you want to upgrade your ${upgradeType} to level ${currentLevel + 1} for ${emoji.coins}${cost} and ${emoji.demonWing}${wingsCost}?`,
+      components: [row],
+    });
+
+    try {
+      const confirmation = await reply.awaitMessageComponent({ filter: collectorFilter, time: 60000 });
+      if (confirmation.customId === "yes") {
+        const coins = await get(`${user.id}_coins`);
+        const demonWing = await get(`${user.id}_demonWing`);
+        if (coins < cost || demonWing < wingsCost) {
+          await interaction.editReply({
+            content: `You don't have enough coins or demon wings to upgrade your ${upgradeType}.\n**You need ${emoji.coins}${cost} and ${emoji.demonWing}${wingsCost}.**`,
+            components: [],
+          });
+        } else {
+          await incr(user.id, `${upgradeType}Level`, 1);
+          await decr(user.id, "coins", cost);
+          await decr(user.id, "demonWing", wingsCost);
+          await interaction.editReply({
+            content: `You upgraded your ${upgradeType} to level ${currentLevel + 1} for ${emoji.coins}${cost} and ${emoji.demonWing}${wingsCost}.`,
+            components: [],
+          });
+        }
+      } else if (confirmation.customId === "no") {
+        await interaction.editReply({ content: `Cancelled upgrading.`, components: [] });
+      }
+    } catch (err) {
+      await interaction.editReply({ content: `You took too long to respond. Cancelling.`, components: [] });
+    }
+  } else {
+    const coins = await get(`${user.id}_coins`);
+    const demonWing = await get(`${user.id}_demonWing`);
+    if (coins < cost || demonWing < wingsCost) {
+      await interaction.reply({
+        content: `You don't have enough coins or demon wings to upgrade your ${upgradeType}.\n**You need ${emoji.coins}${cost} and ${emoji.demonWing}${wingsCost}.**`,
+        ephemeral: true,
+      });
+    } else {
+      await incr(user.id, `${upgradeType}Level`, 1);
+      await set(`${user.id}_${upgradeType}`, (await get(`${user.id}_${upgradeType}Level`)) * 0.1);
+      await decr(user.id, "coins", cost);
+      await decr(user.id, "demonWing", wingsCost);
+      await interaction.reply({
+        content: `You upgraded your ${upgradeType} to level ${currentLevel + 1} for ${emoji.coins}${cost} and ${emoji.demonWing}${wingsCost}.`,
+        ephemeral: true,
+      });
+    }
+  }
+}
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -20,22 +97,60 @@ module.exports = {
     ),
   async execute(interaction) {
     const user = interaction.user;
-    const critMultiLevel = Number(await get(`${user.id}_critMultiplierLevel`)) ?? 0;
-    const critMultiMaxLevel = 10;
-    const critMultiCost = 100 * (critMultiLevel + 1);
-    const critMultiWingsCost = critMultiLevel + 1;
 
-    const axeEfficiencyLevel = Number(await get(`${user.id}_axeEfficiencyLevel`)) ?? 0;
-    const axeEfficiencyMaxLevel = 5;
-    const axeEfficiencyCost = 100 * (axeEfficiencyLevel + 1);
-    const axeEfficiencyWingsCost = axeEfficiencyLevel + 1;
+    if (interaction.options.getSubcommand() === "apply") {
+      const upgrade = interaction.options.getString("upgrade");
 
-    const pickaxeEfficiencyLevel = Number(await get(`${user.id}_pickaxeEfficiencyLevel`)) ?? 0;
-    const pickaxeEfficiencyMaxLevel = 5;
-    const pickaxeEfficiencyCost = 100 * (pickaxeEfficiencyLevel + 1);
-    const pickaxeEfficiencyWingsCost = pickaxeEfficiencyLevel + 1;
+      if (upgrade === "critmulti") {
+        const critMultiLevel = Number(await get(`${user.id}_critMultiplierLevel`)) ?? 0;
+        const critMultiMaxLevel = 10;
+        const critMultiCost = 100 * (critMultiLevel + 1);
+        const critMultiWingsCost = critMultiLevel + 1;
 
-    if (interaction.options.getSubcommand() === "view") {
+        if (critMultiLevel === critMultiMaxLevel) {
+          await interaction.reply({ content: `You have already maxed out this upgrade.`, ephemeral: true });
+        } else {
+          await confirmUpgrade(interaction, "critMultiplier", critMultiLevel, critMultiMaxLevel, critMultiCost, critMultiWingsCost);
+        }
+      } else if (upgrade === "axe") {
+        const axeEfficiencyLevel = Number(await get(`${user.id}_axeEfficiencyLevel`)) ?? 0;
+        const axeEfficiencyMaxLevel = 5;
+        const axeEfficiencyCost = 100 * (axeEfficiencyLevel + 1);
+        const axeEfficiencyWingsCost = axeEfficiencyLevel + 1;
+
+        if (axeEfficiencyLevel === axeEfficiencyMaxLevel) {
+          await interaction.reply({ content: `You have already maxed out this upgrade.`, ephemeral: true });
+        } else {
+          await confirmUpgrade(interaction, "axeEfficiency", axeEfficiencyLevel, axeEfficiencyMaxLevel, axeEfficiencyCost, axeEfficiencyWingsCost);
+        }
+      } else if (upgrade === "pickaxe") {
+        const pickaxeEfficiencyLevel = Number(await get(`${user.id}_pickaxeEfficiencyLevel`)) ?? 0;
+        const pickaxeEfficiencyMaxLevel = 5;
+        const pickaxeEfficiencyCost = 100 * (pickaxeEfficiencyLevel + 1);
+        const pickaxeEfficiencyWingsCost = pickaxeEfficiencyLevel + 1;
+
+        if (pickaxeEfficiencyLevel === pickaxeEfficiencyMaxLevel) {
+          await interaction.reply({ content: `You have already maxed out this upgrade.`, ephemeral: true });
+        } else {
+          await confirmUpgrade(interaction, "pickaxeEfficiency", pickaxeEfficiencyLevel, pickaxeEfficiencyMaxLevel, pickaxeEfficiencyCost, pickaxeEfficiencyWingsCost);
+        }
+      }
+    } else if (interaction.options.getSubcommand() === "view") {
+      const critMultiLevel = Number(await get(`${user.id}_critMultiplierLevel`)) ?? 0;
+      const critMultiMaxLevel = 10;
+      const critMultiCost = 100 * (critMultiLevel + 1);
+      const critMultiWingsCost = critMultiLevel + 1;
+
+      const axeEfficiencyLevel = Number(await get(`${user.id}_axeEfficiencyLevel`)) ?? 0;
+      const axeEfficiencyMaxLevel = 5;
+      const axeEfficiencyCost = 100 * (axeEfficiencyLevel + 1);
+      const axeEfficiencyWingsCost = axeEfficiencyLevel + 1;
+
+      const pickaxeEfficiencyLevel = Number(await get(`${user.id}_pickaxeEfficiencyLevel`)) ?? 0;
+      const pickaxeEfficiencyMaxLevel = 5;
+      const pickaxeEfficiencyCost = 100 * (pickaxeEfficiencyLevel + 1);
+      const pickaxeEfficiencyWingsCost = pickaxeEfficiencyLevel + 1;
+
       const embed = new EmbedBuilder()
         .setTitle(`Available Upgrades`)
         .setDescription(`You currently have ${(await get(`${user.id}_demonWing`)) > 0 ? `${emoji.demonWing} **${await get(`${user.id}_demonWing`)}**` : "no demon wings."}`)
@@ -72,83 +187,6 @@ module.exports = {
         .setFooter({ text: `Tip: You can find more demon wings by fighting.` })
         .setColor(await get(`${interaction.user.id}_color`));
       await interaction.reply({ embeds: [embed] });
-    } else if (interaction.options.getSubcommand() === "apply") {
-      const upgrade = interaction.options.getString("upgrade");
-      if (upgrade === "critmulti") {
-        if (critMultiLevel === critMultiMaxLevel) {
-          await interaction.reply({ content: `You have already maxed out this upgrade.`, ephemeral: true });
-        } else {
-          const coins = await get(`${user.id}_coins`);
-          const demonWing = await get(`${user.id}_demonWing`);
-          if (coins < critMultiCost || demonWing < critMultiWingsCost) {
-            await interaction.reply({
-              content: `You don't have enough coins or demon wings to upgrade your crit multiplier.\n**You need ${emoji.coins}${critMultiCost} and ${emoji.demonWing}${critMultiWingsCost}.**`,
-              ephemeral: true,
-            });
-          } else {
-            await incr(user.id, "critMultiplierLevel", 1);
-            await set(`${user.id}_critMultiplier`, (await get(`${user.id}_critMultiplierLevel`)) * 0.1);
-            await decr(user.id, "coins", critMultiCost);
-            await decr(user.id, "demonWing", critMultiWingsCost);
-            await interaction.reply({
-              content: `You upgraded your crit multiplier to level ${critMultiLevel + 1} for ${emoji.coins}${critMultiCost} and ${emoji.demonWing}${critMultiWingsCost}.`,
-              ephemeral: true,
-            });
-          }
-        }
-      }
-
-      if (upgrade === "axe") {
-        if (axeEfficiencyLevel === axeEfficiencyMaxLevel) {
-          await interaction.reply({ content: `You have already maxed out this upgrade.`, ephemeral: true });
-        } else {
-          const coins = await get(`${user.id}_coins`);
-          const demonWing = await get(`${user.id}_demonWing`);
-          if (coins < axeEfficiencyCost || demonWing < axeEfficiencyWingsCost) {
-            await interaction.reply({
-              content: `You don't have enough coins or demon wings to upgrade your axe efficiency.\n**You need ${emoji.coins}${axeEfficiencyCost} and ${emoji.demonWing}${axeEfficiencyWingsCost}.**`,
-              ephemeral: true,
-            });
-          } else {
-            await incr(user.id, "axeEfficiencyLevel", 1);
-            await set(`${user.id}_axeEfficiency`, (await get(`${user.id}_axeEfficiencyLevel`)) * 0.1);
-            await decr(user.id, "coins", axeEfficiencyCost);
-            await decr(user.id, "demonWing", axeEfficiencyWingsCost);
-            await interaction.reply({
-              content: `You upgraded your axe efficiency to level ${axeEfficiencyLevel + 1} for ${emoji.coins}${axeEfficiencyCost} and ${
-                emoji.demonWing
-              }${axeEfficiencyWingsCost}.`,
-              ephemeral: true,
-            });
-          }
-        }
-      }
-
-      if (upgrade === "pickaxe") {
-        if (pickaxeEfficiencyLevel === pickaxeEfficiencyMaxLevel) {
-          await interaction.reply({ content: `You have already maxed out this upgrade.`, ephemeral: true });
-        } else {
-          const coins = await get(`${user.id}_coins`);
-          const demonWing = await get(`${user.id}_demonWing`);
-          if (coins < pickaxeEfficiencyCost || demonWing < pickaxeEfficiencyWingsCost) {
-            await interaction.reply({
-              content: `You don't have enough coins or demon wings to upgrade your pickaxe efficiency.\n**You need ${emoji.coins}${pickaxeEfficiencyCost} and ${emoji.demonWing}${pickaxeEfficiencyWingsCost}.**`,
-              ephemeral: true,
-            });
-          } else {
-            await incr(user.id, "pickaxeEfficiencyLevel", 1);
-            await set(`${user.id}_pickaxeEfficiency`, (await get(`${user.id}_pickaxeEfficiencyLevel`)) * 0.1);
-            await decr(user.id, "coins", pickaxeEfficiencyCost);
-            await decr(user.id, "demonWing", pickaxeEfficiencyWingsCost);
-            await interaction.reply({
-              content: `You upgraded your pickaxe efficiency to level ${pickaxeEfficiencyLevel + 1} for ${emoji.coins}${pickaxeEfficiencyCost} and ${
-                emoji.demonWing
-              }${pickaxeEfficiencyWingsCost}.`,
-              ephemeral: true,
-            });
-          }
-        }
-      }
     }
   },
 };
