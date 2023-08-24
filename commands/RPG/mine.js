@@ -8,6 +8,7 @@ module.exports = {
   async execute(interaction) {
     const user = interaction.user;
     const pickaxe = await get(`${user.id}_pickaxe`);
+    const pickaxeEfficiencyLevel = Number(await get(`${user.id}_pickaxeEfficiencyLevel`)) ?? 0;
     const embed = new EmbedBuilder();
 
     if ((await get(`${user.id}_stone`)) == null || (await get(`${user.id}_stone`)) == "0" || (await get(`${user.id}_stone`)) == "") {
@@ -21,7 +22,8 @@ module.exports = {
     // If the user has a pickaxe, they mine faster, get more stone, and get more XP.
     const [mineCooldownTime, minStone, maxStone, xpAmount] = pickaxe >= 1 ? [ms("15s"), 10, 20, 20] : [ms("30s"), 5, 10, 10];
 
-    const stone = chance.integer({ min: minStone, max: maxStone });
+    let stone = chance.integer({ min: minStone, max: maxStone });
+    stone += pickaxeEfficiencyLevel * 5;
     const xp = xpAmount;
 
     if (await cooldown.check(user.id, "mine")) {

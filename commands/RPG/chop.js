@@ -8,6 +8,7 @@ module.exports = {
   async execute(interaction) {
     const user = interaction.user;
     const axe = await get(`${user.id}_axe`);
+    const axeEfficiencyLevel = Number(await get(`${user.id}_axeEfficiencyLevel`)) ?? 0;
 
     // Command breaks if the user doesn't have wood, so this fixes that.
     if ((await get(`${user.id}_wood`)) == null || (await get(`${user.id}_wood`)) == "0" || (await get(`${user.id}_wood`)) == "") {
@@ -17,7 +18,8 @@ module.exports = {
     // If the user has an axe, they chop faster, get more wood, and get more XP.
     const [chopCooldownTime, minWood, maxWood, xpAmount] = axe >= 1 ? [ms("15s"), 10, 20, 20] : [ms("30s"), 5, 10, 10];
 
-    const wood = chance.integer({ min: minWood, max: maxWood })
+    let wood = chance.integer({ min: minWood, max: maxWood })
+    wood += axeEfficiencyLevel * 5;
     const xp = xpAmount;
 
     if (await cooldown.check(interaction.user.id, "chop")) {

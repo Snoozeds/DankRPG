@@ -61,3 +61,9 @@
 (userid)_daily_achievement: If the player has completed the daily achievement.
 (userid)_learner_achievement: If the player has completed the learner achievement.
 (userid)_april_achievement: If the player has completed the april fools achievement.
+
+# Upgrades
+# Will return null. Default is 0.
+(userid)_critMultiplierLevel: The level of the crit multiplier upgrade : null
+(userid)_axeEfficiencyLevel: The level of the axe efficiency upgrade : null
+(userid)_pickaxeEfficiencyLevel: The level of the pickaxe efficiency upgrade : null
