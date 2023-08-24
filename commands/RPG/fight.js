@@ -279,7 +279,7 @@ module.exports = {
 
       // Button collector
       const filter = (i) => i.user.id === user.id;
-      const collector = reply.createMessageComponentCollector({ filter, time: 60000 });
+      const collector = reply.createMessageComponentCollector({ filter, time: 25000 }); // 25 seconds
 
       collector.on("collect", async (i) => {
         // User attacks
