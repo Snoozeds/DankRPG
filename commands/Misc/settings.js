@@ -85,7 +85,7 @@ module.exports = {
     .addSubcommand((subcommand) =>
       subcommand
         .setName("confirmations")
-        .setDescription("Change whether you get confirmations for certain actions, such as buying and selling.")
+        .setDescription("Change whether you get confirmations for certain actions, such as buying/upgrading and selling.")
         .addStringOption((option) =>
           option
             .setName("type")
@@ -304,7 +304,7 @@ module.exports = {
         const newValue = buyConfirmation === "0" ? "1" : "0";
         await set(`${user.id}_buyConfirmation`, newValue);
         await interaction.reply({
-          content: `You will ${newValue === "1" ? "now" : "no longer"} get confirmations when buying items.`,
+          content: `You will ${newValue === "1" ? "now" : "no longer"} get confirmations when buying and upgrading items.`,
           ephemeral: true,
         });
       }
