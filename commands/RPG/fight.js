@@ -28,7 +28,8 @@ module.exports = {
     let enemyHP = Math.floor(chance.integer({ min: userLevel * 15, max: userLevel * 27 }) + chance.integer({ min: userDamage * 1.5, max: userDamage * 2.5 }));
     const enemyMaxHP = enemyHP;
     const enemyArmor = Math.floor(chance.integer({ min: userArmor / 4, max: userArmor / 3 }));
-    const enemyDamage = Math.floor(chance.integer({ min: userDamage / 3, max: userDamage / 2 }) - userDamage * (userArmor / 100));
+    let enemyDamage = Math.floor(chance.integer({ min: userDamage / 3, max: userDamage / 2 }) - userDamage * (userArmor / 100));
+    enemyDamage = Math.max(enemyDamage, 50); // ensure it doesn't go negative, minimum of 50 damage.
 
     // Used for the 'Feared' achievement
     const fightsWon = Number(await get(`${user.id}_fights_won`));
