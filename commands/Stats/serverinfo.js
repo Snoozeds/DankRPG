@@ -9,23 +9,23 @@ module.exports = {
     const serverBanner = server.bannerURL();
 
     const embed = new EmbedBuilder()
-      .setDescription(
-        `\`${server.name} (${server.id})\`\n**Owner:** ${await server.fetchOwner()}\n**Created:** <t:${Date.parse(server.createdAt) / 1000}> (<t:${
-          Date.parse(server.createdAt) / 1000
-        }:R>)\n**Members:** ${server.memberCount}${server.emojis.cache.size > 0 ? `\n**Emojis:** ${server.emojis.cache.size}` : ``}${
-          server.premiumSubscriptionCount > 0 ? `\n**Boosts:** ${server.premiumSubscriptionCount}` : ``
-        }${server.premiumTier > 0 ? `\n**Boost Level:** ${server.premiumTier}` : ``}`
-      )
       .setColor(await get(`${interaction.user.id}_color`))
       .setThumbnail(server.iconURL())
       .setImage(server.bannerURL());
+      let description = `\`${server.name} (${server.id})\`\n**Owner:** ${await server.fetchOwner()}\n**Created:** <t:${Math.floor(server.createdAt.getTime() / 1000)}> (<t:${
+        Math.floor(server.createdAt.getTime() / 1000)
+      }:R>)\n**Members:** ${server.memberCount}${server.emojis.cache.size > 0 ? `\n**Emojis:** ${server.emojis.cache.size}` : ``}${
+        server.premiumSubscriptionCount > 0 ? `\n**Boosts:** ${server.premiumSubscriptionCount}` : ``
+      }${server.premiumTier > 0 ? `\n**Boost Level:** ${server.premiumTier}` : ``}`;
 
     if (serverIcon || serverBanner) {
       let links = "\n\n**Links:**";
       if (serverIcon) links += `\n[Icon](${serverIcon})`;
       if (serverBanner) links += `\n[Banner](${serverBanner})`;
-      embed.setDescription(embed.description + links);
+      description += links;
     }
+
+    embed.setDescription(description);
 
     await interaction.reply({ embeds: [embed] });
   },
