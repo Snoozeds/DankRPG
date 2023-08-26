@@ -62,7 +62,11 @@ Next, use a package manager like npm or yarn to install the dependencies. (e.g `
 
 You will also need to install [Redis](https://redis.io/topics/quickstart) and run it. You may change Redis to something else if you wish, but it would require somewhat significant code changes. Help for this is not provided.
 
-Once you have done this, you can run the bot using `node index.js`. If no errors occur, you should be good to go. I then recommend using a process manager like [PM2](https://npmjs.com/package/pm2) or [forever](https://www.npmjs.com/package/forever) to keep the bot running.
+Once you have done this, you can run the bot using `node index.js`. If no errors occur, you should be good to go. You may use a process manager to do this.
+
+If you want daily quest support, you will also need to run the `quests.js` file inside /utils by using `node quests.js`. This starts a cron job that runs every day at 00:00 UTC. It is **highly** recommended to use a process manager for this.
+
+I recommend using a process manager like [PM2](https://npmjs.com/package/pm2) or [forever](https://www.npmjs.com/package/forever) to keep the bot running.
 
 If you have any issues relating to the code, or running the bot, please open an issue on this repository by following this link: [Open issue](https://github.com/Snoozeds/DankRPG/issues/new)
 
