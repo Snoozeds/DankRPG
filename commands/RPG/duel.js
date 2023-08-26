@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const { get, set, decr, incr, resetStats, cooldown, emoji } = require("../../globals.js");
+const { get, set, decr, incr, resetStats, cooldown, emoji, quests } = require("../../globals.js");
 const ms = require("ms");
 const chance = require("chance").Chance();
 
@@ -11,6 +11,8 @@ module.exports = {
   async execute(interaction) {
     const user = interaction.user;
     const target = interaction.options.getUser("user");
+
+    let questCompleted = false; // Used for the followUp message.
 
     const isBlocked = await redis.lrange(`${target.id}_blockedUsers`, 0, -1);
     if (isBlocked !== null && isBlocked.includes(user.id)) {
@@ -155,6 +157,18 @@ module.exports = {
       embeds: [setupEmbed],
       components: [row],
     });
+
+    // Daily quest: Participate in a duel against another player.
+    if (await quests.active(4)) {
+      if ((await quests.completed(4, user.id)) === false) {
+        await quests.complete(4, user.id);
+        questCompleted = true;
+      }
+    }
+
+    if(questCompleted) {
+      await interaction.followUp({ content: `Congrats ${user.username}, you completed a quest and earned ${emoji.coins}100! Check /quests.` });
+    }
 
     // Await button click
     const collectorFilter = (i) => i.user.id === target.id; // Only allow the target to respond.
