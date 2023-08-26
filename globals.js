@@ -321,8 +321,9 @@ async function isQuestActive(id) {
   return true;
 }
 
+// Check if the user has completed a quest.
+// await isQuestCompleted(id, userid);
 async function isQuestCompleted(id, userid) {
-
   const completed = await redis.lrange(`${userid}_questsCompleted`, 0, -1);
   const completedIDs = completed.map((quest) => JSON.parse(quest).id);
 
@@ -338,15 +339,24 @@ async function isQuestCompleted(id, userid) {
   return false;
 }
 
+// Complete a quest for a user.
+// await completeQuest(id, userid);
 async function completeQuest(id, userid) {
   await redis.lpush(`${userid}_questsCompleted`, JSON.stringify({ id: id }));
 
-  if(id == 1) {
-    await incr(userid, "coins", 100);
-  } else if(id == 2) {
-    await incr(userid, "coins", 150);
-  } else if(id == 5) {
-    await incr(userid, "coins", 150)
+  // Rewards for the quest IDs.
+  // id: reward
+  const coinRewards = {
+    1: 100,
+    2: 150,
+    3: 200,
+    4: 100,
+    5: 150,
+    6: 150,
+  };
+
+  if (coinRewards[id]) {
+    await incr(userid, "coins", coinRewards[id]);
   }
 }
 
