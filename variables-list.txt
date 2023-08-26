@@ -69,6 +69,9 @@
 (userid)_pickaxeEfficiencyLevel: The level of the pickaxe efficiency upgrade : null
 
 # Quests
-# Used for the quests system.
+# Used for the quests system. These get reset every midnight UTC by ../utils/quests.js.
 quests: A key of today's quests, created in ../utils/quests.js. : null
 (userid)_questsCompleted: A list of the IDs of the quests the player has completed today. : null
+(userid)_enemiesKilled: The amount of enemies the player has killed today, used for quest id 3 : null
+(userid)_treesChopped: The amount of trees the player has chopped today, used for quest id 5 : null
+(userid)_stonesMined: The amount of stones the player has mined today, used for quest id 6 : null
