@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { set, incr, get, checkXP, cooldown, emoji } = require("../../globals");
+const { set, incr, get, checkXP, cooldown, emoji, quests } = require("../../globals");
 const chance = require("chance").Chance();
 const ms = require("ms");
 
@@ -9,6 +9,7 @@ module.exports = {
     const user = interaction.user;
     const axe = await get(`${user.id}_axe`);
     const axeEfficiencyLevel = Number(await get(`${user.id}_axeEfficiencyLevel`)) ?? 0;
+    let questCompleted = false; // Used for the followUp message.
 
     // Command breaks if the user doesn't have wood, so this fixes that.
     if ((await get(`${user.id}_wood`)) == null || (await get(`${user.id}_wood`)) == "0" || (await get(`${user.id}_wood`)) == "") {
@@ -28,6 +29,14 @@ module.exports = {
         ephemeral: true,
       });
     } else {
+      // Daily quest: Chop trees 10 times
+      if (await quests.active(5)) {
+        await incr(user.id, "treesChopped", "1");
+        if ((await quests.completed(5, user.id)) === false && (await get(`${user.id}_treesChopped`)) >= 10) {
+          await quests.complete(5, user.id);
+          questCompleted = true;
+        }
+      }
       await cooldown.set(interaction.user.id, "chop", chopCooldownTime);
       const embed = new EmbedBuilder()
         .setTitle(`${emoji.axe} Wood chopped!`)
@@ -39,6 +48,9 @@ module.exports = {
         .setColor(await get(`${user.id}_color`));
       await incr(user.id, "wood", wood);
       await interaction.reply({ embeds: [embed] });
+      if (questCompleted) {
+        await interaction.followUp({ content: `Congrats ${user.username}, you completed a quest and earned ${emoji.coins}150! Check /quests.` });
+      }
     }
   },
 };

@@ -345,6 +345,8 @@ async function completeQuest(id, userid) {
     await incr(userid, "coins", 100);
   } else if(id == 2) {
     await incr(userid, "coins", 150);
+  } else if(id == 5) {
+    await incr(userid, "coins", 150)
   }
 }
 
