@@ -79,6 +79,20 @@ cron.schedule("0 0 * * *", async () => {
     cursor = nextCursor;
   } while (cursor !== "0");
 
+  // Fetch all user keys that match the pattern "*_enemiesKilled" (used for quest 3)
+  cursor = "0";
+  do {
+    const [nextCursor, keys] = await redis.scan(cursor, "MATCH", "*_enemiesKilled");
+    if (keys.length > 0) {
+      // Iterate over the found keys and delete them
+      for (const key of keys) {
+        await redis.del(key);
+        console.log(`Deleted enemiesKilled key: ${key}`);
+      }
+    }
+    cursor = nextCursor;
+  } while (cursor !== "0");
+
   // Fetch all user keys that match the pattern "*_treesChopped" (used for quest 5)
   cursor = "0";
   do {
@@ -88,6 +102,20 @@ cron.schedule("0 0 * * *", async () => {
       for (const key of keys) {
         await redis.del(key);
         console.log(`Deleted treesChopped key: ${key}`);
+      }
+    }
+    cursor = nextCursor;
+  } while (cursor !== "0");
+
+  // Fetch all user keys that match the pattern "*_rocksMined" (used for quest 6)
+  cursor = "0";
+  do {
+    const [nextCursor, keys] = await redis.scan(cursor, "MATCH", "*_rocksMined");
+    if (keys.length > 0) {
+      // Iterate over the found keys and delete them
+      for (const key of keys) {
+        await redis.del(key);
+        console.log(`Deleted rocksMined key: ${key}`);
       }
     }
     cursor = nextCursor;

@@ -11,7 +11,11 @@ module.exports = {
     // 10% chance for enemy to drop a demon wing.
     const demonWing = chance.bool({ likelihood: 10 });
     const demonWingMessage = demonWing ? `**__Item Drops:__**\n${emoji.demonWing}**You got a Demon Wing!**` : "";
-    let questCompleted = false; // Used for the followUp message.
+    
+    // Daily quests
+    // Used for the followUp message.
+    let demonQuestCompleted = false;
+    let enemiesQuestCompleted = false;
 
     // Get random enemy
     const enemyType = require("./enemies.json").enemyTypes;
@@ -268,16 +272,26 @@ module.exports = {
           if (demonWing) {
             await incr(user.id, "demonWing", 1);
 
+            // Daily quest: Find a demon wing
             if (await quests.active(2)) {
               if ((await quests.completed(2, user.id)) === false) {
                 await quests.complete(2, user.id);
-                questCompleted = true;
+                demonQuestCompleted = true;
               }
             }
           }
 
+          // Daily quest: Kill 10 enemies in /fight
+          if (await quests.active(3)) {
+            await incr(user.id, "enemiesKilled", "1");
+            if ((await quests.completed(3, user.id)) === false && (await get(`${user.id}_enemiesKilled`)) >= 10) {
+              await quests.complete(3, user.id);
+              enemiesQuestCompleted = true;
+            }
+          }
+
           await collector.stop();
-          if (questCompleted) {
+          if (demonQuestCompleted) {
             await interaction.followUp({ content: `Congrats ${user.username}, you completed a quest and earned ${emoji.coins}150! Check /quests.` });
           }
           return;
