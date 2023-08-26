@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const { set, get, incr, decr, cooldown, emoji, resetStats, checkXP } = require("../../globals.js");
+const { set, get, incr, decr, cooldown, emoji, resetStats, checkXP, quests } = require("../../globals.js");
 const ms = require("ms");
 const chance = require("chance").Chance();
 
@@ -11,6 +11,7 @@ module.exports = {
     // 10% chance for enemy to drop a demon wing.
     const demonWing = chance.bool({ likelihood: 10 });
     const demonWingMessage = demonWing ? `**__Item Drops:__**\n${emoji.demonWing}**You got a Demon Wing!**` : "";
+    let questCompleted = false; // Used for the followUp message.
 
     // Get random enemy
     const enemyType = require("./enemies.json").enemyTypes;
@@ -266,9 +267,19 @@ module.exports = {
           await incr(user.id, "fights_won", 1);
           if (demonWing) {
             await incr(user.id, "demonWing", 1);
+
+            if (await quests.active(2)) {
+              if ((await quests.completed(2, user.id)) === false) {
+                await quests.complete(2, user.id);
+                questCompleted = true;
+              }
+            }
           }
 
           await collector.stop();
+          if (questCompleted) {
+            await interaction.followUp({ content: `Congrats ${user.username}, you completed a quest and earned ${emoji.coins}150! Check /quests.` });
+          }
           return;
         }
 

@@ -2,7 +2,6 @@ const { SlashCommandBuilder, EmbedBuilder, Embed } = require("discord.js");
 const { get, emoji } = require("../../globals.js");
 
 module.exports = {
-  nonGlobal: true,
   data: new SlashCommandBuilder().setName("quests").setDescription("View your daily quests"),
   async execute(interaction) {
     const questsString = await get("quests");

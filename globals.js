@@ -322,7 +322,6 @@ async function isQuestActive(id) {
 }
 
 async function isQuestCompleted(id, userid) {
-  const quests = await listActiveQuests();
 
   const completed = await redis.lrange(`${userid}_questsCompleted`, 0, -1);
   const completedIDs = completed.map((quest) => JSON.parse(quest).id);
@@ -335,6 +334,8 @@ async function isQuestCompleted(id, userid) {
   }
 
   if (completedIDs.includes(numericId)) return true;
+
+  return false;
 }
 
 async function completeQuest(id, userid) {
@@ -343,7 +344,7 @@ async function completeQuest(id, userid) {
   if(id == 1) {
     await incr(userid, "coins", 100);
   } else if(id == 2) {
-    await incr(user.id, "coins", 150);
+    await incr(userid, "coins", 150);
   }
 }
 
