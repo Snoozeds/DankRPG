@@ -26,7 +26,11 @@ module.exports = {
     stone += pickaxeEfficiencyLevel * 5;
     const xp = xpAmount;
 
-    let questCompleted = false; // Used for the followUp message.
+    // Daily quests
+    // 1. Find a diamond
+    // 2. Mine rocks 10 times
+    let diamondQuestCompleted = false;
+    let rocksQuestCompleted = false;
 
     if (await cooldown.check(user.id, "mine")) {
       return interaction.reply({
@@ -48,7 +52,7 @@ module.exports = {
         if (await quests.active(1)) {
           if ((await quests.completed(1, user.id)) === false) {
             await quests.complete(1, user.id);
-            questCompleted = true;
+            diamondQuestCompleted = true;
           }
         }
       } else {
@@ -64,8 +68,21 @@ module.exports = {
       await interaction.reply({ embeds: [embed] });
 
       // Daily quest: Find a diamond
-      if (questCompleted) {
+      if (diamondQuestCompleted) {
         await interaction.followUp({ content: `Congrats ${user.username}, you completed a quest and earned ${emoji.coins}100! Check /quests.` });
+      }
+
+      // Daily quest: Mine rocks 10 times
+      if (await quests.active(6)) {
+        await incr(user.id, "rocksMined", "1");
+        if ((await quests.completed(6, user.id)) === false && (await get(`${user.id}_rocksMined`)) >= 10) {
+          await quests.complete(6, user.id);
+          questCompleted = true;
+        }
+      }
+
+      if (rocksQuestCompleted) {
+        await interaction.followUp({ content: `Congrats ${user.username}, you completed a quest and earned ${emoji.coins}150! Check /quests.` });
       }
     }
   },
