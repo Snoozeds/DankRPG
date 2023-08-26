@@ -124,6 +124,7 @@ module.exports = {
 </inventory:${await getCommandId("inventory")}> - Shows your/another user's inventory.
 </levels:${await getCommandId("levels")}> - Shows your/another user's levels.
 </profile:${await getCommandId("profile")}> - Shows your/another user's profile.
+</quests:${await getCommandId("quests")}> - View your daily quests.
 </serverinfo:${await getCommandId("serverinfo")}> - Shows info about the current server.
 </stats:${await getCommandId("stats")}> - View your/another user's stats.
 </userinfo:${await getCommandId("userinfo")}> - Shows information about you/another user.`

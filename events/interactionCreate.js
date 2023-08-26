@@ -1,5 +1,5 @@
 const { Events, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const { incr, get, emoji, cooldown, shopImage } = require("../globals.js");
+const { set, get, incr, emoji, cooldown, shopImage } = require("../globals.js");
 const fs = require("node:fs");
 
 module.exports = {
@@ -191,6 +191,7 @@ module.exports = {
   </inventory:${await getCommandId("inventory")}> - Shows your/another user's inventory.
   </levels:${await getCommandId("levels")}> - Shows your/another user's levels.
   </profile:${await getCommandId("profile")}> - Shows your/another user's profile.
+  </quests:${await getCommandId("quests")}> - View your daily quests.
   </serverinfo:${await getCommandId("serverinfo")}> - Shows info about the current server.
   </stats:${await getCommandId("stats")}> - View your/another user's stats.
   </userinfo:${await getCommandId("userinfo")}> - Shows information about you/another user.`
