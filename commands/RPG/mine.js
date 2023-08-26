@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { set, get, incr, checkXP, cooldown, emoji, } = require("../../globals.js");
+const { set, get, incr, checkXP, cooldown, emoji, quests } = require("../../globals.js");
 const chance = require("chance").Chance();
 const ms = require("ms");
 
@@ -26,6 +26,8 @@ module.exports = {
     stone += pickaxeEfficiencyLevel * 5;
     const xp = xpAmount;
 
+    let questCompleted = false; // Used for the followUp message.
+
     if (await cooldown.check(user.id, "mine")) {
       return interaction.reply({
         content: `You need to wait ${ms(await cooldown.get(user.id, "mine"))} before you can mine again.`,
@@ -41,6 +43,14 @@ module.exports = {
             (await get(`${user.id}_xp_alerts`)) == "1" ? `\n+${emoji.level}${xp}` : ""
           } ${(await checkXP(user.id, xp)) == true ? ` ${emoji.levelUp} **Level up!** Check /levels.` : ""}`
         );
+
+        // Daily quest: Find a diamond
+        if (await quests.active(1)) {
+          if ((await quests.completed(1, user.id)) === false) {
+            await quests.complete(1, user.id);
+            questCompleted = true;
+          }
+        }
       } else {
         embed.setDescription(
           `<@${user.id}> mined some rocks and got **${emoji.stone}${stone}**.${(await get(`${user.id}_xp_alerts`)) == "1" ? `\n+${emoji.level}${xp}` : ""} ${
@@ -52,6 +62,11 @@ module.exports = {
       await incr(`${user.id}`, "stone", stone);
       await cooldown.set(user.id, "mine", mineCooldownTime);
       await interaction.reply({ embeds: [embed] });
+
+      // Daily quest: Find a diamond
+      if (questCompleted) {
+        await interaction.followUp({ content: `Congrats ${user.username}, you completed a quest and earned ${emoji.coins}100! Check /quests.` });
+      }
     }
   },
 };

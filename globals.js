@@ -23,7 +23,7 @@ const levelBarMiddle = "<:LevelBarMiddle:1143843928282501172>";
 const levelBarEnd = "<:LevelBarEnd:1143843784862482472>";
 
 // empty (transparent) bars
-const emptyBarBegin = "<:EmptyBarBegin:1143843919558348851>"
+const emptyBarBegin = "<:EmptyBarBegin:1143843919558348851>";
 const emptyBarMiddle = "<:EmptyBarMiddle:1143843922150445096>";
 const emptyBarEnd = "<:EmptyBarEnd:1143843781414760468>";
 //
@@ -300,6 +300,53 @@ async function resetCooldowns(id) {
   } while (cursor !== "0");
 } // We could also just use KEYS, but that's not exactly recommended for production. https://redis.io/commands/keys
 
+// List active quests
+// await listActiveQuests();
+async function listActiveQuests() {
+  const quests = await redis.get("quests");
+  if (!quests) {
+    return [];
+  }
+  return JSON.parse(quests);
+}
+
+// Check if given quest id is active today.
+// await isQuestActive(id);
+async function isQuestActive(id) {
+  const quests = await listActiveQuests();
+  const quest = quests.find((quest) => quest.id === id);
+  if (!quest) {
+    return false;
+  }
+  return true;
+}
+
+async function isQuestCompleted(id, userid) {
+  const quests = await listActiveQuests();
+
+  const completed = await redis.lrange(`${userid}_questsCompleted`, 0, -1);
+  const completedIDs = completed.map((quest) => JSON.parse(quest).id);
+
+  // Convert the id to an integer, since it's stored as a string in the database.
+  const numericId = parseInt(id, 10);
+
+  if (!completed || completed.length === 0) {
+    return false;
+  }
+
+  if (completedIDs.includes(numericId)) return true;
+}
+
+async function completeQuest(id, userid) {
+  await redis.lpush(`${userid}_questsCompleted`, JSON.stringify({ id: id }));
+
+  if(id == 1) {
+    await incr(userid, "coins", 100);
+  } else if(id == 2) {
+    await incr(user.id, "coins", 150);
+  }
+}
+
 module.exports = {
   get,
   set,
@@ -367,5 +414,13 @@ const emoji = {
   achievementUnlock: achievementUnlockEmoji,
 };
 
+const quests = {
+  active: isQuestActive,
+  completed: isQuestCompleted,
+  complete: completeQuest,
+  listActive: listActiveQuests,
+};
+
 module.exports.cooldown = cooldown;
 module.exports.emoji = emoji;
+module.exports.quests = quests;

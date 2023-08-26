@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { get, set, incr, cooldown, emoji } = require("../../globals.js");
+const { get, set, incr, cooldown, emoji, quests } = require("../../globals.js");
 const chance = require("chance").Chance();
 const ms = require("ms");
 
@@ -7,6 +7,9 @@ module.exports = {
   data: new SlashCommandBuilder().setName("forage").setDescription("Forages for items in the wilderness."),
   async execute(interaction) {
     const user = interaction.user;
+
+    // Used for the followUp message.
+    let questCompleted = false;
 
     // The command errors if the user's items are not defined (null.)
     const items = ["stone", "wood", "diamond"];
@@ -23,12 +26,19 @@ module.exports = {
         ephemeral: true,
       });
     } else {
-      const rare = chance.weighted([true, false], [10, 90]); // 10% chance of getting a rare item
+      const rare = chance.weighted([true, false], [10, 90]); // 10% chance of getting a diamond
       const embed = new EmbedBuilder()
         .setTitle("Foraging...")
         .setDescription(`<@${user.id}> goes foraging in the wilderness.`)
-        .setColor(await get(`${user.id}_color`))
+        .setColor(await get(`${user.id}_color`));
       if (rare) {
+        // Daily quest: Find a diamond
+        if (await quests.active(1)) {
+          if ((await quests.completed(1, user.id)) === false) {
+            await quests.complete(1, user.id);
+            questCompleted = true;
+          }
+        }
         embed.setFields({
           name: "Diamond",
           value: `You found 1x ${emoji.diamond}**Diamond**!`,
@@ -44,6 +54,10 @@ module.exports = {
         await incr(user.id, set, amount);
       }
       await interaction.reply({ embeds: [embed] });
+      // Daily quest: Find a diamond
+      if (questCompleted) {
+        await interaction.followUp({ content: `Congrats ${user.username}, you completed a quest and earned ${emoji.coins}100! Check /quests.` });
+      }
       await cooldown.set(user.id, "forage", "30s");
     }
   },

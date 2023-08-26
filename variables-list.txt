@@ -67,3 +67,8 @@
 (userid)_critMultiplierLevel: The level of the crit multiplier upgrade : null
 (userid)_axeEfficiencyLevel: The level of the axe efficiency upgrade : null
 (userid)_pickaxeEfficiencyLevel: The level of the pickaxe efficiency upgrade : null
+
+# Quests
+# Used for the quests system.
+quests: A key of today's quests, created in ../utils/quests.js. : null
+(userid)_questsCompleted: A list of the IDs of the quests the player has completed today. : null
