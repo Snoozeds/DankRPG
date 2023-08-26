@@ -77,6 +77,9 @@ const stoneEmoji = "<:Stone:1138200822828773457>";
 const achievementLockEmoji = "<:AchievementLock:1119603099049414797>";
 const achievementUnlockEmoji = "<:AchievementUnlock:1119603100253159484>";
 
+// Quests
+const questEmoji = "<:RedScroll:1144998501537828987>";
+
 // Get a value from the database.
 // await get(`${id}_key`);
 async function get(key) {
@@ -425,6 +428,7 @@ const emoji = {
   crimsonDagger: crimsonDaggerEmoji,
   achievementLock: achievementLockEmoji,
   achievementUnlock: achievementUnlockEmoji,
+  questScroll: questEmoji,
 };
 
 const quests = {

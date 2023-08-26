@@ -25,7 +25,7 @@ module.exports = {
     });
 
     const embed = new EmbedBuilder()
-      .setTitle("Today's Quests")
+      .setTitle(`${emoji.questScroll} Today's Quests`)
       .setDescription("Complete these quests to earn some rewards!\n**They reset every midnight UTC.**")
       .setFields(
         quests.map((quest) => {
