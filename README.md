@@ -29,7 +29,11 @@ Code in this Github repository falls under the [Apache 2.0 License](https://choo
 
 This repository also includes custom emoji art in the Emoji folder and its respective subfolders. Please note that the Apache 2.0 License does not apply to those assets, and you may read the NOTICE & README files inside those folders for specific license information.
 
-Other art assets (most emoji) used by the official DankRPG bot is **not within** this repository, and are instead from [Pixeltier](https://pixeltier.itch.io/) or [Raven](https://clockworkraven.itch.io/). This repository's license does not apply to those assets. Please go support them if you like their work.
+Other art assets used by the official DankRPG bot is **not within** this repository, and are instead from:
+- [Pixeltier](https://pixeltier.itch.io/pixeltiers-16x16-rpg-icon-pack) (some misc emoji, such as coins, diamonds, stone ring, etc.)
+- [Raven](https://clockworkraven.itch.io/) (most emoji, such as weapons, armor, fishing equipment, stats, etc.)
+- [Beowulf](https://beowulf.itch.io/beowulfs-fish-asset-pack) (fish emoji)
+This repository's license does not apply to those assets. Please go support them if you like their work; this project wouldn't be as good without them.
 
 The name 'DankRPG' does not fall under this license either, and you may not use it to state or imply that your version is the original or official DankRPG bot, supported by the original authors, contributors, or author of the bot.
 
