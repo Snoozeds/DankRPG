@@ -3,13 +3,13 @@ const { get, emoji } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("stats")
-    .setDescription("View your/another user's stats.")
-    .addUserOption((option) => option.setName("user").setDescription("The user to view stats for.").setRequired(false)),
+    .setName("status")
+    .setDescription("View your/another user's status.")
+    .addUserOption((option) => option.setName("user").setDescription("The user you want to see the status of.").setRequired(false)),
   async execute(interaction) {
     const user = interaction.options.getUser("user") ?? interaction.user;
     const embed = new EmbedBuilder()
-      .setTitle(`Stats: ${user.username}`)
+      .setTitle(`Status: ${user.username}`)
       .addFields(
         {
           name: `${emoji.hp} MaxHP (${await get(`${user.id}_max_hp`)})`,
@@ -47,7 +47,7 @@ module.exports = {
           inline: false,
         }
       )
-      .setColor(await get(`${interaction.user.id}_color`))
+      .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31")
       .setFooter({ text: "Requested by " + interaction.user.username })
       .setThumbnail(user.displayAvatarURL({ dynamic: true, size: 4096 }))
       .setTimestamp();
