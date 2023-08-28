@@ -11,7 +11,7 @@ module.exports = {
     const user = interaction.options.getUser("user") ?? interaction.user;
 
     // IMPORTANT: If you add more achievements, make sure to update the totalAchievements variable.
-    const totalAchievements = 5;
+    const totalAchievements = 6;
     let userAchievements = 0;
 
     // Achievement variables.
@@ -20,9 +20,10 @@ module.exports = {
     const fearedAchievement = await get(`${user.id}_feared_achievement`);
     const dedicatedAchievement = await get(`${user.id}_dedicated_achievement`);
     const aprilAchievement = await get(`${user.id}_april_achievement`);
+    const rareAchievement = await get(`${user.id}_fishLegendaryAchievement`);
 
     // IMPORTANT: If you add more achievements, make sure to add them to this array.
-    userAchievements = [dailyAchievement, learnerAchievement, fearedAchievement, dedicatedAchievement, aprilAchievement].filter((achievement) => achievement == "true").length;
+    userAchievements = [dailyAchievement, learnerAchievement, fearedAchievement, dedicatedAchievement, rareAchievement, aprilAchievement].filter((achievement) => achievement == "true").length;
 
     if (!(await get(`${user.id}_daily_achievement`))) {
       await set(`${user.id}_daily_achievement`, false);
@@ -35,6 +36,9 @@ module.exports = {
     }
     if (!(await get(`${user.id}_dedicated_achievement`))) {
       await set(`${user.id}_dedicated_achievement`, false);
+    }
+    if (!(await get(`${user.id}_fishLegendaryAchievement`))) {
+      await set(`${user.id}_fishLegendaryAchievement`, false);
     }
     if (!(await get(`${user.id}_april_achievement`))) {
       await set(`${user.id}_april_achievement`, false);
@@ -87,6 +91,10 @@ Reward: ${emoji.coins}1000
 **__Dedicated__** ${dedicatedAchievement == "true" ? emoji.achievementUnlock : emoji.achievementLock}
 Collect 30 daily rewards in a row without missing a day.
 Reward: ${emoji.coins}500
+
+**__It's rare, I think__** ${rareAchievement == "true" ? emoji.achievementUnlock : emoji.achievementLock}
+Catch a legendary fish.
+Reward: ${emoji.coins}300
 
 **__April Fools!__** ${aprilAchievement == "true" ? emoji.achievementUnlock : emoji.achievementLock}
 Use any command between 1st-3rd April.

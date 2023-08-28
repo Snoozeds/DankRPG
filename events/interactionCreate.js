@@ -859,8 +859,23 @@ module.exports = {
           .setDescription(`**You caught ${fishEmoji} ${fishName}!** (${rarityText})`)
           .setColor(await get(`${interaction.user.id}_color`));
 
+        let achievementUnlocked = false; // Used for the followUp message
+
+        if (fishRarity === "legendaryFish" && (await get(`${interaction.user.id}_fishLegendaryAchievement`)) !== "true") {
+          await set(`${interaction.user.id}_fishLegendaryAchievement`, true);
+          await incr(interaction.user.id, "coins", 300);
+          achievementUnlocked = true;
+        }
+
         await incr(interaction.user.id, fish, 1);
         await interaction.update({ embeds: [embed], components: [] });
+        if (achievementUnlocked) {
+          const embed = new EmbedBuilder()
+            .setTitle("Achievement Unlocked!")
+            .setDescription(`${emoji.achievementUnlock} You unlocked the **It's rare, I think** achievement, ${user.username}! (+${emoji.coins}**300**.)`)
+            .setColor(await get(`${interaction.user.id}_color`));
+          await interaction.followUp({ embeds: [embed] });
+        }
 
         setTimeout(async () => {
           // reset fishCaught
