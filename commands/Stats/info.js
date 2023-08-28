@@ -15,7 +15,7 @@ module.exports = {
         }\ndiscord.js: ${DJS}\n\n**__Credits:__**\nAdditional art assets: [Pixeltier](https://pixeltier.itch.io/pixeltiers-16x16-rpg-icon-pack), [Clockwork Raven](https://clockworkraven.itch.io/), [Pixellarion_Games](https://pixellarion-games.itch.io/healthbars-and-potions), [Beowulf](https://beowulf.itch.io/beowulfs-fish-asset-pack)
         \nLinks: [Invite](https://drpg.io/invite) | [Support Server](https://discord.gg/Cc3xBSpWeB) | [Docs](https://drpg.io/docs)`
       )
-      .setColor(await get(`${interaction.user.id}_color`))
+      .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31")
       .setThumbnail(c.user.displayAvatarURL({ dynamic: true, size: 4096 }))
       .setFooter({ text: `Made by snoozeds <3` });
     await interaction.reply({ embeds: [infoEmbed] });

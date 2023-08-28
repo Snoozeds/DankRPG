@@ -160,7 +160,7 @@ module.exports = {
         },
       ])
       .setThumbnail(user.displayAvatarURL({ dynamic: true, size: 4096 }))
-      .setColor(await get(`${interaction.user.id}_color`))
+      .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31")
       .setFooter({ text: "Requested by " + interaction.user.username })
       .setTimestamp();
     await interaction.reply({ embeds: [profile] });

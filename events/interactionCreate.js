@@ -591,7 +591,7 @@ module.exports = {
             inline: true,
           })
           .setDescription(`**Items:**\n${inventoryDescription}`)
-          .setColor(await get(`${interaction.user.id}_color`))
+          .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31")
           .setThumbnail(user.displayAvatarURL({ format: "jpg", size: 4096 }));
 
         async function setDefaultInventoryValues(id, key, value) {
@@ -664,7 +664,7 @@ module.exports = {
           .setTitle("Cooldowns")
           .setDescription("You can use these commands again at the following times.")
           .setFields(fields)
-          .setColor(await get(`${interaction.user.id}_color`))
+          .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31")
           .setThumbnail(interaction.user.displayAvatarURL({ dynamic: true }));
 
         const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_back").setEmoji("⬅️").setStyle(ButtonStyle.Primary));

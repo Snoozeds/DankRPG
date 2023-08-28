@@ -344,7 +344,7 @@ module.exports = {
         inline: true,
       })
       .setDescription(`**Items:**\n${inventoryDescription}`)
-      .setColor(await get(`${interaction.user.id}_color`))
+      .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31")
       .setThumbnail(user.displayAvatarURL({ format: "jpg", size: 4096 }));
 
     async function setDefaultInventoryValues(id, key, value) {

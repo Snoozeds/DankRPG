@@ -34,7 +34,7 @@ module.exports = {
             value: `${marriageTime > 3155760000 ? "**1 month**\n**1 year**" : marriageTime > 262980000 ? "**1 month**" : "None"}`,
           }
         )
-        .setColor(await get(`${interaction.user.id}_color`))
+        .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31")
         .setTimestamp()
         .setThumbnail(user.displayAvatarURL({ format: "jpg", size: 4096 }));
       return interaction.reply({ embeds: [embed] });
