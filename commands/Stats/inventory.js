@@ -156,10 +156,103 @@ module.exports = {
       },
     ];
 
+    const fishingItems = [
+      {
+        name: "Best Fishing Rod",
+        key: `${user.id}_bestFishingRod`,
+        price: 10000,
+        emoji: emoji.bestFishingRod,
+      },
+      {
+        name: "Better Fishing Rod",
+        key: `${user.id}_betterFishingRod`,
+        price: 5000,
+        emoji: emoji.betterFishingRod,
+      },
+      {
+        name: "Basic Fishing Rod",
+        key: `${user.id}_basicFishingRod`,
+        price: 1000,
+        emoji: emoji.basicFishingRod,
+      },
+      {
+        name: "Fishing Bait",
+        key: `${user.id}_fishingBait`,
+        price: 50,
+        emoji: emoji.fishingBait,
+      }
+    ];
+
+    const fish = [
+      {
+        name: "Tilapia",
+        key: `${user.id}_tilapia`,
+        price: 45,
+        emoji: emoji.tilapia,
+      },
+      {
+        name: "Sardine",
+        key: `${user.id}_sardine`,
+        price: 45,
+        emoji: emoji.sardine,
+      },
+      {
+        name: "Perch",
+        key: `${user.id}_perch`,
+        price: 45,
+        emoji: emoji.perch,
+      },
+      {
+        name: "Anchovy",
+        key: `${user.id}_anchovy`,
+        price: 45,
+        emoji: emoji.anchovy,
+      },
+      {
+        name: "Spot",
+        key: `${user.id}_spot`,
+        price: 65,
+        emoji: emoji.spot,
+      },
+      {
+        name: "Rainbow Trout",
+        key: `${user.id}_rainbowTrout`,
+        price: 65,
+        emoji: emoji.rainbowTrout,
+      },
+      {
+        name: "Catfish",
+        key: `${user.id}_catfish`,
+        price: 65,
+        emoji: emoji.catfish,
+      },
+      {
+        name: "Pufferfish",
+        key: `${user.id}_pufferfish`,
+        price: 80,
+        emoji: emoji.pufferfish,
+      },
+      {
+        name: "Bass",
+        key: `${user.id}_bass`,
+        price: 80,
+        emoji: emoji.bass,
+      },
+      {
+        name: "Octopus",
+        key: `${user.id}_octopus`,
+        price: 100,
+        emoji: emoji.octopus,
+      },
+    ];
+
+
     // Sort the inventory items by price.
     inventoryItems.sort((a, b) => b.price - a.price);
     armorItems.sort((a, b) => b.price - a.price);
     weaponItems.sort((a, b) => b.price - a.price);
+    fishingItems.sort((a, b) => b.price - a.price);
+    fish.sort((a, b) => b.price - a.price);
 
     let totalInventoryValue = 0;
 
@@ -189,6 +282,32 @@ module.exports = {
       }
     }
 
+    // Loop through the fishing items and add them to the description.
+    let fishingDescription = "";
+    for (const item of fishingItems) {
+      const value = await get(item.key);
+      if (value && item.price && item.price > 0 && value > 0) {
+        const itemValue = value * item.price;
+        fishingDescription += `**${item.emoji} ${item.name}** (${emoji.coins}${itemValue})\n`;
+        totalInventoryValue += itemValue;
+      } else if (value && value > 0) {
+        fishingDescription += `${item.name}: ${value}\n`;
+      }
+    }
+
+    // Loop through the fish and add them to the description.
+    let fishDescription = "";
+    for (const item of fish) {
+      const value = await get(item.key);
+      if (value && item.price && item.price > 0 && value > 0) {
+        const itemValue = value * item.price;
+        fishDescription += `**${item.emoji} ${item.name}**: ${value} (${emoji.coins}${itemValue})\n`;
+        totalInventoryValue += itemValue;
+      } else if (value && value > 0) {
+        fishDescription += `${item.name}: ${value}\n`;
+      }
+    }
+
     // Loop through the inventory items and add them to the description.
     let inventoryDescription = "";
     for (const item of inventoryItems) {
@@ -202,11 +321,11 @@ module.exports = {
       }
     }
 
-    // Add the armors to the inventory description if there are any.
+    // Add the items to the embed, if there are any.
     inventoryDescription += armorDescription !== "" ? `\n**Armor:**\n${armorDescription}` : "";
-
-    // Add the weapons to the inventory description if there are any.
     inventoryDescription += weaponDescription !== "" ? `\n**Weapons:**\n${weaponDescription}` : "";
+    inventoryDescription += fishingDescription !== "" ? `\n**Fishing:**\n${fishingDescription}` : "";
+    inventoryDescription += fishDescription !== "" ? `\n**Fish:**\n${fishDescription}` : "";
 
     // If the inventory is empty, set the description to a default message.
     if (inventoryDescription === "") {
