@@ -850,7 +850,7 @@ module.exports = {
         await set(`${interaction.user.id}_fishCaught`, true);
         const embed = new EmbedBuilder()
           .setTitle("Fishing")
-          .setDescription(`**You caught a ${fishEmoji} ${fishName}!** (${rarityText})`)
+          .setDescription(`**You caught ${fishEmoji} ${fishName}!** (${rarityText})`)
           .setColor(await get(`${interaction.user.id}_color`));
 
         await incr(interaction.user.id, fish, 1);

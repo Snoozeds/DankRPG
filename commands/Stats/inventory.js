@@ -180,7 +180,7 @@ module.exports = {
         key: `${user.id}_fishingBait`,
         price: 50,
         emoji: emoji.fishingBait,
-      }
+      },
     ];
 
     const fish = [
@@ -246,7 +246,6 @@ module.exports = {
       },
     ];
 
-
     // Sort the inventory items by price.
     inventoryItems.sort((a, b) => b.price - a.price);
     armorItems.sort((a, b) => b.price - a.price);
@@ -288,7 +287,12 @@ module.exports = {
       const value = await get(item.key);
       if (value && item.price && item.price > 0 && value > 0) {
         const itemValue = value * item.price;
-        fishingDescription += `**${item.emoji} ${item.name}** (${emoji.coins}${itemValue})\n`;
+        // Add value to the description if the item is bait (can own multiple)
+        if (item !== fishingItems[3]) {
+          fishingDescription += `**${item.emoji} ${item.name}** (${emoji.coins}${itemValue})\n`;
+        } else {
+          fishingDescription += `**${item.emoji} ${item.name}**: ${value} (${emoji.coins}${itemValue})\n`;
+        }
         totalInventoryValue += itemValue;
       } else if (value && value > 0) {
         fishingDescription += `${item.name}: ${value}\n`;
