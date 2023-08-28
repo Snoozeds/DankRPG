@@ -33,6 +33,7 @@ Other art assets used by the official DankRPG bot is **not within** this reposit
 - [Pixeltier](https://pixeltier.itch.io/pixeltiers-16x16-rpg-icon-pack) (some misc emoji, such as coins, diamonds, stone ring, etc.)
 - [Raven](https://clockworkraven.itch.io/) (most emoji, such as weapons, armor, fishing equipment, stats, etc.)
 - [Beowulf](https://beowulf.itch.io/beowulfs-fish-asset-pack) (fish emoji) \
+
 This repository's license does not apply to those assets. Please go support them if you like their work; this project wouldn't be as good without them.
 
 The name 'DankRPG' does not fall under this license either, and you may not use it to state or imply that your version is the original or official DankRPG bot, supported by the original authors, contributors, or author of the bot.
