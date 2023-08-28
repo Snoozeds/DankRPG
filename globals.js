@@ -65,8 +65,26 @@ const zephyrsBreezeEmoji = "<:ZephyrsBreeze:1134086322215207043>";
 const squiresHonorEmoji = "<:SquiresHonor:1134086325960708186>";
 const crimsonDaggerEmoji = "<:CrimsonDagger:1134087299248955503>";
 
-// Items - Drops
+// Items - Fishing
+const fishingBaitEmoji = "<:Bait:1145759990821441577>";
+const basicFishingRodEmoji = "<:BasicFishingRod:1145763976509141023>";
+const betterFishingRodEmoji = "<:BetterFishingRod:1145763979344494673>";
+const bestFishingRodEmoji = "<:BestFishingRod:1145763983274561556>";
+
+// Items - Drops (/fight)
 const demonWingEmoji = "<:DemonWing:1138200819267817545>";
+
+// Items - Drops (/fish)
+const tilapiaEmoji = "<:Tilapia:1145760004075425812>";
+const spotEmoji = "<:Spot:1145760002972319834>";
+const sardineEmoji = "<:Sardine:1145760001223307306>";
+const rainbowTroutEmoji = "<:RainbowTrout:1145759998035624067>"
+const pufferfishEmoji = "<:Pufferfish:1145759996378886256>";
+const perchEmoji = "<:Perch:1145759994374004837>";
+const octopusEmoji = "<:Octopus:1145759993187029062>";
+const catfishEmoji = "<:Catfish:1145759988581662845>";
+const bassEmoji = "<:Bass:1145759987549876244>";
+const anchovyEmoji = "<:Anchovy:1145759984790024243>";
 
 // Resources
 const diamondEmoji = "<:Diamond:1109925710799319181>";
@@ -407,7 +425,21 @@ const emoji = {
   lifesaver: lifesaverEmoji,
   axe: axeEmoji,
   pickaxe: pickaxeEmoji,
+  fishingBait: fishingBaitEmoji,
+  basicFishingRod: basicFishingRodEmoji,
+  betterFishingRod: betterFishingRodEmoji,
+  bestFishingRod: bestFishingRodEmoji,
   demonWing: demonWingEmoji,
+  tilapia: tilapiaEmoji,
+  spot: spotEmoji,
+  sardine: sardineEmoji,
+  rainbowTrout: rainbowTroutEmoji,
+  pufferfish: pufferfishEmoji,
+  perch: perchEmoji,
+  octopus: octopusEmoji,
+  catfish: catfishEmoji,
+  bass: bassEmoji,
+  anchovy: anchovyEmoji,
   diamond: diamondEmoji,
   wood: woodEmoji,
   stone: stoneEmoji,
