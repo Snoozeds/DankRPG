@@ -34,7 +34,7 @@ module.exports = {
           return { name: questDescription, value: `Reward: ${emoji.coins}${reward}\nCompleted: ${completedIDs.includes(id) ? "Yes" : "No"}` };
         })
       )
-      .setColor(await get(`${interaction.user.id}_color`));
+      .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
     return interaction.reply({ embeds: [embed] });
   },

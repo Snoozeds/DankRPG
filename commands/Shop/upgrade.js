@@ -185,7 +185,7 @@ module.exports = {
         )
         .setThumbnail(user.displayAvatarURL({ dynamic: true }))
         .setFooter({ text: `Tip: You can find more demon wings by fighting.` })
-        .setColor(await get(`${interaction.user.id}_color`));
+        .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
       await interaction.reply({ embeds: [embed] });
     }
   },

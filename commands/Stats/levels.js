@@ -16,7 +16,7 @@ module.exports = {
         }`
       )
       .setThumbnail(user.displayAvatarURL({ format: "jpg", size: 4096 }))
-      .setColor(await get(`${interaction.user.id}_color`));
+      .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
     await interaction.reply({ embeds: [Embed] });
   },
 };

@@ -25,7 +25,7 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle("You ask the magic 8ball a question.")
       .setDescription(`**Question:** ${interaction.options.getString("question")}\n**Answer:** ${chance.pickset(responses, 1)}.`)
-      .setColor(await get(`${interaction.user.id}_color`))
+      .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31")
       .setThumbnail("https://assets.dankrpg.xyz/Images/8ball.png");
     await interaction.reply({ embeds: [embed] });
   },

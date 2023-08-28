@@ -44,7 +44,7 @@ module.exports = {
 </banner:${await getCommandId("banner")}> - Shows your/another user's banner.
 </changemymind:${await getCommandId("changemymind")}> - Change my mind.`
       )
-      .setColor(await get(`${interaction.user.id}_color`));
+      .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
     const Misc = new EmbedBuilder()
       .setTitle(`Commands`)
@@ -66,7 +66,7 @@ module.exports = {
 </time:${await getCommandId("time")}> - Get the current time for a timezone.
 </uptime:${await getCommandId("uptime")}> - Shows the bot's uptime.`
       )
-      .setColor(await get(`${interaction.user.id}_color`));
+      .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
     const Rpg = new EmbedBuilder()
       .setTitle(`Commands`)
@@ -81,7 +81,7 @@ module.exports = {
 </forage:${await getCommandId("forage")}> - Forage for items in the wilderness.
 </mine:${await getCommandId("mine")}> - Mine for stone. Craft a pickaxe to mine faster.`
       )
-      .setColor(await get(`${interaction.user.id}_color`));
+      .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
     const Shop = new EmbedBuilder()
       .setTitle(`Commands`)
@@ -98,7 +98,7 @@ module.exports = {
 </upgrade apply:${await getCommandId("upgrade")}> - Apply an upgrade.
 </upgrade view:${await getCommandId("upgrade")}> - View all upgrades.`
       )
-      .setColor(await get(`${interaction.user.id}_color`));
+      .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
     const Social = new EmbedBuilder()
       .setTitle(`Commands`)
@@ -112,7 +112,7 @@ module.exports = {
 </divorce:${await getCommandId("divorce")}> - Divorce your partner.
 </marry:${await getCommandId("marry")}> - Propose to another user.`
       )
-      .setColor(await get(`${interaction.user.id}_color`));
+      .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
     const Stats = new EmbedBuilder()
       .setTitle(`Commands`)
@@ -130,7 +130,7 @@ module.exports = {
 </stats:${await getCommandId("stats")}> - View your/another user's stats.
 </userinfo:${await getCommandId("userinfo")}> - Shows information about you/another user.`
       )
-      .setColor(await get(`${interaction.user.id}_color`));
+      .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
     if (cat === "Images") {
       await interaction.reply({ embeds: [Images] });
@@ -153,7 +153,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle("Achievement Unlocked!")
         .setDescription(`${emoji.achievementUnlock} You unlocked the **Learner** achievement, ${user.username}! (+${emoji.coins}**100**.)`)
-        .setColor(await get(`${interaction.user.id}_color`));
+        .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
       await interaction.followUp({ embeds: [embed] });
     }
   },

@@ -680,7 +680,7 @@ module.exports = {
           const embed = new EmbedBuilder()
             .setTitle("Quests")
             .setDescription("There are no quests available right now. Please check back later.")
-            .setColor(await get(`${interaction.user.id}_color`));
+            .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
           const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_back").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
           await interaction.update({ embeds: [embed], components: [row] });
@@ -709,7 +709,7 @@ module.exports = {
               return { name: questDescription, value: `Reward: ${emoji.coins}${reward}\nCompleted: ${completedIDs.includes(id) ? "Yes" : "No"}` };
             })
           )
-          .setColor(await get(`${interaction.user.id}_color`));
+          .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
         const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_back").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
         await interaction.update({ embeds: [embed], components: [row] });
@@ -730,7 +730,7 @@ module.exports = {
         const embed = new EmbedBuilder()
           .setTitle("Fishing")
           .setDescription("You cast your line into the water...")
-          .setColor(await get(`${interaction.user.id}_color`));
+          .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
         const row = new ActionRowBuilder().addComponents(
           new ButtonBuilder().setCustomId("fishing-reel").setEmoji("🎣").setStyle(ButtonStyle.Primary).setDisabled(true),
@@ -743,7 +743,7 @@ module.exports = {
           const embed = new EmbedBuilder()
             .setTitle("Fishing")
             .setDescription("**A fish bit!**")
-            .setColor(await get(`${interaction.user.id}_color`));
+            .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
           const row = new ActionRowBuilder().addComponents(
             new ButtonBuilder().setCustomId("fishing-reel").setEmoji("🎣").setStyle(ButtonStyle.Primary),
@@ -758,7 +758,7 @@ module.exports = {
               const embed = new EmbedBuilder()
                 .setTitle("Fishing")
                 .setDescription("**You didn't respond in time and the fish got away!**")
-                .setColor(await get(`${interaction.user.id}_color`));
+                .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
               await interaction.editReply({ embeds: [embed], components: [] });
             }
@@ -857,7 +857,7 @@ module.exports = {
         const embed = new EmbedBuilder()
           .setTitle("Fishing")
           .setDescription(`**You caught ${fishEmoji} ${fishName}!** (${rarityText})`)
-          .setColor(await get(`${interaction.user.id}_color`));
+          .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
         let achievementUnlocked = false; // Used for the followUp message
 
@@ -873,7 +873,7 @@ module.exports = {
           const embed = new EmbedBuilder()
             .setTitle("Achievement Unlocked!")
             .setDescription(`${emoji.achievementUnlock} You unlocked the **It's rare, I think** achievement, ${user.username}! (+${emoji.coins}**300**.)`)
-            .setColor(await get(`${interaction.user.id}_color`));
+            .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
           await interaction.followUp({ embeds: [embed] });
         }
 
@@ -895,7 +895,7 @@ module.exports = {
           .setDescription(
             "To fish, you must first cast your line into the water. Then, you must reel in the fish before it gets away!\nYou may buy better fishing rods from /shop and equip them with /equip.\nYou may also buy fishing bait to slightly increase the chance of catching rare fish.\n\n**Note:** You can only fish once every 30 seconds."
           )
-          .setColor(await get(`${interaction.user.id}_color`));
+          .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
         const row = new ActionRowBuilder().addComponents(
           new ButtonBuilder().setCustomId("fishing-cast").setEmoji("🎣").setStyle(ButtonStyle.Primary),

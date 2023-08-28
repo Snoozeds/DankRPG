@@ -17,7 +17,7 @@ module.exports = {
           size: 1024,
         })}) | [2048x2048](${user.displayAvatarURL({ dynamic: true, size: 2048 })}) | [4096x4096](${user.displayAvatarURL({ dynamic: true, size: 4096 })})`
       )
-      .setColor(await get(`${interaction.user.id}_color`));
+      .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
     await interaction.reply({ embeds: [embed] });
   },
 };

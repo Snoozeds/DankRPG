@@ -23,7 +23,9 @@ module.exports = {
     const rareAchievement = await get(`${user.id}_fishLegendaryAchievement`);
 
     // IMPORTANT: If you add more achievements, make sure to add them to this array.
-    userAchievements = [dailyAchievement, learnerAchievement, fearedAchievement, dedicatedAchievement, rareAchievement, aprilAchievement].filter((achievement) => achievement == "true").length;
+    userAchievements = [dailyAchievement, learnerAchievement, fearedAchievement, dedicatedAchievement, rareAchievement, aprilAchievement].filter(
+      (achievement) => achievement == "true"
+    ).length;
 
     if (!(await get(`${user.id}_daily_achievement`))) {
       await set(`${user.id}_daily_achievement`, false);
@@ -104,7 +106,7 @@ Reward: ${emoji.coins}500`
       .setFooter({
         text: `${userAchievements}/${totalAchievements} (${Math.trunc(perc(userAchievements, totalAchievements))}%)`,
       })
-      .setColor(await get(`${interaction.user.id}_color`));
+      .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
     await interaction.reply({ embeds: [embed] });
   },
