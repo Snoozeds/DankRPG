@@ -9,6 +9,7 @@ const items = {
     variable: "lifesaver",
     price: 1000,
     armor: 0,
+    allowMultiple: false,
   },
   stoneRing: {
     name: "Stone Ring",
@@ -16,6 +17,7 @@ const items = {
     variable: "stoneRing",
     price: 2000,
     armor: 1,
+    allowMultiple: false,
   },
   celestialArmor: {
     name: "Celestial Armor",
@@ -23,6 +25,7 @@ const items = {
     variable: "celestialArmor",
     price: 30000,
     armor: 0,
+    allowMultiple: false,
   },
   sunforgedArmor: {
     name: "Sunforged Armor",
@@ -30,6 +33,7 @@ const items = {
     variable: "sunforgedArmor",
     price: 22500,
     armor: 0,
+    allowMultiple: false,
   },
   glacialArmor: {
     name: "Glacial Armor",
@@ -37,6 +41,7 @@ const items = {
     variable: "glacialArmor",
     price: 17500,
     armor: 0,
+    allowMultiple: false,
   },
   abyssalArmor: {
     name: "Abyssal Armor",
@@ -44,6 +49,7 @@ const items = {
     variable: "abyssalArmor",
     price: 13500,
     armor: 0,
+    allowMultiple: false,
   },
   verdantArmor: {
     name: "Verdant Armor",
@@ -51,6 +57,7 @@ const items = {
     variable: "verdantArmor",
     price: 10500,
     armor: 0,
+    allowMultiple: false,
   },
   sylvanArmor: {
     name: "Sylvan Armor",
@@ -58,6 +65,7 @@ const items = {
     variable: "sylvanArmor",
     price: 7500,
     armor: 0,
+    allowMultiple: false,
   },
   topazineArmor: {
     name: "Topazine Armor",
@@ -65,6 +73,7 @@ const items = {
     variable: "topazineArmor",
     price: 4500,
     armor: 0,
+    allowMultiple: false,
   },
   crimsonDagger: {
     name: "Crimson Dagger",
@@ -72,6 +81,7 @@ const items = {
     variable: "crimsonDagger",
     price: 5000,
     armor: 0,
+    allowMultiple: false,
   },
   squiresHonor: {
     name: "Squire's Honor",
@@ -79,6 +89,7 @@ const items = {
     variable: "squiresHonor",
     price: 7500,
     armor: 0,
+    allowMultiple: false,
   },
   zephyrsBreeze: {
     name: "Zephyr's Breeze",
@@ -86,6 +97,7 @@ const items = {
     variable: "zephyrsBreeze",
     price: 13000,
     armor: 0,
+    allowMultiple: false,
   },
   azureBlade: {
     name: "Azure Blade",
@@ -93,6 +105,7 @@ const items = {
     variable: "azureBlade",
     price: 17000,
     armor: 0,
+    allowMultiple: false,
   },
   umbralEclipse: {
     name: "Umbral Eclipse",
@@ -100,6 +113,7 @@ const items = {
     variable: "umbralEclipse",
     price: 23000,
     armor: 0,
+    allowMultiple: false,
   },
   divineWrath: {
     name: "Divine Wrath",
@@ -107,6 +121,7 @@ const items = {
     variable: "divineWrath",
     price: 30000,
     armor: 0,
+    allowMultiple: false,
   },
   bladeOfTheDead: {
     name: "Blade of the Dead",
@@ -114,6 +129,39 @@ const items = {
     variable: "bladeOfTheDead",
     price: 37000,
     armor: 0,
+    allowMultiple: false,
+  },
+  basicFishingRod: {
+    name: "Basic Fishing Rod",
+    emoji: emoji.basicFishingRod,
+    variable: "basicFishingRod",
+    price: 1000,
+    armor: 0,
+    allowMultiple: false,
+  },
+  betterFishingRod: {
+    name: "Better Fishing Rod",
+    emoji: emoji.betterFishingRod,
+    variable: "betterFishingRod",
+    price: 5000,
+    armor: 0,
+    allowMultiple: false,
+  },
+  bestFishingRod: {
+    name: "Best Fishing Rod",
+    emoji: emoji.bestFishingRod,
+    variable: "bestFishingRod",
+    price: 10000,
+    armor: 0,
+    allowMultiple: false,
+  },
+  fishingBait: {
+    name: "Fishing Bait",
+    emoji: emoji.fishingBait,
+    variable: "fishingBait",
+    price: 50,
+    armor: 0,
+    allowMultiple: true,
   },
 };
 
@@ -149,7 +197,7 @@ module.exports = {
 
     // Check if user already has item
     const hasItem = await get(`${user.id}_${item}`);
-    if (hasItem == 1) {
+    if (hasItem == 1 && !items[item].allowMultiple) {
       return interaction.reply({
         content: `You already have this item!`,
         ephemeral: true,

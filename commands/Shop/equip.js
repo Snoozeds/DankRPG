@@ -1,10 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js");
-const {
-  set,
-  get,
-  incr,
-  emoji,
-} = require("../../globals.js");
+const { set, get, incr, emoji } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -29,7 +24,11 @@ module.exports = {
           { name: "Azureblade", value: "azureblade" },
           { name: "Zephyr's breeze", value: "zephyr" },
           { name: "Squire's honor", value: "squire" },
-          { name: "Crimson Dagger", value: "crimson" }
+          { name: "Crimson Dagger", value: "crimson" },
+          { name: "Best fishing rod", value: "bestFishingRod" },
+          { name: "Better fishing rod", value: "betterFishingRod" },
+          { name: "Baisc Fishing rod", value: "basicfishingRod" },
+          { name: "Fishing bait", value: "fishingBait" }
         )
     ),
   async execute(interaction) {
@@ -66,6 +65,19 @@ module.exports = {
     ) {
       return interaction.reply({
         content: "You already have a sword equipped!",
+        ephemeral: true,
+      });
+    }
+
+    if (
+      (await get(`${user.id}_fishingRodEquipped`)) !== "none" &&
+      (await get(`${user.id}_fishingRodEquipped`)) != undefined &&
+      item != "bestFishingRod" &&
+      item != "betterFishingRod" &&
+      item != "fishingRod"
+    ) {
+      return interaction.reply({
+        content: "You already have a fishing rod equipped!",
         ephemeral: true,
       });
     }
@@ -343,9 +355,89 @@ module.exports = {
       await set(`${user.id}_swordEquipped`, "crimson");
       await incr(`${user.id}`, "damage", 5);
       await incr(`${user.id}`, "critChance", 10);
-    } else {
-      return interaction.reply({
-        content: "That's not a valid item!\nValid: celestial, sunforged, glacial, abyssal, verdant, sylvan, topazine, blade, divine, umbral, azureblade, zephyr, squire, crimson",
+    } else if (item === "bestFishingRod") {
+      if ((await get(`${user.id}_bestFishingRod`)) != 1) {
+        return interaction.reply({
+          content: "You don't have this item!",
+          ephemeral: true,
+        });
+      }
+
+      if ((await get(`${user.id}_bestFishingRodEquipped`)) === 1) {
+        return interaction.reply({
+          content: "You already have this item equipped!",
+          ephemeral: true,
+        });
+      }
+
+      await interaction.reply({
+        content: `You equipped ${emoji.bestFishingRod} Best Fishing Rod.`,
+        ephemeral: true,
+      });
+
+      await set(`${user.id}_bestFishingRodEquipped`, 1);
+      await set(`${user.id}_fishingRodEquipped`, "bestFishingRod");
+    } else if (item === "betterFishingRod") {
+      if ((await get(`${user.id}_betterFishingRod`)) != 1) {
+        return interaction.reply({
+          content: "You don't have this item!",
+          ephemeral: true,
+        });
+      }
+
+      if ((await get(`${user.id}_betterFishingRodEquipped`)) === 1) {
+        return interaction.reply({
+          content: "You already have this item equipped!",
+          ephemeral: true,
+        });
+      }
+
+      await interaction.reply({
+        content: `You equipped ${emoji.betterFishingRod} Better Fishing Rod.`,
+        ephemeral: true,
+      });
+
+      await set(`${user.id}_betterFishingRodEquipped`, 1);
+      await set(`${user.id}_fishingRodEquipped`, "betterFishingRod");
+    } else if (item === "basicfishingRod") {
+      if ((await get(`${user.id}_basicFishingRod`)) != 1) {
+        return interaction.reply({
+          content: "You don't have this item!",
+          ephemeral: true,
+        });
+      }
+
+      if ((await get(`${user.id}_basicFishingRodEquipped`)) === 1) {
+        return interaction.reply({
+          content: "You already have this item equipped!",
+          ephemeral: true,
+        });
+      }
+
+      await interaction.reply({
+        content: `You equipped ${emoji.fishingRod} Basic Fishing Rod.`,
+        ephemeral: true,
+      });
+
+      await set(`${user.id}_basicFishingRodEquipped`, 1);
+      await set(`${user.id}_fishingRodEquipped`, "basicFishingRod");
+    } else if (item === "fishingBait") {
+      if((await get(`${user.id}_fishingBait`)) == 0) {
+        return interaction.reply({
+          content: "You don't have this item!",
+          ephemeral: true,
+        });
+      }
+
+      if((await get(`${user.id}_fishingBaitEquipped`)) == 1) {
+        return interaction.reply({
+          content: "You already have this item equipped!",
+          ephemeral: true,
+        });
+      }
+
+      await interaction.reply({
+        content: `You equipped ${emoji.fishingBait} Fishing Bait. It will now automatically be used when you fish.`,
         ephemeral: true,
       });
     }
