@@ -249,7 +249,10 @@ module.exports = {
           }
 
           // calculate amount of full and empty bars
-          const fullBars = Math.round(hp / (maxHP / (bars - 1)));
+          let fullBars = Math.min(Math.round(hp / (maxHP / bars)) + 1, 10);
+          // Quick fixes for a bug where the bar is one too long.
+          if (maxHP - hp <= 100) return hpBarBegin + hpBarMiddle.repeat(bars - 2) + emptyBarEnd;
+          if (maxHP - hp <= 200) return hpBarBegin + hpBarMiddle.repeat(bars - 3) + emptyBarMiddle + emptyBarEnd;
           const emptyBars = bars - fullBars;
 
           // calculate whether the last bar should be full or empty
@@ -282,7 +285,10 @@ module.exports = {
           }
 
           // calculate amount of full and empty bars
-          const fullBars = Math.round(xp / (xpNeeded / (bars - 1)));
+          let fullBars = Math.min(Math.round(xp / (xpNeeded / bars)) + 1, 10);
+          // Quick fixes for a bug where the bar is one too long.
+          if (xpNeeded - xp <= 100) return levelBarBegin + levelBarMiddle.repeat(bars - 2) + emptyBarEnd;
+          if (xpNeeded - xp <= 200) return levelBarBegin + levelBarMiddle.repeat(bars - 3) + emptyBarMiddle + emptyBarEnd;
           const emptyBars = bars - fullBars;
 
           // calculate whether the last bar should be full or empty

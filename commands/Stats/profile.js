@@ -32,7 +32,10 @@ module.exports = {
       }
 
       // calculate amount of full and empty bars
-      const fullBars = Math.round(hp / (maxHP / (bars - 1)));
+      let fullBars = Math.min(Math.round(hp / (maxHP / bars)) + 1, 10);
+      // Quick fixes for a bug where the bar is one too long.
+      if (maxHP - hp <= 100) return hpBarBegin + hpBarMiddle.repeat(bars - 2) + emptyBarEnd;
+      if (maxHP - hp <= 200) return hpBarBegin + hpBarMiddle.repeat(bars - 3) + emptyBarMiddle + emptyBarEnd;
       const emptyBars = bars - fullBars;
 
       // calculate whether the last bar should be full or empty
@@ -44,7 +47,7 @@ module.exports = {
       const hpPart = hpBarMiddle.repeat(fullBars - 2 + fullBarEnds) + (emptyPart.startsWith(emptyBarMiddle) ? emptyPart : emptyBarEnd + emptyPart);
 
       // Check if the hpPart should end with hpBarEnd or emptyBarEnd
-      const finalPart = hp % (maxHP / bars) === 0 ? hpPart.slice(0, -1) + emptyBarMiddle : hpPart;
+      const finalPart = hp % (maxHP / bars) === 0 ? hpPart.slice(0, -emptyBarEnd.length) + emptyBarMiddle + emptyBarEnd : hpPart;
 
       return hpBarBegin + finalPart;
     }
@@ -65,7 +68,10 @@ module.exports = {
       }
 
       // calculate amount of full and empty bars
-      const fullBars = Math.round(xp / (xpNeeded / (bars - 1)));
+      let fullBars = Math.min(Math.round(xp / (xpNeeded / bars)) + 1, 10);
+      // Quick fixes for a bug where the bar is one too long.
+      if (xpNeeded - xp <= 100) return levelBarBegin + levelBarMiddle.repeat(bars - 2) + emptyBarEnd;
+      if (xpNeeded - xp <= 200) return levelBarBegin + levelBarMiddle.repeat(bars - 3) + emptyBarMiddle + emptyBarEnd;
       const emptyBars = bars - fullBars;
 
       // calculate whether the last bar should be full or empty
@@ -77,7 +83,7 @@ module.exports = {
       const levelPart = levelBarMiddle.repeat(fullBars - 2 + fullBarEnds) + (emptyPart.startsWith(emptyBarMiddle) ? emptyPart : emptyBarEnd + emptyPart);
 
       // Check if the levelPart should end with levelBarEnd or emptyBarEnd
-      const finalPart = xp % (xpNeeded / bars) === 0 ? levelPart.slice(0, -1) + emptyBarMiddle : levelPart;
+      const finalPart = xp % (xpNeeded / bars) === 0 ? levelPart.slice(0, -emptyBarEnd.length) + emptyBarMiddle + emptyBarEnd : levelPart;
 
       return levelBarBegin + finalPart;
     }
