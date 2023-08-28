@@ -5,7 +5,7 @@ const { set, decr, incr, get, emoji } = require("../../globals.js");
 const items = {
   lifesaver: {
     name: "Lifesaver",
-    emoji: emoji.lifesaver,
+    emoji: "lifesaver",
     variable: "lifesaver",
     price: 1000,
     armor: 0,
@@ -13,7 +13,7 @@ const items = {
   },
   stoneRing: {
     name: "Stone Ring",
-    emoji: emoji.stoneRing,
+    emoji: "stoneRing",
     variable: "stoneRing",
     price: 2000,
     armor: 1,
@@ -21,7 +21,7 @@ const items = {
   },
   celestialArmor: {
     name: "Celestial Armor",
-    emoji: emoji.celestialArmor,
+    emoji: "celestialArmor",
     variable: "celestialArmor",
     price: 30000,
     armor: 0,
@@ -29,7 +29,7 @@ const items = {
   },
   sunforgedArmor: {
     name: "Sunforged Armor",
-    emoji: emoji.sunforgedArmor,
+    emoji: "sunforgedArmor",
     variable: "sunforgedArmor",
     price: 22500,
     armor: 0,
@@ -37,7 +37,7 @@ const items = {
   },
   glacialArmor: {
     name: "Glacial Armor",
-    emoji: emoji.glacialArmor,
+    emoji: "glacialArmor",
     variable: "glacialArmor",
     price: 17500,
     armor: 0,
@@ -45,7 +45,7 @@ const items = {
   },
   abyssalArmor: {
     name: "Abyssal Armor",
-    emoji: emoji.abyssalArmor,
+    emoji: "abyssalArmor",
     variable: "abyssalArmor",
     price: 13500,
     armor: 0,
@@ -53,7 +53,7 @@ const items = {
   },
   verdantArmor: {
     name: "Verdant Armor",
-    emoji: emoji.verdantArmor,
+    emoji: "verdantArmor",
     variable: "verdantArmor",
     price: 10500,
     armor: 0,
@@ -61,7 +61,7 @@ const items = {
   },
   sylvanArmor: {
     name: "Sylvan Armor",
-    emoji: emoji.sylvanArmor,
+    emoji: "sylvanArmor",
     variable: "sylvanArmor",
     price: 7500,
     armor: 0,
@@ -69,7 +69,7 @@ const items = {
   },
   topazineArmor: {
     name: "Topazine Armor",
-    emoji: emoji.topazineArmor,
+    emoji: "topazineArmor",
     variable: "topazineArmor",
     price: 4500,
     armor: 0,
@@ -77,7 +77,7 @@ const items = {
   },
   crimsonDagger: {
     name: "Crimson Dagger",
-    emoji: emoji.crimsonDagger,
+    emoji: "crimsonDagger",
     variable: "crimsonDagger",
     price: 5000,
     armor: 0,
@@ -85,7 +85,7 @@ const items = {
   },
   squiresHonor: {
     name: "Squire's Honor",
-    emoji: emoji.squiresHonor,
+    emoji: "squiresHonor",
     variable: "squiresHonor",
     price: 7500,
     armor: 0,
@@ -93,7 +93,7 @@ const items = {
   },
   zephyrsBreeze: {
     name: "Zephyr's Breeze",
-    emoji: emoji.zephyrsBreeze,
+    emoji: "zephyrsBreeze",
     variable: "zephyrsBreeze",
     price: 13000,
     armor: 0,
@@ -101,7 +101,7 @@ const items = {
   },
   azureBlade: {
     name: "Azure Blade",
-    emoji: emoji.azureBlade,
+    emoji: "azureBlade",
     variable: "azureBlade",
     price: 17000,
     armor: 0,
@@ -109,7 +109,7 @@ const items = {
   },
   umbralEclipse: {
     name: "Umbral Eclipse",
-    emoji: emoji.umbralEclipse,
+    emoji: "umbralEclipse",
     variable: "umbralEclipse",
     price: 23000,
     armor: 0,
@@ -117,7 +117,7 @@ const items = {
   },
   divineWrath: {
     name: "Divine Wrath",
-    emoji: emoji.divineWrath,
+    emoji: "divineWrath",
     variable: "divineWrath",
     price: 30000,
     armor: 0,
@@ -125,7 +125,7 @@ const items = {
   },
   bladeOfTheDead: {
     name: "Blade of the Dead",
-    emoji: emoji.bladeOfTheDead,
+    emoji: "bladeOfTheDead",
     variable: "bladeOfTheDead",
     price: 37000,
     armor: 0,
@@ -133,7 +133,7 @@ const items = {
   },
   basicFishingRod: {
     name: "Basic Fishing Rod",
-    emoji: emoji.basicFishingRod,
+    emoji: "basicFishingRod",
     variable: "basicFishingRod",
     price: 1000,
     armor: 0,
@@ -141,7 +141,7 @@ const items = {
   },
   betterFishingRod: {
     name: "Better Fishing Rod",
-    emoji: emoji.betterFishingRod,
+    emoji: "betterFishingRod",
     variable: "betterFishingRod",
     price: 5000,
     armor: 0,
@@ -149,7 +149,7 @@ const items = {
   },
   bestFishingRod: {
     name: "Best Fishing Rod",
-    emoji: emoji.bestFishingRod,
+    emoji: "bestFishingRod",
     variable: "bestFishingRod",
     price: 10000,
     armor: 0,
@@ -157,7 +157,7 @@ const items = {
   },
   fishingBait: {
     name: "Fishing Bait",
-    emoji: emoji.fishingBait,
+    emoji: "fishingBait",
     variable: "fishingBait",
     price: 50,
     armor: 0,
@@ -211,7 +211,7 @@ module.exports = {
       const row = new ActionRowBuilder().addComponents(yes, no);
 
       const reply = await interaction.reply({
-        content: `Are you sure you want to buy ${items[item].emoji}${items[item].name} for ${emoji.coins}${items[item].price}?`,
+        content: `Are you sure you want to buy ${emoji[item]} ${items[item].name} for ${emoji.coins}${items[item].price}?`,
         components: [row],
       });
 
@@ -244,7 +244,7 @@ module.exports = {
           }
 
           await confirmation.update({
-            content: `You bought ${items[item].emoji}1 for ${emoji.coins}${items[item].price}${items[item].armor > 0 ? `\n${emoji.armorUp} +**${items[item].armor}**` : ""}.`,
+            content: `You bought ${emoji[item]}1 for ${emoji.coins}${items[item].price}${items[item].armor > 0 ? `\n${emoji.armorUp} +**${items[item].armor}**` : ""}.`,
             components: [],
           });
         } else if (confirmation.customId === "no") {
@@ -266,7 +266,7 @@ module.exports = {
       await set(`${user.id}_${items[item].variable}`, 1);
       await decr(user.id, "coins", items[item].price);
       return interaction.reply({
-        content: `You bought ${items[item].emoji}1 for ${emoji.coins}${items[item].price}.`,
+        content: `You bought ${emoji[item]}1 for ${emoji.coins}${items[item].price}.`,
         ephemeral: true,
       });
     }
