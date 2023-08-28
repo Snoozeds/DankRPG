@@ -1,7 +1,6 @@
 const { Events, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const { set, get, incr, emoji, cooldown, shopImage } = require("../globals.js");
 const fs = require("node:fs");
-const fish = require("../commands/RPG/fish.js");
 const chance = require("chance").Chance();
 
 module.exports = {

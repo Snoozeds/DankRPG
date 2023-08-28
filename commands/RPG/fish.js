@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const { get, cooldown, ms } = require("../../globals.js");
+const { get, cooldown } = require("../../globals.js");
+const ms = require("ms");
 
 module.exports = {
   data: new SlashCommandBuilder().setName("fish").setDescription("Go fishing (requires at least a Basic Fishing Rod.)"),
