@@ -1,6 +1,8 @@
 const { Events, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const { set, get, incr, emoji, cooldown, shopImage } = require("../globals.js");
 const fs = require("node:fs");
+const fish = require("../commands/RPG/fish.js");
+const chance = require("chance").Chance();
 
 module.exports = {
   name: Events.InteractionCreate,
@@ -139,6 +141,7 @@ module.exports = {
   </daily:${await getCommandId("daily")}> - Claim your daily reward.
   </duel:${await getCommandId("duel")}> - Duel another user for coins.
   </fight:${await getCommandId("fight")}> - Turn-based fight system. Rewards and difficulty scale with your level.
+  </fish:${await getCommandId("fish")}> - Go fishing (requires at least a Basic Fishing Rod.)
   </forage:${await getCommandId("forage")}> - Forage for items in the wilderness.
   </mine:${await getCommandId("mine")}> - Mine for stone. Craft a pickaxe to mine faster.`
           )
@@ -706,6 +709,181 @@ module.exports = {
         const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_back").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
         await interaction.update({ embeds: [embed], components: [row] });
       }
+
+      // Fishing: cast
+      if (customId === "fishing-cast" && isAuthor) {
+        cooldown.set(interaction.user.id, "fish", "30s");
+
+        if (!(await cooldown.check(user.id, "fishButtonTimeout"))) {
+          return interaction.update({
+            content: "These buttons have timed out, sorry. Please try running /fish again.",
+            embeds: [],
+            components: [],
+          });
+        }
+
+        const embed = new EmbedBuilder()
+          .setTitle("Fishing")
+          .setDescription("You cast your line into the water...")
+          .setColor(await get(`${interaction.user.id}_color`));
+
+        const row = new ActionRowBuilder().addComponents(
+          new ButtonBuilder().setCustomId("fishing-reel").setEmoji("🎣").setStyle(ButtonStyle.Primary).setDisabled(true),
+          new ButtonBuilder().setCustomId("fishing-cancel").setLabel("Leave").setStyle(ButtonStyle.Danger)
+        );
+
+        await interaction.update({ embeds: [embed], components: [row] });
+
+        setTimeout(async () => {
+          const embed = new EmbedBuilder()
+            .setTitle("Fishing")
+            .setDescription("**A fish bit!**")
+            .setColor(await get(`${interaction.user.id}_color`));
+
+          const row = new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId("fishing-reel").setEmoji("🎣").setStyle(ButtonStyle.Primary),
+            new ButtonBuilder().setCustomId("fishing-cancel").setLabel("Leave").setStyle(ButtonStyle.Danger)
+          );
+
+          await interaction.editReply({ embeds: [embed], components: [row] });
+
+          // Set a timeout for the "fish got away" message
+          setTimeout(async () => {
+            if (!(await get(`${interaction.user.id}_fishCaught`))) {
+              const embed = new EmbedBuilder()
+                .setTitle("Fishing")
+                .setDescription("**You didn't respond in time and the fish got away!**")
+                .setColor(await get(`${interaction.user.id}_color`));
+
+              await interaction.editReply({ embeds: [embed], components: [] });
+            }
+          }, 2000);
+        }, chance.integer({ min: 3000, max: 5000 }));
+      }
+
+      // Fishing: reel
+      if (customId === "fishing-reel" && isAuthor) {
+        const fishingRodEquipped = await get(`${interaction.user.id}_fishingRodEquipped`);
+        const fishingBaitEquipped = await get(`${interaction.user.id}_fishingBaitEquipped`);
+        const fishingBait = await get(`${interaction.user.id}_fishingBait`);
+
+        // Default fishing chances for no bait, lowest rod (in %)
+        let fishChances = {
+          commonFish: 65,
+          uncommonFish: 25,
+          rareFish: 8,
+          legendaryFish: 2,
+        };
+
+        if (fishingRodEquipped === "betterFishingRod") {
+          fishChances = {
+            commonFish: 50,
+            uncommonFish: 30,
+            rareFish: 15,
+            legendaryFish: 5,
+          };
+        } else if (fishingRodEquipped === "bestFishingRod") {
+          fishChances = {
+            commonFish: 30,
+            uncommonFish: 35,
+            rareFish: 20,
+            legendaryFish: 15,
+          };
+        }
+
+        if (fishingRodEquipped === "basicFishingRod" && fishingBaitEquipped == 1 && fishingBait >= 0) {
+          fishChances = {
+            commonFish: 60,
+            uncommonFish: 30,
+            rareFish: 8,
+            legendaryFish: 2,
+          };
+        } else if (fishingRodEquipped === "betterFishingRod" && fishingBaitEquipped == 1 && fishingBait >= 0) {
+          fishChances = {
+            commonFish: 45,
+            uncommonFish: 25,
+            rareFish: 20,
+            legendaryFish: 10,
+          };
+        } else if (fishingRodEquipped === "bestFishingRod" && fishingBaitEquipped == 1 && fishingBait >= 0) {
+          fishChances = {
+            commonFish: 25,
+            uncommonFish: 30,
+            rareFish: 25,
+            legendaryFish: 20,
+          };
+        }
+
+        // Fish : Rarity
+        const fishes = {
+          tilapia: "commonFish",
+          sardine: "commonFish",
+          perch: "commonFish",
+          anchovy: "commonFish",
+          spot: "uncommonFish",
+          rainbowTrout: "uncommonFish",
+          catfish: "uncommonFish",
+          pufferfish: "rareFish",
+          bass: "rareFish",
+          octopus: "rareFish",
+        };
+
+        // Calculate fish rarity using fishChances
+        const fishRarity = chance.weighted(
+          ["commonFish", "uncommonFish", "rareFish", "legendaryFish"],
+          [fishChances.commonFish, fishChances.uncommonFish, fishChances.rareFish, fishChances.legendaryFish]
+        );
+
+        // Pick a random fish from the rarity
+        const fish = chance.pickone(Object.keys(fishes).filter((fish) => fishes[fish] === fishRarity));
+        const fishEmoji = emoji[fish];
+
+        // add a space before the first uppercase letter
+        let fishName = fish.replace(/([A-Z])/g, " $1").trim();
+        // add an uppercase letter to the first letter
+        fishName = fishName.charAt(0).toUpperCase() + fishName.slice(1);
+
+        // remove "Fish" from rarity
+        let rarityText = fishRarity.replace("Fish", "");
+        // add an uppercase letter to the first letter
+        rarityText = rarityText.charAt(0).toUpperCase() + rarityText.slice(1);
+
+        await set(`${interaction.user.id}_fishCaught`, true);
+        const embed = new EmbedBuilder()
+          .setTitle("Fishing")
+          .setDescription(`**You caught a ${fishEmoji} ${fishName}!** (${rarityText})`)
+          .setColor(await get(`${interaction.user.id}_color`));
+
+        await incr(interaction.user.id, fish, 1);
+        await interaction.update({ embeds: [embed], components: [] });
+
+        setTimeout(async () => {
+          // reset fishCaught
+          await set(`${interaction.user.id}_fishCaught`, "");
+        }, 2100);
+      }
+
+      // Fishing: cancel
+      if (customId === "fishing-cancel" && isAuthor) {
+        await interaction.update({ content: `You leave the fishing spot. Fishing cancelled.`, embeds: [], components: [] });
+      }
+
+      // Fishing: tutorial
+      if (customId === "fishing-tutorial" && isAuthor) {
+        const embed = new EmbedBuilder()
+          .setTitle("Fishing")
+          .setDescription(
+            "To fish, you must first cast your line into the water. Then, you must reel in the fish before it gets away!\nYou may buy better fishing rods from /shop and equip them with /equip.\nYou may also buy fishing bait to slightly increase the chance of catching rare fish.\n\n**Note:** You can only fish once every 30 seconds."
+          )
+          .setColor(await get(`${interaction.user.id}_color`));
+
+        const row = new ActionRowBuilder().addComponents(
+          new ButtonBuilder().setCustomId("fishing-cast").setEmoji("🎣").setStyle(ButtonStyle.Primary),
+          new ButtonBuilder().setCustomId("fishing-cancel").setLabel("Leave").setStyle(ButtonStyle.Danger)
+        );
+
+        await interaction.update({ embeds: [embed], components: [row] });
+      }
     } else if (interaction.isModalSubmit()) {
       if (interaction.customId === "report") {
         // CHANGE THIS TO YOUR OWN CHANNEL ID!
@@ -851,6 +1029,35 @@ ${emoji.attackUp} **+5**
 ${emoji.critUp} **+10%**`
             )
             .setFooter({ text: "Use /buy <id> to buy an item and /equip to equip an item. You can only equip one weapon at once." })
+            .setColor(await get(`${user.id}_color`))
+            .setThumbnail(shopImage);
+          await interaction.update({
+            content: "",
+            embeds: [embed],
+          });
+        } else if (interaction.values[0] === "fishing") {
+          const embed = new EmbedBuilder()
+            .setTitle("Fishing")
+            .setDescription(
+              `"Welcome to my shop!"\nYour balance: **${emoji.coins}${await get(`${user.id}_coins`)}**
+${emoji.bestFishingRod} Best Fishing Rod (**bestfishingrod**/**bfr**) ${(await get(`${user.id}_bestFishingRod`)) === "1" ? "(owned)" : ""}
+${emoji.description} The best fishing rod money can buy. Greatly your chance of catching rarer fish.
+${emoji.coins} **10,000**
+-
+${emoji.betterFishingRod} Better Fishing Rod (**betterfishingrod**/**bfr**) ${(await get(`${user.id}_betterFishingRod`)) === "1" ? "(owned)" : ""}
+${emoji.description} A better fishing rod than the average. Slightly increases your chance of catching rarer fish.
+${emoji.coins} **5,000**
+-
+${emoji.fishingRod} Basic Fishing Rod (**fishingrod**/**fr**) ${(await get(`${user.id}_fishingRod`)) === "1" ? "(owned)" : ""}
+${emoji.description} A basic fishing rod. Allows you to fish.
+${emoji.coins} **1,000**
+-
+${emoji.fishingBait} Fishing Bait (**fishingbait**/**fb**) ${(await get(`${user.id}_fishingBait`)) === "1" ? await get(`${user.id}_fishingBait`) : ""}
+${emoji.description} Bait for fishing. Increases your chance of catching rarer fish by a small amount. Automatically used when equipped.
+${emoji.coins} **50**
+`
+            )
+            .setFooter({ text: "Use /buy <id> to buy an item and /equip to equip an item. You can only equip one fishing rod at once." })
             .setColor(await get(`${user.id}_color`))
             .setThumbnail(shopImage);
           await interaction.update({

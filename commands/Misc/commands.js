@@ -77,6 +77,7 @@ module.exports = {
 </daily:${await getCommandId("daily")}> - Claim your daily reward.
 </duel:${await getCommandId("duel")}> - Duel another user for coins.
 </fight:${await getCommandId("fight")}> - Turn-based fight system. Rewards and difficulty scale with your level.
+</fish:${await getCommandId("fish")}> - Go fishing (requires at least a Basic Fishing Rod.)
 </forage:${await getCommandId("forage")}> - Forage for items in the wilderness.
 </mine:${await getCommandId("mine")}> - Mine for stone. Craft a pickaxe to mine faster.`
       )
