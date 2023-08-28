@@ -7,7 +7,7 @@
 [![Latest release](https://img.shields.io/github/v/release/Snoozeds/DankRPG?include_prereleases)](https://github.com/Snoozeds/DankRPG/releases/latest)
 <br />
 [![Patreon](https://img.shields.io/badge/Patreon-Donate%20(monthly)-red?logo=patreon)](https://patreon.com/snoozeds)
-[![Linode](https://img.shields.io/badge/Linode-$100%20credit-blue?logo=akamai)](https://www.linode.com/lp/refer/?r=2f0b0fc7f85a9c71619bd2f30b9e970e60b2c168)
+[![Akamai](https://img.shields.io/badge/Akamai-$100%20credit-blue?logo=Akamai)](https://www.linode.com/lp/refer/?r=2f0b0fc7f85a9c71619bd2f30b9e970e60b2c168)
 [![Steam](https://img.shields.io/badge/Steam-Trade-white?logo=steam)](https://steamcommunity.com/tradeoffer/new/?partner=972682532&token=T6WoQBBx)
 <br />
 [![Invite](https://img.shields.io/badge/Bot%20Invite-DankRPG-blue?logo=discord&logoColor=white)](https://drpg.io/invite)
