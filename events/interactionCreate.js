@@ -1051,7 +1051,7 @@ ${emoji.fishingRod} Basic Fishing Rod (**fishingrod**/**fr**) ${(await get(`${us
 ${emoji.description} A basic fishing rod. Allows you to fish.
 ${emoji.coins} **1,000**
 -
-${emoji.fishingBait} Fishing Bait (**fishingbait**/**fb**) ${(await get(`${user.id}_fishingBait`)) === "1" ? await get(`${user.id}_fishingBait`) : ""}
+${emoji.fishingBait} Fishing Bait (**fishingbait**/**fb**) ${(await get(`${user.id}_fishingBait`)) === "1" ? `(${await get(`${user.id}_fishingBait`)})` : ""}
 ${emoji.description} Bait for fishing. Increases your chance of catching rarer fish by a small amount. Automatically used when equipped.
 ${emoji.coins} **50**
 `
