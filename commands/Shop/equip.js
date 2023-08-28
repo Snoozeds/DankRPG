@@ -27,7 +27,7 @@ module.exports = {
           { name: "Crimson Dagger", value: "crimson" },
           { name: "Best fishing rod", value: "bestFishingRod" },
           { name: "Better fishing rod", value: "betterFishingRod" },
-          { name: "Baisc Fishing rod", value: "basicfishingRod" },
+          { name: "Basic Fishing rod", value: "basicfishingRod" },
           { name: "Fishing bait", value: "fishingBait" }
         )
     ),
