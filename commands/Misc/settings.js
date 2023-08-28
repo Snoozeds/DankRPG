@@ -93,6 +93,12 @@ module.exports = {
             .setRequired(true)
             .addChoices({ name: "Buying", value: "buying" }, { name: "Selling", value: "selling" }, { name: "All", value: "all" })
         )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("stats")
+        .setDescription("Change whether or not stastics are collected for /stats.")
+        .addBooleanOption((option) => option.setName("stats").setDescription("Whether or not you want stats to be collected.").setRequired(true))
     ),
   async execute(interaction) {
     const user = interaction.user;
@@ -106,7 +112,8 @@ module.exports = {
           { name: "HP display:", value: (await get(`${user.id}_hp_display`)) || "Not set", inline: false },
           { name: "Level display:", value: (await get(`${user.id}_level_display`)) || "Not set", inline: false },
           { name: "Buy confirmations:", value: (await get(`${user.id}_buyConfirmation`)) === "1" ? "Enabled" : "Disabled", inline: false },
-          { name: "Sell confirmations:", value: (await get(`${user.id}_sellConfirmation`)) === "1" ? "Enabled" : "Disabled", inline: false }
+          { name: "Sell confirmations:", value: (await get(`${user.id}_sellConfirmation`)) === "1" ? "Enabled" : "Disabled", inline: false },
+          { name: "Stats", value: (await get(`${user.id}_statsEnabled`)) === "1" ? "Enabled" : "Disabled", inline: false }
         )
         .setColor(await get(`${user.id}_color`))
         .setThumbnail(user.displayAvatarURL({ dynamic: true }));
@@ -234,9 +241,9 @@ module.exports = {
     } else if (interaction.options.getSubcommand() === "reset") {
       let response = interaction.options.getString("setting");
       if (response === "embedcolor") {
-        await set(`${interaction.user.id}_color`, "#ffe302");
+        await set(`${interaction.user.id}_color`, "#2b2d31");
         await interaction.reply({
-          content: "Your embed color has been reset to default. (#ffe302)",
+          content: "Your embed color has been reset to default. (#2b2d31)",
           ephemeral: true,
         });
       }
@@ -283,13 +290,14 @@ module.exports = {
         });
       }
       if (response === "all") {
-        await set(`${interaction.user.id}_color`, "ffe302");
+        await set(`${interaction.user.id}_color`, "#2b2d31");
         await set(`${interaction.user.id}_xp_alerts`, "1");
         await set(`${interaction.user.id}_interactions`, "1");
         await set(`${interaction.user.id}_hp_display`, "hp");
         await set(`${interaction.user.id}_level_display`, "level/xp");
         await set(`${interaction.user.id}_buyConfirmation`, "1");
         await set(`${interaction.user.id}_sellConfirmation`, "1");
+        await set(`${interaction.user.id}_statsEnabled`, "1");
         await interaction.reply({
           content: "All your settings have been reset to their defaults.",
           ephemeral: true,
@@ -327,6 +335,14 @@ module.exports = {
           ephemeral: true,
         });
       }
+    } else if (interaction.options.getSubcommand() === "stats") {
+      const response = interaction.options.getBoolean("stats");
+      const newValue = response === true ? "1" : "0";
+      await set(`${user.id}_statsEnabled`, newValue);
+      await interaction.reply({
+        content: `You will ${newValue === "1" ? "now" : "no longer"} have stats collected for /stats.`,
+        ephemeral: true,
+      });
     }
   },
 };

@@ -29,7 +29,7 @@ module.exports = {
         await redis.set(`${interaction.user.id}_next_level`, 2);
         await redis.set(`${interaction.user.id}_level`, "1");
         await redis.set(`${interaction.user.id}_hasStarted`, "1");
-        await redis.set(`${interaction.user.id}_color`, "#FFE302");
+        await redis.set(`${interaction.user.id}_color`, "#2b2d31");
         await redis.set(`${interaction.user.id}_xp_alerts`, "1");
         await redis.set(`${interaction.user.id}_commandsUsed`, "1");
 

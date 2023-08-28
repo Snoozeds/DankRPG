@@ -10,7 +10,7 @@
 (userid)_level_xp: Experience for the current level : 100
 (userid)_level: Level of the player : 1
 (userid)_hasStarted: If the player has started the game : 1
-(userid)_color: Color of embeds : #FFE302
+(userid)_color: Color of embeds : #2b2d31
 (userid)_xp_alerts: If the player wants to be alerted when they gain xp : 1
 (userid)_commandsUsed: How many commands the player has used : 1
 
