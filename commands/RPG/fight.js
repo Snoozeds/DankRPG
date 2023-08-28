@@ -213,7 +213,6 @@ module.exports = {
             await interaction.editReply({
               content: `You died but your lifesaver saved you! You now have 1 HP.`,
               components: [],
-              embeds: [],
             });
             collector.stop();
             return;
@@ -221,7 +220,6 @@ module.exports = {
             await interaction.editReply({
               content: `You died! You have no lifesavers and get your stats reset.`,
               components: [],
-              embeds: [],
             });
             await resetStats(user.id);
             collector.stop();
@@ -231,7 +229,6 @@ module.exports = {
           await interaction.editReply({
             content: `You died! You have no lifesavers and get your stats reset.`,
             components: [],
-            embeds: [],
           });
           await resetStats(user.id);
           collector.stop();
