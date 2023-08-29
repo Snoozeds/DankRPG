@@ -58,6 +58,13 @@ module.exports = {
       if (questCompleted) {
         await interaction.followUp({ content: `Congrats ${user.username}, you completed a quest and earned ${emoji.coins}100! Check /quests.` });
       }
+      if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+        await incr(interaction.user.id, "forage_timesForagedTotal", 1);
+        await incr(interaction.user.id, "forage_itemsFoundTotal", 1);
+        if (rare) {
+          await incr(interaction.user.id, "forage_diamondsFoundTotal", 1);
+        }
+      }
       await cooldown.set(user.id, "forage", "30s");
     }
   },

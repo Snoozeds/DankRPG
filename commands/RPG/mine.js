@@ -48,6 +48,10 @@ module.exports = {
           } ${(await checkXP(user.id, xp)) == true ? ` ${emoji.levelUp} **Level up!** Check /levels.` : ""}`
         );
 
+        if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+          await incr(user.id, "mine_diamondsFoundTotal", 1);
+        }
+
         // Daily quest: Find a diamond
         if (await quests.active(1)) {
           if ((await quests.completed(1, user.id)) === false) {
@@ -84,6 +88,11 @@ module.exports = {
       if (rocksQuestCompleted) {
         await interaction.followUp({ content: `Congrats ${user.username}, you completed a quest and earned ${emoji.coins}150! Check /quests.` });
       }
+    }
+
+    if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+      await incr(user.id, "mine_timesMinedTotal", 1);
+      await incr(user.id, "mine_stoneCollectedTotal", stone);
     }
   },
 };

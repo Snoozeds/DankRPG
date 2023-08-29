@@ -17,7 +17,7 @@ module.exports = {
           name: "/mine (total)",
           value: `> Times mined: ${(await get(`${user.id}_mine_timesMinedTotal`)) ?? "0"}\n> Stone collected: ${
             (await get(`${user.id}_mine_stoneCollectedTotal`)) ?? "0"
-          }\n>Diamonds found: ${(await get(`${user.id}_mine_diamondsFoundTotal`)) ?? "0"}`,
+          }\n> Diamonds found: ${(await get(`${user.id}_mine_diamondsFoundTotal`)) ?? "0"}`,
         },
         {
           name: "/chop (total)",
@@ -29,13 +29,15 @@ module.exports = {
         },
         {
           name: "/fish (total)",
-          value: `> Times fished: ${(await get(`${user.id}_fish_timesFishedTotal`)) ?? "0"}\n> Fish caught: ${(await get(`${user.id}_fish_fishCaughtTotal`)) ?? "0"}`,
+          value: `> Times fished: ${(await get(`${user.id}_fish_timesFishedTotal`)) ?? "0"}\n> Fish caught: ${
+            (await get(`${user.id}_fish_fishCaughtTotal`)) ?? "0"
+          }\n> Legendary fish caught: ${(await get(`${user.id}_fish_legendaryFishCaughtTotal`)) ?? "0"}`,
         },
         {
           name: "/daily (total)",
           value: `> Times daily claimed: ${(await get(`${user.id}_daily_timesDailyClaimedTotal`)) ?? "0"}\n> Longest streak: ${
-            (await get(`${user.id}_daily_longestStreak`)) ?? "0"
-          }`,
+            (await get(`${user.id}_daily_longestStreak`)) ?? "0" + " days"
+          } (max 30 days)`,
         },
         {
           name: "/duel (total)",
@@ -55,6 +57,9 @@ module.exports = {
         },
       ])
       .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31")
-      .setFooter({ text: `Stats may not be up to date if ${user === interaction.user.id ? "you have" : "the user has"} disabled stats.` });
+      .setFooter({ text: `Stats may not be up to date if ${user === interaction.user.id ? "you have" : "the user has"} disabled stats.` })
+      .setThumbnail(user.displayAvatarURL({ dynamic: true }));
+
+    return interaction.reply({ embeds: [embed] });
   },
 };

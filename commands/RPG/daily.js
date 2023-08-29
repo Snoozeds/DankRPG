@@ -23,7 +23,6 @@ module.exports = {
         ephemeral: true,
       });
     } else {
-      
       // If the last daily reward was collected more than 48 hours ago, reset the streak.
       if (lastDaily != null && currentTimestamp - lastDaily > ms("48h")) {
         await set(`${user.id}_dailyStreak`, 0);
@@ -36,6 +35,13 @@ module.exports = {
       let dedicatedUnlocked = false;
 
       const dailyStreak = (await get(`${user.id}_dailyStreak`)) || 0;
+
+      if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+        const longestStreak = await get(`${user.id}_longestStreak`);
+        if (dailyStreak > longestStreak) {
+          await set(`${user.id}_longestStreak`, dailyStreak);
+        }
+      }
 
       // Maximum streak is 30 days
       if (dailyStreak >= 30) {
@@ -70,9 +76,9 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle("Daily Reward")
         .setDescription(
-          `You collected your daily reward of ${emoji.coins}**${coinsReward}**. ${dailyStreak > 0 ? `Streak: ${dailyStreak} days.` : ""}\nYou now have ${emoji.coins}**${await get(
-            `${user.id}_coins`
-          )}**. ${(await get(`${user.id}_xp_alerts`)) == "1" ? `\n+${emoji.level}${xp}` : ""} ${
+          `You collected your daily reward of ${emoji.coins}**${coinsReward}**. ${dailyStreak > 0 ? `Streak: ${dailyStreak} days.` : ""}\nYou now have ${
+            emoji.coins
+          }**${await get(`${user.id}_coins`)}**. ${(await get(`${user.id}_xp_alerts`)) == "1" ? `\n+${emoji.level}${xp}` : ""} ${
             (await checkXP(user.id, xp)) == true ? ` ${emoji.levelUp} **Level up!** Check /levels.` : ""
           }`
         )
@@ -97,6 +103,10 @@ module.exports = {
 
       if (dedicatedUnlocked) {
         await interaction.followUp({ embeds: [dedicatedEmbed] });
+      }
+
+      if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+        await incr(user.id, "daily_timesDailyClaimedTotal", 1);
       }
     }
   },

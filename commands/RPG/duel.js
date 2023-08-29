@@ -166,8 +166,16 @@ module.exports = {
       }
     }
 
-    if(questCompleted) {
+    if (questCompleted) {
       await interaction.followUp({ content: `Congrats ${user.username}, you completed a quest and earned ${emoji.coins}100! Check /quests.` });
+    }
+
+    if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+      await incr(user.id, "duel_timesDuelledTotal", 1);
+    }
+
+    if ((await get(`${target.id}_statsEnabled`)) === "1" || (await get(`${target.id}_statsEnabled`)) == null) {
+      await incr(target.id, "duel_timesDuelledTotal", 1);
     }
 
     // Await button click
@@ -259,6 +267,9 @@ module.exports = {
               await set(`${user.id}_hp`, 1);
               await decr(`${user.id}`, `lifesaver`, 1);
               await incr(`${target.id}`, `coins`, 250);
+              if ((await get(`${target.id}_statsEnabled`)) === "1" || (await get(`${target.id}_statsEnabled`)) == null) {
+                await incr(target.id, "duel_timesWonTotal", 1);
+              }
               return true; // Indicate that the duel has ended
             } else {
               await interaction.editReply({
@@ -270,6 +281,9 @@ module.exports = {
               await set(`${target.id}_duel`, false);
               await incr(`${target.id}`, `coins`, 250);
               await resetStats(user.id);
+              if ((await get(`${target.id}_statsEnabled`)) === "1" || (await get(`${target.id}_statsEnabled`)) == null) {
+                await incr(target.id, "duel_timesWonTotal", 1);
+              }
               return true; // Indicate that the duel has ended
             }
           }
@@ -287,6 +301,9 @@ module.exports = {
               await set(`${target.id}_hp`, 1);
               await decr(`${target.id}`, `lifesaver`, 1);
               await incr(`${user.id}`, `coins`, 250);
+              if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+                await incr(user.id, "duel_timesWonTotal", 1);
+              }
               return true; // Indicate that the duel has ended
             } else {
               await interaction.editReply({
@@ -298,6 +315,9 @@ module.exports = {
               await set(`${target.id}_duel`, false);
               await incr(`${user.id}`, `coins`, 250);
               await resetStats(target.id);
+              if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+                await incr(user.id, "duel_timesWonTotal", 1);
+              }
               return true; // Indicate that the duel has ended
             }
           }

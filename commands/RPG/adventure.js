@@ -18,6 +18,9 @@ module.exports = {
       if (chance.bool({ likelihood: 60 }) == true) {
         const outcome = Math.floor(chance.normal({ mean: 30, dev: 5 })); // https://chancejs.com/miscellaneous/normal.html
         await incr(`${interaction.user.id}`, `coins`, outcome);
+        if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+          await incr(`${interaction.user.id}_adventure_coinsFoundTotal`, outcome);
+        }
         const trueEmbed = new EmbedBuilder()
           .setTitle(`${interaction.user.username}'s adventure`)
           .setDescription(
@@ -37,6 +40,9 @@ module.exports = {
           .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31")
           .setTimestamp();
         await interaction.reply({ embeds: [falseEmbed] });
+      }
+      if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+        await incr(`${interaction.user.id}_adventure_timesAdventuredTotal`, 1);
       }
     }
   },

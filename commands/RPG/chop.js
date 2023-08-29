@@ -19,7 +19,7 @@ module.exports = {
     // If the user has an axe, they chop faster, get more wood, and get more XP.
     const [chopCooldownTime, minWood, maxWood, xpAmount] = axe >= 1 ? [ms("15s"), 10, 20, 20] : [ms("30s"), 5, 10, 10];
 
-    let wood = chance.integer({ min: minWood, max: maxWood })
+    let wood = chance.integer({ min: minWood, max: maxWood });
     wood += axeEfficiencyLevel * 5;
     const xp = xpAmount;
 
@@ -50,6 +50,10 @@ module.exports = {
       await interaction.reply({ embeds: [embed] });
       if (questCompleted) {
         await interaction.followUp({ content: `Congrats ${user.username}, you completed a quest and earned ${emoji.coins}150! Check /quests.` });
+      }
+      if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+        await incr(user.id, "chop_woodCollectedTotal", wood);
+        await incr(user.id, "chop_timesChoppedTotal", 1);
       }
     }
   },

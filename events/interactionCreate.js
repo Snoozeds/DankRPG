@@ -740,6 +740,10 @@ module.exports = {
 
         await interaction.update({ embeds: [embed], components: [row] });
 
+        if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+          await incr(interaction.user.id, "fish_timesFishedTotal", 1);
+        }
+
         setTimeout(async () => {
           const embed = new EmbedBuilder()
             .setTitle("Fishing")
@@ -867,7 +871,9 @@ module.exports = {
           await incr(interaction.user.id, "coins", 300);
           achievementUnlocked = true;
         }
-
+        if ((fishRarity === "legendaryFish" && (await get(`${interaction.user.id}_statsEnabled`)) === "1") || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+          await incr(interaction.user.id, "fish_legendaryFishCaughtTotal", 1);
+        }
         await incr(interaction.user.id, fish, 1);
         await interaction.update({ embeds: [embed], components: [] });
         if (achievementUnlocked) {
@@ -876,6 +882,9 @@ module.exports = {
             .setDescription(`${emoji.achievementUnlock} You unlocked the **It's rare, I think** achievement, ${user.username}! (+${emoji.coins}**300**.)`)
             .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
           await interaction.followUp({ embeds: [embed] });
+        }
+        if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+          await incr(interaction.user.id, "fish_caughtTotal", 1);
         }
 
         setTimeout(async () => {

@@ -287,6 +287,10 @@ module.exports = {
             }
           }
 
+          if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+            await incr(user.id, "fight_enemiesKilledTotal", 1);
+          }
+
           await collector.stop();
           if (demonQuestCompleted) {
             await interaction.followUp({ content: `Congrats ${user.username}, you completed a quest and earned ${emoji.coins}150! Check /quests.` });
@@ -360,6 +364,9 @@ module.exports = {
           });
         }
       });
+    }
+    if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+      await incr(user.id, "fight_timesFoughtTotal", 1);
     }
   },
 };
