@@ -97,7 +97,7 @@ module.exports = {
     .addSubcommand((subcommand) =>
       subcommand
         .setName("stats")
-        .setDescription("Change whether or not stastics are collected for /stats.")
+        .setDescription("Change whether or not stastics are collected for /stats and /profile.")
         .addBooleanOption((option) => option.setName("stats").setDescription("Whether or not you want stats to be collected.").setRequired(true))
     ),
   async execute(interaction) {
