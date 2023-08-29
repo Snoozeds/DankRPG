@@ -11,7 +11,7 @@ module.exports = {
     // 10% chance for enemy to drop a demon wing.
     const demonWing = chance.bool({ likelihood: 10 });
     const demonWingMessage = demonWing ? `**__Item Drops:__**\n${emoji.demonWing}**You got a Demon Wing!**` : "";
-    
+
     // Daily quests
     // Used for the followUp message.
     let demonQuestCompleted = false;
@@ -275,6 +275,10 @@ module.exports = {
                 await quests.complete(2, user.id);
                 demonQuestCompleted = true;
               }
+            }
+
+            if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+              await incr(user.id, "fight_demonWingsDroppedTotal", 1);
             }
           }
 

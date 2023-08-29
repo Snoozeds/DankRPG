@@ -25,7 +25,9 @@ module.exports = {
         },
         {
           name: "/fight (total)",
-          value: `> Times fought: ${(await get(`${user.id}_fight_timesFoughtTotal`)) ?? "0"}\n> Enemies killed: ${(await get(`${user.id}_fight_enemiesKilledTotal`)) ?? "0"}`,
+          value: `> Times fought: ${(await get(`${user.id}_fight_timesFoughtTotal`)) ?? "0"}\n> Enemies killed: ${
+            (await get(`${user.id}_fight_enemiesKilledTotal`)) ?? "0"
+          }\n> Demon Wings dropped: ${(await get(`${user.id}_fight_demonWingsDroppedTotal`)) ?? "0"}`,
         },
         {
           name: "/fish (total)",
