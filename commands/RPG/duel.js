@@ -12,7 +12,8 @@ module.exports = {
     const user = interaction.user;
     const target = interaction.options.getUser("user");
 
-    let questCompleted = false; // Used for the followUp message.
+    let questCompletedUser = false; // Used for the followUp message.
+    let questCompletedTarget = false; // Used for the followUp message.
 
     const isBlocked = await redis.lrange(`${target.id}_blockedUsers`, 0, -1);
     if (isBlocked !== null && isBlocked.includes(user.id)) {
@@ -158,18 +159,6 @@ module.exports = {
       components: [row],
     });
 
-    // Daily quest: Participate in a duel against another player.
-    if (await quests.active(4)) {
-      if ((await quests.completed(4, user.id)) === false) {
-        await quests.complete(4, user.id);
-        questCompleted = true;
-      }
-    }
-
-    if (questCompleted) {
-      await interaction.followUp({ content: `Congrats ${user.username}, you completed a quest and earned ${emoji.coins}100! Check /quests.` });
-    }
-
     if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
       await incr(user.id, "duel_timesDuelledTotal", 1);
     }
@@ -211,6 +200,30 @@ module.exports = {
       // Duel start
       confirmation.deferUpdate();
       if (confirmation.customId === "yes") {
+        // Daily quest: Participate in a duel against another player.
+        if (await quests.active(4)) {
+          if ((await quests.completed(4, user.id)) === false) {
+            await quests.complete(4, user.id);
+            questCompletedUser = true;
+          }
+          if ((await quests.completed(4, target.id)) === false) {
+            await quests.complete(4, target.id);
+            questCompletedTarget = true;
+          }
+        }
+
+        if (questCompletedUser) {
+          await interaction.followUp({ content: `Congrats ${user.username}, you completed a quest and earned ${emoji.coins}100! Check /quests.` });
+        }
+        if (questCompletedTarget) {
+          await interaction.followUp({ content: `Congrats ${target.username}, you completed a quest and earned ${emoji.coins}100! Check /quests.` });
+        }
+        if (questCompletedUser && questCompletedTarget) {
+          await interaction.followUp({
+            content: `Congrats ${user.username} and ${target.username}, you both completed a quest and earned ${emoji.coins}100 each! Check /quests.`,
+          });
+        }
+
         const embed = new EmbedBuilder()
           .setTitle("Duel")
           .setDescription(`**${user.username}** and **${target.username}** are now dueling.`)
