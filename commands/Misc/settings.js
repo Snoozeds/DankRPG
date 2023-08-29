@@ -78,6 +78,7 @@ module.exports = {
               { name: "Level display", value: "leveldisplay" },
               { name: "Buy confirmations", value: "buyconfirmation" },
               { name: "Sell confirmations", value: "sellconfirmation" },
+              { name: "Stats", value: "stats" },
               { name: "All", value: "all" }
             )
         )
@@ -286,6 +287,13 @@ module.exports = {
         await set(`${interaction.user.id}_sellConfirmation`, "1");
         await interaction.reply({
           content: "Your sell confirmation setting has been reset to default. (Enabled)",
+          ephemeral: true,
+        });
+      }
+      if (response === "stats") {
+        await set(`${interaction.user.id}_statsEnabled`, "1");
+        await interaction.reply({
+          content: "Your stats setting has been reset to default. (Enabled)",
           ephemeral: true,
         });
       }
