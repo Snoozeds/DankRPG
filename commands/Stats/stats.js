@@ -8,6 +8,9 @@ module.exports = {
     .addUserOption((option) => option.setName("user").setDescription("The user to display stats for.").setRequired(false)),
   async execute(interaction) {
     const user = interaction.options.getUser("user") ?? interaction.user;
+    if ((await get(`${user.id}_statsEnabled`)) === "0") {
+      return interaction.reply({ content: `${user.id === interaction.user.id ? "You have" : "This user has"} disabled stats. If you want to see them, you can enable them again by running /settings statistics, however, they may not be up to date.`, ephemeral: true });
+    }
     const embed = new EmbedBuilder()
       .setTitle(`${user.username}'s Stats`)
       .setDescription(`Note: Stats are *very* limited before 29th August 2023.`)
@@ -59,7 +62,6 @@ module.exports = {
         },
       ])
       .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31")
-      .setFooter({ text: `Stats may not be up to date if ${user === interaction.user.id ? "you have" : "the user has"} disabled stats.` })
       .setThumbnail(user.displayAvatarURL({ dynamic: true }));
 
     return interaction.reply({ embeds: [embed] });
