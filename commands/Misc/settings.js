@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require("discord.js");
 const { get, set } = require("../../globals.js");
 
 module.exports = {
@@ -99,7 +99,8 @@ module.exports = {
       subcommand
         .setName("statistics")
         .setDescription("Change whether or not stastics are collected for /stats and /profile.")
-        .addBooleanOption((option) => option.setName("statistics").setDescription("Whether or not you want statistics to be collected.").setRequired(true))
+        .addBooleanOption((option) => option.setName("statistics").setDescription("Whether or not you want statistics to be collected.").setRequired(false))
+        .addBooleanOption((option) => option.setName("delete").setDescription("Delete your statistics.").setRequired(false))
     ),
   async execute(interaction) {
     const user = interaction.user;
@@ -343,12 +344,83 @@ module.exports = {
           ephemeral: true,
         });
       }
-    } else if (interaction.options.getSubcommand() === "statistics") {
+    } else if (interaction.options.getSubcommand() === "statistics" && !interaction.options.getBoolean("delete")) {
       const response = interaction.options.getBoolean("statistics");
       const newValue = response === true ? "1" : "0";
       await set(`${user.id}_statsEnabled`, newValue);
       await interaction.reply({
         content: `You will ${newValue === "1" ? "now" : "no longer"} have statistics collected for /stats.`,
+        ephemeral: true,
+      });
+    } else if (interaction.options.getSubcommand() === "statistics" && interaction.options.getBoolean("delete")) {
+      const buttons = new ActionRowBuilder().addComponents(
+        new ButtonBuilder().setCustomId("confirm").setLabel("Confirm").setStyle("Success").setDisabled(true),
+        new ButtonBuilder().setCustomId("cancel").setLabel("Cancel").setStyle("Danger").setDisabled(true)
+      );
+
+      const reply = await interaction.reply({
+        content:
+          "Read this carefully.\nAre you sure you want to **DELETE** all of your statistics shown in /stats and /profile?\nThis does NOT reset any of your RPG progress.\n\n**This action is irreversible.**",
+        ephemeral: true,
+        components: [buttons],
+      });
+
+      const filter = (i) => i.user.id === interaction.user.id;
+      const collector = reply.createMessageComponentCollector({ filter, time: 60000 });
+
+      setTimeout(() => {
+        buttons.components.forEach((button) => {
+          button.setDisabled(false);
+        });
+        reply.edit({ components: [buttons] });
+      }, 5000);
+
+      try {
+        collector.on("collect", async (i) => {
+          if (i.customId === "confirm") {
+            await set(`${user.id}_mine_timesMinedTotal`, "");
+            await set(`${user.id}_mine_stoneCollectedTotal`, "");
+            await set(`${user.id}_mine_diamondsFoundTotal`, "");
+            await set(`${user.id}_chop_timesChoppedTotal`, "");
+            await set(`${user.id}_chop_woodCollectedTotal`, "");
+            await set(`${user.id}_fight_timesFoughtTotal`, "");
+            await set(`${user.id}_fight_enemiesKilledTotal`, "");
+            await set(`${user.id}_fight_demonWingsDroppedTotal`, "");
+            await set(`${user.id}_fish_timesFishedTotal`, "");
+            await set(`${user.id}_fish_fishCaughtTotal`, "");
+            await set(`${user.id}_fish_legendaryFishCaughtTotal`, "");
+            await set(`${user.id}_daily_timesDailyClaimedTotal`, "");
+            await set(`${user.id}_daily_longestStreak`, "");
+            await set(`${user.id}_duel_timesDuelledTotal`, "");
+            await set(`${user.id}_duel_timesWonTotal`, "");
+            await set(`${user.id}_forage_timesForagedTotal`, "");
+            await set(`${user.id}_forage_diamondsFoundTotal`, "");
+            await set(`${user.id}_forage_itemsFoundTotal`, "");
+            await set(`${user.id}_adventure_timesAdventuredTotal`, "");
+            await set(`${user.id}_adventure_coinsFoundTotal`, "");
+            await set(`${user.id}_statsEnabled`, 0)
+            await interaction.editReply({
+              content: "Your statistics have been deleted, and will no longer be shown in /stats and /profile.",
+              components: [],
+            });
+            collector.stop();
+          } else if (i.customId === "cancel") {
+            await interaction.editReply({
+              content: "Your statistics have not been deleted.",
+              components: [],
+            });
+            collector.stop();
+          }
+        });
+      } catch (err) {
+        await interaction.editReply({
+          content: "This has timed out.",
+          components: [],
+        });
+      }
+    } else if (interaction.options.getSubcommand() === "statistics" && !interaction.options.getBoolean("delete") && !interaction.options.getBoolean("statistics")) {
+      await interaction.reply({
+        content: "You must specify whether you want to enable or disable statistics, or choose to delete them.",
         ephemeral: true,
       });
     }
