@@ -49,6 +49,7 @@ module.exports = {
         );
 
         if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+          if ((await get(`${user.id}_diamondsFound`)) == null) await set(`${user.id}_diamondsFound`, 0);
           await incr(user.id, "mine_diamondsFoundTotal", 1);
         }
 
@@ -90,7 +91,13 @@ module.exports = {
       }
     }
 
-    if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+    if ((await get(`${interaction.user.id}_statsEnabled`)) == "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+      if ((await get(`${user.id}_mine_timesMinedTotal`)) == null || (await get(`${user.id}_mine_timesMinedTotal`)) == "") {
+        await set(`${user.id}_mine_timesMinedTotal`, 0);
+      }
+      if ((await get(`${user.id}_mine_stoneCollectedTotal`)) == null || (await get(`${user.id}_mine_stoneCollectedTotal`)) == "") {
+        await set(`${user.id}_mine_stoneCollectedTotal`, 0);
+      }
       await incr(user.id, "mine_timesMinedTotal", 1);
       await incr(user.id, "mine_stoneCollectedTotal", stone);
     }

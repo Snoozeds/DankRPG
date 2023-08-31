@@ -278,6 +278,9 @@ module.exports = {
             }
 
             if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+              if ((await get(`${user.id}_fight_demonWingsDroppedTotal`)) == null || (await get(`${user.id}_fight_demonWingsDroppedTotal`)) == "") {
+                await set(`${user.id}_fight_demonWingsDroppedTotal`, 0);
+              }
               await incr(user.id, "fight_demonWingsDroppedTotal", 1);
             }
           }
@@ -292,6 +295,9 @@ module.exports = {
           }
 
           if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+            if ((await get(`${user.id}_fight_enemiesKilledTotal`)) == null || (await get(`${user.id}_fight_enemiesKilledTotal`)) == "") {
+              await set(`${user.id}_fight_enemiesKilledTotal`, 0);
+            }
             await incr(user.id, "fight_enemiesKilledTotal", 1);
           }
 
@@ -370,6 +376,9 @@ module.exports = {
       });
     }
     if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+      if ((await get(`${user.id}_fight_timesFoughtTotal`)) == null || (await get(`${user.id}_fight_timesFoughtTotal`)) == "") {
+        await set(`${user.id}_fight_timesFoughtTotal`, 0);
+      }
       await incr(user.id, "fight_timesFoughtTotal", 1);
     }
   },

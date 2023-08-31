@@ -38,6 +38,7 @@ module.exports = {
 
       if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
         const longestStreak = await get(`${user.id}_longestStreak`);
+        if (longestStreak == null || longestStreak == "") await set(`${user.id}_longestStreak`, 0);
         if (dailyStreak > longestStreak) {
           await set(`${user.id}_longestStreak`, dailyStreak);
         }
@@ -106,6 +107,9 @@ module.exports = {
       }
 
       if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+        if ((await get(`${user.id}_daily_timesDailyClaimedTotal`)) == null || (await get(`${user.id}_daily_timesDailyClaimedTotal`)) == "") {
+          await set(`${user.id}_daily_timesDailyClaimedTotal`, 0);
+        }
         await incr(user.id, "daily_timesDailyClaimedTotal", 1);
       }
     }

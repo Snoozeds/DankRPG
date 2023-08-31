@@ -160,10 +160,16 @@ module.exports = {
     });
 
     if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+      if ((await get(`${user.id}_duel_timesDuelledTotal`)) == null || (await get(`${user.id}_duel_timesDuelledTotal`)) == "") {
+        await set(`${user.id}_duel_timesDuelledTotal`, 0);
+      }
       await incr(user.id, "duel_timesDuelledTotal", 1);
     }
 
     if ((await get(`${target.id}_statsEnabled`)) === "1" || (await get(`${target.id}_statsEnabled`)) == null) {
+      if ((await get(`${target.id}_duel_timesDuelledTotal`)) == null || (await get(`${target.id}_duel_timesDuelledTotal`)) == "") {
+        await set(`${target.id}_duel_timesDuelledTotal`, 0);
+      }
       await incr(target.id, "duel_timesDuelledTotal", 1);
     }
 
@@ -281,6 +287,9 @@ module.exports = {
               await decr(`${user.id}`, `lifesaver`, 1);
               await incr(`${target.id}`, `coins`, 250);
               if ((await get(`${target.id}_statsEnabled`)) === "1" || (await get(`${target.id}_statsEnabled`)) == null) {
+                if ((await get(`${target.id}_duel_timesWonTotal`)) == null || (await get(`${target.id}_duel_timesWonTotal`)) == "") {
+                  await set(`${target.id}_duel_timesWonTotal`, 0);
+                }
                 await incr(target.id, "duel_timesWonTotal", 1);
               }
               return true; // Indicate that the duel has ended
@@ -295,6 +304,9 @@ module.exports = {
               await incr(`${target.id}`, `coins`, 250);
               await resetStats(user.id);
               if ((await get(`${target.id}_statsEnabled`)) === "1" || (await get(`${target.id}_statsEnabled`)) == null) {
+                if ((await get(`${target.id}_duel_timesWonTotal`)) == null || (await get(`${target.id}_duel_timesWonTotal`)) == "") {
+                  await set(`${target.id}_duel_timesWonTotal`, 0);
+                }
                 await incr(target.id, "duel_timesWonTotal", 1);
               }
               return true; // Indicate that the duel has ended

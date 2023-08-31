@@ -52,6 +52,12 @@ module.exports = {
         await interaction.followUp({ content: `Congrats ${user.username}, you completed a quest and earned ${emoji.coins}150! Check /quests.` });
       }
       if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+        if ((await get(`${user.id}_chop_woodCollectedTotal`)) == null || (await get(`${user.id}_chop_woodCollectedTotal`)) == "") {
+          await set(`${user.id}_chop_woodCollectedTotal`, 0);
+        }
+        if ((await get(`${user.id}_chop_timesChoppedTotal`)) == null || (await get(`${user.id}_chop_timesChoppedTotal`)) == "") {
+          await set(`${user.id}_chop_timesChoppedTotal`, 0);
+        }
         await incr(user.id, "chop_woodCollectedTotal", wood);
         await incr(user.id, "chop_timesChoppedTotal", 1);
       }

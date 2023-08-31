@@ -742,6 +742,9 @@ module.exports = {
         await interaction.update({ embeds: [embed], components: [row] });
 
         if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+          if ((await get(`${interaction.user.id}_fish_timesFished`)) == null || (await get(`${interaction.user.id}_fish_timesFished`)) == "") {
+            await set(`${interaction.user.id}_fish_timesFished`, 0);
+          }
           await incr(interaction.user.id, "fish_timesFishedTotal", 1);
         }
 
@@ -873,6 +876,9 @@ module.exports = {
           achievementUnlocked = true;
         }
         if ((fishRarity === "legendaryFish" && (await get(`${interaction.user.id}_statsEnabled`)) === "1") || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+          if ((await get(`${interaction.user.id}_fish_legendaryFishCaughtTotal`)) == null || (await get(`${interaction.user.id}_fish_legendaryFishCaughtTotal`)) == "") {
+            await set(`${interaction.user.id}_fish_legendaryFishCaughtTotal`, 0);
+          }
           await incr(interaction.user.id, "fish_legendaryFishCaughtTotal", 1);
         }
         await incr(interaction.user.id, fish, 1);
@@ -885,6 +891,9 @@ module.exports = {
           await interaction.followUp({ embeds: [embed] });
         }
         if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
+          if ((await get(`${interaction.user.id}_fish_caughtTotal`)) == null || (await get(`${interaction.user.id}_fish_caughtTotal`)) == "") {
+            await set(`${interaction.user.id}_fish_caughtTotal`, 0);
+          }
           await incr(interaction.user.id, "fish_caughtTotal", 1);
         }
 
