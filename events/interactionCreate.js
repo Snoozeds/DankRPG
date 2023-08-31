@@ -52,7 +52,10 @@ module.exports = {
 
       try {
         if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null)
-          await incr(`${interaction.user.id}`, "commandsUsed", 1);
+          if ((await get(`${interaction.user.id}_commandsUsed`)) == null || (await get(`${interaction.user.id}_commandsUsed`)) == "") {
+            await set(`${interaction.user.id}_commandsUsed`, "0");
+          }
+        await incr(`${interaction.user.id}`, "commandsUsed", 1);
         await command.execute(interaction);
       } catch (error) {
         console.error(error);
@@ -232,6 +235,10 @@ module.exports = {
 
       // Quick menu: Profile
       if (customId === "qm_profile" && isAuthor) {
+        // Fixes commandsUsed not showing if the user has deleted their stats.
+        if ((await get(`${user.id}_commandUsed`)) == null || (await get(`${user.id}_commandUsed`)) == "") {
+          await set(`${user.id}_commandUsed`, "0");
+        }
         const hpType = await get(`${interaction.user.id}_hp_display`);
         const xpType = await get(`${interaction.user.id}_level_display`);
 

@@ -1,5 +1,5 @@
 const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
-const { get, emoji } = require("../../globals.js");
+const { set, get, emoji } = require("../../globals.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -13,6 +13,10 @@ module.exports = {
         content: "Bots don't have RPG profiles.\nIf you are looking for information about a bot user, use `/userinfo`.",
         ephemeral: true,
       });
+      // Fixes commandsUsed not showing if the user has deleted their stats.
+    if ((await get(`${user.id}_commandUsed`)) == null || (await get(`${user.id}_commandUsed`)) == "") {
+      await set(`${user.id}_commandUsed`, "0");
+    }
     const hpType = await get(`${interaction.user.id}_hp_display`);
     const xpType = await get(`${interaction.user.id}_level_display`);
 
