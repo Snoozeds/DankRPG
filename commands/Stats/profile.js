@@ -155,7 +155,7 @@ module.exports = {
         },
         {
           name: "Commands Used",
-          value: `**${await get(`${user.id}_commandsUsed`)}**`,
+          value: `${(await get(`${user.id}_statsEnabled`)) === "1" ? `**${await get(`${user.id}_commandsUsed`)}**` : `Stats disabled.`}`,
           inline: true,
         },
       ])
