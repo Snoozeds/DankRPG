@@ -62,7 +62,7 @@ module.exports = {
 </settings hpdisplay:${await getCommandId("settings")}> - Change how HP is displayed to you in /profile.
 </settings leveldisplay:${await getCommandId("settings")}> - Change how level is displayed to you in /profile.
 </settings confirmations:${await getCommandId("settings")}> - Toggle the type of confirmations you get when performing certain actions.
-</settings stats:${await getCommandId("settings")}> - Toggle stat collection (used in \`stats\` and \`profile\`.)
+</settings statistics:${await getCommandId("settings")}> - Toggle stat collection (used in \`stats\` and \`profile\`.)
 </settings reset:${await getCommandId("settings")}> - Reset your settings.
 </time:${await getCommandId("time")}> - Get the current time for a timezone.
 </uptime:${await getCommandId("uptime")}> - Shows the bot's uptime.`
