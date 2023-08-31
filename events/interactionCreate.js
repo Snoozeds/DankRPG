@@ -962,42 +962,42 @@ module.exports = {
             .setDescription(
               `"Welcome to my shop!"\nYour balance: **${emoji.coins}${await get(`${user.id}_coins`)}**
 
-${emoji.celestialArmor} Celestial Armor (**celestial**) ${(await get(`${user.id}_celestialArmor`)) === "1" ? "(owned)" : ""}
+${emoji.celestialArmor} Celestial Armor ${(await get(`${user.id}_celestialArmor`)) === "1" ? "(owned)" : ""}
 ${emoji.description} Armor of immense strength, said to have been forged by the gods themselves.
 ${emoji.coins} **30,000**
 ${emoji.armorUp} **+50**
 \-
-${emoji.sunforgedArmor} Sunforged Armor (**sunforged**) ${(await get(`${user.id}_sunforgedArmor`)) === "1" ? "(owned)" : ""}
+${emoji.sunforgedArmor} Sunforged Armor ${(await get(`${user.id}_sunforgedArmor`)) === "1" ? "(owned)" : ""}
 ${emoji.description} Extremely rare and formidable armor, forged in the heat of the sun.
 ${emoji.coins} **22,500**
 ${emoji.armorUp} **+35**
 \-
-${emoji.glacialArmor} Glacial Armor (**glacial**) ${(await get(`${user.id}_glacialArmor`)) === "1" ? "(owned)" : ""}
+${emoji.glacialArmor} Glacial Armor ${(await get(`${user.id}_glacialArmor`)) === "1" ? "(owned)" : ""}
 ${emoji.description} Very rare and robust armor, meticulously forged in the coldest of glaciers.
 ${emoji.coins} **17,500**
 ${emoji.armorUp} **+30**
 \-
-${emoji.abyssalArmor} Abyssal Armor (**abyssal**) ${(await get(`${user.id}_abyssalArmor`)) === "1" ? "(owned)" : ""}
+${emoji.abyssalArmor} Abyssal Armor ${(await get(`${user.id}_abyssalArmor`)) === "1" ? "(owned)" : ""}
 ${emoji.description} Rare and powerful armor, imbued with the essence of the deep sea.
 ${emoji.coins} **13,500**
 ${emoji.armorUp} **+25**
 \-
-${emoji.verdantArmor} Verdant Armor (**verdant**) ${(await get(`${user.id}_verdantArmor`)) === "1" ? "(owned)" : ""}
+${emoji.verdantArmor} Verdant Armor ${(await get(`${user.id}_verdantArmor`)) === "1" ? "(owned)" : ""}
 ${emoji.description} Strong and sought-after armor, adorned with the essence of lush greenery.
 ${emoji.coins} **10,500**
 ${emoji.armorUp} **+20**
 \-
-${emoji.sylvanArmor} Sylvan Armor (**sylvan**) ${(await get(`${user.id}_sylvanArmor`)) === "1" ? "(owned)" : ""}
+${emoji.sylvanArmor} Sylvan Armor ${(await get(`${user.id}_sylvanArmor`)) === "1" ? "(owned)" : ""}
 ${emoji.description} Highly coveted and rare armor, emanating the magic of ancient forests.
 ${emoji.coins} **7,500**
 ${emoji.armorUp} **+10**
 \-
-${emoji.topazineArmor} Topazine Armor (**topazine**) ${(await get(`${user.id}_topazineArmor`)) === "1" ? "(owned)" : ""}
+${emoji.topazineArmor} Topazine Armor ${(await get(`${user.id}_topazineArmor`)) === "1" ? "(owned)" : ""}
 ${emoji.description} Relatively common armor, imbued with the essence of the earth.
 ${emoji.coins} **4,500**
 ${emoji.armorUp} **+5**
 \-
-${emoji.stoneRing} Stone Ring (**stonering**) ${(await get(`${user.id}_stoneRing`)) === "1" ? "(owned)" : ""}
+${emoji.stoneRing} Stone Ring ${(await get(`${user.id}_stoneRing`)) === "1" ? "(owned)" : ""}
 ${emoji.description} A small ring crafted from stone. Automatically equips itself when bought. Cannot be unequipped.
 ${emoji.coins} **2,000**
 ${emoji.armorUp} **+1**`
@@ -1015,7 +1015,7 @@ ${emoji.armorUp} **+1**`
             .setDescription(
               `"Welcome to my shop!"\nYour balance: **${emoji.coins}${await get(`${user.id}_coins`)}**
 
-${emoji.bladeOfTheDead} Blade of the Dead (**blade**/**botd**) ${(await get(`${user.id}_bladeOfTheDead`)) === "1" ? "(owned)" : ""}
+${emoji.bladeOfTheDead} Blade of the Dead ${(await get(`${user.id}_bladeOfTheDead`)) === "1" ? "(owned)" : ""}
 ${
   emoji.description
 } The Blade of the Dead strikes fear into the hearts of enemies. Its malevolent aura grants the wielder the power to drain life from foes, leaving devastation in their wake.
@@ -1023,37 +1023,37 @@ ${emoji.coins} **37,000**
 ${emoji.attackUp} **+60**
 ${emoji.critUp} **+60%**
 -
-${emoji.divineWrath} Divine Wrath (**divine**/**dw**) ${(await get(`${user.id}_divineWrath`)) === "1" ? "(owned)" : ""}
+${emoji.divineWrath} Divine Wrath ${(await get(`${user.id}_divineWrath`)) === "1" ? "(owned)" : ""}
 ${emoji.description} Carved from a single shard of a fallen comet, the Celestial Edge is a legendary blade imbued with the very essence of the gods.
 ${emoji.coins} **30,000**
 ${emoji.attackUp} **+40**
 ${emoji.critUp} **+50%**
 -
-${emoji.umbralEclipse} Umbral Eclipse (**umbral**/**ue**) ${(await get(`${user.id}_umbralEclipse`)) === "1" ? "(owned)" : ""}
+${emoji.umbralEclipse} Umbral Eclipse ${(await get(`${user.id}_umbralEclipse`)) === "1" ? "(owned)" : ""}
 ${emoji.description} A lethal masterpiece forged from shadowy steel, the Umbral eclipse is the perfect fusion of elegance and devastation.
 ${emoji.coins} **23,000**
 ${emoji.attackUp} **+30**
 ${emoji.critUp} **+40%**
 -
-${emoji.azureBlade} Azureblade (**azureblade**/**ab**) ${(await get(`${user.id}_azureblade`)) === "1" ? "(owned)" : ""}
+${emoji.azureBlade} Azureblade ${(await get(`${user.id}_azureblade`)) === "1" ? "(owned)" : ""}
 ${emoji.description} A legendary sword forged from shimmering azure steel, the Azureblade is the perfect all-rounder for a medium-skilled adventurer.
 ${emoji.coins} **17,000**
 ${emoji.attackUp} **+20**
 ${emoji.critUp} **+35%**
 -
-${emoji.zephyrsBreeze} Zephyr's Breeze (**zephyrs**/**zb**) ${(await get(`${user.id}_zephyrsBreeze`)) === "1" ? "(owned)" : ""}
+${emoji.zephyrsBreeze} Zephyr's Breeze ${(await get(`${user.id}_zephyrsBreeze`)) === "1" ? "(owned)" : ""}
 ${emoji.description} Crafted with ethereal precision, the Zephyr Breeze cleaves through foes with unmatched speed and grace.
 ${emoji.coins} **13,000**
 ${emoji.attackUp} **+15**
 ${emoji.critUp} **+30%**
 -
-${emoji.squiresHonor} Squire's Honor (**squires**/**sh**) ${(await get(`${user.id}_squiresHonor`)) === "1" ? "(owned)" : ""}
+${emoji.squiresHonor} Squire's Honor ${(await get(`${user.id}_squiresHonor`)) === "1" ? "(owned)" : ""}
 ${emoji.description} A sword once used by knights across the country, the Squire's Honor is the perfect choice for an adventurer just starting out.
 ${emoji.coins} **7,500**
 ${emoji.attackUp} **+10**
 ${emoji.critUp} **+15%**
 -
-${emoji.crimsonDagger} Crimson Dagger (**crimson**/**cd**) ${(await get(`${user.id}_crimsonDagger`)) === "1" ? "(owned)" : ""}
+${emoji.crimsonDagger} Crimson Dagger ${(await get(`${user.id}_crimsonDagger`)) === "1" ? "(owned)" : ""}
 ${emoji.description} A fast, strong and cost effective dagger, crafted from crimson.
 ${emoji.coins} **5,000**
 ${emoji.attackUp} **+5**
@@ -1071,24 +1071,24 @@ ${emoji.critUp} **+10%**`
             .setTitle("Fishing")
             .setDescription(
               `"Welcome to my shop!"\nYour balance: **${emoji.coins}${await get(`${user.id}_coins`)}**
-${emoji.bestFishingRod} Best Fishing Rod (**bestfishingrod**/**bfr**) ${(await get(`${user.id}_bestFishingRod`)) === "1" ? "(owned)" : ""}
+${emoji.bestFishingRod} Best Fishing Rod ${(await get(`${user.id}_bestFishingRod`)) === "1" ? "(owned)" : ""}
 ${emoji.description} The best fishing rod money can buy. Greatly your chance of catching rarer fish.
 ${emoji.coins} **10,000**
 -
-${emoji.betterFishingRod} Better Fishing Rod (**betterfishingrod**/**bfr**) ${(await get(`${user.id}_betterFishingRod`)) === "1" ? "(owned)" : ""}
+${emoji.betterFishingRod} Better Fishing Rod ${(await get(`${user.id}_betterFishingRod`)) === "1" ? "(owned)" : ""}
 ${emoji.description} A better fishing rod than the average. Slightly increases your chance of catching rarer fish.
 ${emoji.coins} **5,000**
 -
-${emoji.basicFishingRod} Basic Fishing Rod (**fishingrod**/**fr**) ${(await get(`${user.id}_fishingRod`)) === "1" ? "(owned)" : ""}
+${emoji.basicFishingRod} Basic Fishing Rod ${(await get(`${user.id}_fishingRod`)) === "1" ? "(owned)" : ""}
 ${emoji.description} A basic fishing rod. Allows you to fish.
 ${emoji.coins} **1,000**
 -
-${emoji.fishingBait} Fishing Bait (**fishingbait**/**fb**) ${(await get(`${user.id}_fishingBait`)) === "1" ? `(${await get(`${user.id}_fishingBait`)})` : ""}
+${emoji.fishingBait} Fishing Bait ${(await get(`${user.id}_fishingBait`)) === "1" ? `(${await get(`${user.id}_fishingBait`)})` : ""}
 ${emoji.description} Bait for fishing. Increases your chance of catching rarer fish by a small amount. Automatically used when equipped.
 ${emoji.coins} **50**
 `
             )
-            .setFooter({ text: "Use /buy <id> to buy an item and /equip to equip an item. You can only equip one fishing rod at once." })
+            .setFooter({ text: "Use /buy to buy an item and /equip to equip an item. You can only equip one fishing rod at once." })
             .setColor(await get(`${user.id}_color`))
             .setThumbnail(shopImage);
           await interaction.update({
