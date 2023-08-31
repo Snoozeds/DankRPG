@@ -1079,7 +1079,7 @@ ${emoji.betterFishingRod} Better Fishing Rod (**betterfishingrod**/**bfr**) ${(a
 ${emoji.description} A better fishing rod than the average. Slightly increases your chance of catching rarer fish.
 ${emoji.coins} **5,000**
 -
-${emoji.fishingRod} Basic Fishing Rod (**fishingrod**/**fr**) ${(await get(`${user.id}_fishingRod`)) === "1" ? "(owned)" : ""}
+${emoji.basicFishingRod} Basic Fishing Rod (**fishingrod**/**fr**) ${(await get(`${user.id}_fishingRod`)) === "1" ? "(owned)" : ""}
 ${emoji.description} A basic fishing rod. Allows you to fish.
 ${emoji.coins} **1,000**
 -
