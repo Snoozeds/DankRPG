@@ -742,8 +742,8 @@ module.exports = {
         await interaction.update({ embeds: [embed], components: [row] });
 
         if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
-          if ((await get(`${interaction.user.id}_fish_timesFished`)) == null || (await get(`${interaction.user.id}_fish_timesFished`)) == "") {
-            await set(`${interaction.user.id}_fish_timesFished`, 0);
+          if ((await get(`${interaction.user.id}_fish_timesFishedTotal`)) == null || (await get(`${interaction.user.id}_fish_timesFishedTotal`)) == "") {
+            await set(`${interaction.user.id}_fish_timesFishedTotal`, 0);
           }
           await incr(interaction.user.id, "fish_timesFishedTotal", 1);
         }
@@ -875,12 +875,6 @@ module.exports = {
           await incr(interaction.user.id, "coins", 300);
           achievementUnlocked = true;
         }
-        if ((fishRarity === "legendaryFish" && (await get(`${interaction.user.id}_statsEnabled`)) === "1") || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
-          if ((await get(`${interaction.user.id}_fish_legendaryFishCaughtTotal`)) == null || (await get(`${interaction.user.id}_fish_legendaryFishCaughtTotal`)) == "") {
-            await set(`${interaction.user.id}_fish_legendaryFishCaughtTotal`, 0);
-          }
-          await incr(interaction.user.id, "fish_legendaryFishCaughtTotal", 1);
-        }
         await incr(interaction.user.id, fish, 1);
         await interaction.update({ embeds: [embed], components: [] });
         if (achievementUnlocked) {
@@ -894,7 +888,11 @@ module.exports = {
           if ((await get(`${interaction.user.id}_fish_caughtTotal`)) == null || (await get(`${interaction.user.id}_fish_caughtTotal`)) == "") {
             await set(`${interaction.user.id}_fish_caughtTotal`, 0);
           }
+          if ((await get(`${interaction.user.id}_fish_${fishRarity}CaughtTotal`)) == null || (await get(`${interaction.user.id}_fish_${fishRarity}CaughtTotal`)) == "") {
+            await set(`${interaction.user.id}_fish_${fishRarity}CaughtTotal`, 0);
+          }
           await incr(interaction.user.id, "fish_caughtTotal", 1);
+          await incr(interaction.user.id, `fish_${fishRarity}CaughtTotal`, 1);
         }
 
         setTimeout(async () => {

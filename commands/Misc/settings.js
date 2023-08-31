@@ -388,6 +388,9 @@ module.exports = {
             await set(`${user.id}_fight_demonWingsDroppedTotal`, "");
             await set(`${user.id}_fish_timesFishedTotal`, "");
             await set(`${user.id}_fish_fishCaughtTotal`, "");
+            await set(`${user.id}_fish_commonFishCaughtTotal`, "");
+            await set(`${user.id}_fish_uncommonFishCaughtTotal`, "");
+            await set(`${user.id}_fish_rareFishCaughtTotal`, "");
             await set(`${user.id}_fish_legendaryFishCaughtTotal`, "");
             await set(`${user.id}_daily_timesDailyClaimedTotal`, "");
             await set(`${user.id}_daily_longestStreak`, "");
@@ -398,7 +401,7 @@ module.exports = {
             await set(`${user.id}_forage_itemsFoundTotal`, "");
             await set(`${user.id}_adventure_timesAdventuredTotal`, "");
             await set(`${user.id}_adventure_coinsFoundTotal`, "");
-            await set(`${user.id}_statsEnabled`, 0)
+            await set(`${user.id}_statsEnabled`, 0);
             await interaction.editReply({
               content: "Your statistics have been deleted, and will no longer be shown in /stats and /profile.",
               components: [],

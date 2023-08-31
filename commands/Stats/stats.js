@@ -9,7 +9,12 @@ module.exports = {
   async execute(interaction) {
     const user = interaction.options.getUser("user") ?? interaction.user;
     if ((await get(`${user.id}_statsEnabled`)) === "0") {
-      return interaction.reply({ content: `${user.id === interaction.user.id ? "You have" : "This user has"} disabled stats. If you want to see them, you can enable them again by running /settings statistics, however, they may not be up to date.`, ephemeral: true });
+      return interaction.reply({
+        content: `${
+          user.id === interaction.user.id ? "You have" : "This user has"
+        } disabled stats. If you want to see them, you can enable them again by running /settings statistics, however, they may not be up to date.`,
+        ephemeral: true,
+      });
     }
     const embed = new EmbedBuilder()
       .setTitle(`${user.username}'s Stats`)
@@ -34,9 +39,17 @@ module.exports = {
         },
         {
           name: "/fish (total)",
-          value: `> Times fished: ${(await get(`${user.id}_fish_timesFishedTotal`)) ?? "0"}\n> Fish caught: ${
-            (await get(`${user.id}_fish_fishCaughtTotal`)) ?? "0"
-          }\n> Legendary fish caught: ${(await get(`${user.id}_fish_legendaryFishCaughtTotal`)) ?? "0"}`,
+          value: `> Times fished: ${(await get(`${user.id}_fish_timesFishedTotal`)) ?? "0"}\n> Common fish caught: ${
+            (await get(`${user.id}_fish_commonFishCaughtTotal`)) ?? "0"
+          }\n> Uncommmon fish caught: ${(await get(`${user.id}_fish_uncommonFishCaughtTotal`)) ?? "0"}\n> Rare fish caught: ${
+            (await get(`${user.id}_fish_rareFishCaughtTotal`)) ?? "0"
+          }\n> Legendary fish caught: ${(await get(`${user.id}_fish_legendaryFishCaughtTotal`)) ?? "0"}\n> Fish caught total: ${
+            (await get(`${user.id}_fish_commonFishCaughtTotal`)) ??
+            0 + (await get(`${user.id}_fish_uncommonFishCaughtTotal`)) ??
+            0 + (await get(`${user.id}_fish_rareFishCaughtTotal`)) ??
+            0 + (await get(`${user.id}_fish_legendaryFishCaughtTotal`)) ??
+            "0" + " fish"
+          }`,
         },
         {
           name: "/daily (total)",
