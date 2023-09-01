@@ -1,5 +1,5 @@
 const { Events, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const { set, get, incr, emoji, cooldown, shopImage } = require("../globals.js");
+const { set, get, incr, decr, emoji, cooldown, shopImage } = require("../globals.js");
 const fs = require("node:fs");
 const chance = require("chance").Chance();
 
@@ -107,7 +107,7 @@ module.exports = {
   </banner:${await getCommandId("banner")}> - Shows your/another user's banner.
   </changemymind:${await getCommandId("changemymind")}> - Change my mind.`
           )
-          .setColor(await get(`${user.id}_color`) ?? "#2b2d31");
+          .setColor((await get(`${user.id}_color`)) ?? "#2b2d31");
         const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_commandsBack").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
         await interaction.update({ embeds: [embed], components: [row] });
       } else if (customId === "commands_misc" && isAuthor) {
@@ -132,7 +132,7 @@ module.exports = {
   </time:${await getCommandId("time")}> - Get the current time for a timezone.
   </uptime:${await getCommandId("uptime")}> - Shows the bot's uptime.`
           )
-          .setColor(await get(`${user.id}_color`) ?? "#2b2d31");
+          .setColor((await get(`${user.id}_color`)) ?? "#2b2d31");
         const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_commandsBack").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
         await interaction.update({ embeds: [embed], components: [row] });
       } else if (customId === "commands_rpg" && isAuthor) {
@@ -149,7 +149,7 @@ module.exports = {
   </forage:${await getCommandId("forage")}> - Forage for items in the wilderness.
   </mine:${await getCommandId("mine")}> - Mine for stone. Craft a pickaxe to mine faster.`
           )
-          .setColor(await get(`${user.id}_color`) ?? "#2b2d31");
+          .setColor((await get(`${user.id}_color`)) ?? "#2b2d31");
         const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_commandsBack").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
         await interaction.update({ embeds: [embed], components: [row] });
       } else if (customId === "commands_shop" && isAuthor) {
@@ -168,7 +168,7 @@ module.exports = {
   </upgrade apply:${await getCommandId("upgrade")}> - Apply an upgrade.
   </upgrade view:${await getCommandId("upgrade")}> - View all upgrades.`
           )
-          .setColor(await get(`${user.id}_color`) ?? "#2b2d31");
+          .setColor((await get(`${user.id}_color`)) ?? "#2b2d31");
         const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_commandsBack").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
         await interaction.update({ embeds: [embed], components: [row] });
       } else if (customId === "commands_social" && isAuthor) {
@@ -183,7 +183,7 @@ module.exports = {
   </divorce:${await getCommandId("divorce")}> - Divorce your partner.
   </marry:${await getCommandId("marry")}> - Propose to another user.`
           )
-          .setColor(await get(`${user.id}_color`) ?? "#2b2d31");
+          .setColor((await get(`${user.id}_color`)) ?? "#2b2d31");
         const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_commandsBack").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
         await interaction.update({ embeds: [embed], components: [row] });
       } else if (customId === "commands_stats" && isAuthor) {
@@ -203,7 +203,7 @@ module.exports = {
   </stats:${await getCommandId("stats")}> - View your/another user's stats.
   </userinfo:${await getCommandId("userinfo")}> - Shows information about you/another user.`
           )
-          .setColor(await get(`${user.id}_color`) ?? "#2b2d31");
+          .setColor((await get(`${user.id}_color`)) ?? "#2b2d31");
         const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_commandsBack").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
         await interaction.update({ embeds: [embed], components: [row] });
       } else if (customId === "qm_commandsBack" && isAuthor) {
@@ -386,7 +386,7 @@ module.exports = {
             },
           ])
           .setThumbnail(user.displayAvatarURL({ dynamic: true, size: 4096 }))
-          .setColor(await get(`${user.id}_color`) ?? "#2b2d31")
+          .setColor((await get(`${user.id}_color`)) ?? "#2b2d31")
           .setFooter({ text: "Requested by " + interaction.user.username })
           .setTimestamp();
 
@@ -812,21 +812,21 @@ module.exports = {
           };
         }
 
-        if (fishingRodEquipped === "basicFishingRod" && fishingBaitEquipped == 1 && fishingBait >= 0) {
+        if (fishingRodEquipped === "basicFishingRod" && fishingBaitEquipped == 1 && fishingBait > 0) {
           fishChances = {
             commonFish: 60,
             uncommonFish: 30,
             rareFish: 8,
             legendaryFish: 2,
           };
-        } else if (fishingRodEquipped === "betterFishingRod" && fishingBaitEquipped == 1 && fishingBait >= 0) {
+        } else if (fishingRodEquipped === "betterFishingRod" && fishingBaitEquipped == 1 && fishingBait > 0) {
           fishChances = {
             commonFish: 45,
             uncommonFish: 25,
             rareFish: 20,
             legendaryFish: 10,
           };
-        } else if (fishingRodEquipped === "bestFishingRod" && fishingBaitEquipped == 1 && fishingBait >= 0) {
+        } else if (fishingRodEquipped === "bestFishingRod" && fishingBaitEquipped == 1 && fishingBait > 0) {
           fishChances = {
             commonFish: 25,
             uncommonFish: 30,
@@ -868,11 +868,15 @@ module.exports = {
         let rarityText = fishRarity.replace("Fish", "");
         // add an uppercase letter to the first letter
         rarityText = rarityText.charAt(0).toUpperCase() + rarityText.slice(1);
+        let baitText = "";
+        if (fishingBaitEquipped == 1 && fishingBait > 0) {
+          baitText = `\nYou used your equipped fishing bait. You now have ${emoji.fishingBait}${await get(`${user.id}_fishingBait`)} left.`;
+        }
 
         await set(`${interaction.user.id}_fishCaught`, true);
         const embed = new EmbedBuilder()
           .setTitle("Fishing")
-          .setDescription(`**You caught ${fishEmoji} ${fishName}!** (${rarityText})`)
+          .setDescription(`**You caught ${fishEmoji} ${fishName}!** (${rarityText})${baitText}`)
           .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
         let achievementUnlocked = false; // Used for the followUp message
@@ -900,6 +904,9 @@ module.exports = {
           }
           await incr(interaction.user.id, "fish_caughtTotal", 1);
           await incr(interaction.user.id, `fish_${fishRarity}CaughtTotal`, 1);
+        }
+        if ((await get(`${interaction.user.id}_fishingBaitEquipped`)) == 1 && (await get(`${interaction.user.id}_fishingBait`)) > 0) {
+          await decr(interaction.user.id, "fishingBait", 1);
         }
 
         setTimeout(async () => {
@@ -964,7 +971,7 @@ module.exports = {
               value: `**Cost: ${emoji.coins}1000**\nSaves you from death. Used automatically.\nid: lifesaver`,
             })
             .setFooter({ text: "Use /buy <id> to buy an item." })
-            .setColor(await get(`${user.id}_color`) ?? "#2b2d31")
+            .setColor((await get(`${user.id}_color`)) ?? "#2b2d31")
             .setThumbnail(shopImage);
           await interaction.update({
             content: "",
@@ -1017,7 +1024,7 @@ ${emoji.coins} **2,000**
 ${emoji.armorUp} **+1**`
             )
             .setFooter({ text: "Use /buy <id> to buy an item and /equip to equip an item. You can only equip one armor item at once." })
-            .setColor(await get(`${user.id}_color`) ?? "#2b2d31")
+            .setColor((await get(`${user.id}_color`)) ?? "#2b2d31")
             .setThumbnail(shopImage);
           await interaction.update({
             content: "",
@@ -1074,7 +1081,7 @@ ${emoji.attackUp} **+5**
 ${emoji.critUp} **+10%**`
             )
             .setFooter({ text: "Use /buy <id> to buy an item and /equip to equip an item. You can only equip one weapon at once." })
-            .setColor(await get(`${user.id}_color`) ?? "#2b2d31")
+            .setColor((await get(`${user.id}_color`)) ?? "#2b2d31")
             .setThumbnail(shopImage);
           await interaction.update({
             content: "",
@@ -1103,7 +1110,7 @@ ${emoji.coins} **50**
 `
             )
             .setFooter({ text: "Use /buy to buy an item and /equip to equip an item. You can only equip one fishing rod at once." })
-            .setColor(await get(`${user.id}_color`) ?? "#2b2d31")
+            .setColor((await get(`${user.id}_color`)) ?? "#2b2d31")
             .setThumbnail(shopImage);
           await interaction.update({
             content: "",
