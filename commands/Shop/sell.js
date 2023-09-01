@@ -1,6 +1,79 @@
 const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require("discord.js");
 const { get, incr, decr, emoji } = require("../../globals.js");
 
+const items = [
+  {
+    id: "wood",
+    emoji: emoji.wood,
+    value: 1,
+  },
+  {
+    id: "stone",
+    emoji: emoji.stone,
+    value: 5,
+  },
+  {
+    id: "diamond",
+    emoji: emoji.diamond,
+    value: 250,
+  },
+  {
+    id: "demonWing",
+    emoji: emoji.demonWing,
+    value: 300,
+  },
+  {
+    id: "tilapia",
+    emoji: emoji.tilapia,
+    value: 45,
+  },
+  {
+    id: "sardine",
+    emoji: emoji.sardine,
+    value: 45,
+  },
+  {
+    id: "perch",
+    emoji: emoji.perch,
+    value: 45,
+  },
+  {
+    id: "anchovy",
+    emoji: emoji.anchovy,
+    value: 45,
+  },
+  {
+    id: "spot",
+    emoji: emoji.spot,
+    value: 65,
+  },
+  {
+    id: "rainbowTrout",
+    emoji: emoji.rainbowTrout,
+    value: 65,
+  },
+  {
+    id: "catfish",
+    emoji: emoji.catfish,
+    value: 65,
+  },
+  {
+    id: "pufferfish",
+    emoji: emoji.pufferfish,
+    value: 80,
+  },
+  {
+    id: "bass",
+    emoji: emoji.bass,
+    value: 80,
+  },
+  {
+    id: "octopus",
+    emoji: emoji.octopus,
+    value: 100,
+  },
+];
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("sell")
@@ -10,302 +83,129 @@ module.exports = {
         .setName("item")
         .setDescription("The item you want to sell.")
         .setRequired(true)
-        .addChoices({ name: "wood", value: "wood" }, { name: "stone", value: "stone" }, { name: "diamond", value: "diamond" }, { name: "demon wing", value: "demonWing" })
+        .addChoices(
+          { name: `Wood`, value: "wood" },
+          { name: `Stone`, value: "stone" },
+          { name: `Diamond`, value: "diamond" },
+          { name: `Demon Wing`, value: "demonWing" },
+          { name: `Tilapia`, value: "tilapia" },
+          { name: `Sardine`, value: "sardine" },
+          { name: `Perch`, value: "perch" },
+          { name: `Anchovy`, value: "anchovy" },
+          { name: `Spot`, value: "spot" },
+          { name: `Rainbow Trout`, value: "rainbowTrout" },
+          { name: `Catfish`, value: "catfish" },
+          { name: `Pufferfish`, value: "pufferfish" },
+          { name: `Bass`, value: "bass" },
+          { name: `Octopus`, value: "octopus" }
+        )
     )
     .addStringOption((option) => option.setName("amount").setDescription("The amount you want to sell. Type max to sell all of that item.").setRequired(true)),
   async execute(interaction) {
     const item = interaction.options.getString("item");
+    const amount = interaction.options.getString("amount");
     const user = interaction.user;
 
-    // Check if amount is valid number
-    const amount = interaction.options.getString("amount");
-    if (isNaN(amount) && amount !== "max") {
-      return interaction.reply({ content: "Please enter a valid number.", ephemeral: true });
+    if (isNaN(amount) && amount !== "max") return interaction.reply({ content: "The amount must be a number.", ephemeral: true });
+    if (amount < 1 && amount !== "max") return interaction.reply({ content: "The amount must be greater than 0.", ephemeral: true });
+
+    let confirmation = await get(`${user.id}_sellConfirmation`);
+    if (confirmation === null) confirmation = true;
+    if (confirmation === "0") confirmation = false;
+    if (confirmation === "1") confirmation = true;
+
+    if (confirmation === true) {
+      const itemData = items.find((i) => i.id === item);
+
+      const itemAmount = await get(`${user.id}_${item}`);
+      if (itemAmount === null) return interaction.reply({ content: "You don't have that item.", ephemeral: true });
+      if (itemAmount == "0") return interaction.reply({ content: "You don't have that item.", ephemeral: true });
+      if (itemAmount < amount && amount !== "max") return interaction.reply({ content: `You don't have that many of that item. You have ${itemAmount}.`, ephemeral: true });
+
+      if (amount === "max") {
+        const total = itemAmount * itemData.value;
+
+        // Buttons
+        const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
+        const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
+        const row = new ActionRowBuilder().addComponents(yes, no);
+        const itemName = itemData.id.charAt(0).toUpperCase() + itemData.id.slice(1).toLowerCase();
+        const reply = await interaction.reply({
+          content: `Are you sure you want to sell all of your ${itemData.emoji}${itemName} for ${emoji.coins}${total}?`,
+          components: [row],
+        });
+        const collectorFilter = (i) => i.user.id === interaction.user.id;
+        const confirmation = reply.createMessageComponentCollector({ collectorFilter, time: 60000 });
+        confirmation.on("collect", async (interaction) => {
+          if (interaction.customId === "yes") {
+            // Check user STILL has enough of the item
+            const itemAmount = await get(`${user.id}_${item}`);
+            if (itemAmount === null) return interaction.update({ content: "You no longer have that item.", ephemeral: true });
+            await incr(user.id, "coins", total);
+            await decr(user.id, item, itemAmount);
+            await interaction.update({ content: `You sold ${itemAmount} of your ${itemData.emoji}${itemData.id} for ${emoji.coins}${total}.`, components: [] });
+          } else if (interaction.customId === "no") {
+            await interaction.update({ content: "Selling canceled.", components: [] });
+          }
+        });
+        confirmation.on("end", () => {
+          interaction.editReply({ content: "You did not respond in time.", components: [] });
+        });
+      }
+      if (amount !== "max") {
+        const total = amount * itemData.value;
+
+        // Buttons
+        const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
+        const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
+        const row = new ActionRowBuilder().addComponents(yes, no);
+        // Capitalize first letter of item, make all other letters lowercase.
+        const itemName = itemData.id.charAt(0).toUpperCase() + itemData.id.slice(1).toLowerCase();
+        const reply = await interaction.reply({
+          content: `Are you sure you want to sell ${amount} of your ${itemData.emoji}${itemName} for ${emoji.coins}${total}?`,
+          components: [row],
+        });
+        const collectorFilter = (i) => i.user.id === interaction.user.id;
+        const confirmation = reply.createMessageComponentCollector({ collectorFilter, time: 60000 });
+        confirmation.on("collect", async (interaction) => {
+          if (interaction.customId === "yes") {
+            // Check user STILL has enough of the item
+            const itemAmount = await get(`${user.id}_${item}`);
+            if (itemAmount === null) return interaction.update({ content: "You no longer have that item.", ephemeral: true });
+            if (itemAmount < amount) return interaction.update({ content: `You no longer have that many of that item. You have ${itemAmount}.`, ephemeral: true });
+            await incr(user.id, "coins", total);
+            await decr(user.id, item, amount);
+            await interaction.update({ content: `You sold ${amount} of your ${itemData.emoji}${itemData.id} for ${emoji.coins}${total}.`, components: [] });
+          } else if (interaction.customId === "no") {
+            await interaction.update({ content: "Selling canceled.", components: [] });
+          }
+        });
+        confirmation.on("end", () => {
+          interaction.editReply({ content: "You did not respond in time.", components: [] });
+        });
+      }
     }
+    if (confirmation === false) {
+      const itemData = items.find((i) => i.id === item);
+      if (!itemData) return interaction.reply({ content: "That item doesn't exist.", ephemeral: true });
 
-    // Check amount is not negative
-    if (amount < 0 && amount !== "max") {
-      return interaction.reply({ content: "Please enter a positive number.", ephemeral: true });
-    }
+      const itemAmount = await get(`${user.id}_${item}`);
+      if (itemAmount === null) return interaction.reply({ content: "You don't have that item.", ephemeral: true });
+      if (itemAmount < amount && amount !== "max") return interaction.reply({ content: `You don't have that many of that item. You have ${itemAmount}.`, ephemeral: true });
 
-    // Selling items
-    if (item === "wood") {
       if (amount === "max") {
-        const wood = Number(await get(`${user.id}_wood`));
-        if (wood === null) {
-          return interaction.reply({ content: "You don't have any wood to sell.", ephemeral: true });
-        }
-        if ((await get(`${user.id}_sellConfirmation`)) === "1" || (await get(`${user.id}_sellConfirmation`)) === null) {
-          // Buttons
-          const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
-          const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
-          const row = new ActionRowBuilder().addComponents(yes, no);
-          const reply = await interaction.reply({ content: `Are you sure you want to sell ${emoji.wood}${wood} for ${emoji.coins}${wood}?`, components: [row] });
-          const collectorFilter = (i) => i.user.id === interaction.user.id;
-          try {
-            const confirmation = await reply.awaitMessageComponent({ filter: collectorFilter, time: 60000 }); // Waits 1 minute for a response.
-            if (confirmation.customId === "yes") {
-              await decr(user.id, "wood", wood);
-              await incr(user.id, "coins", wood);
-              await confirmation.update({ content: `You sold ${emoji.wood}${wood} for ${emoji.coins}${wood}.`, components: [] });
-            } else if (confirmation.customId === "no") {
-              await confirmation.update({ content: "Sell cancelled.", components: [] });
-            }
-          } catch (error) {
-            await interaction.editReply({ content: "You did not respond in time." });
-          }
-        } else if ((await get(`${user.id}_sellConfirmation`)) === "0") {
-          await decr(user.id, "wood", wood);
-          await incr(user.id, "coins", wood);
-          await interaction.reply({ content: `You sold ${emoji.wood}${wood} for ${emoji.coins}${wood}.`, components: [] });
-        }
-      } else {
-        const wood = Number(await get(`${user.id}_wood`));
-        if (wood === null) {
-          return interaction.reply({ content: "You don't have any wood to sell.", ephemeral: true });
-        }
-        if (amount > wood) {
-          return interaction.reply({ content: "You don't have enough wood to sell.", ephemeral: true });
-        }
-        if ((await get(`${user.id}_sellConfirmation`)) === "1" || (await get(`${user.id}_sellConfirmation`)) === null) {
-          // Buttons
-          const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
-          const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
-          const row = new ActionRowBuilder().addComponents(yes, no);
-          const reply = await interaction.reply({ content: `Are you sure you want to sell ${emoji.wood}${amount} for ${emoji.coins}${amount}?`, components: [row] });
-          const collectorFilter = (i) => i.user.id === interaction.user.id;
-          try {
-            const confirmation = await reply.awaitMessageComponent({ filter: collectorFilter, time: 60000 }); // Waits 1 minute for a response.
-            if (confirmation.customId === "yes") {
-              // Check if user STILL has enough wood
-              const wood = Number(await get(`${user.id}_wood`));
-              if (wood === null) {
-                return confirmation.update({ content: "You no longer have any wood to sell.", components: [] });
-              }
-              if (amount > wood) {
-                return confirmation.update({ content: "You no longer have enough wood to sell.", components: [] });
-              }
+        const total = itemAmount * itemData.value;
 
-              await decr(user.id, "wood", amount);
-              await incr(user.id, "coins", amount);
-              await confirmation.update({ content: `You sold ${emoji.wood}${amount} for ${emoji.coins}${amount}.`, components: [] });
-            } else if (confirmation.customId === "no") {
-              await confirmation.update({ content: "Sell cancelled.", components: [] });
-            }
-          } catch (error) {
-            await interaction.editReply({ content: "You did not respond in time." });
-          }
-        }
+        await incr(user.id, "coins", total);
+        await decr(user.id, item, itemAmount);
+        await interaction.reply({ content: `You sold ${itemAmount} of your ${itemData.emoji}${itemData.id} for ${emoji.coins}${total}.` });
       }
-    } else if (item === "stone") {
-      if (amount === "max") {
-        const stone = Number(await get(`${user.id}_stone`));
-        if (stone === null) {
-          return interaction.reply({ content: "You don't have any stone to sell.", ephemeral: true });
-        }
-        if ((await get(`${user.id}_sellConfirmation`)) === "1" || (await get(`${user.id}_sellConfirmation`)) === null) {
-          // Buttons
-          const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
-          const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
-          const row = new ActionRowBuilder().addComponents(yes, no);
-          const reply = await interaction.reply({ content: `Are you sure you want to sell ${emoji.stone}${stone} for ${emoji.coins}${stone * 5}?`, components: [row] });
-          const collectorFilter = (i) => i.user.id === interaction.user.id;
-          try {
-            const confirmation = await reply.awaitMessageComponent({ filter: collectorFilter, time: 60000 }); // Waits 1 minute for a response.
-            if (confirmation.customId === "yes") {
-              await decr(user.id, "stone", stone);
-              await incr(user.id, "coins", stone * 5);
-              await confirmation.update({ content: `You sold ${emoji.stone}${stone} for ${emoji.coins}${stone * 5}.`, components: [] });
-            } else if (confirmation.customId === "no") {
-              await confirmation.update({ content: "Sell cancelled.", components: [] });
-            }
-          } catch (error) {
-            await interaction.editReply({ content: "You did not respond in time." });
-          }
-        } else if ((await get(`${user.id}_sellConfirmation`)) === "0") {
-          await decr(user.id, "stone", stone);
-          await incr(user.id, "coins", stone * 5);
-          await interaction.reply({ content: `You sold ${emoji.stone}${stone} for ${emoji.coins}${stone * 5}.`, components: [] });
-        }
-      } else {
-        const stone = Number(await get(`${user.id}_stone`));
-        if (stone === null) {
-          return interaction.reply({ content: "You don't have any stone to sell.", ephemeral: true });
-        }
-        if (amount > stone) {
-          return interaction.reply({ content: "You don't have enough stone to sell.", ephemeral: true });
-        }
-        if ((await get(`${user.id}_sellConfirmation`)) === "1" || (await get(`${user.id}_sellConfirmation`)) === null) {
-          // Buttons
-          const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
-          const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
-          const row = new ActionRowBuilder().addComponents(yes, no);
-          const reply = await interaction.reply({ content: `Are you sure you want to sell ${emoji.stone}${amount} for ${emoji.coins}${amount * 5}?`, components: [row] });
-          const collectorFilter = (i) => i.user.id === interaction.user.id;
-          try {
-            const confirmation = await reply.awaitMessageComponent({ filter: collectorFilter, time: 60000 }); // Waits 1 minute for a response.
-            if (confirmation.customId === "yes") {
-              // Check if user STILL has enough stone
-              const stone = Number(await get(`${user.id}_stone`));
-              if (stone === null) {
-                return confirmation.update({ content: "You no longer have any stone to sell.", components: [] });
-              }
-              if (amount > stone) {
-                return confirmation.update({ content: "You no longer have enough stone to sell.", components: [] });
-              }
+      if (amount !== "max") {
+        const total = amount * itemData.value;
 
-              await decr(user.id, "stone", amount);
-              await incr(user.id, "coins", amount * 5);
-              await confirmation.update({ content: `You sold ${emoji.stone}${amount} for ${emoji.coins}${amount * 5}.`, components: [] });
-            } else if (confirmation.customId === "no") {
-              await confirmation.update({ content: "Sell cancelled.", components: [] });
-            }
-          } catch (error) {
-            await interaction.editReply({ content: "You did not respond in time." });
-          }
-        } else if ((await get(`${user.id}_sellConfirmation`)) === "0") {
-          await decr(user.id, "stone", amount);
-          await incr(user.id, "coins", amount * 5);
-          await interaction.reply({ content: `You sold ${emoji.stone}${amount} for ${emoji.coins}${amount * 5}.`, components: [] });
-        }
-      }
-    } else if (item === "diamond") {
-      if (amount === "max") {
-        const diamond = Number(await get(`${user.id}_diamond`));
-        if (diamond === null) {
-          return interaction.reply({ content: "You don't have any diamond to sell.", ephemeral: true });
-        }
-        if ((await get(`${user.id}_sellConfirmation`)) === "1" || (await get(`${user.id}_sellConfirmation`)) === null) {
-          // Buttons
-          const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
-          const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
-          const row = new ActionRowBuilder().addComponents(yes, no);
-          const reply = await interaction.reply({ content: `Are you sure you want to sell ${emoji.diamond}${diamond} for ${emoji.coins}${amount * 250}?`, components: [row] });
-          const collectorFilter = (i) => i.user.id === interaction.user.id;
-          try {
-            const confirmation = await reply.awaitMessageComponent({ filter: collectorFilter, time: 60000 }); // Waits 1 minute for a response.
-            if (confirmation.customId === "yes") {
-              await decr(user.id, "diamond", diamond);
-              await incr(user.id, "coins", diamond * 250);
-              await confirmation.update({ content: `You sold ${emoji.diamond}${diamond} for ${emoji.coins}${diamond * 250}.`, components: [] });
-            } else if (confirmation.customId === "no") {
-              await confirmation.update({ content: "Sell cancelled.", components: [] });
-            }
-          } catch (error) {
-            await interaction.editReply({ content: "You did not respond in time." });
-          }
-        }
-      } else {
-        const diamond = Number(await get(`${user.id}_diamond`));
-        if (diamond === null) {
-          return interaction.reply({ content: "You don't have any diamond to sell.", ephemeral: true });
-        }
-        if (amount > diamond) {
-          return interaction.reply({ content: "You don't have enough diamond to sell.", ephemeral: true });
-        }
-        if ((await get(`${user.id}_sellConfirmation`)) === "1" || (await get(`${user.id}_sellConfirmation`)) === null) {
-          // Buttons
-          const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
-          const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
-          const row = new ActionRowBuilder().addComponents(yes, no);
-          const reply = await interaction.reply({ content: `Are you sure you want to sell ${emoji.diamond}${amount} for ${emoji.coins}${amount * 250}?`, components: [row] });
-          const collectorFilter = (i) => i.user.id === interaction.user.id;
-          try {
-            const confirmation = await reply.awaitMessageComponent({ filter: collectorFilter, time: 60000 }); // Waits 1 minute for a response.
-            if (confirmation.customId === "yes") {
-              // Check if user STILL has enough diamond
-              const diamond = Number(await get(`${user.id}_diamond`));
-              if (diamond === null) {
-                return confirmation.update({ content: "You no longer have any diamond to sell.", components: [] });
-              }
-              if (amount > diamond) {
-                return confirmation.update({ content: "You no longer have enough diamond to sell.", components: [] });
-              }
-
-              await decr(user.id, "diamond", amount);
-              await incr(user.id, "coins", amount * 250);
-              await confirmation.update({ content: `You sold ${emoji.diamond}${amount} for ${emoji.coins}${amount * 250}.`, components: [] });
-            } else if (confirmation.customId === "no") {
-              await confirmation.update({ content: "Sell cancelled.", components: [] });
-            }
-          } catch (error) {
-            await interaction.editReply({ content: "You did not respond in time." });
-          }
-        } else if ((await get(`${user.id}_sellConfirmation`)) === "0") {
-          await decr(user.id, "diamond", amount);
-          await incr(user.id, "coins", amount * 250);
-          await interaction.reply({ content: `You sold ${emoji.diamond}${amount} for ${emoji.coins}${amount * 250}.`, components: [] });
-        }
-      }
-    } else if (item === "demonWing") {
-      if (amount === "max") {
-        const demonWing = Number(await get(`${user.id}_demonWing`));
-        if (demonWing === null) {
-          return interaction.reply({ content: "You don't have any demon wings to sell.", ephemeral: true });
-        }
-        if ((await get(`${user.id}_sellConfirmation`)) === "1" || (await get(`${user.id}_sellConfirmation`)) === null) {
-          // Buttons
-          const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
-          const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
-          const row = new ActionRowBuilder().addComponents(yes, no);
-          const reply = await interaction.reply({
-            content: `Are you sure you want to sell ${emoji.demonWing}${demonWing} for ${emoji.coins}${demonWing * 300}?`,
-            components: [row],
-          });
-          const collectorFilter = (i) => i.user.id === interaction.user.id;
-          try {
-            const confirmation = await reply.awaitMessageComponent({ filter: collectorFilter, time: 60000 }); // Waits 1 minute for a response.
-            if (confirmation.customId === "yes") {
-              await decr(user.id, "demonWing", demonWing);
-              await incr(user.id, "coins", demonWing * 300);
-              await confirmation.update({ content: `You sold ${emoji.demonWing}${demonWing} for ${emoji.coins}${demonWing * 300}.`, components: [] });
-            } else if (confirmation.customId === "no") {
-              await confirmation.update({ content: "Sell cancelled.", components: [] });
-            }
-          } catch (error) {
-            await interaction.editReply({ content: "You did not respond in time." });
-          }
-        }
-      } else {
-        const demonWing = Number(await get(`${user.id}_demonWing`));
-        if (demonWing === null) {
-          return interaction.reply({ content: "You don't have any demon wings to sell.", ephemeral: true });
-        }
-        if (amount > demonWing) {
-          return interaction.reply({ content: "You don't have enough demon wings to sell.", ephemeral: true });
-        }
-        if ((await get(`${user.id}_sellConfirmation`)) === "1" || (await get(`${user.id}_sellConfirmation`)) === null) {
-          // Buttons
-          const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
-          const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
-          const row = new ActionRowBuilder().addComponents(yes, no);
-          const reply = await interaction.reply({ content: `Are you sure you want to sell ${emoji.demonWing}${amount} for ${emoji.coins}${amount * 300}?`, components: [row] });
-          const collectorFilter = (i) => i.user.id === interaction.user.id;
-          try {
-            const confirmation = await reply.awaitMessageComponent({ filter: collectorFilter, time: 60000 }); // Waits 1 minute for a response.
-            if (confirmation.customId === "yes") {
-              // Check if user STILL has enough demon wings
-              const demonWing = Number(await get(`${user.id}_demonWing`));
-              if (demonWing === null) {
-                return confirmation.update({ content: "You no longer have any demon wings to sell.", components: [] });
-              }
-              if (amount > demonWing) {
-                return confirmation.update({ content: "You no longer have enough demon wings to sell.", components: [] });
-              }
-              await decr(user.id, "demonWing", amount);
-              await incr(user.id, "coins", amount * 300);
-              await confirmation.update({ content: `You sold ${emoji.demonWing}${amount} for ${emoji.coins}${amount * 300}.`, components: [] });
-            } else if (confirmation.customId === "no") {
-              await confirmation.update({ content: "Sell cancelled.", components: [] });
-            }
-          } catch (error) {
-            await interaction.editReply({ content: "You did not respond in time." });
-          }
-        } else if ((await get(`${user.id}_sellConfirmation`)) === "0") {
-          await decr(user.id, "demonWing", amount);
-          await incr(user.id, "coins", amount * 300);
-          await interaction.reply({ content: `You sold ${emoji.demonWing}${amount} for ${emoji.coins}${amount * 300}.`, components: [] });
-        }
+        await incr(user.id, "coins", total);
+        await decr(user.id, item, amount);
+        await interaction.reply({ content: `You sold ${amount} of your ${itemData.emoji}${itemData.id} for ${emoji.coins}${total}.` });
       }
     }
   },
