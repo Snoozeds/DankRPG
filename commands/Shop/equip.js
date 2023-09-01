@@ -27,7 +27,7 @@ module.exports = {
           { name: "Crimson Dagger", value: "crimson" },
           { name: "Best fishing rod", value: "bestFishingRod" },
           { name: "Better fishing rod", value: "betterFishingRod" },
-          { name: "Basic Fishing rod", value: "basicfishingRod" },
+          { name: "Basic Fishing rod", value: "basicFishingRod" },
           { name: "Fishing bait", value: "fishingBait" }
         )
     ),
@@ -44,7 +44,12 @@ module.exports = {
       item != "azureblade" &&
       item != "zephyr" &&
       item != "squire" &&
-      item != "crimson"
+      item != "crimson" &&
+      item != "basicFishingRod" &&
+      item != "bestFishingRod" &&
+      item != "betterFishingRod" &&
+      item != "fishingRod" &&
+      item != "fishingBait"
     ) {
       return interaction.reply({
         content: "You already have an armor equipped!",
@@ -61,7 +66,12 @@ module.exports = {
       item != "abyssal" &&
       item != "verdant" &&
       item != "sylvan" &&
-      item != "topazine"
+      item != "topazine" &&
+      item != "basicFishingRod" &&
+      item != "bestFishingRod" &&
+      item != "betterFishingRod" &&
+      item != "fishingRod" &&
+      item != "fishingBait"
     ) {
       return interaction.reply({
         content: "You already have a sword equipped!",
@@ -72,9 +82,21 @@ module.exports = {
     if (
       (await get(`${user.id}_fishingRodEquipped`)) !== "none" &&
       (await get(`${user.id}_fishingRodEquipped`)) != undefined &&
-      item != "bestFishingRod" &&
-      item != "betterFishingRod" &&
-      item != "fishingRod"
+      item != "fishingBait" &&
+      item != "blade" &&
+      item != "divine" &&
+      item != "umbral" &&
+      item != "azureblade" &&
+      item != "zephyr" &&
+      item != "squire" &&
+      item != "crimson" &&
+      item != "celestial" &&
+      item != "sunforged" &&
+      item != "glacial" &&
+      item != "abyssal" &&
+      item != "verdant" &&
+      item != "sylvan" &&
+      item != "topazine"
     ) {
       return interaction.reply({
         content: "You already have a fishing rod equipped!",
@@ -399,7 +421,7 @@ module.exports = {
 
       await set(`${user.id}_betterFishingRodEquipped`, 1);
       await set(`${user.id}_fishingRodEquipped`, "betterFishingRod");
-    } else if (item === "basicfishingRod") {
+    } else if (item === "basicFishingRod") {
       if ((await get(`${user.id}_basicFishingRod`)) != 1) {
         return interaction.reply({
           content: "You don't have this item!",
@@ -415,21 +437,21 @@ module.exports = {
       }
 
       await interaction.reply({
-        content: `You equipped ${emoji.fishingRod} Basic Fishing Rod.`,
+        content: `You equipped ${emoji.basicFishingRod} Basic Fishing Rod.`,
         ephemeral: true,
       });
 
       await set(`${user.id}_basicFishingRodEquipped`, 1);
       await set(`${user.id}_fishingRodEquipped`, "basicFishingRod");
     } else if (item === "fishingBait") {
-      if((await get(`${user.id}_fishingBait`)) == 0) {
+      if ((await get(`${user.id}_fishingBait`)) == 0) {
         return interaction.reply({
           content: "You don't have this item!",
           ephemeral: true,
         });
       }
 
-      if((await get(`${user.id}_fishingBaitEquipped`)) == 1) {
+      if ((await get(`${user.id}_fishingBaitEquipped`)) == 1) {
         return interaction.reply({
           content: "You already have this item equipped!",
           ephemeral: true,
