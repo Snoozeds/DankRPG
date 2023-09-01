@@ -237,7 +237,11 @@ module.exports = {
             });
           }
 
-          await set(`${user.id}_${items[item].variable}`, 1);
+          if (items[item].allowMultiple) {
+            await incr(user.id, `${item}`, 1);
+          } else {
+            await set(`${user.id}_${items[item].variable}`, 1);
+          }
           await decr(user.id, "coins", items[item].price);
           if (items[item].armor > 0) {
             await incr(user.id, "armor", items[item].armor);
