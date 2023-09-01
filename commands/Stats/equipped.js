@@ -22,6 +22,10 @@ module.exports = {
     const zephyrsBreeze = await get(`${user.id}_zephyrEquipped`);
     const squiresHonor = await get(`${user.id}_squireEquipped`);
     const crimsonDagger = await get(`${user.id}_crimsonEquipped`);
+    const basicFishingRod = await get(`${user.id}_basicFishingRodEquipped`);
+    const betterFishingRod = await get(`${user.id}_betterFishingRodEquipped`);
+    const bestFishingRod = await get(`${user.id}_bestFishingRodEquipped`);
+    const fishingBait = await get(`${user.id}_fishingBaitEquipped`);
 
     // Add all equipped items to description
     let equippedDescription = "";
@@ -67,7 +71,18 @@ module.exports = {
     if (crimsonDagger === "1") {
       equippedDescription += `${emoji.crimsonDagger} Crimson Dagger\n`;
     }
-
+    if (basicFishingRod === "1") {
+      equippedDescription += `${emoji.basicFishingRod} Basic Fishing Rod\n`;
+    }
+    if (betterFishingRod === "1") {
+      equippedDescription += `${emoji.betterFishingRod} Better Fishing Rod\n`;
+    }
+    if (bestFishingRod === "1") {
+      equippedDescription += `${emoji.bestFishingRod} Best Fishing Rod\n`;
+    }
+    if (fishingBait === "1") {
+      equippedDescription += `${emoji.fishingBait} Fishing Bait ${await get(`${user.id}_fishingBait`)}\n`;
+    }
     if (equippedDescription === "") {
       equippedDescription = "No items equipped.";
     }
