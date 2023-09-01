@@ -459,7 +459,7 @@ module.exports = {
       }
 
       await interaction.reply({
-        content: `You equipped ${emoji.fishingBait} Fishing Bait. It will now automatically be used when you fish.`,
+        content: `You equipped ${emoji.fishingBait} Fishing Bait. It will now automatically be used when you fish.\nNote: When you buy more bait, it will automatically be equipped from now on.`,
         ephemeral: true,
       });
 
