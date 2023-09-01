@@ -28,7 +28,7 @@ module.exports = {
       } else {
         embed.setTitle("Axe crafted!");
         embed.setDescription(`<@${user.id}> crafted an ${emoji.axe} axe!`);
-        embed.setColor(await get(`${user.id}_color`));
+        embed.setColor(await get(`${user.id}_color`) ?? "#2b2d31");
         await decr(`${user.id}`, "wood", 5);
         await decr(`${user.id}`, "stone", 10);
         await incr(`${user.id}`, "axe", 1);
@@ -50,7 +50,7 @@ module.exports = {
       } else {
         embed.setTitle("Pickaxe crafted!");
         embed.setDescription(`<@${user.id}> crafted a ${emoji.pickaxe} pickaxe!`);
-        embed.setColor(await get(`${user.id}_color`));
+        embed.setColor(await get(`${user.id}_color`) ?? "#2b2d31");
         await decr(`${user.id}`, "wood", 25);
         await decr(`${user.id}`, "stone", 50);
         await incr(`${user.id}`, "pickaxe", 1);

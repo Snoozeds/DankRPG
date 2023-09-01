@@ -22,7 +22,7 @@ module.exports = {
       .setTitle("Fishing")
       .setDescription("You go to a well known fishing spot.")
       .setFooter({ text: "Choose your next action." })
-      .setColor(await get(`${user.id}_color`));
+      .setColor(await get(`${user.id}_color`) ?? "#2b2d31");
 
     const row = new ActionRowBuilder();
     const castButton = new ButtonBuilder().setCustomId("fishing-cast").setLabel("Cast").setStyle(ButtonStyle.Primary);

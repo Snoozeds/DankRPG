@@ -30,7 +30,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle("Foraging...")
         .setDescription(`<@${user.id}> goes foraging in the wilderness.`)
-        .setColor(await get(`${user.id}_color`));
+        .setColor(await get(`${user.id}_color`) ?? "#2b2d31");
       if (rare) {
         // Daily quest: Find a diamond
         if (await quests.active(1)) {

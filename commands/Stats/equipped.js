@@ -90,7 +90,7 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle(`${user.username}'s Equipped Items`)
       .setDescription(equippedDescription)
-      .setColor(await get(`${user.id}_color`))
+      .setColor(await get(`${user.id}_color`) ?? "#2b2d31")
       .setThumbnail(user.displayAvatarURL({ dynamic: true, size: 4096 }))
       .setTimestamp();
     return interaction.reply({ embeds: [embed] });

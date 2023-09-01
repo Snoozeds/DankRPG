@@ -83,18 +83,18 @@ module.exports = {
             (await checkXP(user.id, xp)) == true ? ` ${emoji.levelUp} **Level up!** Check /levels.` : ""
           }`
         )
-        .setColor(await get(`${user.id}_color`));
+        .setColor(await get(`${user.id}_color`) ?? "#2b2d31");
       await cooldown.set(user.id, "daily", "24h");
 
       const achievementEmbed = new EmbedBuilder()
         .setTitle("Achievement Unlocked!")
         .setDescription(`${emoji.achievementUnlock} You unlocked the **It Begins** achievement! (+${emoji.coins}**250**.)`)
-        .setColor(await get(`${user.id}_color`));
+        .setColor(await get(`${user.id}_color`) ?? "#2b2d31");
 
       const dedicatedEmbed = new EmbedBuilder()
         .setTitle("Achievement Unlocked!")
         .setDescription(`${emoji.achievementUnlock} You unlocked the **Dedicated** achievement, ${user.username}! (+${emoji.coins}**500**.)`)
-        .setColor(await get(`${user.id}_color`));
+        .setColor(await get(`${user.id}_color`) ?? "#2b2d31");
 
       if (achievementUnlocked) {
         await interaction.reply({ embeds: [achievementEmbed, embed] });

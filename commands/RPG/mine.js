@@ -69,7 +69,7 @@ module.exports = {
           }`
         );
       }
-      embed.setColor(await get(`${user.id}_color`));
+      embed.setColor(await get(`${user.id}_color`) ?? "#2b2d31");
       await incr(`${user.id}`, "stone", stone);
       await cooldown.set(user.id, "mine", mineCooldownTime);
       await interaction.reply({ embeds: [embed] });

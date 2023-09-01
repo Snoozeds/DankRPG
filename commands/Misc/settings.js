@@ -117,7 +117,7 @@ module.exports = {
           { name: "Sell confirmations:", value: (await get(`${user.id}_sellConfirmation`)) === "1" ? "Enabled" : "Disabled", inline: false },
           { name: "Stats:", value: (await get(`${user.id}_statsEnabled`)) === "1" ? "Enabled" : "Disabled", inline: false }
         )
-        .setColor(await get(`${user.id}_color`))
+        .setColor(await get(`${user.id}_color`) ?? "#2b2d31")
         .setThumbnail(user.displayAvatarURL({ dynamic: true }));
       await interaction.reply({
         embeds: [embed],

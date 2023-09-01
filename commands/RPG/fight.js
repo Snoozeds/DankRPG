@@ -57,7 +57,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle(`Fighting ${enemy}`)
         .setDescription(`You are fighting a ${enemy}!`)
-        .setColor(await get(`${user.id}_color`))
+        .setColor(await get(`${user.id}_color`) ?? "#2b2d31")
         .addFields(
           { name: `${emoji.hp} Your HP`, value: `${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)}`, inline: true },
           { name: `${emoji.armor} Your Armor`, value: `${await get(`${user.id}_armor`)}`, inline: true },

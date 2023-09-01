@@ -86,7 +86,7 @@ module.exports = {
                 inline: true,
               },
             ])
-            .setColor(await get(`${user.id}_color`))
+            .setColor(await get(`${user.id}_color`) ?? "#2b2d31")
             .setTimestamp();
           return interaction.reply({ embeds: [embed] });
         }

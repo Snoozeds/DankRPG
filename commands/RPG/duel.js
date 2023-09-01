@@ -145,7 +145,7 @@ module.exports = {
           value: `${target.username}, do you accept this duel?`,
         }
       )
-      .setColor(await get(`${user.id}_color`));
+      .setColor(await get(`${user.id}_color`) ?? "#2b2d31");
 
     // Buttons - Setup
     const yesButton = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
@@ -246,7 +246,7 @@ module.exports = {
               inline: true,
             }
           )
-          .setColor(await get(`${user.id}_color`));
+          .setColor(await get(`${user.id}_color`) ?? "#2b2d31");
         await set(`${target.id}_duel`, true);
         await set(`${target.id}_duelTimestamp`, Date.now());
         await cooldown.set(interaction.user.id, "duel", "1h");

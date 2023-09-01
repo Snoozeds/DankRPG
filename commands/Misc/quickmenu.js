@@ -15,7 +15,7 @@ module.exports = {
 \`/qm\` is an easy way to access menus and commands, without having to type out the full command.
 You can click on the buttons below to access the different menus, and after that, the ⬅️ button will take you back to all the options.`
         )
-        .setColor(await get(`${user.id}_color`));
+        .setColor(await get(`${user.id}_color`) ?? "#2b2d31");
 
       const row = new ActionRowBuilder().addComponents(
         new ButtonBuilder().setCustomId("qm_commands").setLabel("Commands").setStyle(ButtonStyle.Primary),
@@ -32,7 +32,7 @@ You can click on the buttons below to access the different menus, and after that
       const embed = new EmbedBuilder()
         .setTitle("Quick Menu")
         .setDescription("**Select an option below.**")
-        .setColor(await get(`${user.id}_color`));
+        .setColor(await get(`${user.id}_color`) ?? "#2b2d31");
 
       const row = new ActionRowBuilder().addComponents(
         new ButtonBuilder().setCustomId("qm_commands").setLabel("Commands").setStyle(ButtonStyle.Primary),

@@ -45,7 +45,7 @@ module.exports = {
             (await checkXP(interaction.user.id, xp)) == true ? ` ${emoji.levelUp} **Level up!** Check /levels.` : ""
           }`
         )
-        .setColor(await get(`${user.id}_color`));
+        .setColor(await get(`${user.id}_color`) ?? "#2b2d31");
       await incr(user.id, "wood", wood);
       await interaction.reply({ embeds: [embed] });
       if (questCompleted) {

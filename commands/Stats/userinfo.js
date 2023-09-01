@@ -28,7 +28,7 @@ module.exports = {
           user.avatarURL() ? `\n[Avatar](${user.avatarURL()})` : ""
         }${user.banner ? `\n[Banner](${fuser.bannerURL({ dynamic: true, size: 4096 })})` : ""}`
       )
-      .setColor(await get(`${author.id}_color`))
+      .setColor(await get(`${author.id}_color`) ?? "#2b2d31")
       .setThumbnail(user.avatarURL())
       .setImage(fuser.bannerURL({ dynamic: true, size: 4096 }));
     await interaction.reply({ embeds: [Embed] });
