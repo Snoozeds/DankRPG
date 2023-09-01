@@ -81,7 +81,7 @@ module.exports = {
       equippedDescription += `${emoji.bestFishingRod} Best Fishing Rod\n`;
     }
     if (fishingBait === "1") {
-      equippedDescription += `${emoji.fishingBait} Fishing Bait ${await get(`${user.id}_fishingBait`)}\n`;
+      equippedDescription += `${emoji.fishingBait} Fishing Bait (${await get(`${user.id}_fishingBait`)})\n`;
     }
     if (equippedDescription === "") {
       equippedDescription = "No items equipped.";
