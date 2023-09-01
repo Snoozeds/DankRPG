@@ -462,6 +462,8 @@ module.exports = {
         content: `You equipped ${emoji.fishingBait} Fishing Bait. It will now automatically be used when you fish.`,
         ephemeral: true,
       });
+
+      await set(`${user.id}_fishingBaitEquipped`, 1);
     }
   },
 };
