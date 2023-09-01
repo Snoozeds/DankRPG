@@ -230,7 +230,7 @@ module.exports = {
 
           // Check if user has bought item since confirmation
           const userHasItem = await get(`${user.id}_${item}`);
-          if (userHasItem == 1) {
+          if (userHasItem == 1 && !items[item].allowMultiple) {
             return confirmation.update({
               content: `You already have this item!`,
               components: [],
