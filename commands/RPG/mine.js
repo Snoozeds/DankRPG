@@ -49,7 +49,9 @@ module.exports = {
         );
 
         if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
-          if ((await get(`${user.id}_diamondsFound`)) == null) await set(`${user.id}_diamondsFound`, 0);
+          if ((await get(`${user.id}_mine_diamondsFoundTotal`)) == null || (await get(`${user.id}_mine_diamondsFoundTotal`)) == "") {
+            await set(`${user.id}_mine_diamondsFoundTotal`, 0);
+          }
           await incr(user.id, "mine_diamondsFoundTotal", 1);
         }
 
