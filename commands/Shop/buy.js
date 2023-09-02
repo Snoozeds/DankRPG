@@ -180,17 +180,28 @@ module.exports = {
             value: key,
           }))
         )
+    )
+    .addIntegerOption((option) =>
+      option.setName("amount").setDescription("The amount of the item you want to buy.").setRequired(false)
     ),
   async execute(interaction) {
     const item = interaction.options.getString("item");
     const user = interaction.user;
+    const amount = interaction.options.getInteger("amount") ?? 1;
     const coins = await get(`${user.id}_coins`);
     const collectorFilter = (i) => i.user.id === interaction.user.id;
 
     // Check if user has enough coins
-    if (coins < items[item].price) {
+    if (coins < items[item].price * amount) {
       return interaction.reply({
         content: `You don't have enough coins to buy this item. You need ${emoji.coins}${items[item].price - coins} more.`,
+        ephemeral: true,
+      });
+    }
+
+    if(amount && !items[item].allowMultiple) {
+      return interaction.reply({
+        content: `You can't buy more than one of this item.`,
         ephemeral: true,
       });
     }
@@ -204,6 +215,8 @@ module.exports = {
       });
     }
 
+    const totalPrice = items[item].price * amount;
+
     const buyConfirmation = await get(`${user.id}_buyConfirmation`);
     if (buyConfirmation === "1" || buyConfirmation === "null") {
       const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
@@ -211,7 +224,7 @@ module.exports = {
       const row = new ActionRowBuilder().addComponents(yes, no);
 
       const reply = await interaction.reply({
-        content: `Are you sure you want to buy ${emoji[item]} ${items[item].name} for ${emoji.coins}${items[item].price}?`,
+        content: `Are you sure you want to buy ${amount}x ${emoji[item]} ${items[item].name} for ${emoji.coins}${totalPrice}?`,
         components: [row],
       });
 
@@ -223,7 +236,7 @@ module.exports = {
           // Check user still has enough coins
           if (userCoins < items[item].price) {
             return confirmation.update({
-              content: `You no longer have enough coins to buy this item. You need ${emoji.coins}${items[item].price - userCoins} more.`,
+              content: `You no longer have enough coins to buy this item. You need ${emoji.coins}${totalPrice - userCoins} more.`,
               components: [],
             });
           }
@@ -238,17 +251,17 @@ module.exports = {
           }
 
           if (items[item].allowMultiple) {
-            await incr(user.id, `${item}`, 1);
+            await incr(user.id, `${item}`, amount);
           } else {
             await set(`${user.id}_${items[item].variable}`, 1);
           }
-          await decr(user.id, "coins", items[item].price);
+          await decr(user.id, "coins", totalPrice);
           if (items[item].armor > 0) {
             await incr(user.id, "armor", items[item].armor);
           }
 
           await confirmation.update({
-            content: `You bought ${emoji[item]}1 for ${emoji.coins}${items[item].price}${items[item].armor > 0 ? `\n${emoji.armorUp} +**${items[item].armor}**` : ""}.`,
+            content: `You bought ${amount}x ${emoji[item]} for ${emoji.coins}${totalPrice}${items[item].armor > 0 ? `\n${emoji.armorUp} +**${items[item].armor}**` : ""}.`,
             components: [],
           });
         } else if (confirmation.customId === "no") {
@@ -268,9 +281,9 @@ module.exports = {
         await incr(user.id, "armor", items[item].armor);
       }
       await set(`${user.id}_${items[item].variable}`, 1);
-      await decr(user.id, "coins", items[item].price);
+      await decr(user.id, "coins", totalPrice);
       return interaction.reply({
-        content: `You bought ${emoji[item]}1 for ${emoji.coins}${items[item].price}.`,
+        content: `You bought ${emoji[item]}1 for ${emoji.coins}${totalPrice}.`,
         ephemeral: true,
       });
     }
