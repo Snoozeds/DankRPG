@@ -153,31 +153,37 @@ module.exports = {
 
       const embed = new EmbedBuilder()
         .setTitle(`Available Upgrades`)
-        .setDescription(`You currently have ${(await get(`${user.id}_demonWing`)) > 0 ? `${emoji.demonWing} **${await get(`${user.id}_demonWing`)}**` : "no demon wings."}`)
+        .setDescription(
+          `You currently have ${(await get(`${user.id}_coins`)) > 0 ? `${emoji.coins} **${await get(`${user.id}_coins`)}**` : "no coins."} and ${
+            (await get(`${user.id}_demonWing`)) > 0 ? `${emoji.demonWing} **${await get(`${user.id}_demonWing`)}**` : "no demon wings."
+          }`
+        )
         .addFields(
           {
             name: `${emoji.crit} Crit Damage Multiplier (${critMultiLevel * 0.1 + 2}x)`,
-            value: `Current level: ${critMultiLevel}${
+            value: `Increases the damage a critical hit does in /fight${
               critMultiLevel !== critMultiMaxLevel
-                ? `\nNext level: ${critMultiLevel + 1} (+0.1)\n${emoji.coins} **${critMultiCost}** ${emoji.demonWing} **${critMultiWingsCost}**`
+                ? `\nNext level: ${critMultiLevel + 1} (+${emoji.crit}0.1)\n${emoji.coins} **${critMultiCost}** ${emoji.demonWing} **${critMultiWingsCost}**`
                 : ""
             }`,
             inline: false,
           },
           {
             name: `${emoji.axe} Axe Efficiency (+ ${emoji.wood}${axeEfficiencyLevel * 5})`,
-            value: `Current level: ${axeEfficiencyLevel}${
+            value: `Increases the amount of wood you earn in /chop${
               axeEfficiencyLevel !== axeEfficiencyMaxLevel
-                ? `\nNext level: ${axeEfficiencyLevel + 1}\n${emoji.coins} **${axeEfficiencyCost}** ${emoji.demonWing} **${axeEfficiencyWingsCost}**`
+                ? `\nNext level: ${axeEfficiencyLevel + 1} (+${emoji.wood}5)\n${emoji.coins} **${axeEfficiencyCost}** ${emoji.demonWing} **${axeEfficiencyWingsCost}**`
                 : ""
             }`,
             inline: false,
           },
           {
             name: `${emoji.pickaxe} Pickaxe Efficiency (+ ${emoji.stone}${pickaxeEfficiencyLevel * 5})`,
-            value: `Current level: ${pickaxeEfficiencyLevel}${
+            value: `Increases the amount of stone you earn in /mine${
               pickaxeEfficiencyLevel !== pickaxeEfficiencyMaxLevel
-                ? `\nNext level: ${pickaxeEfficiencyLevel + 1}\n${emoji.coins} **${pickaxeEfficiencyCost}** ${emoji.demonWing} **${pickaxeEfficiencyWingsCost}**`
+                ? `\nNext level: ${pickaxeEfficiencyLevel + 1} (+${emoji.stone}5)\n${emoji.coins} **${pickaxeEfficiencyCost}** ${
+                    emoji.demonWing
+                  } **${pickaxeEfficiencyWingsCost}**`
                 : ""
             }`,
             inline: false,
