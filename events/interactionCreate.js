@@ -757,29 +757,31 @@ module.exports = {
         }
 
         setTimeout(async () => {
-          const embed = new EmbedBuilder()
-            .setTitle("Fishing")
-            .setDescription("**A fish bit!**")
-            .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
+          if ((await get(`${interaction.user.id}_fishCaught`)) !== "cancelled") {
+            const embed = new EmbedBuilder()
+              .setTitle("Fishing")
+              .setDescription("**A fish bit!**")
+              .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
-          const row = new ActionRowBuilder().addComponents(
-            new ButtonBuilder().setCustomId("fishing-reel").setEmoji("🎣").setStyle(ButtonStyle.Primary),
-            new ButtonBuilder().setCustomId("fishing-cancel").setLabel("Leave").setStyle(ButtonStyle.Danger)
-          );
+            const row = new ActionRowBuilder().addComponents(
+              new ButtonBuilder().setCustomId("fishing-reel").setEmoji("🎣").setStyle(ButtonStyle.Primary),
+              new ButtonBuilder().setCustomId("fishing-cancel").setLabel("Leave").setStyle(ButtonStyle.Danger)
+            );
 
-          await interaction.editReply({ embeds: [embed], components: [row] });
+            await interaction.editReply({ embeds: [embed], components: [row] });
 
-          // Set a timeout for the "fish got away" message
-          setTimeout(async () => {
-            if (!(await get(`${interaction.user.id}_fishCaught`))) {
-              const embed = new EmbedBuilder()
-                .setTitle("Fishing")
-                .setDescription("**You didn't respond in time and the fish got away!**")
-                .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
+            // Set a timeout for the "fish got away" message
+            setTimeout(async () => {
+              if (!(await get(`${interaction.user.id}_fishCaught`)) && (await get(`${interaction.user.id}_fishCaught`)) !== "cancelled") {
+                const embed = new EmbedBuilder()
+                  .setTitle("Fishing")
+                  .setDescription("**You didn't respond in time and the fish got away!**")
+                  .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
-              await interaction.editReply({ embeds: [embed], components: [] });
-            }
-          }, 2000);
+                await interaction.editReply({ embeds: [embed], components: [] });
+              }
+            }, 2000);
+          }
         }, chance.integer({ min: 3000, max: 5000 }));
       }
 
@@ -919,6 +921,13 @@ module.exports = {
       // Fishing: cancel
       if (customId === "fishing-cancel" && isAuthor) {
         await interaction.update({ content: `You leave the fishing spot. Fishing cancelled.`, embeds: [], components: [] });
+        // stop timeout
+        await set(`${interaction.user.id}_fishCaught`, "cancelled");
+
+        setTimeout(async () => {
+          // reset fishCaught
+          await set(`${interaction.user.id}_fishCaught`, "");
+        }, 5000);
       }
 
       // Fishing: tutorial
