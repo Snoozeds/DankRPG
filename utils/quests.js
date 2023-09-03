@@ -73,7 +73,6 @@ cron.schedule("0 0 * * *", async () => {
       // Iterate over the found keys and delete them
       for (const key of keys) {
         await redis.del(key);
-        console.log(`Deleted questsCompleted key: ${key}`);
       }
     }
     cursor = nextCursor;
@@ -87,7 +86,6 @@ cron.schedule("0 0 * * *", async () => {
       // Iterate over the found keys and delete them
       for (const key of keys) {
         await redis.del(key);
-        console.log(`Deleted enemiesKilled key: ${key}`);
       }
     }
     cursor = nextCursor;
@@ -101,7 +99,6 @@ cron.schedule("0 0 * * *", async () => {
       // Iterate over the found keys and delete them
       for (const key of keys) {
         await redis.del(key);
-        console.log(`Deleted treesChopped key: ${key}`);
       }
     }
     cursor = nextCursor;
@@ -115,7 +112,6 @@ cron.schedule("0 0 * * *", async () => {
       // Iterate over the found keys and delete them
       for (const key of keys) {
         await redis.del(key);
-        console.log(`Deleted rocksMined key: ${key}`);
       }
     }
     cursor = nextCursor;
