@@ -51,11 +51,12 @@ module.exports = {
       }
 
       try {
-        if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null)
+        if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
           if ((await get(`${interaction.user.id}_commandsUsed`)) == null || (await get(`${interaction.user.id}_commandsUsed`)) == "") {
             await set(`${interaction.user.id}_commandsUsed`, "0");
           }
-        await incr(`${interaction.user.id}`, "commandsUsed", 1);
+          await incr(`${interaction.user.id}`, "commandsUsed", 1);
+        }
         await command.execute(interaction);
       } catch (error) {
         console.error(error);
