@@ -1,5 +1,5 @@
 const { Events, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const { set, get, incr, decr, emoji, cooldown, shopImage } = require("../globals.js");
+const { set, get, decr, incr, resetStats, emoji, cooldown, shopImage, quests } = require("../globals.js");
 const fs = require("node:fs");
 const chance = require("chance").Chance();
 
@@ -50,6 +50,7 @@ module.exports = {
         }
       }
 
+      // Execute the slash command.
       try {
         if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
           if ((await get(`${interaction.user.id}_commandsUsed`)) == null || (await get(`${interaction.user.id}_commandsUsed`)) == "") {
@@ -67,9 +68,13 @@ module.exports = {
         // The user will see this if an error occurs. Can be good for reporting bugs.
       }
     } else if (interaction.isButton()) {
-      const isAuthor = interaction.message.interaction.user.id === interaction.user.id;
       const customId = interaction.customId;
+      const [buttonAction, userId, targetId] = customId.split("-"); // Used for duels.
+      const isAuthor = interaction.message.interaction.user.id === interaction.user.id;
+      const isTarget = interaction.user.id === targetId;
+      const isUser = interaction.user.id === userId; // Do not confuse with isAuthor, this is used for duels.
       const user = interaction.user;
+      const client = interaction.client;
 
       // Used for the commands menu in /qm.
       // See ../deploy-commands for how the command IDs are stored.
@@ -945,6 +950,477 @@ module.exports = {
         );
 
         await interaction.update({ embeds: [embed], components: [row] });
+      }
+
+      let lastAction;
+
+      // Duel update function
+      const updateDuel = async (currentUser, currentOpponent, action) => {
+        // Duel embed
+        duelUser = await client.users.fetch(userId);
+        duelTarget = await client.users.fetch(targetId);
+        const duelEmbed = new EmbedBuilder()
+          .setTitle("Duel")
+          .setDescription(`${lastAction}`)
+          .addFields(
+            // Variables may be updated before the request is accepted, so we need to get the updated values.
+            {
+              name: `${duelUser.username}'s Stats:`,
+              value: `${emoji.hp}${await get(`${duelUser.id}_hp`)}/${await get(`${duelUser.id}_max_hp`)}\n${emoji.armor}${await get(`${duelUser.id}_armor`)}`,
+              inline: true,
+            },
+            {
+              name: `${duelTarget.username}'s Stats:`,
+              value: `${emoji.hp}${await get(`${duelTarget.id}_hp`)}/${await get(`${duelTarget.id}_max_hp`)}\n${emoji.armor}${await get(`${duelTarget.id}_armor`)}`,
+              inline: true,
+            }
+          )
+          .setColor((await get(`${duelUser.id}_color`)) ?? "#2b2d31");
+
+        const user = await client.users.fetch(currentUser);
+        const target = await client.users.fetch(currentOpponent);
+
+        // Handle defending.
+        let userDefended = false;
+        let targetDefended = false;
+
+        // The code will attempt to attack twice, for some ungodly reason. No idea why, so here's a bandaid fix. I've spent hours trying to fix this, so.
+        // It works like this: Attack once, set userAttacked to true.
+        // Then the code tries to attack again (for some reason), but userAttacked is true, so we return false to indicate that the duel is ongoing.
+        // Same thing for defending.
+        let userAttacked = false;
+        let targetAttacked = false;
+        let userDefending = false;
+        let targetDefending = false;
+
+        const userATK = Number(await get(`${user.id}_damage`)) * 5;
+        const targetATK = Number(await get(`${target.id}_damage`)) * 5;
+
+        // Check if current user or opponent has reached 0 health
+        if ((await get(`${user.id}_hp`)) <= 0) {
+          // User loses
+          if ((await get(`${user.id}_lifesaver`)) >= "1") {
+            await interaction.editReply({
+              content: `\n**${target.username} wins!**\n\n${user.username} dies, but uses a lifesaver and is revived with 1HP.\n${target.username} receives 250 coins.\n<@${user.id}>, **you should heal.**`,
+              components: [],
+              embeds: [],
+            });
+            await set(`${user.id}_duel`, false);
+            await set(`${target.id}_duel`, false);
+            await set(`${user.id}_hp`, 1);
+            await decr(`${user.id}`, `lifesaver`, 1);
+            await incr(`${target.id}`, `coins`, 250);
+            if ((await get(`${target.id}_statsEnabled`)) === "1" || (await get(`${target.id}_statsEnabled`)) == null) {
+              if ((await get(`${target.id}_duel_timesWonTotal`)) == null || (await get(`${target.id}_duel_timesWonTotal`)) == "") {
+                await set(`${target.id}_duel_timesWonTotal`, 0);
+              }
+              await incr(target.id, "duel_timesWonTotal", 1);
+            }
+            return true; // Indicate that the duel has ended
+          } else {
+            await interaction.editReply({
+              content: `${user.username} dies and has **no lifesaver!**\n${target.username} receives 250 coins.`,
+              components: [],
+              embeds: [],
+            });
+            await set(`${user.id}_duel`, false);
+            await set(`${target.id}_duel`, false);
+            await incr(`${target.id}`, `coins`, 250);
+            await resetStats(user.id);
+            if ((await get(`${target.id}_statsEnabled`)) === "1" || (await get(`${target.id}_statsEnabled`)) == null) {
+              if ((await get(`${target.id}_duel_timesWonTotal`)) == null || (await get(`${target.id}_duel_timesWonTotal`)) == "") {
+                await set(`${target.id}_duel_timesWonTotal`, 0);
+              }
+              await incr(target.id, "duel_timesWonTotal", 1);
+            }
+            return true; // Indicate that the duel has ended
+          }
+        }
+
+        if ((await get(`${target.id}_hp`)) <= 0) {
+          // Target loses
+          if ((await get(`${target.id}_lifesaver`)) >= "1") {
+            await interaction.editReply({
+              content: `**${user.username} wins!**\n\n${target.username} dies, but uses a lifesaver and is revived with 1HP.\n${user.username} receives 250 coins.\n<@${target.id}>, **you should heal.**`,
+              components: [],
+              embeds: [],
+            });
+            await set(`${user.id}_duel`, false);
+            await set(`${target.id}_duel`, false);
+            await set(`${target.id}_hp`, 1);
+            await decr(`${target.id}`, `lifesaver`, 1);
+            await incr(`${user.id}`, `coins`, 250);
+            if ((await get(`${user.id}_statsEnabled`)) === "1" || (await get(`${user.id}_statsEnabled`)) == null) {
+              await incr(user.id, "duel_timesWonTotal", 1);
+            }
+            return true; // Indicate that the duel has ended
+          } else {
+            // Target loses and has no lifesaver
+            await interaction.editReply({
+              content: `${target.username} dies and has **no lifesaver!**\n${user.username} receives 250 coins.`,
+              components: [],
+              embeds: [],
+            });
+            await set(`${user.id}_duel`, false);
+            await set(`${target.id}_duel`, false);
+            await incr(`${user.id}`, `coins`, 250);
+            await resetStats(target.id);
+            if ((await get(`${user.id}_statsEnabled`)) === "1" || (await get(`${user.id}_statsEnabled`)) == null) {
+              await incr(user.id, "duel_timesWonTotal", 1);
+            }
+            return true; // Indicate that the duel has ended
+          }
+        }
+
+        // Update health based on action
+        if (action === "attack") {
+          if (currentUser === user) {
+            // Target attacks user
+            if (!userDefended) {
+              if (!userAttacked) {
+                await decr(user.id, "hp", targetATK);
+                lastAction = `${target.username} attacked ${user.username} for ${targetATK} damage.`;
+                await interaction.editReply({ embeds: [duelEmbed] });
+                userAttacked = true;
+              } else {
+                userAttacked = false;
+                return false; // Indicate that the duel is ongoing
+              }
+            } else {
+              const armor = await get(`${user.id}_armor`);
+              let damage;
+              if (!userDefending) {
+                if (armor == 0 || armor == 1) {
+                  damage = Math.floor(targetATK / 2);
+                } else {
+                  damage = Math.floor(targetATK / armor);
+                }
+                if (isFinite(damage)) {
+                  await decr(user.id, "hp", damage);
+                  lastAction = `${user.username} defended against ${target.username}'s attack, but still took ${damage} damage.`;
+                  await interaction.editReply({ embeds: [duelEmbed] });
+                } else {
+                  const damage = Math.floor(targetATK / 2);
+                  await decr(user.id, "hp", damage);
+                  lastAction = `${user.username} defended against ${target.username}'s attack, but still took ${Math.floor(targetATK / 2)} damage.`;
+                  await interaction.editReply({ embeds: [duelEmbed] });
+                }
+                userDefending = true;
+              } else {
+                userDefending = false;
+                userDefended = false;
+                return false; // Indicate that the duel is ongoing
+              }
+            }
+          } else {
+            // User attacks target
+            if (!targetDefended) {
+              if (!targetAttacked) {
+                await decr(target.id, "hp", userATK);
+                lastAction = `${user.username} attacked ${target.username} for ${userATK} damage.`;
+                await interaction.editReply({ embeds: [duelEmbed] });
+                targetAttacked = true;
+              } else {
+                targetAttacked = false;
+                return false; // Indicate that the duel is ongoing
+              }
+            } else {
+              if (!targetDefending) {
+                const armor = await get(`${target.id}_armor`);
+                let damage;
+                if (armor == 0 || armor == 1) {
+                  damage = Math.floor(userATK / 2);
+                } else {
+                  damage = Math.floor(userATK / armor);
+                }
+                if (isFinite(damage)) {
+                  await decr(target.id, "hp", damage);
+                  lastAction = `${target.username} defended against ${user.username}'s attack, but still took ${damage} damage.`;
+                  await interaction.editReply({ embeds: [duelEmbed] });
+                } else {
+                  const damage = Math.floor(userATK / 2);
+                  await decr(target.id, "hp", damage);
+                  lastAction = `${target.username} defended against ${user.username}'s attack, but still took ${Math.floor(userATK / 2)} damage.`;
+                  await interaction.editReply({ embeds: [duelEmbed] });
+                }
+                targetDefending = true;
+              } else {
+                targetDefending = false;
+                targetDefended = false;
+                return false; // Indicate that the duel is ongoing
+              }
+            }
+          }
+        } else if (action === "defend") {
+          if (currentUser === user) {
+            // Target defends against user's attack
+            targetDefended = true;
+            lastAction = `${target.username} is defending against ${user.username}'s attack.`;
+          } else {
+            // User defends against target's attack
+            userDefended = true;
+            lastAction = `${user.username} is defending against ${target.username}'s attack.`;
+          }
+        } else if (action === "escape") {
+          if (currentUser === user) {
+            // Target tries to escape (not successful)
+            lastAction = `${target.username} tried to escape, but failed.`;
+            return false; // Indicate that the duel is ongoing
+          } else {
+            // User tries to escape (not successful)
+            lastAction = `${user.username} tried to escape, but failed.`;
+            return false; // Indicate that the duel is ongoing
+          }
+        }
+
+        // Get the updated health values for the embed.
+        // Users may level up before the duel request is accepted, so we also need to get the updated damage, armor and max_hp values.
+        const currentUserHealth = await get(`${user.id}_hp`);
+        const currentUserMaxHealth = await get(`${user.id}_max_hp`);
+        const currentUserArmor = await get(`${user.id}_armor`);
+        const currentUserDamage = await get(`${user.id}_damage`);
+        const currentTargetHealth = await get(`${target.id}_hp`);
+        const currentTargetMaxHealth = await get(`${target.id}_max_hp`);
+        const currentTargetArmor = await get(`${target.id}_armor`);
+        const currentTargetDamage = await get(`${target.id}_damage`);
+
+        // Update the embed with updated health values
+        duelEmbed.spliceFields(0, 3);
+        duelEmbed.addFields(
+          {
+            name: `${user.username}'s Stats`,
+            value: `${emoji.hp}${currentUserHealth}/${currentUserMaxHealth}\n${emoji.armor}${currentUserArmor}\n${emoji.attack}${currentUserDamage} (${
+              currentUserDamage * 5
+            } damage)`,
+            inline: true,
+          },
+          {
+            name: `${target.username}'s Stats`,
+            value: `${emoji.hp}${currentTargetHealth}/${currentTargetMaxHealth}\n${emoji.armor}${currentTargetArmor}\n${emoji.attack}${currentTargetDamage} (${
+              currentTargetDamage * 5
+            } damage)`,
+            inline: true,
+          },
+          {
+            name: `Actions`,
+            value: `Choose your next action:`,
+          }
+        );
+        // Return false to indicate that the duel is ongoing
+        return false;
+      };
+
+      // Duels: accept
+      if (buttonAction === "duelAccept" && isTarget) {
+        await interaction.deferUpdate();
+        let questCompletedUser = false; // Used for the followUp message.
+        let questCompletedTarget = false; // Used for the followUp message.
+
+        const user = await client.users.fetch(userId);
+        const target = await client.users.fetch(targetId);
+
+        lastAction = `${target.username} accepted the duel request.`;
+
+        // Daily quest: Participate in a duel against another player.
+        if (await quests.active(4)) {
+          if ((await quests.completed(4, user.id)) === false) {
+            await quests.complete(4, user.id);
+            questCompletedUser = true;
+          }
+          if ((await quests.completed(4, target.id)) === false) {
+            await quests.complete(4, target.id);
+            questCompletedTarget = true;
+          }
+        }
+
+        // Update stats
+        if ((await get(`${user.id}_statsEnabled`)) === "1" || (await get(`${user.id}_statsEnabled`)) == null) {
+          if ((await get(`${user.id}_duel_timesDuelledTotal`)) == null || (await get(`${user.id}_duel_timesDuelledTotal`)) == "") {
+            await set(`${user.id}_duel_timesDuelledTotal`, 0);
+          }
+          await incr(user.id, "duel_timesDuelledTotal", 1);
+        }
+
+        if ((await get(`${target.id}_statsEnabled`)) === "1" || (await get(`${target.id}_statsEnabled`)) == null) {
+          if ((await get(`${target.id}_duel_timesDuelledTotal`)) == null || (await get(`${target.id}_duel_timesDuelledTotal`)) == "") {
+            await set(`${target.id}_duel_timesDuelledTotal`, 0);
+          }
+          await incr(target.id, "duel_timesDuelledTotal", 1);
+        }
+
+        if (questCompletedUser) {
+          await interaction.followUp({ content: `Congrats ${user.username}, you completed a quest and earned ${emoji.coins}100! Check /quests.` });
+        }
+        if (questCompletedTarget) {
+          await interaction.followUp({ content: `Congrats ${target.username}, you completed a quest and earned ${emoji.coins}100! Check /quests.` });
+        }
+        if (questCompletedUser && questCompletedTarget) {
+          await interaction.followUp({
+            content: `Congrats ${user.username} and ${target.username}, you both completed a quest and earned ${emoji.coins}100 each! Check /quests.`,
+          });
+        }
+        await cooldown.set(user.id, "duel", "1h");
+        await cooldown.set(target.id, "duel", "1h");
+        await cooldown.set(user.id, "duelButtonTimeout", "15m"); // used to make buttons expire after 15 minutes
+        await cooldown.set(target.id, "duelButtonTimeout", "15m"); // used to make buttons expire after 15 minutes
+        await set(`${target.id}_duel`, true);
+        await set(`${target.id}_duelTimestamp`, Date.now());
+
+        if (!(await cooldown.get(user.id, "duelButtonTimeout")) || !(await cooldown.get(target.id, "duelButtonTimeout"))) {
+          await interaction.editReply({
+            content: `Sorry, these buttons have expired. Please run /duel again.`,
+            components: [],
+            embeds: [],
+          });
+          await set(`${user.id}_duel`, false);
+          await set(`${target.id}_duel`, false);
+          return;
+        }
+
+        // Duel embed
+        duelUser = await client.users.fetch(userId);
+        duelTarget = await client.users.fetch(targetId);
+        const duelEmbed = new EmbedBuilder()
+          .setTitle("Duel")
+          .setDescription(`${lastAction}`)
+          .addFields(
+            // Variables may be updated before the request is accepted, so we need to get the updated values.
+            {
+              name: `${duelUser.username}'s Stats:`,
+              value: `${emoji.hp}${await get(`${duelUser.id}_hp`)}/${await get(`${duelUser.id}_max_hp`)}\n${emoji.armor}${await get(`${duelUser.id}_armor`)}`,
+              inline: true,
+            },
+            {
+              name: `${duelTarget.username}'s Stats:`,
+              value: `${emoji.hp}${await get(`${duelTarget.id}_hp`)}/${await get(`${duelTarget.id}_max_hp`)}\n${emoji.armor}${await get(`${duelTarget.id}_armor`)}`,
+              inline: true,
+            }
+          )
+          .setColor((await get(`${duelUser.id}_color`)) ?? "#2b2d31");
+
+        // Loop for the duel actions
+        let currentUser = user;
+        let currentOpponent = target;
+        let escapeChance = Math.round(chance.normal({ mean: 0.3, dev: 0.09 }) * 100); // Nearest whole number
+
+        while (true) {
+          duelEmbed.setDescription(`Last action: ${lastAction}`);
+          duelEmbed.setThumbnail(`${currentOpponent.displayAvatarURL()}`);
+
+          await interaction.editReply({
+            content: `<@${currentOpponent.id}>, it is your turn.\n`,
+          });
+
+          // Buttons - Actions
+          const attackButton = new ButtonBuilder().setCustomId("attack").setLabel("Attack").setStyle(ButtonStyle.Primary);
+          const defendButton = new ButtonBuilder().setCustomId("defend").setLabel("Defend").setStyle(ButtonStyle.Primary);
+          const escapeButton = new ButtonBuilder().setCustomId("escape").setLabel(`Escape (${escapeChance}%)`).setStyle(ButtonStyle.Danger);
+          const actionRow = new ActionRowBuilder().addComponents(attackButton, defendButton, escapeButton);
+
+          // Edit the embed with the new buttons
+          const updatedMessage = await interaction.editReply({
+            embeds: [duelEmbed],
+            components: [actionRow],
+          });
+
+          const turnFilter = (i) => i.user.id === currentOpponent.id;
+
+          // Await button click for the current turn
+          const turnConfirmation = await updatedMessage.awaitMessageComponent({
+            filter: turnFilter,
+            time: 600000, // 10 minutes
+          });
+
+          turnConfirmation.deferUpdate();
+
+          // Handle the button click
+          if (turnConfirmation.customId === "attack") {
+            if (!(await cooldown.get(user.id, "duelButtonTimeout")) || !(await cooldown.get(target.id, "duelButtonTimeout"))) {
+              await interaction.editReply({
+                content: `Sorry, these buttons have expired. Please run /duel again.`,
+                components: [],
+                embeds: [],
+              });
+              await set(`${user.id}_duel`, false);
+              await set(`${target.id}_duel`, false);
+              return;
+            }
+            await updateDuel(currentUser, currentOpponent, "attack");
+          } else if (turnConfirmation.customId === "defend") {
+            if (!(await cooldown.get(user.id, "duelButtonTimeout")) || !(await cooldown.get(target.id, "duelButtonTimeout"))) {
+              await interaction.editReply({
+                content: `Sorry, these buttons have expired. Please run /duel again.`,
+                components: [],
+                embeds: [],
+              });
+              await set(`${user.id}_duel`, false);
+              await set(`${target.id}_duel`, false);
+              return;
+            }
+            await updateDuel(currentUser, currentOpponent, "defend");
+          } else if (turnConfirmation.customId === "escape") {
+            if (!(await cooldown.get(user.id, "duelButtonTimeout")) || !(await cooldown.get(target.id, "duelButtonTimeout"))) {
+              await interaction.editReply({
+                content: `Sorry, these buttons have expired. Please run /duel again.`,
+                components: [],
+                embeds: [],
+              });
+              await set(`${user.id}_duel`, false);
+              await set(`${target.id}_duel`, false);
+              return;
+            }
+            if (chance.bool({ likelihood: escapeChance })) {
+              // Escape successful
+              await interaction.editReply({
+                content: `<@${currentUser.id}>, ${currentOpponent.username} has escaped! The duel is over.`,
+                components: [],
+              });
+              await set(`${user.id}_duel`, false);
+              await set(`${target.id}_duel`, false);
+              break;
+            } else {
+              // Escape failed
+              await updateDuel(currentUser, currentOpponent, "escape");
+              if (escapeChance < 60) escapeChance += 5; // Increase escape chance by 5% for the next turn
+            }
+          }
+          // Update the duel state, check winner
+          const duelEnded = await updateDuel(currentUser, currentOpponent, turnConfirmation.customId);
+          if (duelEnded) {
+            break; // Exit the loop if the duel has ended
+          }
+
+          // Switch current user and opponent for the next turn
+          [currentUser, currentOpponent] = [currentOpponent, currentUser];
+        }
+      }
+
+      // Duels: decline
+      if (buttonAction === "duelDecline" && isTarget) {
+        await interaction.deferUpdate();
+        // Duel declined
+        await interaction.update({
+          content: `**${target.username} declined the duel.**`,
+          components: [],
+          embeds: [],
+        });
+        await set(`${user.id}_duel`, false);
+        await set(`${target.id}_duel`, false);
+      }
+
+      // User cancels their duel request
+      if (buttonAction === "userCancel" && isUser) {
+        await interaction.deferUpdate();
+        const target = await client.users.fetch(targetId);
+        const user = await client.users.fetch(userId);
+        await interaction.update({
+          content: `<@${target.id}>, ${user.username} has cancelled their duel request.`,
+          components: [],
+          embeds: [],
+        });
+        await set(`${user.id}_duel`, false);
+        await cooldown.set(user.id, "duelCancel", "5m");
+        cancelCollector.stop();
       }
     } else if (interaction.isModalSubmit()) {
       if (interaction.customId === "report") {
