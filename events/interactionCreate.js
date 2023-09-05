@@ -966,12 +966,16 @@ module.exports = {
             // Variables may be updated before the request is accepted, so we need to get the updated values.
             {
               name: `${duelUser.username}'s Stats:`,
-              value: `${emoji.hp}${await get(`${duelUser.id}_hp`)}/${await get(`${duelUser.id}_max_hp`)}\n${emoji.armor}${await get(`${duelUser.id}_armor`)}`,
+              value: `${emoji.hp}${await get(`${duelUser.id}_hp`)}/${await get(`${duelUser.id}_max_hp`)}\n${emoji.armor}${await get(`${duelUser.id}_armor`)}\n${
+                emoji.attack
+              }${await get(`${duelUser.id}_damage`)} (${Number(await get(`${duelUser.id}_damage`)) * 5})`,
               inline: true,
             },
             {
               name: `${duelTarget.username}'s Stats:`,
-              value: `${emoji.hp}${await get(`${duelTarget.id}_hp`)}/${await get(`${duelTarget.id}_max_hp`)}\n${emoji.armor}${await get(`${duelTarget.id}_armor`)}`,
+              value: `${emoji.hp}${await get(`${duelTarget.id}_hp`)}/${await get(`${duelTarget.id}_max_hp`)}\n${emoji.armor}${await get(`${duelTarget.id}_armor`)}\n${
+                emoji.attack
+              }${await get(`${duelTarget.id}_damage`)} (${Number(await get(`${duelTarget.id}_damage`)) * 5})`,
               inline: true,
             }
           )
