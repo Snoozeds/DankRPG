@@ -1582,6 +1582,7 @@ ${emoji.critUp} **+10%**`
             .setTitle("Fishing")
             .setDescription(
               `"Welcome to my shop!"\nYour balance: **${emoji.coins}${await get(`${user.id}_coins`)}**
+
 ${emoji.bestFishingRod} Best Fishing Rod ${(await get(`${user.id}_bestFishingRod`)) === "1" ? "(owned)" : ""}
 ${emoji.description} The best fishing rod money can buy. Greatly your chance of catching rarer fish.
 ${emoji.coins} **10,000**
