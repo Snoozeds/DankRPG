@@ -21,12 +21,39 @@ module.exports = {
       "Surely not",
       "Certainly not",
       "Don't count on it",
+      "No",
+      "Nope",
+      "Definitely not",
+      "Absolutely not",
+      "Absolutely",
+      "Definitely",
+      "Yes",
+      "Yep",
+      "It is certain",
+      "It is decidedly so",
+      "Without a doubt",
+      "Yes, definitely",
+      "You may rely on it",
+      "As I see it, yes",
+      "Most likely",
+      "Signs point to yes",
+      "Cannot predict now",
+      "Reply hazy, try again",
+      "Ask again later",
+      "Better not tell you now",
+      "Cannot say now",
+      "Concentrate and ask again",
+      "My sources say no",
+      "Outlook hazy, try again",
+      "Very doubtful",
+      "It is not in my programming to answer that",
+      "I'm not sure about that",
+      "I'm unable to answer that question",
     ];
     const embed = new EmbedBuilder()
       .setTitle("You ask the magic 8ball a question.")
       .setDescription(`**Question:** ${interaction.options.getString("question")}\n**Answer:** ${chance.pickset(responses, 1)}.`)
       .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31")
-      .setThumbnail("https://assets.dankrpg.xyz/Images/8ball.png");
     await interaction.reply({ embeds: [embed] });
   },
 };
