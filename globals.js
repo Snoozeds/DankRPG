@@ -99,6 +99,22 @@ const achievementUnlockEmoji = "<:AchievementUnlock:1119603100253159484>";
 // Quests
 const questEmoji = "<:RedScroll:1144998501537828987>";
 
+// Pets
+const dogEmoji = "<:GermanSheperd:1148652595418763265>";
+const catEmoji = "<:TuxedoCat:1148645736985133108>";
+const duckEmoji = "<:DuckPet:1148647041212354651>";
+
+// Pet items
+const dogFoodEmoji = "<:DogFood:1148647802419822602>";
+const catFoodEmoji = "<:CatFood:1148647834262962287>";
+const duckFoodEmoji = "<:SeedMix:1148648408358338640>";
+const petShampooEmoji = "<:PetShampoo:1149259506900017244>";
+
+// Pet status
+const petHappinessEmoji = "<:PetHappiness:1148680411371798558>";
+const petCleanlinessEmoji = "<:PetCleanliness:1148680412617511035>";
+const petFullnessEmoji = "<:PetFullness:1148680414773395617>";
+
 // Get a value from the database.
 // await get(`${id}_key`);
 async function get(key) {
@@ -463,6 +479,16 @@ const emoji = {
   achievementLock: achievementLockEmoji,
   achievementUnlock: achievementUnlockEmoji,
   questScroll: questEmoji,
+  dog: dogEmoji,
+  cat: catEmoji,
+  duck: duckEmoji,
+  dogFood: dogFoodEmoji,
+  catFood: catFoodEmoji,
+  duckFood: duckFoodEmoji,
+  petShampoo: petShampooEmoji,
+  petHappiness: petHappinessEmoji,
+  petCleanliness: petCleanlinessEmoji,
+  petFullness: petFullnessEmoji,
 };
 
 const quests = {

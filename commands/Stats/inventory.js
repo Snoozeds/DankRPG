@@ -253,12 +253,40 @@ module.exports = {
       },
     ];
 
+    const petItems = [
+      {
+        name: "Cat Food",
+        key: `${user.id}_catFoodUsesLeft`,
+        price: 20, // As pet food has 5 uses but costs 100, the price here is 20.
+        emoji: emoji.catFood,
+      },
+      {
+        name: "Dog Food",
+        key: `${user.id}_dogFoodUsesLeft`,
+        price: 20,
+        emoji: emoji.dogFood,
+      },
+      {
+        name: "Duck Food",
+        key: `${user.id}_duckFoodUsesLeft`,
+        price: 20,
+        emoji: emoji.duckFood,
+      },
+      {
+        name: "Pet Shampoo",
+        key: `${user.id}_petShampooUsesLeft`,
+        price: 10, // As pet shampoo has 10 uses but costs 100, the price here is 10.
+        emoji: emoji.petShampoo,
+      },
+    ];
+
     // Sort the inventory items by price.
     inventoryItems.sort((a, b) => b.price - a.price);
     armorItems.sort((a, b) => b.price - a.price);
     weaponItems.sort((a, b) => b.price - a.price);
     fishingItems.sort((a, b) => b.price - a.price);
     fish.sort((a, b) => b.price - a.price);
+    petItems.sort((a, b) => b.price - a.price);
 
     let totalInventoryValue = 0;
 
@@ -332,11 +360,24 @@ module.exports = {
       }
     }
 
+    let petDescription = "";
+    for (const item of petItems) {
+      const value = await get(item.key);
+      if (value && item.price && item.price > 0 && value > 0) {
+        const itemValue = value * item.price;
+        petDescription += `**${item.emoji} ${item.name}**: ${value} (${emoji.coins}${itemValue})\n`;
+        totalInventoryValue += itemValue;
+      } else if (value && value > 0) {
+        petDescription += `${item.name}: ${value}\n`;
+      }
+    }
+
     // Add the items to the embed, if there are any.
     inventoryDescription += armorDescription !== "" ? `\n**Armor:**\n${armorDescription}` : "";
     inventoryDescription += weaponDescription !== "" ? `\n**Weapons:**\n${weaponDescription}` : "";
     inventoryDescription += fishingDescription !== "" ? `\n**Fishing:**\n${fishingDescription}` : "";
     inventoryDescription += fishDescription !== "" ? `\n**Fish:**\n${fishDescription}` : "";
+    inventoryDescription += petDescription !== "" ? `\n**Pet item uses left:**\n${petDescription}` : "";
 
     // If the inventory is empty, set the description to a default message.
     if (inventoryDescription === "") {

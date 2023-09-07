@@ -50,15 +50,163 @@ module.exports = {
         }
       }
 
-      // Execute the slash command.
+      // Execute the slash command and increase stats, give pet rewards, etc.
       try {
+        // Update stats
         if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
           if ((await get(`${interaction.user.id}_commandsUsed`)) == null || (await get(`${interaction.user.id}_commandsUsed`)) == "") {
             await set(`${interaction.user.id}_commandsUsed`, "0");
           }
           await incr(`${interaction.user.id}`, "commandsUsed", 1);
         }
+
+        // Actually execute the command
         await command.execute(interaction);
+
+        // Pet rewards
+        const lastRunTimestamp = await get(`${interaction.user.id}_commandLastRunTimestamp`);
+        if (lastRunTimestamp !== null && lastRunTimestamp !== "") {
+          const timeDifference = Date.now() - lastRunTimestamp;
+          // If the user has been away for more than 30 minutes, give them a chance to get pet rewards.
+          if (timeDifference > 1800000) {
+            const equippedPet = await get(`${interaction.user.id}_petEquipped`);
+            const happiness = await get(`${interaction.user.id}_petHappiness_${equippedPet}`);
+
+            // Rewards per pet and their percentage chance (if the pet's happiness is above 50%)
+            let rewards = [
+              {
+                name: "cat",
+                healthPotion: 15,
+                coins: 0,
+              },
+              {
+                name: "dog",
+                healthPotion: 17,
+                coins: 20,
+              },
+              {
+                name: "duck",
+                healthPotion: 20,
+                coins: 25,
+              },
+            ];
+
+            if (happiness <= 50) {
+              rewards = [
+                {
+                  name: "cat",
+                  healthPotion: 10,
+                  coins: 0,
+                },
+                {
+                  name: "dog",
+                  healthPotion: 12,
+                  coins: 15,
+                },
+                {
+                  name: "duck",
+                  healthPotion: 15,
+                  coins: 20,
+                },
+              ];
+            }
+
+            if (happiness <= 25) {
+              rewards = [
+                {
+                  name: "cat",
+                  healthPotion: 5,
+                  coins: 0,
+                },
+                {
+                  name: "dog",
+                  healthPotion: 9,
+                  coins: 10,
+                },
+                {
+                  name: "duck",
+                  healthPotion: 10,
+                  coins: 15,
+                },
+              ];
+            }
+
+            if (happiness === 0) {
+              rewards = [
+                {
+                  name: "cat",
+                  healthPotion: 0,
+                  coins: 0,
+                },
+                {
+                  name: "dog",
+                  healthPotion: 0,
+                  coins: 0,
+                },
+                {
+                  name: "duck",
+                  healthPotion: 0,
+                  coins: 0,
+                },
+              ];
+            }
+
+            // Get the pet's rewards from the rewards array.
+            const petRewards = rewards.find((pet) => pet.name === equippedPet);
+            const coinLikelihood = petRewards.coins;
+            const potionLikelihood = petRewards.healthPotion;
+
+            // Calculate amounts
+            const coinRewardMultiplier = Math.floor(timeDifference / (5 * 60 * 1000)); // Increase rewards by 1% per 5 minutes away.
+            let coinAmount = Math.min(chance.integer({ min: 30, max: 40 }) + coinRewardMultiplier * 10, 130); // max of 130 coins (1 hour of max 20)
+            const potionRewardMultiplier = Math.floor(timeDifference / (10 * 60 * 1000));
+            let potionAmount = Math.min(1 + potionRewardMultiplier * 2, 2); // max of 2 potions.
+
+            // Chances
+            let coinsRewarded = false;
+            let potionRewarded = false;
+            if (petRewards.coins !== 0) {
+              coinsRewarded = chance.bool({ likelihood: coinLikelihood });
+            }
+            if (petRewards.healthPotion !== 0) {
+              potionRewarded = chance.bool({ likelihood: potionLikelihood });
+            }
+
+            // Give the user coins.
+            if (coinsRewarded) {
+              await incr(`${interaction.user.id}`, "coins", coinAmount);
+            }
+
+            // Give the user a health potion.
+            if (potionRewarded) {
+              await incr(`${interaction.user.id}`, "healthPotion", potionAmount);
+            }
+
+            // Reset the timestamp.
+            await set(`${interaction.user.id}_commandLastRunTimestamp`, Date.now());
+
+            let replyMessage = "";
+
+            if (potionRewarded) {
+              replyMessage += `Your pet ${equippedPet} has found you ${
+                potionAmount === 1 ? `a ${emoji.healthPotion}` : `${potionAmount} ${emoji.healthPotion}`
+              } while you were away!`;
+            }
+
+            if (coinsRewarded) {
+              replyMessage += `\nYour pet ${equippedPet} has found you **${emoji.coins} ${coinAmount}** while you were away!`;
+            }
+
+            if (replyMessage !== "") await interaction.followUp({ content: replyMessage, ephemeral: true });
+          }
+
+          // If the user has a pet equipped, set the timestamp. It must be set AFTER the rewards are given, otherwise it interferes with it.
+          if ((await get(`${interaction.user.id}_petEquipped`)) !== null && (await get(`${interaction.user.id}_petEquipped`)) !== "") {
+            // This is used to reward the user with pet rewards when they go idle.
+            // This is only used if the user has a pet equipped.
+            await set(`${interaction.user.id}_commandLastRunTimestamp`, Date.now());
+          }
+        }
       } catch (error) {
         console.error(error);
         await interaction.reply({
