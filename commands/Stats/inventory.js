@@ -328,7 +328,7 @@ module.exports = {
         inventoryDescription += `**${item.emoji} ${item.name}**: ${value} (${emoji.coins}${itemValue})\n`;
         totalInventoryValue += itemValue;
       } else if (value && value > 0) {
-        inventoryDescription += `**${item.emoji}${item.name}**: ${value}\n`;
+        inventoryDescription += `**${item.emoji} ${item.name}**: ${value}\n`;
       }
     }
 
