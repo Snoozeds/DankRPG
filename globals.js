@@ -39,8 +39,9 @@ const levelUpEmoji = "<:LevelBookUp:1130623558217900193>";
 const shopImage = null;
 const descriptionEmoji = "<:SpeechBubble:1121299256150610030>";
 
-// Items - Misc
+// Items - Health
 const lifesaverEmoji = "<:Lifesaver:1110248791304581280>";
+const healthPotionEmoji = "<:HealthPotion:1148653721354506251>";
 
 // Items - Tools
 const axeEmoji = "<:Axe:1143526263177359401>";
@@ -423,6 +424,7 @@ const emoji = {
   levelUp: levelUpEmoji,
   description: descriptionEmoji,
   lifesaver: lifesaverEmoji,
+  healthPotion: healthPotionEmoji,
   axe: axeEmoji,
   pickaxe: pickaxeEmoji,
   fishingBait: fishingBaitEmoji,
