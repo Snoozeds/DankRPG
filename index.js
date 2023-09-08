@@ -85,3 +85,7 @@ for (const file of eventFiles) {
 client.login(token);
 
 module.exports = client;
+
+// Run quest and pet cron jobs
+require('./utils/pets.js');
+require('./utils/quests.js');

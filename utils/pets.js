@@ -10,6 +10,8 @@ const redis = new Redis({
   enableReadyCheck: false,
 });
 
+console.log("pets is running");
+
 // Cron job running every hour to set pet cleanliness
 cron.schedule("0 * * * *", async () => {
   console.log("Running pet cleanliness cron job");
