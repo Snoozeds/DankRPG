@@ -9,10 +9,11 @@ const redis = new Redis({
   db: 0,
   enableReadyCheck: false,
 });
+const chalk = require("chalk");
 
 // Cron job running every hour to set pet cleanliness
 cron.schedule("0 * * * *", async () => {
-  console.log("Running pet cleanliness cron job");
+  console.info(chalk.magenta.bold("[CRON] Running pet cleanliness cron job"));
   let cursor = "0";
   let decrement = 3;
 
@@ -48,7 +49,7 @@ cron.schedule("0 * * * *", async () => {
 
 // Cron job running every 30 minutes to set pet happiness
 cron.schedule("*/30 * * * *", async () => {
-  console.log("Running pet happiness cron job");
+  console.info(chalk.magenta.bold("[CRON] Running pet happiness cron job"));
   let cursor = "0";
 
   do {
@@ -90,7 +91,7 @@ cron.schedule("*/30 * * * *", async () => {
 
 // Cron job running every 5 minutes to set pet fullness
 cron.schedule("*/5 * * * *", async () => {
-  console.log("Running pet hunger cron job");
+  console.info(chalk.magenta.bold("[CRON] Running pet hunger cron job"));
   let cursor = "0";
 
   do {

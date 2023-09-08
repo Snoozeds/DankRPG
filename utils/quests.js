@@ -9,6 +9,7 @@ const redis = new Redis({
   db: 0,
   enableReadyCheck: false,
 });
+const chalk = require("chalk");
 
 const quests = {
   1: {
@@ -62,7 +63,7 @@ const quests = {
 };
 
 cron.schedule("0 0 * * *", async () => {
-  console.log("Starting quests cron job...");
+  console.info(chalk.magenta.bold("[CRON] Running quests cron job"));
   await redis.del("quests"); // Remove all quests.
 
   // Fetch all user keys that match the pattern "*_questsCompleted"
@@ -127,5 +128,6 @@ cron.schedule("0 0 * * *", async () => {
   }
 
   await redis.set("quests", JSON.stringify(randomQuests)); // Add the quests to the key
-  console.log("Added new quests: ", randomQuests);
+  console.info(chalk.yellow.bold("Added quests:"));
+  console.info(randomQuests);
 });

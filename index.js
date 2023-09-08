@@ -5,6 +5,7 @@ const { token, topgg, topggAuth, usr, pwd } = require("./config.json"); // Remov
 const Redis = require("ioredis");
 const express = require("express");
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const chalk = require("chalk");
 
 global.redis = new Redis({
   port: 6379,
@@ -16,11 +17,11 @@ global.redis = new Redis({
 }); // Change the username and password in config.json, if you need to. | https://redis.io/docs/management/security/acl/
 
 redis.on("connect", () => {
-  console.log(`Database initialized.`);
+  console.info(chalk.green.bold("Connected to database!"));
 });
 
 redis.on("error", (err) => {
-  console.log(`Database error! ${err}`);
+  console.error(chalk.green.bold("Error connecting to database: " + err));
 });
 
 // This section is kept here for transparency purposes.
@@ -30,7 +31,7 @@ redis.on("error", (err) => {
 const { AutoPoster } = require("topgg-autoposter");
 const ap = AutoPoster(topgg, client);
 ap.on("posted", () => {
-  console.log("Posted stats to Top.gg!");
+  console.info(chalk.green.bold("Posted stats to top.gg!"));
 });
 
 // Top.gg voting webhook.
@@ -63,7 +64,9 @@ for (const folder of commandFolders) {
   for (const file of commandFiles) {
     const command = require(`./commands/${folder}/${file}`);
     client.commands.set(command.data.name, command);
-    console.log("\u001b[1;36mLoaded command " + `'${command.data.name}'` + " from /" + folder + "/" + file + "\u001b[0m");
+    console.info(
+      `${chalk.white.bold("Loaded command")} ${chalk.yellow.bold(`"${command.data.name}"`)} ${chalk.blue.bold("from")} ${chalk.yellow.bold(`/${folder}/${file}`)}`
+    );
   }
 }
 
@@ -87,5 +90,5 @@ client.login(token);
 module.exports = client;
 
 // Run quest and pet cron jobs
-require('./utils/pets.js');
-require('./utils/quests.js');
+require("./utils/pets.js");
+require("./utils/quests.js");
