@@ -12,7 +12,7 @@ module.exports = {
       .setDescription(
         `**__Bot Info__**\nUptime: since <t:${Math.round(seconds - process.uptime())}:R>\n\n**__Bot Stats__**\nGuilds: ${c.guilds.cache.size}\n\n**__Package Info__**\nNode: ${
           process.version
-        }\ndiscord.js: ${DJS}\n\n**__Credits:__**\nAdditional art assets: [Pixeltier](https://pixeltier.itch.io/pixeltiers-16x16-rpg-icon-pack), [Clockwork Raven](https://clockworkraven.itch.io/), [Pixellarion_Games](https://pixellarion-games.itch.io/healthbars-and-potions), [Beowulf](https://beowulf.itch.io/beowulfs-fish-asset-pack)
+        }\ndiscord.js: ${DJS}\n\n**__Credits:__**\nAdditional art assets: [Pixeltier](https://pixeltier.itch.io/pixeltiers-16x16-rpg-icon-pack), [Clockwork Raven](https://clockworkraven.itch.io/), [Pixellarion_Games](https://pixellarion-games.itch.io/healthbars-and-potions), [Beowulf](https://beowulf.itch.io/beowulfs-fish-asset-pack), [Ghostpixxells](https://ghostpixxells.itch.io/pixelpets)
         \nLinks: [Invite](https://drpg.io/invite) | [Support Server](https://discord.gg/Cc3xBSpWeB) | [Docs](https://drpg.io/docs)`
       )
       .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31")
