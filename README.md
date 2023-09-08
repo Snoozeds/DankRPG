@@ -72,6 +72,8 @@ Once you have done this, you can run the bot using `node index.js`. If no errors
 
 If you want daily quest support, you will also need to run the `quests.js` file inside /utils by using `node quests.js`. This starts a cron job that runs every day at 00:00 UTC. It is **highly** recommended to use a process manager for this.
 
+If you also want pet status updates, you will also need to run the `pets.js` file inside /utils by using `node pets.js`. This starts a cron job that runs every 5 minutes. It is **highly** recommended to use a process manager for this as well.
+
 I recommend using a process manager like [PM2](https://npmjs.com/package/pm2) or [forever](https://www.npmjs.com/package/forever) to keep the bot running.
 
 If you have any issues relating to the code, or running the bot, please open an issue on this repository by following this link: [Open issue](https://github.com/Snoozeds/DankRPG/issues/new)
