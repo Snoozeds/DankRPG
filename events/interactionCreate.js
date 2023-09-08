@@ -327,7 +327,8 @@ module.exports = {
   </pet unequip:${await getCommandId("pet")}> - Unequip your pet.
   </unequip:${await getCommandId("unequip")}> - Unequip an item from your inventory.
   </upgrade apply:${await getCommandId("upgrade")}> - Apply an upgrade.
-  </upgrade view:${await getCommandId("upgrade")}> - View all upgrades.`
+  </upgrade view:${await getCommandId("upgrade")}> - View all upgrades.
+  </use:${await getCommandId("use")}> - Use an item from your inventory.`
           )
           .setColor((await get(`${user.id}_color`)) ?? "#2b2d31");
         const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_commandsBack").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
