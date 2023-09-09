@@ -95,6 +95,7 @@ module.exports = {
 </hp:${await getCommandId("hp")}> - Checks how much it costs to heal to MaxHP.
 </sell:${await getCommandId("sell")}> - Sell an item from your inventory.
 </shop:${await getCommandId("shop")}> - Shows the shop.
+</pet alerts:${await getCommandId("pet")}> - Toggle pet alerts.
 </pet buy:${await getCommandId("pet")}> - Buy an item from the pet shop.
 </pet equip:${await getCommandId("pet")}> - Equip a pet.
 </pet feed:${await getCommandId("pet")}> - Feed your pet with pet food.
