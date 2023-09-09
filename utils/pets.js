@@ -78,7 +78,7 @@ cron.schedule("*/30 * * * *", async () => {
         // Check if petAlerts are enabled and pet's happiness is 0
         const hasSentAlert = await redis.get(`${user}_hasSentPetAlert_${pet}`);
 
-        if (!hasSentAlert) {
+        if (hasSentAlert !== "1") {
           // Send DM only if the alert hasn't been sent before
           await redis.set(`${user}_hasSentPetAlert_${pet}`, "1");
           const dm = await client.users.fetch(user);
