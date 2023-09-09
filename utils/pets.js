@@ -1,3 +1,4 @@
+const client = require("../index.js");
 const cron = require("node-cron");
 const { usr, pwd } = require("../config.json");
 const Redis = require("ioredis");
@@ -71,13 +72,31 @@ cron.schedule("*/30 * * * *", async () => {
         decrement = 2;
       }
 
-      if (Number(happy) <= 0) {
-        // Happiness is already 0, do nothing
+      const petAlerts = await redis.get(`${user}_petAlerts`);
+
+      if (Number(happy) <= 0 && petAlerts === "1") {
+        // Check if petAlerts are enabled and pet's happiness is 0
+        const hasSentAlert = await redis.get(`${user}_hasSentPetAlert_${pet}`);
+
+        if (!hasSentAlert) {
+          // Send DM only if the alert hasn't been sent before
+          await redis.set(`${user}_hasSentPetAlert_${pet}`, "1");
+          const dm = await client.users.fetch(user);
+          try {
+            dm.send(`Your pet ${pet} has reached 0 happiness!\n\nYou can turn off these alerts with /pet alerts`);
+          } catch (err) {
+            if (err.code === 429) {
+              // Unlikely but possible
+              console.error(chalk.red.bold("[ERROR] Rate limited by Discord!"));
+            }
+          }
+        }
+      } else if (Number(happy) <= 0) {
         await redis.set(`${user}_petHappiness_${pet}`, 0);
       } else {
         const newHappy = Number(happy) - decrement;
         if (newHappy < 0) {
-          // make sure happiness is not negative
+          // Make sure happiness is not negative
           await redis.set(`${user}_petHappiness_${pet}`, 0);
         } else {
           await redis.set(`${user}_petHappiness_${pet}`, newHappy);

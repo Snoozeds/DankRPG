@@ -137,7 +137,8 @@ module.exports = {
             .setRequired(true)
         )
     )
-    .addSubcommand((subcommand) => subcommand.setName("unequip").setDescription("Unequip your current pet")),
+    .addSubcommand((subcommand) => subcommand.setName("unequip").setDescription("Unequip your current pet"))
+    .addSubcommand((subcommand) => subcommand.setName("alerts").setDescription("Alerts you when your pet reaches 0% happiness")),
   async execute(interaction) {
     const command = interaction.options.getSubcommand();
     const user = interaction.user;
@@ -371,6 +372,7 @@ module.exports = {
           await incr(`${user.id}`, `petHappiness_${pet}`, 50);
         }
         await decr(`${user.id}`, "petShampooUsesLeft", 1);
+        await set(`${user.id}_hasSentPetAlert_${pet}`, "0"); // reset pet alert as the happiness has changed
         return interaction.reply({
           content: `You washed your ${pet}.\n${emoji.petCleanliness} 100\n${emoji.petHappiness}${await get(`${user.id}_petHappiness_${pet}`)}`,
           ephemeral: true,
@@ -571,10 +573,26 @@ module.exports = {
         if (newHappiness <= 100) {
           await incr(`${user.id}`, `petHappiness_${pet}`, 50);
         }
+        await set(`${user.id}_hasSentPetAlert_${pet}`, "0"); // reset pet alert as the happiness has changed
         return interaction.reply({
           content: `You fed your ${pet}.\n${emoji.petFullness} 100\n${emoji.petHappiness}${await get(`${user.id}_petHappiness_${pet}`)}`,
           ephemeral: true,
         });
+      }
+    }
+
+    if (command === "alerts") {
+      const user = interaction.user;
+      const alertsEnabled = await get(`${user.id}_petAlerts`);
+
+      if (alertsEnabled === "1") {
+        await set(`${user.id}_petAlerts`, "0");
+        return interaction.reply({ content: "You will no longer receive pet alerts.", ephemeral: true });
+      }
+
+      if (alertsEnabled === "0" || alertsEnabled == null || alertsEnabled === "") {
+        await set(`${user.id}_petAlerts`, "1");
+        return interaction.reply({ content: "You will now receive pet alerts. Make sure your DMs are open to recieve them.", ephemeral: true });
       }
     }
   },
