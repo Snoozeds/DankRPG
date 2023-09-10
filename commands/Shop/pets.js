@@ -384,7 +384,7 @@ module.exports = {
       const pet = await get(`${user.id}_petEquipped`);
       const petEmoji = items.find((i) => i.name === pet).emoji;
       let petUppercase = pet.charAt(0).toUpperCase() + pet.slice(1);
-      const happiness = await get(`${user.id}_petHappiness_${pet}`);
+      const happiness = Number(await get(`${user.id}_petHappiness_${pet}`));
       const fullness = await get(`${user.id}_petFullness_${pet}`);
       const cleanliness = await get(`${user.id}_petCleanliness_${pet}`);
 
@@ -424,9 +424,7 @@ module.exports = {
             coins: 20,
           },
         ];
-      }
-
-      if (happiness <= 25) {
+      } else if (happiness <= 25) {
         rewards = [
           {
             name: "cat",
@@ -444,9 +442,7 @@ module.exports = {
             coins: 15,
           },
         ];
-      }
-
-      if (happiness === 0) {
+      } else if (happiness <=0) {
         rewards = [
           {
             name: "cat",
@@ -469,6 +465,9 @@ module.exports = {
       if (pet === "") return interaction.reply({ content: "You do not have a pet equipped.", ephemeral: true });
       if (pet === null) return interaction.reply({ content: "You do not have a pet equipped.", ephemeral: true });
 
+      const petRewards = rewards.find((r) => r.name === pet);
+      const healthPotionChance = happiness <= 0 ? 0 : petRewards.healthPotion;
+      const coinsChance = happiness <= 0 ? 0 : petRewards.coins;
       const embed = new EmbedBuilder()
         .setTitle(`${petEmoji} ${petUppercase} status:`)
         .addFields(
@@ -494,12 +493,12 @@ module.exports = {
           },
           {
             name: `Current ${emoji.healthPotion} chance`,
-            value: `**${rewards.find((r) => r.name === pet).healthPotion}%**`,
+            value: `**${healthPotionChance}%**`,
             inline: true,
           },
           {
             name: `Current ${emoji.coins} chance`,
-            value: `**${rewards.find((r) => r.name === pet).coins}%**`,
+            value: `**${coinsChance}%**`,
             inline: true,
           }
         )
