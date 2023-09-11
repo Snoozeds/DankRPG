@@ -176,7 +176,7 @@ module.exports = {
         .setRequired(true)
         .addChoices(
           ...Object.keys(items).map((key) => ({
-            name: items[key].name,
+            name: `${items[key].name} (${items[key].price} Coins)`,
             value: key,
           }))
         )
