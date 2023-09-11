@@ -91,31 +91,31 @@ module.exports = {
             .setDescription("The pet or pet food you want to buy")
             .addChoices(
               {
-                name: "Cat",
+                name: "Cat (5000 coins)",
                 value: "cat",
               },
               {
-                name: "Dog",
+                name: "Dog (10000 coins)",
                 value: "dog",
               },
               {
-                name: "Duck",
+                name: "Duck (15000 coins)",
                 value: "duck",
               },
               {
-                name: "Cat food",
+                name: "Cat food (100 coins)",
                 value: "catFood",
               },
               {
-                name: "Dog food",
+                name: "Dog food (100 coins)",
                 value: "dogFood",
               },
               {
-                name: "Duck food",
+                name: "Duck food (100 coins)",
                 value: "duckFood",
               },
               {
-                name: "Pet shampoo",
+                name: "Pet shampoo (100 coins)",
                 value: "petShampoo",
               }
             )
