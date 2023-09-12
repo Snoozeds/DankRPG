@@ -1820,9 +1820,9 @@ module.exports = {
       // Shop select menu
       if (customId === "shop" && isAuthor) {
         const user = interaction.user;
-        if (interaction.values[0] === "health") {
+        if (interaction.values[0] === "potions") {
           const embed = new EmbedBuilder()
-            .setTitle("Health items")
+            .setTitle("Potions")
             .setDescription(`"Welcome to my shop!"\nYour balance: **${emoji.coins}${await get(`${user.id}_coins`)}**`)
             .addFields({
               name: `${emoji.lifesaver} Lifesaver (Owned: ${(await get(`${user.id}_lifesaver`)) || 0})`,
