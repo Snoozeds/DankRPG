@@ -68,7 +68,7 @@ module.exports = {
         if (lastRunTimestamp !== null && lastRunTimestamp !== "") {
           const timeDifference = Date.now() - lastRunTimestamp;
           // If the user has been away for more than 30 minutes, give them a chance to get pet rewards.
-          if (timeDifference > 1800000) {
+          if (timeDifference > 1800000 && (await get(`${interaction.user.id}_petHappiness_${await get(`${interaction.user.id}_petEquipped`)}`)) != 0) {
             const equippedPet = await get(`${interaction.user.id}_petEquipped`);
             const happiness = await get(`${interaction.user.id}_petHappiness_${equippedPet}`);
 
