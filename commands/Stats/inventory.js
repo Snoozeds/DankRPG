@@ -4,6 +4,7 @@ const { get, set, emoji } = require("../../globals.js");
 // Define the prices of each item in the inventory.
 const inventoryPrices = {
   _lifesaver: 1000,
+  _luckPotion: 500,
   _healthPotion: 0,
   _diamond: 250,
   _demonWing: 300,
@@ -36,10 +37,16 @@ module.exports = {
     // Inventory arrays
     const inventoryItems = [
       {
-        name: "Lifesavers",
+        name: "Lifesaver",
         key: `${user.id}_lifesaver`,
         price: inventoryPrices._lifesaver,
         emoji: emoji.lifesaver,
+      },
+      {
+        name: "Luck Potions",
+        key: `${user.id}_luckPotion`,
+        price: inventoryPrices._luckPotion,
+        emoji: emoji.luckPotion,
       },
       {
         name: "Health Potions",
