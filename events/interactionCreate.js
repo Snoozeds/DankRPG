@@ -573,6 +573,8 @@ module.exports = {
         // Define the prices of each item in the inventory.
         const inventoryPrices = {
           _lifesaver: 1000,
+          _luckPotion: 500,
+          _healthPotion: 0,
           _diamond: 250,
           _demonWing: 300,
           _wood: 1,
@@ -588,10 +590,22 @@ module.exports = {
         // Inventory arrays
         const inventoryItems = [
           {
-            name: "Lifesavers",
+            name: "Lifesaver",
             key: `${user.id}_lifesaver`,
             price: inventoryPrices._lifesaver,
             emoji: emoji.lifesaver,
+          },
+          {
+            name: "Luck Potions",
+            key: `${user.id}_luckPotion`,
+            price: inventoryPrices._luckPotion,
+            emoji: emoji.luckPotion,
+          },
+          {
+            name: "Health Potions",
+            key: `${user.id}_healthPotion`,
+            price: inventoryPrices._healthPotion,
+            emoji: emoji.healthPotion,
           },
           {
             name: "Diamonds",
@@ -709,10 +723,130 @@ module.exports = {
           },
         ];
 
+        const fishingItems = [
+          {
+            name: "Best Fishing Rod",
+            key: `${user.id}_bestFishingRod`,
+            price: 10000,
+            emoji: emoji.bestFishingRod,
+          },
+          {
+            name: "Better Fishing Rod",
+            key: `${user.id}_betterFishingRod`,
+            price: 5000,
+            emoji: emoji.betterFishingRod,
+          },
+          {
+            name: "Basic Fishing Rod",
+            key: `${user.id}_basicFishingRod`,
+            price: 1000,
+            emoji: emoji.basicFishingRod,
+          },
+          {
+            name: "Fishing Bait",
+            key: `${user.id}_fishingBait`,
+            price: 50,
+            emoji: emoji.fishingBait,
+          },
+        ];
+
+        const fish = [
+          {
+            name: "Tilapia",
+            key: `${user.id}_tilapia`,
+            price: 45,
+            emoji: emoji.tilapia,
+          },
+          {
+            name: "Sardine",
+            key: `${user.id}_sardine`,
+            price: 45,
+            emoji: emoji.sardine,
+          },
+          {
+            name: "Perch",
+            key: `${user.id}_perch`,
+            price: 45,
+            emoji: emoji.perch,
+          },
+          {
+            name: "Anchovy",
+            key: `${user.id}_anchovy`,
+            price: 45,
+            emoji: emoji.anchovy,
+          },
+          {
+            name: "Spot",
+            key: `${user.id}_spot`,
+            price: 65,
+            emoji: emoji.spot,
+          },
+          {
+            name: "Rainbow Trout",
+            key: `${user.id}_rainbowTrout`,
+            price: 65,
+            emoji: emoji.rainbowTrout,
+          },
+          {
+            name: "Catfish",
+            key: `${user.id}_catfish`,
+            price: 65,
+            emoji: emoji.catfish,
+          },
+          {
+            name: "Pufferfish",
+            key: `${user.id}_pufferfish`,
+            price: 80,
+            emoji: emoji.pufferfish,
+          },
+          {
+            name: "Bass",
+            key: `${user.id}_bass`,
+            price: 80,
+            emoji: emoji.bass,
+          },
+          {
+            name: "Octopus",
+            key: `${user.id}_octopus`,
+            price: 100,
+            emoji: emoji.octopus,
+          },
+        ];
+
+        const petItems = [
+          {
+            name: "Cat Food",
+            key: `${user.id}_catFoodUsesLeft`,
+            price: 20, // As pet food has 5 uses but costs 100, the price here is 20.
+            emoji: emoji.catFood,
+          },
+          {
+            name: "Dog Food",
+            key: `${user.id}_dogFoodUsesLeft`,
+            price: 20,
+            emoji: emoji.dogFood,
+          },
+          {
+            name: "Duck Food",
+            key: `${user.id}_duckFoodUsesLeft`,
+            price: 20,
+            emoji: emoji.duckFood,
+          },
+          {
+            name: "Pet Shampoo",
+            key: `${user.id}_petShampooUsesLeft`,
+            price: 10, // As pet shampoo has 10 uses but costs 100, the price here is 10.
+            emoji: emoji.petShampoo,
+          },
+        ];
+
         // Sort the inventory items by price.
         inventoryItems.sort((a, b) => b.price - a.price);
         armorItems.sort((a, b) => b.price - a.price);
         weaponItems.sort((a, b) => b.price - a.price);
+        fishingItems.sort((a, b) => b.price - a.price);
+        fish.sort((a, b) => b.price - a.price);
+        petItems.sort((a, b) => b.price - a.price);
 
         let totalInventoryValue = 0;
 
@@ -725,7 +859,7 @@ module.exports = {
             weaponDescription += `**${item.emoji} ${item.name}**: ${value} (${emoji.coins}${itemValue})\n`;
             totalInventoryValue += itemValue;
           } else if (value && value > 0) {
-            weaponDescription += `**${item.emoji}${item.name}**: ${value}\n`;
+            weaponDescription += `**${item.emoji} ${item.name}**: ${value}\n`;
           }
         }
 
@@ -742,6 +876,37 @@ module.exports = {
           }
         }
 
+        // Loop through the fishing items and add them to the description.
+        let fishingDescription = "";
+        for (const item of fishingItems) {
+          const value = await get(item.key);
+          if (value && item.price && item.price > 0 && value > 0) {
+            const itemValue = value * item.price;
+            // Add value to the description if the item is bait (can own multiple)
+            if (item !== fishingItems[3]) {
+              fishingDescription += `**${item.emoji} ${item.name}** (${emoji.coins}${itemValue})\n`;
+            } else {
+              fishingDescription += `**${item.emoji} ${item.name}**: ${value} (${emoji.coins}${itemValue})\n`;
+            }
+            totalInventoryValue += itemValue;
+          } else if (value && value > 0) {
+            fishingDescription += `${item.name}: ${value}\n`;
+          }
+        }
+
+        // Loop through the fish and add them to the description.
+        let fishDescription = "";
+        for (const item of fish) {
+          const value = await get(item.key);
+          if (value && item.price && item.price > 0 && value > 0) {
+            const itemValue = value * item.price;
+            fishDescription += `**${item.emoji} ${item.name}**: ${value} (${emoji.coins}${itemValue})\n`;
+            totalInventoryValue += itemValue;
+          } else if (value && value > 0) {
+            fishDescription += `${item.name}: ${value}\n`;
+          }
+        }
+
         // Loop through the inventory items and add them to the description.
         let inventoryDescription = "";
         for (const item of inventoryItems) {
@@ -751,15 +916,28 @@ module.exports = {
             inventoryDescription += `**${item.emoji} ${item.name}**: ${value} (${emoji.coins}${itemValue})\n`;
             totalInventoryValue += itemValue;
           } else if (value && value > 0) {
-            inventoryDescription += `**${item.emoji}${item.name}**: ${value}\n`;
+            inventoryDescription += `**${item.emoji} ${item.name}**: ${value}\n`;
           }
         }
 
-        // Add the armors to the inventory description if there are any.
-        inventoryDescription += armorDescription !== "" ? `\n**Armor:**\n${armorDescription}` : "";
+        let petDescription = "";
+        for (const item of petItems) {
+          const value = await get(item.key);
+          if (value && item.price && item.price > 0 && value > 0) {
+            const itemValue = value * item.price;
+            petDescription += `**${item.emoji} ${item.name}**: ${value} (${emoji.coins}${itemValue})\n`;
+            totalInventoryValue += itemValue;
+          } else if (value && value > 0) {
+            petDescription += `${item.name}: ${value}\n`;
+          }
+        }
 
-        // Add the weapons to the inventory description if there are any.
+        // Add the items to the embed, if there are any.
+        inventoryDescription += armorDescription !== "" ? `\n**Armor:**\n${armorDescription}` : "";
         inventoryDescription += weaponDescription !== "" ? `\n**Weapons:**\n${weaponDescription}` : "";
+        inventoryDescription += fishingDescription !== "" ? `\n**Fishing:**\n${fishingDescription}` : "";
+        inventoryDescription += fishDescription !== "" ? `\n**Fish:**\n${fishDescription}` : "";
+        inventoryDescription += petDescription !== "" ? `\n**Pet item uses left:**\n${petDescription}` : "";
 
         // If the inventory is empty, set the description to a default message.
         if (inventoryDescription === "") {
