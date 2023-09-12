@@ -26,11 +26,15 @@ module.exports = {
         ephemeral: true,
       });
     } else {
-      const rare = chance.weighted([true, false], [10, 90]); // 10% chance of getting a diamond
+      let diamondChance = 10;
+      let luckBonusMessage = "";
+      (await get(`${user.id}_luckBonus`)) > 0 ? (diamondChance += Number(await get(`${user.id}_luckBonus`))) : (diamondChance += 0);
+      (await get(`${user.id}_luckBonus`)) > 0 ? (luckBonusMessage = `\n(+${await get(`${user.id}_luckBonus`)}% Luck Bonus active)`) : (luckBonusMessage = "");
+      const rare = chance.weighted([true, false], [diamondChance, 90]); // 10% chance of getting a diamond
       const embed = new EmbedBuilder()
         .setTitle("Foraging...")
-        .setDescription(`<@${user.id}> goes foraging in the wilderness.`)
-        .setColor(await get(`${user.id}_color`) ?? "#2b2d31");
+        .setDescription(`<@${user.id}> goes foraging in the wilderness.${luckBonusMessage}`)
+        .setColor((await get(`${user.id}_color`)) ?? "#2b2d31");
       if (rare) {
         // Daily quest: Find a diamond
         if (await quests.active(1)) {

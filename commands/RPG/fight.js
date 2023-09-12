@@ -8,8 +8,10 @@ module.exports = {
   async execute(interaction) {
     const user = interaction.user;
 
-    // 10% chance for enemy to drop a demon wing.
-    const demonWing = chance.bool({ likelihood: 10 });
+    // 10% default chance for enemy to drop a demon wing.
+    let demonWingLikelihood = 10;
+    (await get(`${user.id}_luckBonus`)) > 0 ? (demonWingLikelihood += Number(await get(`${user.id}_luckBonus`))) : (demonWingLikelihood += 0);
+    const demonWing = chance.bool({ likelihood: demonWingLikelihood });
     const demonWingMessage = demonWing ? `**__Item Drops:__**\n${emoji.demonWing}**You got a Demon Wing!**` : "";
 
     // Daily quests
@@ -57,7 +59,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle(`Fighting ${enemy}`)
         .setDescription(`You are fighting a ${enemy}!`)
-        .setColor(await get(`${user.id}_color`) ?? "#2b2d31")
+        .setColor((await get(`${user.id}_color`)) ?? "#2b2d31")
         .addFields(
           { name: `${emoji.hp} Your HP`, value: `${await get(`${user.id}_hp`)}/${await get(`${user.id}_max_hp`)}`, inline: true },
           { name: `${emoji.armor} Your Armor`, value: `${await get(`${user.id}_armor`)}`, inline: true },

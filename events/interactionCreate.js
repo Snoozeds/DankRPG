@@ -1824,11 +1824,17 @@ module.exports = {
           const embed = new EmbedBuilder()
             .setTitle("Potions")
             .setDescription(`"Welcome to my shop!"\nYour balance: **${emoji.coins}${await get(`${user.id}_coins`)}**`)
-            .addFields({
-              name: `${emoji.lifesaver} Lifesaver (Owned: ${(await get(`${user.id}_lifesaver`)) || 0})`,
-              value: `**Cost: ${emoji.coins}1000**\nSaves you from death. Used automatically.\nid: lifesaver`,
-            })
-            .setFooter({ text: "Use /buy <id> to buy an item." })
+            .addFields(
+              {
+                name: `${emoji.lifesaver} Lifesaver (Owned: ${(await get(`${user.id}_lifesaver`)) || 0})`,
+                value: `**${emoji.coins} 1,000**\n${emoji.description} Saves you from death. Used automatically.`,
+              },
+              {
+                name: `${emoji.luckPotion} Luck Potion (Owned: ${(await get(`${user.id}_luckPotion`)) || 0})`,
+                value: `**${emoji.coins} 500**\n${emoji.description} Increases the chance of rare item drops (${emoji.diamond}, ${emoji.demonWing}) by 10% for 10 minutes. Does not affect fishing. Can only have one active at a time.`,
+              }
+            )
+            .setFooter({ text: "Use /buy to buy an item and /use to use an item (if not automatically used)." })
             .setColor((await get(`${user.id}_color`)) ?? "#2b2d31")
             .setThumbnail(shopImage);
           await interaction.update({

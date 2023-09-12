@@ -11,6 +11,14 @@ const items = {
     armor: 0,
     allowMultiple: false,
   },
+  luckPotion: {
+    name: "Luck Potion",
+    emoji: "luckPotion",
+    variable: "luckPotion",
+    price: 500,
+    armor: 0,
+    allowMultiple: true,
+  },
   stoneRing: {
     name: "Stone Ring",
     emoji: "stoneRing",

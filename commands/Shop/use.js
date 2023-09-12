@@ -6,7 +6,11 @@ module.exports = {
     .setName("use")
     .setDescription("Use an item from your inventory.")
     .addStringOption((option) =>
-      option.setName("item").setDescription("The item you want to use.").setRequired(true).addChoices({ name: "Health Potion", value: "healthPotion" })
+      option
+        .setName("item")
+        .setDescription("The item you want to use.")
+        .setRequired(true)
+        .addChoices({ name: "Health Potion", value: "healthPotion" }, { name: "Luck Potion", value: "luckPotion" })
     ),
 
   async execute(interaction) {
@@ -40,6 +44,32 @@ module.exports = {
           ephemeral: true,
         });
       }
+    } else if (item === "luckPotion") {
+      const hasItem = Number(await get(`${user.id}_luckPotion`));
+      const luckAmount = 10;
+      const expiration = 600;
+      const luckPotionActive = await get(`${user.id}_luckPotionActive`);
+
+      if (hasItem < 1 || hasItem == null || hasItem == "") {
+        return interaction.reply({
+          content: `You don't have any luck potions!`,
+          ephemeral: true,
+        });
+      }
+
+      if (luckPotionActive === "true") {
+        return interaction.reply({
+          content: `You already have a luck potion active!`,
+          ephemeral: true,
+        });
+      }
+
+      await decr(user.id, "luckPotion", 1);
+      await redis.set(`${user.id}_luckBonus`, luckAmount, "EX", expiration); // Using the Redis EX option. See: https://redis.io/commands/set/#options
+      await redis.set(`${user.id}_luckPotionActive`, true, "EX", expiration);
+      return interaction.reply({
+        content: `You used a ${emoji.luckPotion} luck potion! You now have a 10% increased chance of finding rare items for 10 minutes.`,
+      });
     }
   },
 };

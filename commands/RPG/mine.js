@@ -39,8 +39,10 @@ module.exports = {
       });
     } else {
       embed.setTitle(`${emoji.pickaxe} Stone mined!`);
-      // 30% chance of getting a diamond as well.
-      if (chance.bool({ likelihood: 30 })) {
+      // 30% base chance of getting a diamond as well.
+      let diamondChance = 30;
+      (await get(`${user.id}_luckBonus`)) > 0 ? (diamondChance += Number(await get(`${user.id}_luckBonus`))) : (diamondChance += 0);
+      if (chance.bool({ likelihood: diamondChance })) {
         await incr(`${user.id}`, "diamond", 1);
         embed.setDescription(
           `<@${user.id}> mined some rocks and got **${emoji.stone}${stone}** and **${emoji.diamond}1**!${
@@ -69,7 +71,7 @@ module.exports = {
           }`
         );
       }
-      embed.setColor(await get(`${user.id}_color`) ?? "#2b2d31");
+      embed.setColor((await get(`${user.id}_color`)) ?? "#2b2d31");
       await incr(`${user.id}`, "stone", stone);
       await cooldown.set(user.id, "mine", mineCooldownTime);
       await interaction.reply({ embeds: [embed] });

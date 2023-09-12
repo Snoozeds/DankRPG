@@ -72,6 +72,9 @@ const basicFishingRodEmoji = "<:BasicFishingRod:1145763976509141023>";
 const betterFishingRodEmoji = "<:BetterFishingRod:1145763979344494673>";
 const bestFishingRodEmoji = "<:BestFishingRod:1145763983274561556>";
 
+// Items - Boosts
+const luckPotionEmoji = "<:LuckPotion:1150996043878629376>";
+
 // Items - Drops (/fight)
 const demonWingEmoji = "<:DemonWing:1138200819267817545>";
 
@@ -447,6 +450,7 @@ const emoji = {
   basicFishingRod: basicFishingRodEmoji,
   betterFishingRod: betterFishingRodEmoji,
   bestFishingRod: bestFishingRodEmoji,
+  luckPotion: luckPotionEmoji,
   demonWing: demonWingEmoji,
   tilapia: tilapiaEmoji,
   spot: spotEmoji,
