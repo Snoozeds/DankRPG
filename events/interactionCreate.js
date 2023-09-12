@@ -393,7 +393,18 @@ module.exports = {
           new ButtonBuilder().setCustomId("qm_cooldowns").setLabel("Cooldowns").setStyle(ButtonStyle.Primary),
           new ButtonBuilder().setCustomId("qm_quests").setLabel("Quests").setStyle(ButtonStyle.Primary)
         );
-        await interaction.update({ components: [row] });
+
+        let row2; // Discord only allows 5 buttons per row, so we need to make a second row if the user has a pet equipped.
+
+        if ((await get(`${user.id}_petEquipped`)) != "" || (await get(`${user.id}_petEquipped`)) != null) {
+          row2 = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_pet").setLabel("Pet Status").setStyle(ButtonStyle.Primary));
+        }
+
+        if (!row2) {
+          await interaction.update({ components: [row] });
+        } else {
+          await interaction.update({ components: [row, row2] });
+        }
       }
 
       // Quick menu: Profile
@@ -882,6 +893,206 @@ module.exports = {
             })
           )
           .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
+
+        const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_back").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
+        await interaction.update({ embeds: [embed], components: [row] });
+      }
+
+      // Quick menu: Pet Status
+      if (customId === "qm_petStatus" && isAuthor) {
+        const items = [
+          {
+            name: "cat",
+            emoji: emoji.cat,
+            variables: {
+              owned: "catOwned",
+            },
+            price: 5000,
+            allowMultiple: false,
+          },
+          {
+            name: "dog",
+            emoji: emoji.dog,
+            variables: {
+              owned: "dogOwned",
+            },
+            price: 10000,
+            allowMultiple: false,
+          },
+          {
+            name: "duck",
+            emoji: emoji.duck,
+            variables: {
+              owned: "duckOwned",
+            },
+            price: 15000,
+            allowMultiple: false,
+          },
+          {
+            name: "catFood",
+            emoji: emoji.catFood,
+            variables: {
+              owned: "catFood",
+              usesLeft: "catFoodUsesLeft",
+            },
+            price: 100,
+            allowMultiple: true,
+            uses: 5,
+          },
+          {
+            name: "dogFood",
+            emoji: emoji.dogFood,
+            variables: {
+              owned: "dogFood",
+              usesLeft: "dogFoodUsesLeft",
+            },
+            price: 100,
+            allowMultiple: true,
+            uses: 5,
+          },
+          {
+            name: "duckFood",
+            emoji: emoji.duckFood,
+            variables: {
+              owned: "duckFood",
+              usesLeft: "duckFoodUsesLeft",
+            },
+            price: 100,
+            allowMultiple: true,
+            uses: 5,
+          },
+          {
+            name: "petShampoo",
+            emoji: emoji.petShampoo,
+            variables: {
+              owned: "petShampoo",
+              usesLeft: "petShampooUsesLeft",
+            },
+            price: 100,
+            allowMultiple: true,
+            uses: 10,
+          },
+        ];
+
+        const pet = await get(`${user.id}_petEquipped`);
+        const petEmoji = items.find((i) => i.name === pet).emoji;
+        let petUppercase = pet.charAt(0).toUpperCase() + pet.slice(1);
+        const happiness = Number(await get(`${user.id}_petHappiness_${pet}`));
+        const fullness = await get(`${user.id}_petFullness_${pet}`);
+        const cleanliness = await get(`${user.id}_petCleanliness_${pet}`);
+        let rewards = [
+          {
+            name: "cat",
+            healthPotion: 15,
+            coins: 0,
+          },
+          {
+            name: "dog",
+            healthPotion: 17,
+            coins: 20,
+          },
+          {
+            name: "duck",
+            healthPotion: 20,
+            coins: 25,
+          },
+        ];
+
+        if (happiness <= 50) {
+          rewards = [
+            {
+              name: "cat",
+              healthPotion: 10,
+              coins: 0,
+            },
+            {
+              name: "dog",
+              healthPotion: 12,
+              coins: 15,
+            },
+            {
+              name: "duck",
+              healthPotion: 15,
+              coins: 20,
+            },
+          ];
+        } else if (happiness <= 25) {
+          rewards = [
+            {
+              name: "cat",
+              healthPotion: 5,
+              coins: 0,
+            },
+            {
+              name: "dog",
+              healthPotion: 9,
+              coins: 10,
+            },
+            {
+              name: "duck",
+              healthPotion: 10,
+              coins: 15,
+            },
+          ];
+        } else if (happiness <= 0) {
+          rewards = [
+            {
+              name: "cat",
+              healthPotion: 0,
+              coins: 0,
+            },
+            {
+              name: "dog",
+              healthPotion: 0,
+              coins: 0,
+            },
+            {
+              name: "duck",
+              healthPotion: 0,
+              coins: 0,
+            },
+          ];
+        }
+
+        const petRewards = rewards.find((r) => r.name === pet);
+        const healthPotionChance = happiness <= 0 ? 0 : petRewards.healthPotion;
+        const coinsChance = happiness <= 0 ? 0 : petRewards.coins;
+        const embed = new EmbedBuilder()
+          .setTitle(`${petEmoji} ${petUppercase} status:`)
+          .addFields(
+            {
+              name: `${emoji.petHappiness} Happiness`,
+              value: `**${happiness}%**`,
+              inline: true,
+            },
+            {
+              name: `${emoji.petFullness} Fullness`,
+              value: `**${fullness}% ${fullness === "0" ? `(You should feed your ${pet}!)` : ""}**`,
+              inline: true,
+            },
+            {
+              name: `${emoji.petCleanliness} Cleanliness`,
+              value: `**${cleanliness}% ${cleanliness === "0" ? `(You should wash your ${pet}!)` : ""}**`,
+              inline: true,
+            },
+            {
+              name: `-`,
+              value: `** **`,
+              inline: false,
+            },
+            {
+              name: `Current ${emoji.healthPotion} chance`,
+              value: `**${healthPotionChance}%**`,
+              inline: true,
+            },
+            {
+              name: `Current ${emoji.coins} chance`,
+              value: `**${coinsChance}%**`,
+              inline: true,
+            }
+          )
+          .setColor(`${(await get(`${user.id}_color`)) || "#2b2d31"}`)
+          .setFooter({ text: `Rewards have a chance of being given after running a command after you have been away for more than 30m.` });
 
         const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("qm_back").setEmoji("⬅️").setStyle(ButtonStyle.Primary));
         await interaction.update({ embeds: [embed], components: [row] });
