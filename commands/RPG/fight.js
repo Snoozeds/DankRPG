@@ -34,7 +34,9 @@ module.exports = {
     // Calculate enemy stats
     let enemyHP = Math.floor(chance.integer({ min: userLevel * 15, max: userLevel * 27 }) + chance.integer({ min: userDamage * 1.5, max: userDamage * 2.5 }));
     const enemyMaxHP = enemyHP;
-    const enemyArmor = Math.floor(chance.integer({ min: userArmor / 4, max: userArmor / 3 }));
+    const minArmorValue = userArmor / 4;
+    const maxArmorValue = userArmor / 3;
+    const enemyArmor = Math.floor(chance.integer({ min: minArmorValue, max: maxArmorValue }));
     let enemyDamage = Math.floor(chance.integer({ min: userDamage / 3, max: userDamage / 2 }) - userDamage * (userArmor / 100));
     enemyDamage = Math.max(enemyDamage, 50); // ensure it doesn't go negative, minimum of 50 damage.
 
