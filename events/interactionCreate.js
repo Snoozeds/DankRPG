@@ -848,7 +848,13 @@ module.exports = {
         fish.sort((a, b) => b.price - a.price);
         petItems.sort((a, b) => b.price - a.price);
 
-        let totalInventoryValue = 0;
+        let totalInventoryValue = 0; // The total coin value of the inventory.
+        let totalWeaponValue = 0;
+        let totalArmorValue = 0;
+        let totalFishingValue = 0;
+        let totalFishValue = 0;
+        let totalMiscValue = 0;
+        let totalPetItemValue = 0;
 
         // Loop through the weapon items and add them to the description.
         let weaponDescription = "";
@@ -858,6 +864,7 @@ module.exports = {
             const itemValue = value * item.price;
             weaponDescription += `**${item.emoji} ${item.name}**: ${value} (${emoji.coins}${itemValue})\n`;
             totalInventoryValue += itemValue;
+            totalWeaponValue += itemValue;
           } else if (value && value > 0) {
             weaponDescription += `**${item.emoji} ${item.name}**: ${value}\n`;
           }
@@ -871,6 +878,7 @@ module.exports = {
             const itemValue = value * item.price;
             armorDescription += `**${item.emoji} ${item.name}** (${emoji.coins}${itemValue})\n`;
             totalInventoryValue += itemValue;
+            totalArmorValue += itemValue;
           } else if (value && value > 0) {
             armorDescription += `${item.name}: ${value}\n`;
           }
@@ -889,6 +897,7 @@ module.exports = {
               fishingDescription += `**${item.emoji} ${item.name}**: ${value} (${emoji.coins}${itemValue})\n`;
             }
             totalInventoryValue += itemValue;
+            totalFishingValue += itemValue;
           } else if (value && value > 0) {
             fishingDescription += `${item.name}: ${value}\n`;
           }
@@ -902,6 +911,7 @@ module.exports = {
             const itemValue = value * item.price;
             fishDescription += `**${item.emoji} ${item.name}**: ${value} (${emoji.coins}${itemValue})\n`;
             totalInventoryValue += itemValue;
+            totalFishValue += itemValue;
           } else if (value && value > 0) {
             fishDescription += `${item.name}: ${value}\n`;
           }
@@ -915,6 +925,7 @@ module.exports = {
             const itemValue = value * item.price;
             inventoryDescription += `**${item.emoji} ${item.name}**: ${value} (${emoji.coins}${itemValue})\n`;
             totalInventoryValue += itemValue;
+            totalMiscValue += itemValue;
           } else if (value && value > 0) {
             inventoryDescription += `**${item.emoji} ${item.name}**: ${value}\n`;
           }
@@ -927,17 +938,18 @@ module.exports = {
             const itemValue = value * item.price;
             petDescription += `**${item.emoji} ${item.name}**: ${value} (${emoji.coins}${itemValue})\n`;
             totalInventoryValue += itemValue;
+            totalPetItemValue += itemValue;
           } else if (value && value > 0) {
             petDescription += `${item.name}: ${value}\n`;
           }
         }
 
         // Add the items to the embed, if there are any.
-        inventoryDescription += armorDescription !== "" ? `\n**Armor:**\n${armorDescription}` : "";
-        inventoryDescription += weaponDescription !== "" ? `\n**Weapons:**\n${weaponDescription}` : "";
-        inventoryDescription += fishingDescription !== "" ? `\n**Fishing:**\n${fishingDescription}` : "";
-        inventoryDescription += fishDescription !== "" ? `\n**Fish:**\n${fishDescription}` : "";
-        inventoryDescription += petDescription !== "" ? `\n**Pet item uses left:**\n${petDescription}` : "";
+        inventoryDescription += armorDescription !== "" ? `\n**Armor** (${emoji.coins}${totalArmorValue ?? 0}):\n${armorDescription}` : "";
+        inventoryDescription += weaponDescription !== "" ? `\n**Weapons** (${emoji.coins}${totalWeaponValue ?? 0}):\n${weaponDescription}` : "";
+        inventoryDescription += fishingDescription !== "" ? `\n**Fishing** (${emoji.coins}${totalFishingValue ?? 0}):\n${fishingDescription}` : "";
+        inventoryDescription += fishDescription !== "" ? `\n**Fish** (${emoji.coins}${totalFishValue ?? 0}):\n${fishDescription}` : "";
+        inventoryDescription += petDescription !== "" ? `\n**Pet item uses left** (${emoji.coins}${totalPetItemValue ?? 0}):\n${petDescription}` : "";
 
         // If the inventory is empty, set the description to a default message.
         if (inventoryDescription === "") {
@@ -951,7 +963,7 @@ module.exports = {
             value: `${emoji.coins}**${totalInventoryValue.toLocaleString()}**`,
             inline: true,
           })
-          .setDescription(`**Items:**\n${inventoryDescription}`)
+          .setDescription(`**Items** (${emoji.coins}${totalMiscValue ?? 0}):\n${inventoryDescription}`)
           .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31")
           .setThumbnail(user.displayAvatarURL({ format: "jpg", size: 4096 }));
 
