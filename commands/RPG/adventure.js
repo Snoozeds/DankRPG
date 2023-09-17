@@ -95,7 +95,9 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setTitle(`${user.username} goes on an adventure...`)
-      .setDescription(`You ${totalCoins > 0 ? "gained" : "lost"} ${emoji.coins}${Math.abs(totalCoins)}\n\nYou encountered:`)
+      .setDescription(
+        `You ${totalCoins > 0 ? "gained" : "lost"} ${emoji.coins}${Math.abs(totalCoins)} from adventuring ${times} time${times > 1 ? "s" : ""}\n\nYou encountered:`
+      )
       .setColor((await get(`${user.id}_color`)) ?? "#2b2d31")
       .setFields(fields);
 
