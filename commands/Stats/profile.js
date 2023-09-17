@@ -129,19 +129,6 @@ module.exports = {
       levelName = `${emoji.level} Level ${await get(`${user.id}_level`)} (${percentage.toFixed(2)}%)`;
     }
 
-    // Used to link commands, making them clickable in the embed.
-    // See ../deploy-commands for how the command IDs are stored.
-    const fs = require("node:fs");
-    const getCommandId = (commandName) => {
-      // Read the JSON file containing the command IDs
-      const commandData = fs.readFileSync("./command_data/commands.json", "utf8");
-      const data = JSON.parse(commandData);
-
-      // Retrieve the command ID from the parsed data
-      const command = data.find((cmd) => cmd.name === commandName);
-      return command ? command.id : null; // Return null if the command is not found
-    };
-
     const profile = new EmbedBuilder()
       .setTitle(`${user.username}'s Profile`)
       .setFields([
@@ -179,7 +166,7 @@ module.exports = {
           name: "Commands Used",
           value: `${(await get(`${user.id}_statsEnabled`)) === "1" ? `**${await get(`${user.id}_commandsUsed`)}**` : `Stats disabled.`}`,
           inline: true,
-        }
+        },
       ])
       .setThumbnail(user.displayAvatarURL({ dynamic: true, size: 4096 }))
       .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31")

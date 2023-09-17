@@ -554,6 +554,11 @@ module.exports = {
               inline: true,
             },
             {
+              name: "Energy",
+              value: `**${emoji.energy} ${await get(`${user.id}_energy`)}**`,
+              inline: true,
+            },
+            {
               name: "Commands Used",
               value: `${(await get(`${user.id}_statsEnabled`)) === "1" ? `**${await get(`${user.id}_commandsUsed`)}**` : `Stats disabled.`}`,
               inline: true,
