@@ -10,6 +10,7 @@ const armorEmoji = "<:ArmorStat:1121286429042024581>";
 const attackEmoji = "<:Atk:1134903673688965180>";
 const critEmoji = "<:AtkCrit:1134903672149655553>";
 const levelEmoji = "<:LevelBook:1130623075717759030>";
+const energyEmoji = "<:Energy:1152968944089567333>";
 
 // Bar Stats (used in /profile embed, enabled through /settings hpdisplay/leveldisplay)
 // hpdisplay
@@ -39,9 +40,10 @@ const levelUpEmoji = "<:LevelBookUp:1130623558217900193>";
 const shopImage = null;
 const descriptionEmoji = "<:SpeechBubble:1121299256150610030>";
 
-// Items - Health
+// Items - Potions
 const lifesaverEmoji = "<:Lifesaver:1110248791304581280>";
 const healthPotionEmoji = "<:HealthPotion:1148653721354506251>";
+const energyPotionEmoji = "<:EnergyPotion:1152967885875060816>";
 
 // Items - Tools
 const axeEmoji = "<:Axe:1143526263177359401>";
@@ -67,6 +69,7 @@ const squiresHonorEmoji = "<:SquiresHonor:1134086325960708186>";
 const crimsonDaggerEmoji = "<:CrimsonDagger:1134087299248955503>";
 
 // Items - Fishing
+const fishReelEmoji = "<:FishReel:1152968984120008855>"; // Used for the fishing reel button in interactionCreate.js
 const fishingBaitEmoji = "<:Bait:1145759990821441577>";
 const basicFishingRodEmoji = "<:BasicFishingRod:1145763976509141023>";
 const betterFishingRodEmoji = "<:BetterFishingRod:1145763979344494673>";
@@ -117,6 +120,14 @@ const petShampooEmoji = "<:PetShampoo:1149259506900017244>";
 const petHappinessEmoji = "<:PetHappiness:1148680411371798558>";
 const petCleanlinessEmoji = "<:PetCleanliness:1148680412617511035>";
 const petFullnessEmoji = "<:PetFullness:1148680414773395617>";
+
+// Emoji - adventure
+const chestEmoji = "<:Chest:1152977436737278072>";
+const monsterEmoji = "<:Monster:1152977656975986880>";
+const questionMarkEmoji = "<:QuestionMark:1152977817856901313>";
+const bossEmoji = "<:Boss:1152977888040210594>";
+const homeEmoji = "<:Home:1152978436994891787>";
+const injuredEmoji = "<:Injured:1152978580083585136>";
 
 // Get a value from the database.
 // await get(`${id}_key`);
@@ -428,6 +439,7 @@ const emoji = {
   attack: attackEmoji,
   crit: critEmoji,
   level: levelEmoji,
+  energy: energyEmoji,
   hpBarBegin: hpBarBegin,
   hpBarMiddle: hpBarMiddle,
   hpBarEnd: hpBarEnd,
@@ -444,8 +456,10 @@ const emoji = {
   description: descriptionEmoji,
   lifesaver: lifesaverEmoji,
   healthPotion: healthPotionEmoji,
+  energyPotion: energyPotionEmoji,
   axe: axeEmoji,
   pickaxe: pickaxeEmoji,
+  fishReel: fishReelEmoji,
   fishingBait: fishingBaitEmoji,
   basicFishingRod: basicFishingRodEmoji,
   betterFishingRod: betterFishingRodEmoji,
@@ -493,6 +507,12 @@ const emoji = {
   petHappiness: petHappinessEmoji,
   petCleanliness: petCleanlinessEmoji,
   petFullness: petFullnessEmoji,
+  chest: chestEmoji,
+  monster: monsterEmoji,
+  questionMark: questionMarkEmoji,
+  boss: bossEmoji,
+  home: homeEmoji,
+  injured: injuredEmoji,
 };
 
 const quests = {

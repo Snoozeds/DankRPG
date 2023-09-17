@@ -1,55 +1,105 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { set, get, incr, checkXP, cooldown, emoji } = require("../../globals.js");
+const { set, get, incr, decr, emoji, cooldown } = require("../../globals.js");
 const ms = require("ms");
-const chance = require("chance").Chance();
+
+let adventureOutcomes = [
+  {
+    name: `${emoji.chest} Chest`,
+    description: `You found a chest and opened it. You found ${emoji.coins}100!`,
+    coins: 100,
+  },
+  {
+    name: `${emoji.monster} Monster`,
+    description: `You encountered a monster! You lost ${emoji.coins}50!`,
+    coins: -50,
+  },
+  {
+    name: `${emoji.questionMark} Nothing...`,
+    description: `You found nothing.`,
+    coins: 0,
+  },
+  {
+    name: `${emoji.boss} Boss`,
+    description: `You encountered a boss! You lost ${emoji.coins}100!`,
+    coins: -100,
+  },
+  {
+    name: `${emoji.home} Abandoned Building`,
+    description: `You found an abandoned building. You search the building and found ${emoji.coins}200!`,
+    coins: 200,
+  },
+  {
+    name: `${emoji.injured} Injured Friend`,
+    description: `You found an injured friend. You helped them and they gave you ${emoji.coins}100!`,
+    coins: 100,
+  },
+  {
+    name: `${emoji.injured} Injured Monster`,
+    description: `You found an injured monster. You helped them and they gave you ${emoji.coins}100!`,
+    coins: 100,
+  },
+];
 
 module.exports = {
-  data: new SlashCommandBuilder().setName("adventure").setDescription("Starts an RPG adventure. 60% chance of getting coins, doesn't scale."),
+  data: new SlashCommandBuilder()
+    .setName("adventure")
+    .setDescription("Go on an adventure and encounter random events for coins. Requires energy.")
+    .addIntegerOption((option) => option.setName("times").setDescription("How many times to adventure. Each adventure costs 1 energy.")),
   async execute(interaction) {
-    const xp = chance.integer({ min: 10, max: 20 });
+    const user = interaction.user;
+    const energy = Number(await get(`${user.id}_energy`)) ?? 0;
+    const times = interaction.options.getInteger("times") ?? 1;
+
+    if ((await get(`${user.id}_coins`)) < 100) {
+      adventureOutcomes = adventureOutcomes.filter((outcome) => outcome.coins < 0);
+    }
+
+    const randomOutcome = () => {
+      return adventureOutcomes[Math.floor(Math.random() * adventureOutcomes.length)];
+    };
+
+    if (energy < times) {
+      return interaction.reply({
+        content: `You don't have enough energy! You need ${emoji.energy}${times - energy} more to adventure ${times} time${times > 1 ? "s" : ""}.`,
+        ephemeral: true,
+      });
+    }
+
     if (await cooldown.check(interaction.user.id, "adventure")) {
       return interaction.reply({
         content: `You're on cooldown! Please wait ${ms(await cooldown.get(interaction.user.id, "adventure"))} before using this command again.`,
         ephemeral: true,
       });
-    } else {
-      await cooldown.set(interaction.user.id, "adventure", `${chance.integer({ min: 15, max: 20 })}s`);
-      // 60% chance to get a random amount of coins.
-      if (chance.bool({ likelihood: 60 }) == true) {
-        const outcome = Math.floor(chance.normal({ mean: 30, dev: 5 })); // https://chancejs.com/miscellaneous/normal.html
-        await incr(`${interaction.user.id}`, `coins`, outcome);
-        if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
-          if ((await get(`${interaction.user.id}_adventure_coinsFoundTotal`)) == null || (await get(`${interaction.user.id}_adventure_coinsFoundTotal`)) == "") {
-            await set(`${interaction.user.id}_adventure_coinsFoundTotal`, 0);
-          }
-          await incr(`${interaction.user.id}`, `adventure_coinsFoundTotal`, outcome);
-        }
-        const trueEmbed = new EmbedBuilder()
-          .setTitle(`${interaction.user.username}'s adventure`)
-          .setDescription(
-            `<@${interaction.user.id}> starts an adventure.\nThey find **${emoji.coins}${outcome}**. They now have a balance of **${emoji.coins}${await get(
-              `${interaction.user.id}_coins`
-            )}**.${(await get(`${interaction.user.id}_xp_alerts`)) == "1" ? `\n+${emoji.level}${xp}` : ""} ${
-              (await checkXP(interaction.user.id, xp)) == true ? ` ${emoji.levelUp} **Level up!** Check /levels.` : ""
-            }`
-          )
-          .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31")
-          .setTimestamp();
-        await interaction.reply({ embeds: [trueEmbed] });
-      } else {
-        const falseEmbed = new EmbedBuilder()
-          .setTitle(`${interaction.user.username}'s adventure`)
-          .setDescription(`<@${interaction.user.id}> starts an adventure.\nThey find **Nothing**.`)
-          .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31")
-          .setTimestamp();
-        await interaction.reply({ embeds: [falseEmbed] });
-      }
-      if ((await get(`${interaction.user.id}_statsEnabled`)) === "1" || (await get(`${interaction.user.id}_statsEnabled`)) == null) {
-        if ((await get(`${interaction.user.id}_adventure_timesAdventuredTotal`)) == null || (await get(`${interaction.user.id}_adventure_timesAdventuredTotal`)) == "") {
-          await set(`${interaction.user.id}_adventure_timesAdventuredTotal`, 0);
-        }
-        await incr(`${interaction.user.id}`, `adventure_timesAdventuredTotal`, 1);
-      }
     }
+
+    const cooldownTime = 30 * times;
+    await cooldown.set(interaction.user.id, "adventure", ms(`${cooldownTime}s`));
+
+    let totalCoins = 0;
+    let fields = [];
+
+    for (let i = 0; i < times; i++) {
+      const outcome = randomOutcome();
+      if (outcome.coins > 0) {
+        await incr(user.id, "coins", outcome.coins);
+      }
+      if (outcome.coins < 0 && outcome.coins !== 0) {
+        await decr(user.id, "coins", outcome.coins);
+      }
+      totalCoins += outcome.coins;
+      fields.push({
+        name: `${outcome.name}`,
+        value: outcome.description,
+      });
+    }
+
+    const embed = new EmbedBuilder()
+      .setTitle(`${user.username} goes on an adventure...`)
+      .setDescription(`You ${totalCoins > 0 ? "gained" : "lost"} ${emoji.coins}${Math.abs(totalCoins)}\n\nYou encountered:`)
+      .setColor((await get(`${user.id}_color`)) ?? "#2b2d31")
+      .setFields(fields);
+
+    await set(`${user.id}_energy`, energy - times);
+    await interaction.reply({ embeds: [embed] });
   },
 };

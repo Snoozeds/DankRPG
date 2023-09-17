@@ -1306,7 +1306,7 @@ module.exports = {
           .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
         const row = new ActionRowBuilder().addComponents(
-          new ButtonBuilder().setCustomId("fishing-reel").setEmoji("🎣").setStyle(ButtonStyle.Primary).setDisabled(true),
+          new ButtonBuilder().setCustomId("fishing-reel").setEmoji(emoji.fishReel).setStyle(ButtonStyle.Primary).setDisabled(true),
           new ButtonBuilder().setCustomId("fishing-cancel").setLabel("Leave").setStyle(ButtonStyle.Danger)
         );
 
@@ -1327,7 +1327,7 @@ module.exports = {
               .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
             const row = new ActionRowBuilder().addComponents(
-              new ButtonBuilder().setCustomId("fishing-reel").setEmoji("🎣").setStyle(ButtonStyle.Primary),
+              new ButtonBuilder().setCustomId("fishing-reel").setEmoji(emoji.fishReel).setStyle(ButtonStyle.Primary),
               new ButtonBuilder().setCustomId("fishing-cancel").setLabel("Leave").setStyle(ButtonStyle.Danger)
             );
 
@@ -1503,7 +1503,7 @@ module.exports = {
           .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
         const row = new ActionRowBuilder().addComponents(
-          new ButtonBuilder().setCustomId("fishing-cast").setEmoji("🎣").setStyle(ButtonStyle.Primary),
+          new ButtonBuilder().setCustomId("fishing-cast").setEmoji(emoji.fishReel).setStyle(ButtonStyle.Primary),
           new ButtonBuilder().setCustomId("fishing-cancel").setLabel("Leave").setStyle(ButtonStyle.Danger)
         );
 
@@ -2022,6 +2022,10 @@ module.exports = {
               {
                 name: `${emoji.luckPotion} Luck Potion (Owned: ${(await get(`${user.id}_luckPotion`)) || 0})`,
                 value: `**${emoji.coins} 500**\n${emoji.description} Increases the chance of rare item drops (${emoji.diamond}, ${emoji.demonWing}) by 10% for 10 minutes. Does not affect fishing. Can only have one active at a time.`,
+              },
+              {
+                name: `${emoji.energyPotion} Energy Potion (Owned: ${(await get(`${user.id}_energyPotion`)) || 0})`,
+                value: `**${emoji.coins} 500**\n${emoji.description} Gives you ${emoji.energy}10 energy when consumed which can be used for adventures (each cost ${emoji.energy}1.) Can use and buy as many as you want.`,
               }
             )
             .setFooter({ text: "Use /buy to buy an item and /use to use an item (if not automatically used)." })

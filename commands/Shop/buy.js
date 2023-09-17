@@ -19,6 +19,14 @@ const items = {
     armor: 0,
     allowMultiple: true,
   },
+  energyPotion: {
+    name: "Energy Potion",
+    emoji: "energyPotion",
+    variable: "energyPotion",
+    price: 500,
+    armor: 0,
+    allowMultiple: true,
+  },
   stoneRing: {
     name: "Stone Ring",
     emoji: "stoneRing",

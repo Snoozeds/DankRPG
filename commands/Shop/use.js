@@ -10,7 +10,7 @@ module.exports = {
         .setName("item")
         .setDescription("The item you want to use.")
         .setRequired(true)
-        .addChoices({ name: "Health Potion", value: "healthPotion" }, { name: "Luck Potion", value: "luckPotion" })
+        .addChoices({ name: "Health Potion", value: "healthPotion" }, { name: "Luck Potion", value: "luckPotion" }, { name: "Energy Potion", value: "energyPotion" })
     ),
 
   async execute(interaction) {
@@ -69,6 +69,22 @@ module.exports = {
       await redis.set(`${user.id}_luckPotionActive`, true, "EX", expiration);
       return interaction.reply({
         content: `You used a ${emoji.luckPotion} luck potion! You now have a 10% increased chance of finding rare items for 10 minutes.`,
+      });
+    } else if (item === "energyPotion") {
+      const hasItem = Number(await get(`${user.id}_energyPotion`));
+      const energyIncrease = 10;
+
+      if (hasItem < 1 || hasItem == null || hasItem == "") {
+        return interaction.reply({
+          content: `You don't have any energy potions!`,
+          ephemeral: true,
+        });
+      }
+
+      await incr(user.id, "energy", energyIncrease);
+      await decr(user.id, "energyPotion", 1);
+      return interaction.reply({
+        content: `You used an ${emoji.energyPotion} energy potion! You gained ${emoji.energy}${energyIncrease}.`,
       });
     }
   },
