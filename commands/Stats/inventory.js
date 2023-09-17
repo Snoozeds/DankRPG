@@ -5,6 +5,7 @@ const { get, set, emoji } = require("../../globals.js");
 const inventoryPrices = {
   _lifesaver: 1000,
   _luckPotion: 500,
+  _energyPotion: 500,
   _healthPotion: 0,
   _diamond: 250,
   _demonWing: 300,
@@ -47,6 +48,12 @@ module.exports = {
         key: `${user.id}_luckPotion`,
         price: inventoryPrices._luckPotion,
         emoji: emoji.luckPotion,
+      },
+      {
+        name: "Energy Potions",
+        key: `${user.id}_energyPotion`,
+        price: inventoryPrices._energyPotion,
+        emoji: emoji.energyPotion,
       },
       {
         name: "Health Potions",
