@@ -574,7 +574,7 @@ module.exports = {
         const inventoryPrices = {
           _lifesaver: 1000,
           _luckPotion: 500,
-          _energyPotion: 500,
+          _energyPotion: 350,
           _healthPotion: 0,
           _diamond: 250,
           _demonWing: 300,
@@ -2032,7 +2032,7 @@ module.exports = {
               },
               {
                 name: `${emoji.energyPotion} Energy Potion (Owned: ${(await get(`${user.id}_energyPotion`)) || 0})`,
-                value: `**${emoji.coins} 500**\n${emoji.description} Gives you ${emoji.energy}10 energy when consumed which can be used for adventures (each cost ${emoji.energy}1.) Can use and buy as many as you want.`,
+                value: `**${emoji.coins} 350**\n${emoji.description} Gives you ${emoji.energy}10 energy when consumed which can be used for adventures (each cost ${emoji.energy}1.) Can use and buy as many as you want.`,
               }
             )
             .setFooter({ text: "Use /buy to buy an item and /use to use an item (if not automatically used)." })

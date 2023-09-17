@@ -23,7 +23,7 @@ const items = {
     name: "Energy Potion",
     emoji: "energyPotion",
     variable: "energyPotion",
-    price: 500,
+    price: 350,
     armor: 0,
     allowMultiple: true,
   },
