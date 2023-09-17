@@ -294,7 +294,7 @@ module.exports = {
           .setTitle(`Commands: RPG`)
           .setDescription(
             `**RPG:**
-  </adventure:${await getCommandId("adventure")}> - Starts an RPG adventure. 60% chance of getting coins, doesn't scale.
+  </adventure:${await getCommandId("adventure")}> - Go on an adventure and encounter random events for coins. Requires energy.
   </chop:${await getCommandId("chop")}> - Chop down a tree to get wood. Requires an axe.
   </daily:${await getCommandId("daily")}> - Claim your daily reward.
   </duel:${await getCommandId("duel")}> - Duel another user for coins.
