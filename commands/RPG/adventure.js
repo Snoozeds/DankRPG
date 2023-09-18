@@ -58,6 +58,20 @@ module.exports = {
       return adventureOutcomes[Math.floor(Math.random() * adventureOutcomes.length)];
     };
 
+    if (times < 1) {
+      return interaction.reply({
+        content: `Please enter a number greater than 0.`,
+        ephemeral: true,
+      });
+    }
+
+    if (times > 20) {
+      return interaction.reply({
+        content: `You can only adventure 20 times at a time.`,
+        ephemeral: true,
+      });
+    }
+
     if (energy < times) {
       return interaction.reply({
         content: `You don't have enough energy! You need ${emoji.energy}${times - energy} more to adventure ${times} time${times > 1 ? "s" : ""}.`,
