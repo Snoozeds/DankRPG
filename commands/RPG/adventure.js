@@ -74,7 +74,9 @@ module.exports = {
 
     if (energy < times) {
       return interaction.reply({
-        content: `You don't have enough energy! You need ${emoji.energy}${times - energy} more to adventure ${times} time${times > 1 ? "s" : ""}.`,
+        content: `You don't have enough energy! You need ${emoji.energy}${times - energy} more to adventure ${times} time${
+          times > 1 ? "s" : ""
+        }.\nYou may rest at an inn by using \`/inn\` to restore energy, or buy an energy potion from the shop.`,
         ephemeral: true,
       });
     }
