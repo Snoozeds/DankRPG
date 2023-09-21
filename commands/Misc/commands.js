@@ -80,6 +80,7 @@ module.exports = {
 </fight:${await getCommandId("fight")}> - Turn-based fight system. Rewards and difficulty scale with your level.
 </fish:${await getCommandId("fish")}> - Go fishing (requires at least a Basic Fishing Rod.)
 </forage:${await getCommandId("forage")}> - Forage for items in the wilderness.
+</inn:${await getCommandId("inn")}> - Rest at the inn to instantly gain 10 energy. 12 hour cooldown.
 </mine:${await getCommandId("mine")}> - Mine for stone. Craft a pickaxe to mine faster.`
       )
       .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");

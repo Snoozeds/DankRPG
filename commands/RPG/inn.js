@@ -3,7 +3,7 @@ const { incr, emoji, cooldown } = require("../../globals.js");
 const ms = require("ms");
 
 module.exports = {
-  data: new SlashCommandBuilder().setName("inn").setDescription("Rest at the inn to instantly restore energy. 12 hour cooldown."),
+  data: new SlashCommandBuilder().setName("inn").setDescription("Rest at the inn to instantly gain 10 energy. 12 hour cooldown."),
   async execute(interaction) {
     const user = interaction.user;
     const energyIncrease = 10;
