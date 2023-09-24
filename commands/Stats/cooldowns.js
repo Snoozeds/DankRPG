@@ -12,6 +12,7 @@ module.exports = {
     const chopCooldown = await cooldown.get(interaction.user.id, "chop");
     const duelCooldown = await cooldown.get(interaction.user.id, "duel");
     const fishCooldown = await cooldown.get(interaction.user.id, "fish");
+    const innCooldown = await cooldown.get(interaction.user.id, "inn");
 
     function formatCooldown(cooldown) {
       if (cooldown == null || cooldown === 0) {
@@ -60,6 +61,11 @@ module.exports = {
       {
         name: "Fish",
         value: formatCooldown(fishCooldown),
+        inline: true,
+      },
+      {
+        name: "Inn",
+        value: formatCooldown(innCooldown),
         inline: true,
       },
     ];
