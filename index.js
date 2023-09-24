@@ -43,6 +43,7 @@ app.post(
   webhook.listener((voted) => {
     redis.incrby(`${voted.user}_votes`, 1);
     redis.incrby(`${voted.user}_coins`, 500);
+    redis.set(`${voted.user}_vote_cooldown`, Date.now() + 43200000) // The time the cooldown runs out. (time now +12h.)
   })
 );
 app.listen(6969);
