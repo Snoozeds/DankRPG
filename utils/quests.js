@@ -60,6 +60,22 @@ const quests = {
     command: "mine",
     amount: 10,
   },
+  7: {
+    id: 7,
+    description: "Complete 5 adventures",
+    reward: 100,
+    type: "command",
+    command: "adventure",
+    amount: 5,
+  },
+  8: {
+    id: 8,
+    description: "Complete 5 or more quests in one command",
+    reward: 150,
+    type: "commandInOne",
+    command: "adventure",
+    amount: 5,
+  },
 };
 
 cron.schedule("0 0 * * *", async () => {
@@ -109,6 +125,19 @@ cron.schedule("0 0 * * *", async () => {
   cursor = "0";
   do {
     const [nextCursor, keys] = await redis.scan(cursor, "MATCH", "*_rocksMined");
+    if (keys.length > 0) {
+      // Iterate over the found keys and delete them
+      for (const key of keys) {
+        await redis.del(key);
+      }
+    }
+    cursor = nextCursor;
+  } while (cursor !== "0");
+
+  // Fetch all user keys that mach the pattern "*_adventuresCompletedToday" (used for quest 7)
+  cursor = "0";
+  do {
+    const [nextCursor, keys] = await redis.scan(cursor, "MATCH", "*_adventuresCompletedToday");
     if (keys.length > 0) {
       // Iterate over the found keys and delete them
       for (const key of keys) {

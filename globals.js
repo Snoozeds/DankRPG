@@ -405,6 +405,8 @@ async function completeQuest(id, userid) {
     4: 100,
     5: 150,
     6: 150,
+    7: 100,
+    8: 150,
   };
 
   if (coinRewards[id]) {

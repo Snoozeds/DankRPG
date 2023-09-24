@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { set, get, incr, decr, emoji, cooldown } = require("../../globals.js");
+const { set, get, incr, decr, emoji, cooldown, quests } = require("../../globals.js");
 const ms = require("ms");
 
 let adventureOutcomes = [
@@ -49,6 +49,9 @@ module.exports = {
     const user = interaction.user;
     const energy = Number(await get(`${user.id}_energy`)) ?? 0;
     const times = interaction.options.getInteger("times") ?? 1;
+
+    let quest7Followup = ""; // Quest id 7: Complete 5 adventures.
+    let quest8Followup = ""; // Quest id 8: Complete 5 adventures in one command.
 
     if ((await get(`${user.id}_coins`)) < 100) {
       adventureOutcomes = adventureOutcomes.filter((outcome) => outcome.coins < 0);
@@ -109,6 +112,19 @@ module.exports = {
       });
     }
 
+    // Quests:
+    if ((await quests.active(7)) && (await get(`${user.id}_adventuresCompletedToday`)) < 5) {
+      await incr(user.id, "questsCompletedToday", 1);
+    } else if ((await quests.active(7)) && (await get(`${user.id}_adventuresCompletedToday`)) >= 5 && !(await quests.completed(7))) {
+      await quests.complete(7);
+      quest7Followup = true;
+    }
+
+    if ((await quests.active(8)) && times <= 5 && !(await quests.completed(8))) {
+      await quests.complete(8);
+      quest8Followup = true;
+    }
+
     const embed = new EmbedBuilder()
       .setTitle(`${user.username} goes on an adventure...`)
       .setDescription(
@@ -119,5 +135,12 @@ module.exports = {
 
     await set(`${user.id}_energy`, energy - times);
     await interaction.reply({ embeds: [embed] });
+
+    if (quest7Followup === true) {
+      await interaction.followUp({ content: `Congrats ${user.username}, you completed a quest and earned ${emoji.coins}100! Check /quests.` });
+    }
+    if (quest8Followup === true) {
+      await interaction.followUp({ content: `Congrats ${user.username}, you completed a quest and earned ${emoji.coins}150! Check /quests.` });
+    }
   },
 };
