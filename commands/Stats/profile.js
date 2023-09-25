@@ -159,7 +159,7 @@ module.exports = {
         },
         {
           name: "Energy",
-          value: `**${emoji.energy} ${await get(`${user.id}_energy`)}**`,
+          value: `**${emoji.energy} ${await get(`${user.id}_energy`) ?? "0"}**`,
           inline: true,
         },
         {
