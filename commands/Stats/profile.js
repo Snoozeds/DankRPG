@@ -129,6 +129,13 @@ module.exports = {
       levelName = `${emoji.level} Level ${await get(`${user.id}_level`)} (${percentage.toFixed(2)}%)`;
     }
 
+    let statsText = "";
+    if ((await get(`${user.id}_statsEnabled`)) === "1" || (await get(`${user.id}_statsEnabled`)) == "" || (await get(`${user.id}_statsEnabled`)) == null) {
+      statsText = `${(await get(`${user.id}_commandsUsed`)) ?? "0"}`;
+    } else if ((await get(`${user.id}_statsEnabled`)) === "0") {
+      statsText = `Stats disabled.`;
+    }
+
     const profile = new EmbedBuilder()
       .setTitle(`${user.username}'s Profile`)
       .setFields([
@@ -159,12 +166,12 @@ module.exports = {
         },
         {
           name: "Energy",
-          value: `**${emoji.energy} ${await get(`${user.id}_energy`) ?? "0"}**`,
+          value: `**${emoji.energy} ${(await get(`${user.id}_energy`)) ?? "0"}**`,
           inline: true,
         },
         {
           name: "Commands Used",
-          value: `${(await get(`${user.id}_statsEnabled`)) === "1" ? `**${await get(`${user.id}_commandsUsed`)}**` : `Stats disabled.`}`,
+          value: statsText,
           inline: true,
         },
       ])
