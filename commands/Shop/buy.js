@@ -197,9 +197,7 @@ module.exports = {
           }))
         )
     )
-    .addIntegerOption((option) =>
-      option.setName("amount").setDescription("The amount of the item you want to buy.").setRequired(false)
-    ),
+    .addIntegerOption((option) => option.setName("amount").setDescription("The amount of the item you want to buy.").setRequired(false)),
   async execute(interaction) {
     const item = interaction.options.getString("item");
     const user = interaction.user;
@@ -215,7 +213,7 @@ module.exports = {
       });
     }
 
-    if(amount && !items[item].allowMultiple) {
+    if (amount > 1 && !items[item].allowMultiple) {
       return interaction.reply({
         content: `You can't buy more than one of this item.`,
         ephemeral: true,

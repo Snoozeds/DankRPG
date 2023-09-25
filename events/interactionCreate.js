@@ -421,50 +421,50 @@ module.exports = {
         async function generateHpBar(hp, maxHP, bars) {
           const emptyBarMiddle = emoji.emptyBarMiddle;
           const emptyBarEnd = emoji.emptyBarEnd;
-    
+
           const hpBarBegin = emoji.hpBarBegin;
           const hpBarMiddle = emoji.hpBarMiddle;
           const hpBarEnd = emoji.hpBarEnd;
-    
+
           if (hp === maxHP) return hpBarBegin + hpBarMiddle.repeat(bars - 2) + hpBarEnd;
-    
+
           // Calculate the percentage of HP
           const percentage = (hp / maxHP) * 100;
-    
+
           // Calculate how many bars should be filled
           const filledBars = Math.round((percentage / 100) * (bars - 2)); // Subtract 2 for the bar ends.
-    
+
           // Generate the bar
           const hpPart = hpBarMiddle.repeat(filledBars) + emptyBarMiddle.repeat(bars - 2 - filledBars);
-    
+
           // Check if the hpPart should end with hpBarEnd or emptyBarEnd
           const finalPart = hpPart + (filledBars === bars - 2 ? hpBarEnd : emptyBarEnd);
-    
+
           return hpBarBegin + finalPart;
         }
-    
+
         async function generateLevelBar(xp, xpNeeded, bars) {
           const emptyBarMiddle = emoji.emptyBarMiddle;
           const emptyBarEnd = emoji.emptyBarEnd;
-    
+
           const levelBarBegin = emoji.levelBarBegin;
           const levelBarMiddle = emoji.levelBarMiddle;
           const levelBarEnd = emoji.levelBarEnd;
-    
+
           if (xp === xpNeeded) return levelBarBegin + levelBarMiddle.repeat(bars - 2) + levelBarEnd;
-    
+
           // Calculate the percentage of XP
           const percentage = (xp / xpNeeded) * 100;
-    
+
           // Calculate how many bars should be filled
           const filledBars = Math.round((percentage / 100) * (bars - 2)); // Subtract 2 for the bar ends.
-    
+
           // Generate the bar
           const levelPart = levelBarMiddle.repeat(filledBars) + emptyBarMiddle.repeat(bars - 2 - filledBars);
-    
+
           // Check if the levelPart should end with levelBarEnd or emptyBarEnd
           const finalPart = levelPart + (filledBars === bars - 2 ? levelBarEnd : emptyBarEnd);
-    
+
           return levelBarBegin + finalPart;
         }
 
