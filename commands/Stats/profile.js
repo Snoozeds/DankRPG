@@ -21,7 +21,6 @@ module.exports = {
     const xpType = await get(`${interaction.user.id}_level_display`);
 
     async function generateHpBar(hp, maxHP, bars) {
-      const emptyBarBegin = emoji.emptyBarBegin;
       const emptyBarMiddle = emoji.emptyBarMiddle;
       const emptyBarEnd = emoji.emptyBarEnd;
 
@@ -31,33 +30,22 @@ module.exports = {
 
       if (hp === maxHP) return hpBarBegin + hpBarMiddle.repeat(bars - 2) + hpBarEnd;
 
-      if (hp <= maxHP / bars) {
-        return emptyBarBegin + emptyBarMiddle.repeat(bars - 2) + emptyBarEnd;
-      }
+      // Calculate the percentage of HP
+      const percentage = (hp / maxHP) * 100;
 
-      // calculate amount of full and empty bars
-      let fullBars = Math.min(Math.round(hp / (maxHP / bars)) + 1, 10);
-      // Quick fixes for a bug where the bar is one too long.
-      if (maxHP - hp <= 100) return hpBarBegin + hpBarMiddle.repeat(bars - 2) + emptyBarEnd;
-      if (maxHP - hp <= 200) return hpBarBegin + hpBarMiddle.repeat(bars - 3) + emptyBarMiddle + emptyBarEnd;
-      const emptyBars = bars - fullBars;
+      // Calculate how many bars should be filled
+      const filledBars = Math.round((percentage / 100) * (bars - 2)); // Subtract 2 for the bar ends.
 
-      // calculate whether the last bar should be full or empty
-      const remainder = hp % (maxHP / bars);
-      const fullBarEnds = remainder > 0 ? 1 : 0;
-
-      // generate the bar
-      const emptyPart = emptyBars > 1 ? emptyBarMiddle.repeat(emptyBars - 1) + emptyBarEnd : emptyBars === 1 && !fullBarEnds ? emptyBarMiddle + emptyBarEnd : "";
-      const hpPart = hpBarMiddle.repeat(fullBars - 2 + fullBarEnds) + (emptyPart.startsWith(emptyBarMiddle) ? emptyPart : emptyBarEnd + emptyPart);
+      // Generate the bar
+      const hpPart = hpBarMiddle.repeat(filledBars) + emptyBarMiddle.repeat(bars - 2 - filledBars);
 
       // Check if the hpPart should end with hpBarEnd or emptyBarEnd
-      const finalPart = hp % (maxHP / bars) === 0 ? hpPart.slice(0, -emptyBarEnd.length) + emptyBarMiddle + emptyBarEnd : hpPart;
+      const finalPart = hpPart + (filledBars === bars - 2 ? hpBarEnd : emptyBarEnd);
 
       return hpBarBegin + finalPart;
     }
 
     async function generateLevelBar(xp, xpNeeded, bars) {
-      const emptyBarBegin = emoji.emptyBarBegin;
       const emptyBarMiddle = emoji.emptyBarMiddle;
       const emptyBarEnd = emoji.emptyBarEnd;
 
@@ -67,27 +55,17 @@ module.exports = {
 
       if (xp === xpNeeded) return levelBarBegin + levelBarMiddle.repeat(bars - 2) + levelBarEnd;
 
-      if (xp <= xpNeeded / bars) {
-        return emptyBarBegin + emptyBarMiddle.repeat(bars - 2) + emptyBarEnd;
-      }
+      // Calculate the percentage of XP
+      const percentage = (xp / xpNeeded) * 100;
 
-      // calculate amount of full and empty bars
-      let fullBars = Math.min(Math.round(xp / (xpNeeded / bars)) + 1, 10);
-      // Quick fixes for a bug where the bar is one too long.
-      if (xpNeeded - xp <= 100) return levelBarBegin + levelBarMiddle.repeat(bars - 2) + emptyBarEnd;
-      if (xpNeeded - xp <= 200) return levelBarBegin + levelBarMiddle.repeat(bars - 3) + emptyBarMiddle + emptyBarEnd;
-      const emptyBars = bars - fullBars;
+      // Calculate how many bars should be filled
+      const filledBars = Math.round((percentage / 100) * (bars - 2)); // Subtract 2 for the bar ends.
 
-      // calculate whether the last bar should be full or empty
-      const remainder = xp % (xpNeeded / bars);
-      const fullBarEnds = remainder > 0 ? 1 : 0;
-
-      // generate the bar
-      const emptyPart = emptyBars > 1 ? emptyBarMiddle.repeat(emptyBars - 1) + emptyBarEnd : emptyBars === 1 && !fullBarEnds ? emptyBarMiddle + emptyBarEnd : "";
-      const levelPart = levelBarMiddle.repeat(fullBars - 2 + fullBarEnds) + (emptyPart.startsWith(emptyBarMiddle) ? emptyPart : emptyBarEnd + emptyPart);
+      // Generate the bar
+      const levelPart = levelBarMiddle.repeat(filledBars) + emptyBarMiddle.repeat(bars - 2 - filledBars);
 
       // Check if the levelPart should end with levelBarEnd or emptyBarEnd
-      const finalPart = xp % (xpNeeded / bars) === 0 ? levelPart.slice(0, -emptyBarEnd.length) + emptyBarMiddle + emptyBarEnd : levelPart;
+      const finalPart = levelPart + (filledBars === bars - 2 ? levelBarEnd : emptyBarEnd);
 
       return levelBarBegin + finalPart;
     }
