@@ -53,10 +53,6 @@ module.exports = {
     let quest7Followup = ""; // Quest id 7: Complete 5 adventures.
     let quest8Followup = ""; // Quest id 8: Complete 5 adventures in one command.
 
-    if ((await get(`${user.id}_coins`)) < 100) {
-      adventureOutcomes = adventureOutcomes.filter((outcome) => outcome.coins < 0);
-    }
-
     const randomOutcome = () => {
       return adventureOutcomes[Math.floor(Math.random() * adventureOutcomes.length)];
     };
@@ -99,14 +95,20 @@ module.exports = {
 
     for (let i = 0; i < times; i++) {
       const outcome = randomOutcome();
-      if (outcome.coins > 0) {
-        await incr(user.id, "coins", outcome.coins);
+      let coinsToAdd = outcome.coins;
+
+      // Check if the user would go negative, and set coinsToAdd to 0 if that's the case
+      if (coinsToAdd < 0 && Math.abs(coinsToAdd) > (await get(`${user.id}_coins`))) {
+        coinsToAdd = 0;
       }
-      if (outcome.coins < 0 && outcome.coins !== 0) {
-        let value = Math.abs(outcome.coins)
-        await decr(user.id, "coins", value);
+
+      if (coinsToAdd > 0) {
+        await incr(user.id, "coins", coinsToAdd);
+      } else if (coinsToAdd < 0) {
+        await decr(user.id, "coins", Math.abs(coinsToAdd));
       }
-      totalCoins += outcome.coins;
+
+      totalCoins += coinsToAdd;
       fields.push({
         name: `${outcome.name}`,
         value: outcome.description,
