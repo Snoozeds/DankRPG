@@ -103,7 +103,8 @@ module.exports = {
         await incr(user.id, "coins", outcome.coins);
       }
       if (outcome.coins < 0 && outcome.coins !== 0) {
-        await decr(user.id, "coins", outcome.coins);
+        let value = math.abs(outcome.coins)
+        await decr(user.id, "coins", value);
       }
       totalCoins += outcome.coins;
       fields.push({
@@ -120,7 +121,7 @@ module.exports = {
       quest7Followup = true;
     }
 
-    if ((await quests.active(8)) && times <= 5 && !(await quests.completed(8))) {
+    if ((await quests.active(8)) && times >= 5 && !(await quests.completed(8))) {
       await quests.complete(8);
       quest8Followup = true;
     }
