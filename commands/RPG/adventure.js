@@ -103,7 +103,7 @@ module.exports = {
         await incr(user.id, "coins", outcome.coins);
       }
       if (outcome.coins < 0 && outcome.coins !== 0) {
-        let value = math.abs(outcome.coins)
+        let value = Math.abs(outcome.coins)
         await decr(user.id, "coins", value);
       }
       totalCoins += outcome.coins;
