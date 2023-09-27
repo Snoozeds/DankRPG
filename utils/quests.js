@@ -70,7 +70,7 @@ const quests = {
   },
   8: {
     id: 8,
-    description: "Complete 5 or more quests in one command",
+    description: "Complete 5 or more adventures in one command",
     reward: 150,
     type: "commandInOne",
     command: "adventure",
