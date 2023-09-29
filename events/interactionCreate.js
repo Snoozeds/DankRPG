@@ -985,6 +985,8 @@ module.exports = {
         const mineCooldown = await cooldown.get(interaction.user.id, "mine");
         const chopCooldown = await cooldown.get(interaction.user.id, "chop");
         const duelCooldown = await cooldown.get(interaction.user.id, "duel");
+        const fishCooldown = await cooldown.get(interaction.user.id, "fish");
+        const innCooldown = await cooldown.get(interaction.user.id, "inn");
 
         function formatCooldown(cooldown) {
           if (cooldown == null || cooldown === 0) {
@@ -996,38 +998,48 @@ module.exports = {
 
         const fields = [
           {
-            name: "Daily",
+            name: `</daily:${await getCommandId("daily")}>`,
             value: formatCooldown(dailyCooldown),
             inline: true,
           },
           {
-            name: "Fight",
+            name: `</fight:${await getCommandId("fight")}>`,
             value: formatCooldown(fightCooldown),
             inline: true,
           },
           {
-            name: "Adventure",
+            name: `</adventure:${await getCommandId("adventure")}>`,
             value: formatCooldown(adventureCooldown),
             inline: true,
           },
           {
-            name: "Forage",
+            name: `</forage:${await getCommandId("forage")}>`,
             value: formatCooldown(forageCooldown),
             inline: true,
           },
           {
-            name: "Mine",
+            name: `</mine:${await getCommandId("mine")}>`,
             value: formatCooldown(mineCooldown),
             inline: true,
           },
           {
-            name: "Chop",
+            name: `</chop:${await getCommandId("chop")}>`,
             value: formatCooldown(chopCooldown),
             inline: true,
           },
           {
-            name: "Duel",
+            name: `</duel:${await getCommandId("duel")}>`,
             value: formatCooldown(duelCooldown),
+            inline: true,
+          },
+          {
+            name: `</fish:${await getCommandId("fish")}>`,
+            value: formatCooldown(fishCooldown),
+            inline: true,
+          },
+          {
+            name: `</inn:${await getCommandId("inn")}>`,
+            value: formatCooldown(innCooldown),
             inline: true,
           },
         ];
