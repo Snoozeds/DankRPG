@@ -1,5 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const { cooldown, get } = require("../../globals.js");
+const fs = require("node:fs");
+const path = require("node:path");
 
 module.exports = {
   data: new SlashCommandBuilder().setName("cooldowns").setDescription("View your active cooldowns."),
@@ -14,6 +16,7 @@ module.exports = {
     const fishCooldown = await cooldown.get(interaction.user.id, "fish");
     const innCooldown = await cooldown.get(interaction.user.id, "inn");
 
+    // Format the cooldown into a discord unix timestamp.
     function formatCooldown(cooldown) {
       if (cooldown == null || cooldown === 0) {
         return "**Ready!**";
@@ -22,49 +25,62 @@ module.exports = {
       }
     }
 
+    // Get the ID of a command. Used for mentioning the command in field names.
+    // See "deploy-commands.js" to see how commands are stored.
+    const getCommandId = (commandName) => {
+      // Read the JSON file containing the command IDs
+      const commandDataPath = path.join(__dirname, "..", "..", "command_data", "commands.json");
+      const commandData = fs.readFileSync(commandDataPath, "utf8");
+      const data = JSON.parse(commandData);
+
+      // Retrieve the command ID from the parsed data
+      const command = data.find((cmd) => cmd.name === commandName);
+      return command ? command.id : null; // Return null if the command is not found
+    };
+
     const fields = [
       {
-        name: "Daily",
+        name: `</daily:${await getCommandId("daily")}>`,
         value: formatCooldown(dailyCooldown),
         inline: true,
       },
       {
-        name: "Fight",
+        name: `</fight:${await getCommandId("fight")}>`,
         value: formatCooldown(fightCooldown),
         inline: true,
       },
       {
-        name: "Adventure",
+        name: `</adventure:${await getCommandId("adventure")}>`,
         value: formatCooldown(adventureCooldown),
         inline: true,
       },
       {
-        name: "Forage",
+        name: `</forage:${await getCommandId("forage")}>`,
         value: formatCooldown(forageCooldown),
         inline: true,
       },
       {
-        name: "Mine",
+        name: `</mine:${await getCommandId("mine")}>`,
         value: formatCooldown(mineCooldown),
         inline: true,
       },
       {
-        name: "Chop",
+        name: `</chop:${await getCommandId("chop")}>`,
         value: formatCooldown(chopCooldown),
         inline: true,
       },
       {
-        name: "Duel",
+        name: `</duel:${await getCommandId("duel")}>`,
         value: formatCooldown(duelCooldown),
         inline: true,
       },
       {
-        name: "Fish",
+        name: `</fish:${await getCommandId("fish")}>`,
         value: formatCooldown(fishCooldown),
         inline: true,
       },
       {
-        name: "Inn",
+        name: `</inn:${await getCommandId("inn")}>`,
         value: formatCooldown(innCooldown),
         inline: true,
       },
