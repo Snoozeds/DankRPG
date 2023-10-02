@@ -133,6 +133,7 @@ module.exports = {
 </achievements:${await getCommandId("achievements")}> - Shows your/another user's achievements.
 </cooldowns:${await getCommandId("cooldowns")}> - Shows your cooldowns.
 </equipped:${await getCommandId("equipped")}> - Shows your equipped items.
+</events:${await getCommandId("events")}> - View active and upcoming seasonal events.
 </info:${await getCommandId("info")}> - Shows information about the bot.
 </inventory:${await getCommandId("inventory")}> - Shows your/another user's inventory.
 </levels:${await getCommandId("levels")}> - Shows your/another user's levels.
