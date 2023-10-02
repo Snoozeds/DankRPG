@@ -43,7 +43,7 @@ app.post(
   webhook.listener((voted) => {
     redis.incrby(`${voted.user}_votes`, 1);
     redis.incrby(`${voted.user}_coins`, 500);
-    redis.set(`${voted.user}_vote_cooldown`, Date.now() + 43200000) // The time the cooldown runs out. (time now +12h.)
+    redis.set(`${voted.user}_vote_cooldown`, Date.now() + 43200000); // The time the cooldown runs out. (time now +12h.)
   })
 );
 app.listen(6969);
@@ -65,9 +65,7 @@ for (const folder of commandFolders) {
   for (const file of commandFiles) {
     const command = require(`./commands/${folder}/${file}`);
     client.commands.set(command.data.name, command);
-    console.info(
-      `${chalk.white.bold("Loaded command")} ${chalk.yellow.bold(`"${command.data.name}"`)} ${chalk.blue.bold("from")} ${chalk.yellow.bold(`/${folder}/${file}`)}`
-    );
+    console.info(`${chalk.white.bold("Loaded command")} ${chalk.yellow.bold(`"${command.data.name}"`)} ${chalk.blue.bold("from")} ${chalk.yellow.bold(`/${folder}/${file}`)}`);
   }
 }
 

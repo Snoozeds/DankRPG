@@ -1,4 +1,5 @@
 const ms = require("ms");
+const { EmbedBuilder } = require("discord.js");
 
 // Emoji variables. Change these out with your own.
 // Discord bots have "Nitro", so this is fine. To grab the id, escape the emoji with a backslash (e.g \:emoji:)
@@ -37,7 +38,7 @@ const levelUpEmoji = "<:LevelBookUp:1130623558217900193>";
 
 // Shop
 // Set shopImage to "null" (no quotes) if you don't want an image. I have not provided one.
-const shopImage = null;
+const shopImage = "https://cdn.discordapp.com/attachments/1130630977291571210/1130631761848717403/shopkeep.png";
 const descriptionEmoji = "<:SpeechBubble:1121299256150610030>";
 
 // Items - Potions
@@ -415,6 +416,138 @@ async function completeQuest(id, userid) {
   }
 }
 
+// Event functions
+// These functions handle seasonal events. Not to be confused with discord.js events or whatever.
+
+// Variables
+const currentDate = new Date();
+const year = currentDate.getFullYear();
+
+// Get easter's date using Gauss's Easter algorithm.
+// See https://en.wikipedia.org/wiki/Date_of_Easter#Gauss's_Easter_algorithm
+function easterDate(year) {
+  const a = year % 19;
+  const b = Math.floor(year / 100);
+  const c = year % 100;
+  const d = Math.floor(b / 4);
+  const e = b % 4;
+  const f = Math.floor((b + 8) / 25);
+  const g = Math.floor((b - f + 1) / 3);
+  const h = (19 * a + b - d - g + 15) % 30;
+  const i = Math.floor(c / 4);
+  const k = c % 4;
+  const l = (32 + 2 * e + 2 * i - h - k) % 7;
+  const m = Math.floor((a + 11 * h + 22 * l) / 451);
+  const month = Math.floor((h + l - 7 * m + 114) / 31);
+  const day = ((h + l - 7 * m + 114) % 31) + 1;
+
+  return new Date(year, month - 1, day);
+}
+
+// Define event information
+const eventDates = [
+  {
+    name: "valentines",
+    startDate: new Date(year, 1, 10), // 8th February
+    endDate: new Date(year, 1, 16), // 14th February
+    emoji: ":heart:",
+  },
+  {
+    name: "easter",
+    startDate: (() => {
+      const date = easterDate(year);
+      date.setDate(date.getDate() - 3); // 3 days before Easter.
+      return date;
+    })(),
+    endDate: (() => {
+      const date = easterDate(year);
+      date.setDate(date.getDate() + 6); // 6 days after Easter.
+      return date;
+    })(),
+    emoji: ":rabbit:",
+  },
+  {
+    name: "anniversary",
+    startDate: new Date(year, 5, 16), // 16 June
+    endDate: new Date(year, 5, 22), // 22nd June
+    emoji: ":birthday:",
+  },
+  {
+    name: "halloween",
+    startDate: new Date(year, 9, 29), // 29th  October
+    endDate: new Date(year, 10, 4), // 4th November (next month)
+    emoji: ":jack_o_lantern:",
+  },
+  {
+    name: "christmas",
+    startDate: new Date(year, 11, 23), // 23rd December
+    endDate: new Date(year, 11, 29), // 29th December
+    emoji: ":christmas_tree:",
+  },
+  {
+    name: "newyear",
+    startDate: new Date(year, 11, 30), // 30th December
+    endDate: new Date(year + 1, 0, 5), // 5th January (next year)
+    emoji: ":fireworks:",
+  },
+];
+
+// Return events, sorted by closest to current Date to furthest, in a Discord.JS embed object.
+async function eventEmbed(user) {
+  // Sort the events by closest to furthest
+  const sortedEvents = eventDates.sort((a, b) => Math.abs(currentDate - a.startDate) - Math.abs(currentDate - b.startDate));
+
+  // Create embed object
+  const embed = new EmbedBuilder().setTitle("Upcoming Events").setColor((await get(`${user.id}_color`)) ?? "#2b2d31");
+
+  // Create an array to hold the fields
+  const fields = [];
+
+  // Iterate through the sorted events and add them to the fields array
+  for (const eventInfo of sortedEvents) {
+    const timeRemaining = eventInfo.startDate - currentDate;
+    const daysRemaining = Math.abs(Math.floor(timeRemaining / (1000 * 60 * 60 * 24)));
+
+    // Check if the event is active
+    const isActive = currentDate >= eventInfo.startDate && currentDate <= eventInfo.endDate;
+
+    // Format the date strings
+    const startDateString = `${eventInfo.startDate.getDate()}/${eventInfo.startDate.getMonth() + 1}/${eventInfo.startDate.getFullYear()}`;
+    const endDateString = `${eventInfo.endDate.getDate()}/${eventInfo.endDate.getMonth() + 1}/${eventInfo.endDate.getFullYear()}`;
+
+    // Push event information to the fields array
+    fields.push({
+      name: isActive ? "Active Event:" : "Upcoming Event:",
+      value:
+        `${eventInfo.emoji} **${eventInfo.name.charAt(0).toUpperCase() + eventInfo.name.slice(1)}**\n` +
+        `${startDateString} - ${endDateString}\n` +
+        `${isActive ? "" : `Starts in: ${daysRemaining} days`}`,
+    });
+  }
+
+  // Set the fields for the embed
+  embed.addFields(...fields);
+
+  return embed;
+}
+
+// To be clear, for this function, the date that it ends on is the date it ends on completely.
+// For example, Christmas "ending on the 29th" means that the event's last day is on the 28th, and on the 29th it stops completely.
+async function eventActive(event) {
+  const eventText = event.toLowerCase().replace(/\s/g, "");
+
+  // Iterate through the events and check if currentDate falls within any of them
+  for (const eventInfo of eventDates) {
+    if (eventText === eventInfo.name && currentDate >= eventInfo.startDate && currentDate <= eventInfo.endDate) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  return false; // Return false if no event matches
+}
+
 module.exports = {
   get,
   set,
@@ -526,6 +659,12 @@ const quests = {
   listActive: listActiveQuests,
 };
 
+const events = {
+  active: eventActive,
+  embed: eventEmbed,
+};
+
 module.exports.cooldown = cooldown;
 module.exports.emoji = emoji;
 module.exports.quests = quests;
+module.exports.events = events;
