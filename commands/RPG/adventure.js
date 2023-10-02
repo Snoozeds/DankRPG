@@ -38,6 +38,16 @@ let adventureOutcomes = [
     description: `You found an injured monster. You helped them and they gave you ${emoji.coins}100!`,
     coins: 100,
   },
+  {
+    name: `${emoji.questionMark} Dusted Map`,
+    description: `You find a dusted map, cleaning it reveals a secret chest containing ${emoji.coins}200.`,
+    coins: 200,
+  },
+  {
+    name: `${emoji.skeleton} Haunted Crypt:`,
+    description: `You enter a crypt filled with restless spirits. After a tough battle, the spirits reward you for setting them free. You gain ${emoji.coins}150.`,
+    coins: 150,
+  },
 ];
 
 module.exports = {

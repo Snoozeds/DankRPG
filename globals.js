@@ -128,6 +128,7 @@ const questionMarkEmoji = "<:QuestionMark:1152977817856901313>";
 const bossEmoji = "<:Boss:1152977888040210594>";
 const homeEmoji = "<:Home:1152978436994891787>";
 const injuredEmoji = "<:Injured:1152978580083585136>";
+const skeletonEmoji = "<:Skeleton:1158421137735290890>";
 
 // Get a value from the database.
 // await get(`${id}_key`);
@@ -515,6 +516,7 @@ const emoji = {
   boss: bossEmoji,
   home: homeEmoji,
   injured: injuredEmoji,
+  skeleton: skeletonEmoji,
 };
 
 const quests = {
