@@ -190,7 +190,7 @@ module.exports = {
       const usesLeftVariable = items.find((i) => i.name === itemName).variables.usesLeft;
       let itemNameNormal = itemName.charAt(0).toUpperCase() + itemName.slice(1).replace(/([A-Z])/g, " $1");
 
-      if (buyConfirmation === "1" || buyConfirmation === "null") {
+      if (buyConfirmation === "1" || buyConfirmation == "null" || buyConfirmation == "") {
         const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
         const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
         const row = new ActionRowBuilder().addComponents(yes, no);
@@ -273,7 +273,7 @@ module.exports = {
 
         // Check user still has enough coins
         if (userCoins < price) {
-          return interaction.editReply({
+          return interaction.reply({
             content: `You no longer have enough coins to buy this item. You need ${emoji.coins}${price - userCoins} more.`,
             embeds: [],
             components: [],
@@ -284,7 +284,7 @@ module.exports = {
         const userHasItem = await get(`${user.id}_${items.find((i) => i.name === itemName).variables.owned}`);
 
         if (userHasItem == 1 && items.find((i) => i.name === itemName).allowMultiple) {
-          return interaction.editReply({
+          return interaction.reply({
             content: `You have since bought this item. You cannot buy multiple of this item.`,
             embeds: [],
             components: [],
@@ -292,7 +292,7 @@ module.exports = {
         }
 
         if (amount > 1 && items.find((i) => i.name === itemName).allowMultiple) {
-          return interaction.editReply({
+          return interaction.reply({
             content: `You can't buy more than one of this item.`,
             embeds: [],
             components: [],
@@ -303,24 +303,24 @@ module.exports = {
           await incr(`${user.id}`, `${item}`, amount);
           await incr(`${user.id}`, `${usesLeftVariable}`, amount * items.find((i) => i.name === itemName).uses);
           await decr(`${user.id}`, "coins", price);
-          await interaction.editReply({
+          await interaction.reply({
             content: `You bought **${amount}x ${item.emoji} ${itemNameNormal}** for ${emoji.coins}${price}.`,
             embeds: [],
             components: [],
           });
         }
 
-        if (!items[item].allowMultiple && (userHasItem == 0 || userHasItem == "")) {
+        if (!item.allowMultiple && (userHasItem == 0 || userHasItem == "")) {
           await set(`${user.id}_${itemVariable}`, true);
           await decr(`${user.id}`, "coins", price);
-          await interaction.editReply({
+          await interaction.reply({
             content: `You bought ${item.emoji} **${itemNameNormal}** for ${emoji.coins}${price}.`,
             embeds: [],
             components: [],
           });
         }
 
-        return interaction.editReply({
+        return interaction.reply({
           content: `You bought ${item.emoji} **${itemNameNormal}** for ${emoji.coins}${price}.`,
           embeds: [],
           components: [],
@@ -442,7 +442,7 @@ module.exports = {
             coins: 15,
           },
         ];
-      } else if (happiness <=0) {
+      } else if (happiness <= 0) {
         rewards = [
           {
             name: "cat",
