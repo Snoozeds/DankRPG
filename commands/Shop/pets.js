@@ -378,6 +378,10 @@ module.exports = {
 
     if (command === "status") {
       const pet = await get(`${user.id}_petEquipped`);
+
+      if (pet === "") return interaction.reply({ content: "You do not have a pet equipped.", ephemeral: true });
+      if (pet === null) return interaction.reply({ content: "You do not have a pet equipped.", ephemeral: true });
+
       const petEmoji = items.find((i) => i.name === pet).emoji;
       let petUppercase = pet.charAt(0).toUpperCase() + pet.slice(1);
       const happiness = Number(await get(`${user.id}_petHappiness_${pet}`));
@@ -457,9 +461,6 @@ module.exports = {
           },
         ];
       }
-
-      if (pet === "") return interaction.reply({ content: "You do not have a pet equipped.", ephemeral: true });
-      if (pet === null) return interaction.reply({ content: "You do not have a pet equipped.", ephemeral: true });
 
       const petRewards = rewards.find((r) => r.name === pet);
       const healthPotionChance = happiness <= 0 ? 0 : petRewards.healthPotion;
