@@ -191,8 +191,8 @@ module.exports = {
       let itemNameNormal = itemName.charAt(0).toUpperCase() + itemName.slice(1).replace(/([A-Z])/g, " $1");
 
       if (buyConfirmation === "1" || buyConfirmation == "null" || buyConfirmation == "") {
-        const yes = new ButtonBuilder().setCustomId("yes").setLabel("Yes").setStyle(ButtonStyle.Success);
-        const no = new ButtonBuilder().setCustomId("no").setLabel("No").setStyle(ButtonStyle.Danger);
+        const yes = new ButtonBuilder().setCustomId("petbuy-yes").setLabel("Yes").setStyle(ButtonStyle.Success);
+        const no = new ButtonBuilder().setCustomId("petbuy-no").setLabel("No").setStyle(ButtonStyle.Danger);
         const row = new ActionRowBuilder().addComponents(yes, no);
 
         const embed = new EmbedBuilder()
@@ -204,9 +204,9 @@ module.exports = {
         try {
           const confirmation = await reply.awaitMessageComponent({ filter: collectorFilter, time: 60000 }); // 60 seconds
 
-          if (confirmation.customId === "yes") {
+          if (confirmation.customId === "petbuy-yes") {
             const userCoins = await get(`${user.id}_coins`);
-            const price = item.price * amount;
+            const price = items.find((i) => i.name === itemName).price * amount;
 
             // Check user still has enough coins
             if (userCoins < price) {
@@ -218,7 +218,8 @@ module.exports = {
             }
 
             // Check if user has bought item since confirmation
-            const userHasItem = await get(`${user.id}_${item}`);
+            const owned = await get(`${user.id}_${items.find((i) => i.name === itemName).variables.owned}`);
+            const userHasItem = owned == true;
             if (userHasItem == 1 && !items.find((i) => i.name === itemName).allowMultiple) {
               return confirmation.update({
                 content: `You already have this!`,
@@ -239,7 +240,7 @@ module.exports = {
               await incr(`${user.id}`, `${item}`, amount);
               await incr(`${user.id}`, `${usesLeftVariable}`, amount * items.find((i) => i.name === itemName).uses);
               await decr(`${user.id}`, "coins", price);
-              await interaction.editReply({
+              await confirmation.update({
                 content: `You bought **${amount}x ${item.emoji} ${itemNameNormal}** for ${emoji.coins}${price}.`,
                 components: [],
                 embeds: [],
@@ -249,13 +250,13 @@ module.exports = {
             if (!items.find((i) => i.name === itemName).allowMultiple && (userHasItem == 0 || userHasItem == "")) {
               await set(`${user.id}_${itemVariable}`, true);
               await decr(`${user.id}`, "coins", price);
-              await interaction.editReply({
+              await confirmation.update({
                 content: `You bought ${item.emoji} **${itemNameNormal}** for ${emoji.coins}${price}.`,
                 components: [],
                 embeds: [],
               });
             }
-          } else if (confirmation.customId === "no") {
+          } else if (confirmation.customId === "petbuy-no") {
             return confirmation.update({
               content: `Cancelled.`,
               components: [],
@@ -281,7 +282,8 @@ module.exports = {
         }
 
         // Check if user has bought item since confirmation
-        const userHasItem = await get(`${user.id}_${items.find((i) => i.name === itemName).variables.owned}`);
+        const owned = await get(`${user.id}_${items.find((i) => i.name === itemName).variables.owned}`);
+        const userHasItem = owned == true;
 
         if (userHasItem == 1 && items.find((i) => i.name === itemName).allowMultiple) {
           return interaction.reply({
@@ -310,8 +312,8 @@ module.exports = {
           });
         }
 
-        if (!item.allowMultiple && (userHasItem == 0 || userHasItem == "")) {
-          await set(`${user.id}_${itemVariable}`, true);
+        if (items.find((i) => i.name === itemName).allowMultiple == false && (userHasItem == 0 || userHasItem == "")) {
+          await set(`${user.id}_${item.variables.owned}`, true);
           await decr(`${user.id}`, "coins", price);
           await interaction.reply({
             content: `You bought ${item.emoji} **${itemNameNormal}** for ${emoji.coins}${price}.`,
@@ -319,12 +321,6 @@ module.exports = {
             components: [],
           });
         }
-
-        return interaction.reply({
-          content: `You bought ${item.emoji} **${itemNameNormal}** for ${emoji.coins}${price}.`,
-          embeds: [],
-          components: [],
-        });
       }
     }
 
