@@ -444,50 +444,55 @@ function easterDate(year) {
   return new Date(year, month - 1, day);
 }
 
+// Helper function to adjust the year if the date has passed for the current year
+function adjustYear(startDate, endDate) {
+  // If both start and end dates are in the past, adjust both to the next year
+  if (startDate < currentDate && endDate < currentDate) {
+    startDate.setFullYear(startDate.getFullYear() + 1);
+    endDate.setFullYear(endDate.getFullYear() + 1);
+  }
+  // If only the start date is in the past, adjust the start date to the next year
+  else if (startDate < currentDate) {
+    startDate.setFullYear(startDate.getFullYear() + 1);
+  }
+  // If only the end date is in the past, adjust the end date to the next year
+  else if (endDate < currentDate) {
+    endDate.setFullYear(endDate.getFullYear() + 1);
+  }
+
+  return { startDate, endDate };
+}
+
 // Define event information
 const eventDates = [
   {
     name: "valentines",
-    startDate: new Date(year, 1, 10), // 8th February
-    endDate: new Date(year, 1, 16), // 14th February
+    ...adjustYear(new Date(year, 1, 10), new Date(year, 1, 16)), // 8th to 14th February
     emoji: ":heart:",
   },
   {
     name: "easter",
-    startDate: (() => {
-      const date = easterDate(year);
-      date.setDate(date.getDate() - 3); // 3 days before Easter.
-      return date;
-    })(),
-    endDate: (() => {
-      const date = easterDate(year);
-      date.setDate(date.getDate() + 6); // 6 days after Easter.
-      return date;
-    })(),
+    ...adjustYear(new Date(year, 2, 31), new Date(year, 3, 6)), // 31st March to 6th April
     emoji: ":rabbit:",
   },
   {
     name: "anniversary",
-    startDate: new Date(year, 5, 16), // 16 June
-    endDate: new Date(year, 5, 22), // 22nd June
+    ...adjustYear(new Date(year, 5, 16), new Date(year, 5, 22)), // 16th to 22nd June
     emoji: ":birthday:",
   },
   {
     name: "halloween",
-    startDate: new Date(year, 9, 29), // 29th  October
-    endDate: new Date(year, 10, 4), // 4th November (next month)
+    ...adjustYear(new Date(year, 9, 29), new Date(year, 10, 4)), // 29th October to 4th November
     emoji: ":jack_o_lantern:",
   },
   {
     name: "christmas",
-    startDate: new Date(year, 11, 23), // 23rd December
-    endDate: new Date(year, 11, 29), // 29th December
+    ...adjustYear(new Date(year, 11, 23), new Date(year, 11, 29)), // 23rd to 29th December
     emoji: ":christmas_tree:",
   },
   {
     name: "newyear",
-    startDate: new Date(year, 11, 30), // 30th December
-    endDate: new Date(year + 1, 0, 5), // 5th January (next year)
+    ...adjustYear(new Date(year, 11, 30), new Date(year + 1, 0, 5)), // 30th December to 5th January
     emoji: ":fireworks:",
   },
 ];
