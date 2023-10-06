@@ -1,5 +1,5 @@
 const { Events, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const { set, get, decr, incr, resetStats, emoji, cooldown, shopImage, quests } = require("../globals.js");
+const { set, get, decr, incr, resetStats, emoji, cooldown, shopImage, quests, events } = require("../globals.js");
 const fs = require("node:fs");
 const chance = require("chance").Chance();
 
@@ -205,6 +205,15 @@ module.exports = {
             // This is used to reward the user with pet rewards when they go idle.
             // This is only used if the user has a pet equipped.
             await set(`${interaction.user.id}_commandLastRunTimestamp`, Date.now());
+          }
+        }
+
+        // Seasonal events
+        // Halloween
+        if (await events.active("halloween")) {
+          if (chance.bool({ likelihood: 5 })) {
+            await interaction.followUp({ content: "You found **1x** Candy from running a command during the Halloween event." });
+            await incr(user.id, "candy", 1);
           }
         }
       } catch (error) {
