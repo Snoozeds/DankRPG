@@ -94,6 +94,9 @@ const catfishEmoji = "<:Catfish:1145759988581662845>";
 const bassEmoji = "<:Bass:1145759987549876244>";
 const anchovyEmoji = "<:Anchovy:1145759984790024243>";
 
+// Items - Drops (seasonal events)
+const candyEmoji = "<:Candy:1159779234332545084>";
+
 // Resources
 const diamondEmoji = "<:Diamond:1109925710799319181>";
 const woodEmoji = "<:WoodLogs:1109931701469192294>";
@@ -617,6 +620,7 @@ const emoji = {
   catfish: catfishEmoji,
   bass: bassEmoji,
   anchovy: anchovyEmoji,
+  candy: candyEmoji,
   diamond: diamondEmoji,
   wood: woodEmoji,
   stone: stoneEmoji,

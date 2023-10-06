@@ -212,7 +212,7 @@ module.exports = {
         // Halloween
         if (await events.active("halloween")) {
           if (chance.bool({ likelihood: 5 })) {
-            await interaction.followUp({ content: "You found **1x** Candy from running a command during the Halloween event." });
+            await interaction.followUp({ content: `You found **1x** ${emoji.candy}Candy from running a command during the Halloween event.` });
             await incr(user.id, "candy", 1);
           }
         }
