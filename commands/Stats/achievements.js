@@ -11,7 +11,7 @@ module.exports = {
     const user = interaction.options.getUser("user") ?? interaction.user;
 
     // IMPORTANT: If you add more achievements, make sure to update the totalAchievements variable.
-    const totalAchievements = 6;
+    const totalAchievements = 7;
     let userAchievements = 0;
 
     // Achievement variables.
@@ -21,9 +21,10 @@ module.exports = {
     const dedicatedAchievement = await get(`${user.id}_dedicated_achievement`);
     const aprilAchievement = await get(`${user.id}_april_achievement`);
     const rareAchievement = await get(`${user.id}_fishLegendaryAchievement`);
+    const eventAchievement = await get(`${user.id}_eventParticipateAchievement`);
 
     // IMPORTANT: If you add more achievements, make sure to add them to this array.
-    userAchievements = [dailyAchievement, learnerAchievement, fearedAchievement, dedicatedAchievement, rareAchievement, aprilAchievement].filter(
+    userAchievements = [dailyAchievement, learnerAchievement, fearedAchievement, dedicatedAchievement, rareAchievement, aprilAchievement, eventAchievement].filter(
       (achievement) => achievement == "true"
     ).length;
 
@@ -45,27 +46,8 @@ module.exports = {
     if (!(await get(`${user.id}_april_achievement`))) {
       await set(`${user.id}_april_achievement`, false);
     }
-
-    // In the past, I used to use the emoji themselves as the value, but now I use "true" and "false" instead.
-    // This has changed due to not being able to update the emoji shown in the embed.
-    if ((await get(`${user.id}_daily_achievement`)) === "<:Locked:899050875916541963>") {
-      await set(`${user.id}_daily_achievement`, false);
-    }
-    if ((await get(`${user.id}_learner_achievement`)) === "<:Locked:899050875916541963>") {
-      await set(`${user.id}_learner_achievement`, false);
-    }
-    if ((await get(`${user.id}_april_achievement`)) === "<:Locked:899050875916541963>") {
-      await set(`${user.id}_april_achievement`, false);
-    }
-
-    if ((await get(`${user.id}_daily_achievement`)) === "<:Unlocked:899050875719393281>") {
-      await set(`${user.id}_daily_achievement`, true);
-    }
-    if ((await get(`${user.id}_learner_achievement`)) === "<:Unlocked:899050875719393281>") {
-      await set(`${user.id}_learner_achievement`, true);
-    }
-    if ((await get(`${user.id}_april_achievement`)) === "<:Unlocked:899050875719393281>") {
-      await set(`${user.id}_april_achievement`, true);
+    if (!(await get(`${user.id}_eventParticipateAchievement`))) {
+      await set(`${user.id}_eventParticipateAchievement`, false);
     }
 
     if (user.bot) {
@@ -100,7 +82,11 @@ Reward: ${emoji.coins}300
 
 **__April Fools!__** ${aprilAchievement == "true" ? emoji.achievementUnlock : emoji.achievementLock}
 Use any command between 1st-3rd April.
-Reward: ${emoji.coins}500`
+Reward: ${emoji.coins}500
+
+**__Just in Time.__** ${eventAchievement == "true" ? emoji.achievementUnlock : emoji.achievementLock}
+Run a command during any event.
+Reward: ${emoji.coins}250`
       )
       .setThumbnail(user.displayAvatarURL({ dynamic: true, size: 4096 }))
       .setFooter({

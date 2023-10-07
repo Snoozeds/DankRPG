@@ -211,6 +211,13 @@ module.exports = {
         // Seasonal events
         // Halloween
         if (await events.active("halloween")) {
+          if ((await get(`${user.id}_eventParticipateAchievement`)) !== "true") {
+            const embed = new EmbedBuilder()
+              .setTitle("Achievement Unlocked!")
+              .setDescription(`${emoji.achievementUnlock} You unlocked the **Just in Time.** achievement, ${user.username}! (+${emoji.coins}**250**.)`)
+              .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
+            await interaction.followUp({ embeds: [embed] });
+          }
           if (chance.bool({ likelihood: 10 })) {
             await interaction.followUp({ content: `You found **1x** ${emoji.candy}Candy from running a command during the Halloween event.` });
             await incr(user.id, "candy", 1);
