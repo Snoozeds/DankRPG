@@ -211,7 +211,7 @@ module.exports = {
         // Seasonal events
         // Halloween
         if (await events.active("halloween")) {
-          if (chance.bool({ likelihood: 5 })) {
+          if (chance.bool({ likelihood: 10 })) {
             await interaction.followUp({ content: `You found **1x** ${emoji.candy}Candy from running a command during the Halloween event.` });
             await incr(user.id, "candy", 1);
           }
