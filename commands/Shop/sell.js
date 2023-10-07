@@ -72,6 +72,11 @@ const items = [
     emoji: emoji.octopus,
     value: 100,
   },
+  {
+    id: "candy",
+    emoji: emoji.candy,
+    value: 50,
+  },
 ];
 
 module.exports = {
@@ -97,7 +102,8 @@ module.exports = {
           { name: `Catfish`, value: "catfish" },
           { name: `Pufferfish`, value: "pufferfish" },
           { name: `Bass`, value: "bass" },
-          { name: `Octopus`, value: "octopus" }
+          { name: `Octopus`, value: "octopus" },
+          { name: `Candy`, value: "candy" }
         )
     )
     .addStringOption((option) => option.setName("amount").setDescription("The amount you want to sell. Type max to sell all of that item.").setRequired(true)),
