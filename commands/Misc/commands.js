@@ -66,7 +66,7 @@ module.exports = {
 </settings reset:${await getCommandId("settings")}> - Reset your settings.
 </time:${await getCommandId("time")}> - Get the current time for a timezone.
 </uptime:${await getCommandId("uptime")}> - Shows the bot's uptime.
-</vote:${await getCommandId("vote")} - Vote on top.gg to earn rewards and help the bot reach more users.`
+</vote:${await getCommandId("vote")}> - Vote on top.gg to earn rewards and help the bot reach more users.`
       )
       .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31");
 
