@@ -13,7 +13,7 @@ module.exports = {
         `**__Bot Info__**\nUptime: since <t:${Math.round(seconds - process.uptime())}:R>\n\n**__Bot Stats__**\nGuilds: ${c.guilds.cache.size}\n\n**__Package Info__**\nNode: ${
           process.version
         }\ndiscord.js: ${DJS}\n\n**__Credits:__**\n**__Additional art assets:__**\n[Pixeltier](https://pixeltier.itch.io/pixeltiers-16x16-rpg-icon-pack), [Clockwork Raven](https://clockworkraven.itch.io/), [Pixellarion_Games](https://pixellarion-games.itch.io/healthbars-and-potions), [Beowulf](https://beowulf.itch.io/beowulfs-fish-asset-pack), [Ghostpixxells](https://ghostpixxells.itch.io/pixelpets), [Rad Potato](https://rad-potato.itch.io/pixel-perfect-candy-kit)
-        \nLinks: [Invite](https://drpg.io/invite) | [Support Server](https://discord.gg/Cc3xBSpWeB) | [Docs](https://drpg.io/docs) | [Patreon (monthly)](https://patreon.com/snoozeds)`
+        \n**__Links:__**\n[Invite](https://drpg.io/invite) | [Support Server](https://discord.gg/Cc3xBSpWeB) | [Docs](https://drpg.io/docs) | [Patreon (monthly)](https://patreon.com/snoozeds)`
       )
       .setColor((await get(`${interaction.user.id}_color`)) ?? "#2b2d31")
       .setThumbnail(c.user.displayAvatarURL({ dynamic: true, size: 4096 }))
