@@ -485,12 +485,12 @@ const eventDates = [
   },
   {
     name: "halloween",
-    ...adjustYear(new Date(year, 9, 29), new Date(year, 10, 4)), // 29th October to 4th November
+    ...adjustYear(new Date(year, 9, 27), new Date(year, 10, 2)), // 27th October to 2nd November
     emoji: ":jack_o_lantern:",
   },
   {
     name: "christmas",
-    ...adjustYear(new Date(year, 11, 23), new Date(year, 11, 29)), // 23rd to 29th December
+    ...adjustYear(new Date(year, 11, 20), new Date(year, 11, 27)), // 20th to 27th December
     emoji: ":christmas_tree:",
   },
   {
