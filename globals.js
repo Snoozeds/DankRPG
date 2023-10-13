@@ -514,7 +514,7 @@ async function eventEmbed(user) {
   // Iterate through the sorted events and add them to the fields array
   for (const eventInfo of sortedEvents) {
     const timeRemaining = eventInfo.startDate - currentDate;
-    const daysRemaining = Math.abs(Math.floor(timeRemaining / (1000 * 60 * 60 * 24)));
+    const daysRemaining = timeRemaining > 0 ? Math.floor(timeRemaining / (1000 * 60 * 60 * 24)) : 0;
 
     // Check if the event is active
     const isActive = currentDate >= eventInfo.startDate && currentDate <= eventInfo.endDate;
