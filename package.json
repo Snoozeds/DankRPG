@@ -17,7 +17,7 @@
     "ioredis": "^5.2.3",
     "ms": "^2.1.2",
     "node-cron": "^3.0.2",
-    "undici": "^5.20.0"
+    "undici": "^5.26.2"
   },
   "optionalDependencies": {
     "@top-gg/sdk": "^3.1.3",
