@@ -65,7 +65,7 @@ module.exports = {
           name: "/forage (total)",
           value: `> Times foraged: ${(await get(`${user.id}_forage_timesForagedTotal`)) ?? "0"}\n> Diamonds found: ${
             (await get(`${user.id}_forage_diamondsFoundTotal`)) ?? "0"
-          }\n> Items found: ${(await get(`${user.id}_forage_itemsFoundTotal`)) ?? "0"}`,
+          }\n> Demon wings found:${(await get(`${user.id}_forage_demonWingsFoundTotal`)) ?? "0"}\n> Items found: ${(await get(`${user.id}_forage_itemsFoundTotal`)) ?? "0"}`,
         },
         {
           name: "/adventure (total)",
