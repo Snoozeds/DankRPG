@@ -1,3 +1,7 @@
+### Important update:
+**21/10/23: Updates to this repository have been temporarily paused due to an ongoing situation with Discord and Snoozeds/DankRPG. You may read the full blog post [here](https://blog.snoozeds.com/discord).**
+<hr>
+
 <img src="https://assets.dankrpg.xyz/Images/dankrpg.png" alt="Logo" /> <br />
 <br />
 
